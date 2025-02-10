@@ -82,7 +82,8 @@ public class BallBehaviour : MonoBehaviour
     
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("BounceWall"))
+        if ((other.gameObject.CompareTag("BounceWall") || other.gameObject.CompareTag("Target"))
+            && !bounceMoment)
         {
             bounceMoment = true;
         }
