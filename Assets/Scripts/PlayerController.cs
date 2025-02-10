@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private GameObject heldBall;
     private float xRotation = 0f;
+    private BallBehaviour ballBehaviour;
     
     void Start()
     {
@@ -55,9 +56,12 @@ public class PlayerController : MonoBehaviour
 
     void SpawnBall()
     {
-        heldBall = Instantiate(ballPrefab, handPosition.position, Quaternion.identity);
+        heldBall = Instantiate(ballPrefab, handPosition.position, transform.rotation);
         heldBall.transform.SetParent(handPosition);
+        ballBehaviour = heldBall.GetComponent<BallBehaviour>();
         Rigidbody rb = heldBall.GetComponent<Rigidbody>();
+
+        
         rb.isKinematic = true; // La balle reste fixe tant qu'elle est tenue
         Collider ballCollider = heldBall.GetComponent<Collider>();
         if (bouncyMaterial != null && ballCollider != null)
@@ -78,7 +82,7 @@ public class PlayerController : MonoBehaviour
             rb.angularVelocity = Vector3.zero; // Empêche la balle de rouler avant le lancer
             rb.AddForce(playerCamera.transform.forward * throwForce, ForceMode.Impulse);
             heldBall = null;
-            Invoke("SpawnBall", 2f); // Respawn une balle après 2 secondes
+            Invoke("SpawnBall", 0.5f); // Respawn une balle après 2 secondes
         }
     }
 }

@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ConeDetector : MonoBehaviour
@@ -13,12 +15,14 @@ public class ConeDetector : MonoBehaviour
     public float scaleY = 1f; // Hauteur du cône
     public float scaleZ = 1f; // Profondeur du cône
 
-    void Update()
+
+    private void FixedUpdate()
     {
         DetectObjectsInCone();
     }
 
-    void DetectObjectsInCone()
+
+    public void DetectObjectsInCone()
     {
         Collider[] objectsInRange = Physics.OverlapSphere(transform.position, detectionRadius, detectionMask);
 
@@ -27,18 +31,23 @@ public class ConeDetector : MonoBehaviour
             Vector3 directionToTarget = (obj.transform.position - transform.position).normalized;
             float angleToTarget = Vector3.Angle(transform.forward, directionToTarget);
 
-            if (angleToTarget < detectionAngle) // Vérifie si l'objet est dans le cône
+            if (angleToTarget < detectionAngle) // If the object is inside the cone...
             {
                 RaycastHit hit;
                 if (Physics.SphereCast(transform.position, sphereCastRadius, directionToTarget, out hit, detectionRadius, detectionMask))
                 {
-                    if (hit.collider == obj) // Vérification si c'est bien la cible détectée
+                    if (hit.collider == obj) // If the object is the target...
                     {
                         Debug.Log($"Objet validé : {obj.name}");
                     }
                 }
             }
         }
+        // Organize the objects in the cone by distance, from closest to furthest.
+        // Sort the objects by distance from the player.
+        // Return the closest object.
+        
+        
     }
 
     private void OnDrawGizmos()
