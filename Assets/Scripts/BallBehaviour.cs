@@ -11,6 +11,7 @@ public class BallBehaviour : MonoBehaviour
     public float bounceMomentTime;
     public float bounceMomentDuration;
     public float detectionSphereRadius;
+    public GameObject lastBounceTarget;
     
     public Rigidbody rb;
     
@@ -83,9 +84,10 @@ public class BallBehaviour : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         if ((other.gameObject.CompareTag("BounceWall") || other.gameObject.CompareTag("Target"))
-            && !bounceMoment)
+            && !bounceMoment && other.gameObject != lastBounceTarget)
         {
             bounceMoment = true;
+            lastBounceTarget = other.gameObject;
         }
     }
     
