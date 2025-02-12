@@ -9,6 +9,8 @@ public class PlayerScript : MonoBehaviour
     
     [Header("Player Stats")]
     public float speed = 5f;
+
+    public float mouseRotationSmoothSpeed = 10f;
     
     [Header("Scene References")]
     public Camera playerCamera;
@@ -43,6 +45,32 @@ public class PlayerScript : MonoBehaviour
         {
             heldBall.transform.position = playerHand.transform.position;
         }
+
+        if (playerInput.currentControlScheme == "Keyboard&Mouse")
+        {
+            Vector2 moveInput = moveAction.ReadValue<Vector2>();
+            // Apply movement
+            if (moveInput != Vector2.zero)
+            {
+                // Get the camera's forward and right vectors
+                Vector3 cameraForward = playerCamera.transform.forward;
+                Vector3 cameraRight = playerCamera.transform.right;
+
+                // Flatten the vectors to the ground plane
+                cameraForward.y = 0;
+                cameraRight.y = 0;
+
+                // Normalize the vectors
+                cameraForward.Normalize();
+                cameraRight.Normalize();
+
+                // Calculate the movement direction
+                Vector3 moveDirection = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
+
+                // Move the player
+                rb.linearVelocity = new Vector3(moveDirection.x * speed, rb.linearVelocity.y, moveDirection.z * speed);
+            }
+        }
     }
 
     public void OnCollisionEnter(Collision other)
@@ -61,9 +89,13 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-    // ------------------------------ GAMEPAD INPUTS ------------------------------
+
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INPUTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // ------------------------------ MOVE ------------------------------
     public void OnMove(InputAction.CallbackContext context)
     {
+        
         Vector2 input = context.ReadValue<Vector2>();
 
         // Get the camera's forward and right vectors
@@ -82,9 +114,10 @@ public class PlayerScript : MonoBehaviour
         Vector3 moveDirection = (cameraForward * input.y + cameraRight * input.x).normalized;
 
         // Move the player
-        rb.linearVelocity = new Vector3(moveDirection.x*speed,rb.linearVelocity.y,moveDirection.z*speed);
+        rb.linearVelocity = new Vector3(moveDirection.x * speed, rb.linearVelocity.y, moveDirection.z * speed);
     }
     
+    // ------------------------------ LOOK ------------------------------
     public void OnLook(InputAction.CallbackContext context)
     {
         // unlock the rigidbody rotation on Y
@@ -105,13 +138,36 @@ public class PlayerScript : MonoBehaviour
         cameraForward.Normalize();
         cameraRight.Normalize();
         
-        
-        // set the player's look direction equal to my input value, so that I always look towards the direction I'm aiming, taking into account the camera angle
-        Vector3 lookDirection = cameraForward * input.y + cameraRight * input.x;
-        if (lookDirection != Vector3.zero)
+        if (playerInput.currentControlScheme == "Gamepad")
         {
-            transform.forward = lookDirection;
+            Cursor.visible = true;
+            if (Cursor.lockState != CursorLockMode.None)
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+            // set the player's look direction equal to my input value, so that I always look towards the direction I'm aiming, taking into account the camera angle
+            Vector3 lookDirection = cameraForward * input.y + cameraRight * input.x;
+            if (lookDirection != Vector3.zero)
+            {
+                transform.forward = lookDirection;
+            }
         }
+        // if I'm using the keyboard and mouse, lock it.
+        if (playerInput.currentControlScheme == "Keyboard&Mouse")
+        {
+            Cursor.visible = false; 
+            if (Cursor.lockState == CursorLockMode.None)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            // set the player's look direction equal to my input value, so that I always look towards the direction I'm aiming, taking into account the camera angle
+            Vector3 lookDirection = cameraForward * input.y + cameraRight * input.x;
+            if (lookDirection != Vector3.zero)
+            {
+                transform.forward = Vector3.Slerp(transform.forward, lookDirection, mouseRotationSmoothSpeed * Time.deltaTime);
+            }
+        }
+        
         
         // lock the rigidbody rotation on Y
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
@@ -126,9 +182,6 @@ public class PlayerScript : MonoBehaviour
             
         }
     }
-    
-
-    // ------------------------------ MOUSE & KEYBOARD INPUTS ------------------------------
     
     // ------------------------------ PLAYER GIZMOS ------------------------------
     
