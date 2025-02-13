@@ -805,7 +805,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8063370553465208205, guid: d9948b55acf72a946a8b4ff3366b6485, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.5
+      value: -8.5
       objectReference: {fileID: 0}
     - target: {fileID: 8063370553465208205, guid: d9948b55acf72a946a8b4ff3366b6485, type: 3}
       propertyPath: m_LocalPosition.y
@@ -909,12 +909,16 @@ PrefabInstance:
       value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: homingForce
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: targetingTime
-      value: 0.15
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: detectionRadius
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5645183620331005197, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_Drag

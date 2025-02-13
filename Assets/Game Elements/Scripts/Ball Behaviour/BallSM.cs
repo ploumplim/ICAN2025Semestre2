@@ -14,8 +14,8 @@ public class BallSM : MonoBehaviour
     [Tooltip("Radius of the detection sphere.")]
     public float detectionRadius = 5f;
     
-    [Tooltip("The Angle of the detection cone.")]
-    public float detectionAngle = 45f;
+    [Tooltip("The strength of the homing effect.")]
+    public float homingForce = 10f;
     
     [Tooltip("Time limit the ball has to find a homing target.")]
     public float targetingTime = 0.25f;
@@ -64,8 +64,8 @@ public class BallSM : MonoBehaviour
     
     public void Bounce()
     {
-        rb.AddForce(transform.forward * ballSpeed);
-        rb.AddForce(transform.up * ballVSpeed);
+        rb.AddForce(transform.forward * homingForce, ForceMode.Impulse);
+        rb.AddForce(transform.up * homingForce, ForceMode.Impulse);
     }
     
     private void OnDrawGizmos()
