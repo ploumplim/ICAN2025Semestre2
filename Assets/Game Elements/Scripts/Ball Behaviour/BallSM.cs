@@ -10,6 +10,13 @@ public class BallSM : MonoBehaviour
 
     [Tooltip("Vertical force with which the ball will be thrown in its up direction.")]
     public float ballVSpeed = 1;
+    
+    [Tooltip("Radius of the detection sphere.")]
+    public float detectionRadius = 5f;
+    
+    [Tooltip("Time limit the ball has to find a homing target.")]
+    public float targetingTime = 0.25f;
+
     //----------------------------COMPONENTS----------------------------
     [HideInInspector]public Rigidbody rb;
     [HideInInspector]public SphereCollider sc;
@@ -33,6 +40,7 @@ public class BallSM : MonoBehaviour
     void FixedUpdate()
     {
         currentState.Tick();
+        
     }
     
     // Change the current state of the ball
@@ -41,32 +49,61 @@ public class BallSM : MonoBehaviour
         currentState.Exit();
         currentState = newState;
         currentState.Enter();
-        Debug.Log("State changed to: " + newState);
+        // Debug.Log("State changed to: " + newState);
     }
     
     // Throw the ball towards its forward direction.
     
     public void Throw()
     {
-        ChangeState(GetComponent<MidAirState>());
-        Rigidbody rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * ballSpeed, ForceMode.Impulse);
         rb.AddForce(transform.up * ballVSpeed, ForceMode.Impulse);
-        
     }
     
-    // Draw a gizmo to show the direction of the ball
     private void OnDrawGizmos()
     {
+        // Draw a red line in the forward direction of the ball
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, transform.forward * 10);
+        
+        // If the ball is in the targeting state, draw a sphere to show the detection radius
+        if (currentState is TargetingState)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        }
+        
     }
  
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Floor"))
+        switch (currentState)
         {
-            ChangeState(GetComponent<DroppedState>());
+            case MidAirState:
+                switch (other.gameObject.tag)
+                {
+                    case "Floor":
+                        ChangeState(GetComponent<DroppedState>());
+                        break;
+                    case "Bouncer":
+                        ChangeState(GetComponent<TargetingState>());
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case TargetingState:
+                switch (other.gameObject.tag)
+                {
+                    case "Floor":
+                        ChangeState(GetComponent<DroppedState>());
+                        break;
+                }
+                break;
+            case DroppedState:
+                break;
+            default:
+                break;
         }
     }
 }

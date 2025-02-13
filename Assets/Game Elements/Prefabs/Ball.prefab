@@ -283,6 +283,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
   ballSpeed: 10
+  ballVSpeed: 1
+  detectionRadius: 5
+  targetingTime: 0.25
   rb: {fileID: 0}
   sc: {fileID: 0}
   player: {fileID: 0}
