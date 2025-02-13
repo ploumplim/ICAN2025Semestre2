@@ -96,9 +96,7 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ MOVE ------------------------------
     public void OnMove(InputAction.CallbackContext context)
     {
-        
         Vector2 input = context.ReadValue<Vector2>();
-
         // Get the camera's forward and right vectors
         Vector3 cameraForward = playerCamera.transform.forward;
         Vector3 cameraRight = playerCamera.transform.right;

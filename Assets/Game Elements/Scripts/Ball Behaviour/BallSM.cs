@@ -65,7 +65,6 @@ public class BallSM : MonoBehaviour
     public void Bounce()
     {
         rb.AddForce(transform.forward * homingForce, ForceMode.Impulse);
-        rb.AddForce(transform.up * homingForce, ForceMode.Impulse);
     }
     
     private void OnDrawGizmos()
