@@ -12,7 +12,10 @@ public class BallSM : MonoBehaviour
     public float ballVSpeed = 1;
     
     [Tooltip("Radius of the detection sphere.")]
-    public float detectionRadius = 5f;
+    [HideInInspector]public float detectionRadius = 5f;
+    
+    [Tooltip("Multiplier for the detection radius. Affected by the speed of the ball.")]
+    public float detectionRadiusMultiplier = 0.1f;
     
     [Tooltip("The strength of the homing effect.")]
     public float homingForce = 10f;
@@ -65,6 +68,7 @@ public class BallSM : MonoBehaviour
     public void Bounce()
     {
         rb.AddForce(transform.forward * homingForce, ForceMode.Impulse);
+        rb.AddForce(transform.up * ballVSpeed, ForceMode.Impulse);
     }
     
     private void OnDrawGizmos()
