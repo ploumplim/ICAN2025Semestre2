@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class DroppedState : BallState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void Enter()
     {
-        
+        base.Enter();
+        // Set the balls velocity to 0 gradually.
+        BallSm.rb.linearVelocity = Vector3.Lerp(BallSm.rb.linearVelocity, Vector3.zero, Time.deltaTime);
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Exit()
     {
-        
+        base.Exit();
     }
 }

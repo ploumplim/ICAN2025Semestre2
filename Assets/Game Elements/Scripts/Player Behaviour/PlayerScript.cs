@@ -181,7 +181,6 @@ public class PlayerScript : MonoBehaviour
             ballSM.ChangeState(heldBall.GetComponent<TargetingState>());
             heldBall = null;
             ballSM.Throw();
-            
         }
     }
     

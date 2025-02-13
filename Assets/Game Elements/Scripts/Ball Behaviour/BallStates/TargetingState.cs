@@ -36,7 +36,7 @@ public class TargetingState : BallState
             BallSm.transform.LookAt(targetColliders[0].transform);
             
             // throw the ball towards the target
-            BallSm.Throw();
+            // BallSm.Throw();
             
             // change state to "MidAir"
             BallSm.ChangeState(BallSm.GetComponent<MidAirState>());

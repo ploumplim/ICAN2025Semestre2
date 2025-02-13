@@ -14,6 +14,9 @@ public class BallSM : MonoBehaviour
     [Tooltip("Radius of the detection sphere.")]
     public float detectionRadius = 5f;
     
+    [Tooltip("The Angle of the detection cone.")]
+    public float detectionAngle = 45f;
+    
     [Tooltip("Time limit the ball has to find a homing target.")]
     public float targetingTime = 0.25f;
 
@@ -40,7 +43,6 @@ public class BallSM : MonoBehaviour
     void FixedUpdate()
     {
         currentState.Tick();
-        
     }
     
     // Change the current state of the ball
@@ -60,16 +62,21 @@ public class BallSM : MonoBehaviour
         rb.AddForce(transform.up * ballVSpeed, ForceMode.Impulse);
     }
     
+    public void Bounce()
+    {
+        rb.AddForce(transform.forward * ballSpeed);
+        rb.AddForce(transform.up * ballVSpeed);
+    }
+    
     private void OnDrawGizmos()
     {
         // Draw a red line in the forward direction of the ball
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, transform.forward * 10);
         
-        // If the ball is in the targeting state, draw a sphere to show the detection radius
         if (currentState is TargetingState)
         {
-            Gizmos.color = Color.red;
+            // If the ball is in the targeting state, draw a sphere and a cone to show the detection area.
             Gizmos.DrawWireSphere(transform.position, detectionRadius);
         }
         
