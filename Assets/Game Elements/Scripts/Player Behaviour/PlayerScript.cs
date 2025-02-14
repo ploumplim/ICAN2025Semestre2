@@ -7,6 +7,8 @@ public class PlayerScript : MonoBehaviour
     
     // ------------------------------ VARIABLES ------------------------------
     
+    public PlayerState currentState;
+    
     [Header("Player Stats")]
     public float speed = 5f;
 
@@ -37,41 +39,39 @@ public class PlayerScript : MonoBehaviour
         moveAction = playerInput.actions["Move"];
         throwAction = playerInput.actions["Attack"];
         lookAction = playerInput.actions["Look"];
+        
+        PlayerState[] states = GetComponents<PlayerState>();
+        foreach (PlayerState state in states)
+        {
+            state.Initialize(this);
+        }
+
+        currentState = GetComponent<IdleState>();
     }
 
     public void FixedUpdate()
     {
+        currentState.Tick();
+        
         if (heldBall)
         {
             heldBall.transform.position = playerHand.transform.position;
         }
 
-        if (playerInput.currentControlScheme == "Keyboard&Mouse")
-        {
-            Vector2 moveInput = moveAction.ReadValue<Vector2>();
-            // Apply movement
-            if (moveInput != Vector2.zero)
-            {
-                // Get the camera's forward and right vectors
-                Vector3 cameraForward = playerCamera.transform.forward;
-                Vector3 cameraRight = playerCamera.transform.right;
-
-                // Flatten the vectors to the ground plane
-                cameraForward.y = 0;
-                cameraRight.y = 0;
-
-                // Normalize the vectors
-                cameraForward.Normalize();
-                cameraRight.Normalize();
-
-                // Calculate the movement direction
-                Vector3 moveDirection = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
-
-                // Move the player
-                rb.linearVelocity = new Vector3(moveDirection.x * speed, rb.linearVelocity.y, moveDirection.z * speed);
-            }
-        }
+        
     }
+    
+    // ------------------------------ STATE MANAGEMENT ------------------------------
+    
+    public void ChangeState(PlayerState newState)
+    {
+        currentState.Exit();
+        currentState = newState;
+        currentState.Enter();
+    }
+    
+    
+    // ------------------------------ COLLISIONS ------------------------------
 
     public void OnCollisionEnter(Collision other)
     {
@@ -88,32 +88,15 @@ public class PlayerScript : MonoBehaviour
             ballSM.ChangeState(heldBall.GetComponent<InHandState>());
         }
     }
-
-
-
-
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INPUTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // ------------------------------ MOVE ------------------------------
     public void OnMove(InputAction.CallbackContext context)
     {
-        Vector2 input = context.ReadValue<Vector2>();
-        // Get the camera's forward and right vectors
-        Vector3 cameraForward = playerCamera.transform.forward;
-        Vector3 cameraRight = playerCamera.transform.right;
-
-        // Flatten the vectors to the ground plane
-        cameraForward.y = 0;
-        cameraRight.y = 0;
-
-        // Normalize the vectors
-        cameraForward.Normalize();
-        cameraRight.Normalize();
-
-        // Calculate the movement direction
-        Vector3 moveDirection = (cameraForward * input.y + cameraRight * input.x).normalized;
-
-        // Move the player
-        rb.linearVelocity = new Vector3(moveDirection.x * speed, rb.linearVelocity.y, moveDirection.z * speed);
+        if (currentState is IdleState)
+        {
+            ChangeState(GetComponent<MovingState>());
+        }
     }
     
     // ------------------------------ LOOK ------------------------------

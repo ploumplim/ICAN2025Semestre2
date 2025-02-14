@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BallSM : MonoBehaviour
 {
@@ -11,19 +12,31 @@ public class BallSM : MonoBehaviour
     [Tooltip("Vertical force with which the ball will be thrown in its up direction.")]
     public float ballVSpeed = 1;
     
-    [Tooltip("Radius of the detection sphere.")]
-    public float detectionRadius = 5f;
+    [FormerlySerializedAs("detectionRadius")] [Tooltip("Base radius of the detection sphere.")]
+    public float baseDetectionRadius = 5f;
+    
+    [Tooltip("Multiplier for the detection radius. Affected by the speed of the ball. This increases the size" +
+             " of the detection sphere as the ball moves faster.")]
+    public float detectionRadiusMultiplier = 0.1f;
     
     [Tooltip("The strength of the homing effect.")]
     public float homingForce = 10f;
     
-    [Tooltip("Time limit the ball has to find a homing target.")]
-    public float targetingTime = 0.25f;
+    
+    [Tooltip("Maximum height the ball can achieve.")]
+    public float maxHeight = 10f;
+
+    [Tooltip("Minimum height the ball can achieve.")]
+    public float minHeight = -1f;
 
     //----------------------------COMPONENTS----------------------------
     [HideInInspector]public Rigidbody rb;
     [HideInInspector]public SphereCollider sc;
     [HideInInspector] public GameObject player;
+    
+    //---------------------------PRIVATE VARIABLES---------------------------
+    [HideInInspector]public float speedModifiedDetectionRadius; // Detection radius modified by the speed of the ball
+
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,7 +55,16 @@ public class BallSM : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        // Call the Tick method of the current state
         currentState.Tick();
+        
+        // Clamp the Y value of the ball to the minimum and maximum height
+        transform.position = new Vector3(transform.position.x, 
+            Mathf.Clamp(transform.position.y, minHeight, maxHeight), transform.position.z);
+        
+        speedModifiedDetectionRadius = baseDetectionRadius +
+                                        (rb.linearVelocity.magnitude * detectionRadiusMultiplier);
+        
     }
     
     // Change the current state of the ball
@@ -65,6 +87,7 @@ public class BallSM : MonoBehaviour
     public void Bounce()
     {
         rb.AddForce(transform.forward * homingForce, ForceMode.Impulse);
+        rb.AddForce(transform.up * ballVSpeed, ForceMode.Impulse);
     }
     
     private void OnDrawGizmos()
@@ -72,13 +95,7 @@ public class BallSM : MonoBehaviour
         // Draw a red line in the forward direction of the ball
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, transform.forward * 10);
-        
-        if (currentState is TargetingState)
-        {
-            // If the ball is in the targeting state, draw a sphere and a cone to show the detection area.
-            Gizmos.DrawWireSphere(transform.position, detectionRadius);
-        }
-        
+        Gizmos.DrawWireSphere(transform.position, speedModifiedDetectionRadius);
     }
  
     private void OnCollisionEnter(Collision other)

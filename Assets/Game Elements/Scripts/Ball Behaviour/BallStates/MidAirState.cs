@@ -8,7 +8,7 @@ public class MidAirState : BallState
     {
         base.Tick();
         // Set the forward direction of the ball to the direction it is moving.
-        BallSm.transform.forward = BallSm.rb.linearVelocity.normalized;
+        // BallSm.transform.forward = BallSm.rb.linearVelocity.normalized;
         
     }
 }
