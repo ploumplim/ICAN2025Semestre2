@@ -6,6 +6,10 @@ public class TargetingState : BallState
     public override void Enter()
     {
         base.Enter();
+        
+        // deactivate gravity for the ball
+        BallSm.rb.useGravity = false;
+        
 
         // Detect potential targets within the detection radius
         int size = Physics.OverlapSphereNonAlloc(BallSm.transform.position, BallSm.speedModifiedDetectionRadius,
@@ -52,6 +56,8 @@ public class TargetingState : BallState
         base.Exit();
         // reset the target colliders array
         _targetColliders = new Collider[10];
+        // reactivate gravity for the ball
+        BallSm.rb.useGravity = true;
     }
 
 }
