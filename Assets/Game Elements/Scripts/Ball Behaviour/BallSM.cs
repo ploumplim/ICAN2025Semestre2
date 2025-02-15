@@ -82,8 +82,10 @@ public class BallSM : MonoBehaviour
     {
         float finalSpeed = ballSpeed * chargeMultiplier;
         float finalVSpeed = ballVSpeed * chargeMultiplier;
+        
         rb.AddForce(transform.forward * finalSpeed, ForceMode.Impulse);
         rb.AddForce(transform.up * finalVSpeed, ForceMode.Impulse);
+        Debug.Log(chargeMultiplier);
     }
     
     public void Bounce()

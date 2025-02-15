@@ -10,24 +10,41 @@ public class WallEffect : Effect
         Speed,
         Bounce,
         Slow,
-        None
+        NoGravity,
+        PlayerMagnet,
+        Gravity,
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        GameObject CollisionObject = collision.gameObject;
         if (EffectType == WallEffectType.Speed)
         {
-            SpeedEffect(collision.gameObject);
+            SpeedEffect(CollisionObject);
         }
         else if (EffectType == WallEffectType.Bounce)
         {
-            BounceEffect(collision.gameObject);
+            BounceEffect(CollisionObject);
         }
         else if (EffectType == WallEffectType.Slow)
         {
             Debug.Log("Collision with Slow effect");
             // Add your logic for Slow effect here
         }
+        
+        else if (EffectType == WallEffectType.PlayerMagnet)
+        {
+            PlayerMagnetEffect(CollisionObject);
+        }
+        else if (EffectType == WallEffectType.Gravity)
+        {
+            
+        }
+        
+        // else if (EffectType == WallEffectType.NoGravity)
+        // {
+        //     NoGravityEffect(CollisionObject);
+        // }
         else
         {
             Debug.Log("Collision with None effect");

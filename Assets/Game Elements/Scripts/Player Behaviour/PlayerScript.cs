@@ -51,7 +51,7 @@ public class PlayerScript : MonoBehaviour
         currentState = GetComponent<IdleState>();
     }
 
-    public void FixedUpdate()
+    private void FixedUpdate()
     {
         currentState.Tick();
 
@@ -59,18 +59,17 @@ public class PlayerScript : MonoBehaviour
         {
             heldBall.transform.position = playerHand.transform.position;
         }
-
-        // Increment charge value while charging
+        
+        ChargingForce();
+        
+    }
+    public void ChargingForce()
+    {
         if (isCharging)
-        { 
+        {
             chargeValueIncrementor += chargeRate * Time.deltaTime;
             chargeValueIncrementor = Mathf.Clamp(chargeValueIncrementor, 0f, 1f);
-            
-            Debug.Log("Charge value: " + chargeValueIncrementor);
-            if(fixedChargedValue>chargeValueIncrementor)
-            {
-                fixedChargedValue = chargeValueIncrementor;
-            }
+            // Debug.Log(chargeValueIncrementor);
         }
     }
 
@@ -168,30 +167,34 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ THROW ------------------------------
     public void OnThrow(InputAction.CallbackContext context)
     {
-        if (context.started && heldBall)
+        if (context.performed && heldBall)
         {
             isCharging = true;
             chargeValueIncrementor = 0f;
+            Debug.Log(chargeValueIncrementor);
         }
         else if (context.canceled && heldBall)
         {
             isCharging = false;
+            if (chargeValueIncrementor>fixedChargedValue)
+            {
+                fixedChargedValue = chargeValueIncrementor;
+                ballSM.ChangeState(heldBall.GetComponent<TargetingState>());
+                ballSM.Throw(fixedChargedValue);
+                heldBall = null;
+                
 
-            // Sauvegarder la charge AVANT de l’arrêter
-            float finalCharge = chargeValueIncrementor;
-
-            // Assurer que la valeur est bien entre 0 et 1
-            fixedChargedValue = Mathf.Clamp(finalCharge, 0.1f, 1f);
-
-            Debug.Log("Final charge applied: " + fixedChargedValue);
-
-            ballSM.ChangeState(heldBall.GetComponent<TargetingState>());
-            heldBall = null;
-            ballSM.Throw(fixedChargedValue);
-
-            // Reset après avoir utilisé la charge
-            chargeValueIncrementor = 0f;
+                // Reset après avoir utilisé la charge
+                fixedChargedValue = 0f;
+            }
+           
         }
+    }
+    
+    // ------------------------------ RELEASE ------------------------------
+    public void OnRelease()
+    {
+        Debug.Log("Last charge value: " + chargeValueIncrementor);
     }
 
 
