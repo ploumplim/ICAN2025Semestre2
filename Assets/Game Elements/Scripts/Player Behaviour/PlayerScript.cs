@@ -28,7 +28,8 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public BallSM ballSM;
 
     // ------------------------------ CHARGING ------------------------------
-    private float chargeValue = 0f;
+    private float chargeValueIncrementor = 0.5f;
+    private float fixedChargedValue;
     private bool isCharging = false;
     private const float chargeRate = 0.5f; // Rate at which the charge value increases
 
@@ -61,10 +62,15 @@ public class PlayerScript : MonoBehaviour
 
         // Increment charge value while charging
         if (isCharging)
-        {
-            chargeValue += chargeRate * Time.deltaTime;
-            chargeValue = Mathf.Clamp(chargeValue, 0f, 1f);
-            Debug.Log("Charge value: " + chargeValue);
+        { 
+            chargeValueIncrementor += chargeRate * Time.deltaTime;
+            chargeValueIncrementor = Mathf.Clamp(chargeValueIncrementor, 0f, 1f);
+            
+            Debug.Log("Charge value: " + chargeValueIncrementor);
+            if(fixedChargedValue>chargeValueIncrementor)
+            {
+                fixedChargedValue = chargeValueIncrementor;
+            }
         }
     }
 
@@ -165,18 +171,30 @@ public class PlayerScript : MonoBehaviour
         if (context.started && heldBall)
         {
             isCharging = true;
-            chargeValue = 0f;
+            chargeValueIncrementor = 0f;
         }
         else if (context.canceled && heldBall)
         {
             isCharging = false;
-            Debug.Log("Final charge value: " + chargeValue);
+
+            // Sauvegarder la charge AVANT de l’arrêter
+            float finalCharge = chargeValueIncrementor;
+
+            // Assurer que la valeur est bien entre 0 et 1
+            fixedChargedValue = Mathf.Clamp(finalCharge, 0.1f, 1f);
+
+            Debug.Log("Final charge applied: " + fixedChargedValue);
 
             ballSM.ChangeState(heldBall.GetComponent<TargetingState>());
             heldBall = null;
-            ballSM.Throw();
+            ballSM.Throw(fixedChargedValue);
+
+            // Reset après avoir utilisé la charge
+            chargeValueIncrementor = 0f;
         }
     }
+
+
 
     // ------------------------------ PLAYER GIZMOS ------------------------------
 

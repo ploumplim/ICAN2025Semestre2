@@ -78,10 +78,12 @@ public class BallSM : MonoBehaviour
     
     // Throw the ball towards its forward direction.
     
-    public void Throw()
+    public void Throw(float chargeMultiplier)
     {
-        rb.AddForce(transform.forward * ballSpeed, ForceMode.Impulse);
-        rb.AddForce(transform.up * ballVSpeed, ForceMode.Impulse);
+        float finalSpeed = ballSpeed * chargeMultiplier;
+        float finalVSpeed = ballVSpeed * chargeMultiplier;
+        rb.AddForce(transform.forward * finalSpeed, ForceMode.Impulse);
+        rb.AddForce(transform.up * finalVSpeed, ForceMode.Impulse);
     }
     
     public void Bounce()
