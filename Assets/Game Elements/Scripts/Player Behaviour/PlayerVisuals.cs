@@ -33,7 +33,7 @@ public class PlayerVisuals : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        // TODO: chargePorcentage = playerScript.ChargePorcentage;
+        chargePorcentage = playerScript.chargeValue;
         
         // Convert the player's hand position to screen space
         Vector3 screenPosition = playerScript.playerCamera.WorldToScreenPoint(playerScript.playerHand.transform.position);

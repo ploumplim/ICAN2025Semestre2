@@ -28,7 +28,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public BallSM ballSM;
 
     // ------------------------------ CHARGING ------------------------------
-    private float chargeValue = 0f;
+    [HideInInspector]public float chargeValue = 0f;
     private bool isCharging = false;
     private const float chargeRate = 0.5f; // Rate at which the charge value increases
 
