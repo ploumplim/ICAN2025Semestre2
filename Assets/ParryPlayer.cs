@@ -12,7 +12,7 @@ public class ParryPlayer : MonoBehaviour
         _col = GetComponent<Collider>();
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other)
         {
