@@ -69,7 +69,7 @@ public class PlayerScript : MonoBehaviour
         {
             chargeValueIncrementor += chargeRate * Time.deltaTime;
             chargeValueIncrementor = Mathf.Clamp(chargeValueIncrementor, 0f, 1f);
-            // Debug.Log(chargeValueIncrementor);
+            Debug.Log(chargeValueIncrementor);
             
             
             
@@ -93,17 +93,32 @@ public class PlayerScript : MonoBehaviour
 
     public void OnCollisionEnter(Collision other)
     {
-        // if other is a gameobject with the BallSM component, then assign it to the heldBall variable
+        // // if other is a gameobject with the BallSM component, then assign it to the heldBall variable
+        // if (other.gameObject.GetComponent<BallSM>() && // if the other object has a BallSM component
+        //     (other.gameObject.GetComponent<BallSM>().currentState == other.gameObject.GetComponent<DroppedState>() ||
+        //      other.gameObject.GetComponent<BallSM>().currentState == other.gameObject.GetComponent<MidAirState>()) && // if the other object is NOT in the DroppedState
+        //     heldBall == null) // if the player is not already holding a ball
+        
+        
         if (other.gameObject.GetComponent<BallSM>() && // if the other object has a BallSM component
-            (other.gameObject.GetComponent<BallSM>().currentState == other.gameObject.GetComponent<DroppedState>() ||
-             other.gameObject.GetComponent<BallSM>().currentState == other.gameObject.GetComponent<MidAirState>()) && // if the other object is NOT in the DroppedState
-            heldBall == null) // if the player is not already holding a ball
+            (other.gameObject.GetComponent<BallSM>().currentState == other.gameObject.GetComponent<DroppedState>() && // if the other object is NOT in the DroppedState
+             heldBall)) // if the player is not already holding a ball
+        
+        
         {
             heldBall = other.gameObject;
             ballSM = heldBall.GetComponent<BallSM>();
             ballSM.player = gameObject;
             // The ball is set to the InHandState.
             ballSM.ChangeState(heldBall.GetComponent<InHandState>());
+        }
+        if (other.gameObject.GetComponent<BallSM>())
+        {
+            if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<MidAirState>())
+            {
+                Parry();  
+                //TODO ParryState
+            }
         }
     }
 
@@ -149,6 +164,11 @@ public class PlayerScript : MonoBehaviour
         {
             ChangeState(GetComponent<IdleState>());
         }
+    }
+
+    public void Parry()
+    {
+        Debug.Log("Player");
     }
 
     // ------------------------------ LOOK ------------------------------
