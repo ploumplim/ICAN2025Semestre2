@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -14,8 +15,11 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("The speed at which the player moves when aiming.")]
     public float aimSpeedMod = 0f;
     
-    [Tooltip("Lerp time for the rotation while aiming")]
+    [Tooltip("Lerp time for the rotation while not aiming")]
     public float rotationLerpTime = 0.1f;
+    
+    [FormerlySerializedAs("rotationLerpTime")] [Tooltip("Lerp time for the rotation while aiming")]
+    public float rotationWhileAimingLerpTime = 0.1f;
     [Header("Scene References")]
     public Camera playerCamera;
     
@@ -147,7 +151,8 @@ public class PlayerScript : MonoBehaviour
                 rb.linearVelocity = new Vector3(moveDirection.x * speed,
                     rb.linearVelocity.y,
                     moveDirection.z * speed);
-                
+                //Set the player's direction to the direction of the movement using a lerp
+                transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationLerpTime);
             }
             else
             {
@@ -156,7 +161,7 @@ public class PlayerScript : MonoBehaviour
                     rb.linearVelocity.y,
                     moveDirection.z * speed * aimSpeedMod);
                 //Set the player's direction to the direction of the movement using a lerp
-                transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationLerpTime);
+                transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationWhileAimingLerpTime);
             }
         }
         

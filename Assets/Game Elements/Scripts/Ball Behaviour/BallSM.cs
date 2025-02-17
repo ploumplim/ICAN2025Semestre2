@@ -32,7 +32,10 @@ public class BallSM : MonoBehaviour
 
     [Tooltip("Minimum height the ball can achieve.")]
     public float minHeight = -1f;
-
+    
+    [Tooltip("Ammount of Bounces that the ball can have.")]
+    public int maxBounces = 3;
+    
     //----------------------------COMPONENTS----------------------------
     [HideInInspector]public Rigidbody rb;
     [HideInInspector]public SphereCollider sc;
@@ -65,10 +68,9 @@ public class BallSM : MonoBehaviour
         // Clamp the Y value of the ball to the minimum and maximum height
         transform.position = new Vector3(transform.position.x, 
             Mathf.Clamp(transform.position.y, minHeight, maxHeight), transform.position.z);
-        
+
         speedModifiedDetectionRadius = baseDetectionRadius +
-                                        (rb.linearVelocity.magnitude * detectionRadiusMultiplier);
-        
+                                       (rb.linearVelocity.magnitude * detectionRadiusMultiplier);
     }
     
     // Change the current state of the ball
