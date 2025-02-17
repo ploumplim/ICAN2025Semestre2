@@ -87,14 +87,14 @@ public class PlayerScript : MonoBehaviour
         currentState.Exit();
         currentState = newState;
         currentState.Enter();
-        Debug.Log("State changed to: " + newState);
+        //Debug.Log("State changed to: " + newState);
     }
 
     // ------------------------------ COLLISIONS ------------------------------
 
     public void OnCollisionEnter(Collision other)
     {
-        // // if other is a gameobject with the BallSM component, then assign it to the heldBall variable
+        // if other is a gameobject with the BallSM component, then assign it to the heldBall variable
         // if (other.gameObject.GetComponent<BallSM>() && // if the other object has a BallSM component
         //     (other.gameObject.GetComponent<BallSM>().currentState == other.gameObject.GetComponent<DroppedState>() ||
         //      other.gameObject.GetComponent<BallSM>().currentState == other.gameObject.GetComponent<MidAirState>()) && // if the other object is NOT in the DroppedState
@@ -117,6 +117,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<MidAirState>())
             {
+                Debug.Log("Test");
                 Parry();  
                 //TODO ParryState
             }

@@ -29,6 +29,7 @@ public class BallLauncher : MonoBehaviour
         // Ensure the ball is not null
         if (ball != null)
         {
+            
             // Reset the ball's position and rotation to the launch point
             ball.transform.position = launchPoint.position;
             ball.transform.rotation = launchPoint.rotation;
@@ -42,6 +43,7 @@ public class BallLauncher : MonoBehaviour
                 ballRigidbody.linearVelocity = Vector3.zero; // Reset velocity
                 ballRigidbody.angularVelocity = Vector3.zero; // Reset angular velocity
                 ballRigidbody.AddForce(transform.right * launchForce, ForceMode.Impulse);
+                ballRigidbody.gameObject.GetComponent<BallSM>().currentState=ballRigidbody.gameObject.GetComponent<MidAirState>();
             }
         }
     }
