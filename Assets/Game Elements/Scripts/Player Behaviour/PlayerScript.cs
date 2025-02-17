@@ -39,7 +39,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector]public float chargeValueIncrementor = 0.5f;
     private float fixedChargedValue;
     private bool isCharging = false;
-    private const float chargeRate = 0.5f; // Rate at which the charge value increases
+    public float chargeRate = 0.5f; // Rate at which the charge value increases
 
     public void Start()
     {
