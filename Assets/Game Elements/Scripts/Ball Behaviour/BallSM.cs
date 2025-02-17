@@ -26,7 +26,6 @@ public class BallSM : MonoBehaviour
     [Tooltip("The strength of the homing effect.")]
     public float homingForce = 10f;
     
-    
     [Tooltip("Maximum height the ball can achieve.")]
     public float maxHeight = 10f;
 
@@ -35,6 +34,9 @@ public class BallSM : MonoBehaviour
     
     [Tooltip("Ammount of Bounces that the ball can have.")]
     public int maxBounces = 3;
+    
+    [Tooltip("The ball will become grounded after this time.")]
+    public float timeToGrounded = 2f;
     
     //----------------------------COMPONENTS----------------------------
     [HideInInspector]public Rigidbody rb;

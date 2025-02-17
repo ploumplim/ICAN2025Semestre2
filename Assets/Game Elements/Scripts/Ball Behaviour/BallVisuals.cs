@@ -59,5 +59,9 @@ public class BallVisuals : MonoBehaviour
         
     }
     
-    
+    private void BallColor()
+    {
+        // Change the color of the ball based on the ball's state. Red when it's midair, green otherwise.
+        _ballMaterial.color = ballSM.currentState.GetType() == typeof(MidAirState) ? Color.red : Color.green;
+    }
 }

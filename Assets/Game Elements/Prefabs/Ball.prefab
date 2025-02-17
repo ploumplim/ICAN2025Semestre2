@@ -291,6 +291,7 @@ MonoBehaviour:
   maxHeight: 10
   minHeight: -1
   maxBounces: 3
+  timeToGrounded: 5
   rb: {fileID: 0}
   sc: {fileID: 0}
   player: {fileID: 0}
@@ -311,6 +312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballMarker: {fileID: 0}
   trailVisuals: {fileID: 3172110743681774408}
+  ballVisuals: {fileID: 5224228065908999798}
 --- !u!114 &966831823244586985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,6 +349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0775bb70a4daac94d8ae53b941d36c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: 0
 --- !u!114 &3780658454886815385
 MonoBehaviour:
   m_ObjectHideFlags: 0

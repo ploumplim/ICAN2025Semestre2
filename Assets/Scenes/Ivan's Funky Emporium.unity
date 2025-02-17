@@ -2037,6 +2037,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: timeToGrounded
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: detectionRadius
       value: 1
       objectReference: {fileID: 0}
@@ -2058,7 +2062,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5645183620331005197, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_UseGravity
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5645183620331005197, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_AngularDrag
