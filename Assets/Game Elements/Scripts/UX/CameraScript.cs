@@ -28,6 +28,7 @@ public class CameraScript : MonoBehaviour
     public float zoomSpeed = 5f;
     
     
+    
     public void FixedUpdate()
     {
         UpdateCameraPosition();
@@ -47,6 +48,11 @@ public class CameraScript : MonoBehaviour
         // Move the camera holder object to the middle point
         cameraHolderObject.transform.position = Vector3.Lerp(cameraHolderObject.transform.position,
             middlePoint,followSpeed * Time.deltaTime);
+        
+        // Make the camera rise in the Y axis to keep the ball in sight
+        cameraHolderObject.transform.position = new Vector3(cameraHolderObject.transform.position.x,
+            Mathf.Lerp(cameraHolderObject.transform.position.y, _ballPosition.y, followSpeed * Time.deltaTime),
+            cameraHolderObject.transform.position.z);
     }
     
     private void UpdateCameraSize()
@@ -64,4 +70,6 @@ public class CameraScript : MonoBehaviour
         GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize,
             _trueCameraSize, zoomSpeed * Time.deltaTime);
     }
+    
+    
 }

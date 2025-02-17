@@ -35,8 +35,15 @@ public class BallSM : MonoBehaviour
     [Tooltip("Ammount of Bounces that the ball can have.")]
     public int maxBounces = 3;
     
-    [Tooltip("The ball will become grounded after this time.")]
+   [Tooltip("Toggle. Turn on to make the ball be grounded by its speed and not by the time.")]
+    public bool groundedBySpeed = false;
+
+    [Tooltip("The ball will become grounded after this time if grounded by speed is false. If it is true," +
+             "this value represents how soon the ball will check its speed after being shot to become grounded.")]
     public float timeToGrounded = 2f;
+    
+    [Tooltip("The ball will become grounded if it reaches this minimum speed if grounded by speed is true.")]
+    public float minimumSpeedToGround = 5f;
     
     
     //----------------------------COMPONENTS----------------------------
