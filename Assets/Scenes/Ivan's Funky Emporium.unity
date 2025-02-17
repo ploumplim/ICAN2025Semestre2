@@ -176,7 +176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4892172112868591031, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_Drag
-      value: 1
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4892172112868591031, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_Constraints
@@ -223,12 +223,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+      propertyPath: speed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+      propertyPath: chargeRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+      propertyPath: aimSpeedMod
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 330585545}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: mouseRotationSmoothSpeed
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+      propertyPath: speedWithoutBallsModifier
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7559556095816835499, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
@@ -2014,11 +2030,15 @@ PrefabInstance:
       objectReference: {fileID: 2127437674}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: ballSpeed
-      value: 25
+      value: 43
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: maxHeight
-      value: 6
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: minHeight
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: ballVSpeed
@@ -2030,7 +2050,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: minimumForce
-      value: 15
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: targetingTime
@@ -2062,7 +2082,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5645183620331005197, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_UseGravity
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5645183620331005197, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_AngularDrag

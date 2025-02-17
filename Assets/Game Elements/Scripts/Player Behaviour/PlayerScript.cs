@@ -107,9 +107,10 @@ public class PlayerScript : MonoBehaviour
     {
         // if other is a gameobject with the BallSM component, then assign it to the heldBall variable
         if (other.gameObject.GetComponent<BallSM>() && // if the other object has a BallSM component
-            (other.gameObject.GetComponent<BallSM>().currentState == other.gameObject.GetComponent<DroppedState>() ||
-             other.gameObject.GetComponent<BallSM>().currentState == other.gameObject.GetComponent<MidAirState>()) && // if the other object is NOT in the DroppedState
-            heldBall == null) // if the player is not already holding a ball
+            (other.gameObject.GetComponent<BallSM>().currentState == other.gameObject.GetComponent<DroppedState>() 
+             // ||
+             // other.gameObject.GetComponent<BallSM>().currentState == other.gameObject.GetComponent<MidAirState>()  // if the other object is NOT in the DroppedState
+            ) && heldBall == null) // if the player is not already holding a ball
         {
             heldBall = other.gameObject;
             ballSM = heldBall.GetComponent<BallSM>();
