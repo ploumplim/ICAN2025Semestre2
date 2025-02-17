@@ -11,7 +11,11 @@ public class PlayerScript : MonoBehaviour
     [Header("Player Stats")]
     public float speed = 5f;
     // public float mouseRotationSmoothSpeed = 10f;
+    [Tooltip("The speed at which the player moves when aiming.")]
     public float aimSpeedMod = 0f;
+    
+    [Tooltip("Lerp time for the rotation while aiming")]
+    public float rotationLerpTime = 0.1f;
     [Header("Scene References")]
     public Camera playerCamera;
     
@@ -70,8 +74,6 @@ public class PlayerScript : MonoBehaviour
             chargeValueIncrementor += chargeRate * Time.deltaTime;
             chargeValueIncrementor = Mathf.Clamp(chargeValueIncrementor, 0f, 1f);
             // Debug.Log(chargeValueIncrementor);
-            
-            
             
         }
         else
@@ -153,8 +155,8 @@ public class PlayerScript : MonoBehaviour
                 rb.linearVelocity = new Vector3(moveDirection.x * speed * aimSpeedMod,
                     rb.linearVelocity.y,
                     moveDirection.z * speed * aimSpeedMod);
-                //Set the player's direction to the direction of the movement
-                transform.forward = moveDirection;
+                //Set the player's direction to the direction of the movement using a lerp
+                transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationLerpTime);
             }
         }
         
