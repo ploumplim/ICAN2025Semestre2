@@ -38,6 +38,7 @@ public class BallSM : MonoBehaviour
     [Tooltip("The ball will become grounded after this time.")]
     public float timeToGrounded = 2f;
     
+    
     //----------------------------COMPONENTS----------------------------
     [HideInInspector]public Rigidbody rb;
     [HideInInspector]public SphereCollider sc;

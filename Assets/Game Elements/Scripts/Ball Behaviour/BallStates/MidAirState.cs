@@ -10,7 +10,6 @@ public class MidAirState : BallState
     {
         base.Enter();
         timer = 0;
-        
     }
     
     public override void Tick()
