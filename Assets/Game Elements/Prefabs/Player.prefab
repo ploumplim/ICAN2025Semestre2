@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4958550416641463213}
   - component: {fileID: 1163133444488782302}
-  - component: {fileID: 53793477709973434}
   - component: {fileID: 4892172112868591031}
   - component: {fileID: 8257710722661929340}
   - component: {fileID: 4963522762754067053}
@@ -18,6 +17,7 @@ GameObject:
   - component: {fileID: 2442788646745104249}
   - component: {fileID: 8431329008806425069}
   - component: {fileID: 924477131349713796}
+  - component: {fileID: 86958798917315144}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -66,27 +66,6 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &53793477709973434
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3328443934547631640}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4892172112868591031
 Rigidbody:
@@ -253,7 +232,7 @@ MonoBehaviour:
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
@@ -305,6 +284,7 @@ MonoBehaviour:
   playerHand: {fileID: 3570595457049578529}
   heldBall: {fileID: 0}
   ballSM: {fileID: 0}
+  chargeValueIncrementor: 0.5
 --- !u!114 &2291177913900343150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,7 +297,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c9b53faab58b594a8665a092b162745, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chargePorcentage: 0
   chargeVisuals: {fileID: 0}
+  chargeVisualOffsetX: 0
+  chargeVisualOffsetY: 0
 --- !u!114 &2442788646745104249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,6 +337,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fff41904a9e03324d9f47ab5c200f48b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!136 &86958798917315144
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3328443934547631640}
+  m_Material: {fileID: 13400000, guid: 83e095d1336e04e45a83b478146c51b9, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3570595457049578529
 GameObject:
   m_ObjectHideFlags: 0

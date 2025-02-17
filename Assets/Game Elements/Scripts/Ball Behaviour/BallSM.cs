@@ -87,7 +87,7 @@ public class BallSM : MonoBehaviour
         float finalSpeed = ballSpeed * chargeMultiplier;
         float finalVSpeed = ballVSpeed * chargeMultiplier;
 
-        minimumSpeed = player.GetComponent<Rigidbody>().linearVelocity + minimumForce * player.transform.forward;
+        minimumSpeed = player.GetComponent<Rigidbody>().linearVelocity * 2f + minimumForce * player.transform.forward;
         
         rb.AddForce(minimumSpeed + transform.forward * finalSpeed, ForceMode.Impulse);
         rb.AddForce(transform.up * finalVSpeed, ForceMode.Impulse);
