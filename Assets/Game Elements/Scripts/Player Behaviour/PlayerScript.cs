@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -9,9 +10,21 @@ public class PlayerScript : MonoBehaviour
     public PlayerState currentState;
 
     [Header("Player Stats")]
+    [Tooltip("The player's speed when he has balls.")]
     public float speed = 5f;
+    
+    [Tooltip("Multiplies the speed of the player when he has no balls.")]
+    public float speedWithoutBallsModifier = 1f;
+    
     // public float mouseRotationSmoothSpeed = 10f;
+    [Tooltip("The speed at which the player moves when aiming.")]
     public float aimSpeedMod = 0f;
+    
+    [Tooltip("Lerp time for the rotation while not aiming")]
+    public float rotationLerpTime = 0.1f;
+    
+    [FormerlySerializedAs("rotationLerpTime")] [Tooltip("Lerp time for the rotation while aiming")]
+    public float rotationWhileAimingLerpTime = 0.1f;
     [Header("Scene References")]
     public Camera playerCamera;
     
@@ -31,7 +44,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector]public float chargeValueIncrementor = 0.5f;
     private float fixedChargedValue;
     private bool isCharging = false;
-    private const float chargeRate = 0.5f; // Rate at which the charge value increases
+    public float chargeRate = 0.5f; // Rate at which the charge value increases
 
     public void Start()
     {
@@ -70,8 +83,6 @@ public class PlayerScript : MonoBehaviour
             chargeValueIncrementor += chargeRate * Time.deltaTime;
             chargeValueIncrementor = Mathf.Clamp(chargeValueIncrementor, 0f, 1f);
             Debug.Log(chargeValueIncrementor);
-            
-            
             
         }
         else
@@ -158,10 +169,22 @@ public class PlayerScript : MonoBehaviour
             // Move the player. 
             if (!isAiming)
             {
-                rb.linearVelocity = new Vector3(moveDirection.x * speed,
-                    rb.linearVelocity.y,
-                    moveDirection.z * speed);
-                
+                if (heldBall)
+                {
+                    rb.linearVelocity = new Vector3(moveDirection.x * speed,
+                        rb.linearVelocity.y,
+                        moveDirection.z * speed);
+                    //Set the player's direction to the direction of the movement using a lerp
+                    transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationLerpTime);
+                }
+                else
+                {
+                    rb.linearVelocity = new Vector3(moveDirection.x * speed * speedWithoutBallsModifier,
+                        rb.linearVelocity.y,
+                        moveDirection.z * speed * speedWithoutBallsModifier);
+                    //Set the player's direction to the direction of the movement using a lerp
+                    transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationLerpTime);
+                }
             }
             else
             {
@@ -169,8 +192,8 @@ public class PlayerScript : MonoBehaviour
                 rb.linearVelocity = new Vector3(moveDirection.x * speed * aimSpeedMod,
                     rb.linearVelocity.y,
                     moveDirection.z * speed * aimSpeedMod);
-                //Set the player's direction to the direction of the movement
-                transform.forward = moveDirection;
+                //Set the player's direction to the direction of the movement using a lerp
+                transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationWhileAimingLerpTime);
             }
         }
         

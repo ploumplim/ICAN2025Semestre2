@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
         _playerAndBallsText.text = "PLAYER \n State: " + player.GetComponent<PlayerScript>().currentState +
                                    "\n Speed: " + player.GetComponent<Rigidbody>().linearVelocity.magnitude +
                                    "\n BALL \n State: " + ball.GetComponent<BallSM>().currentState +
-                                   "\n Speed: " + ball.GetComponent<Rigidbody>().linearVelocity.magnitude;
+                                   "\n Speed: " + ball.GetComponent<Rigidbody>().linearVelocity.magnitude +
+                                   "\n Bounces: " + (ball.GetComponent<BallSM>().maxBounces - ball.GetComponent<BallSM>().bounces);
     }
 }

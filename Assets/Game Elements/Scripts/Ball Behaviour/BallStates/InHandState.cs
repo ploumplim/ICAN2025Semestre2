@@ -22,5 +22,6 @@ public class InHandState : BallState
         base.Exit();
         BallSm.rb.isKinematic = false; 
         BallSm.sc.enabled = true;
+        BallSm.rb.useGravity =false;
     }
 }

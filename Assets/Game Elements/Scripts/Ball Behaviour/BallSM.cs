@@ -26,22 +26,28 @@ public class BallSM : MonoBehaviour
     [Tooltip("The strength of the homing effect.")]
     public float homingForce = 10f;
     
-    
     [Tooltip("Maximum height the ball can achieve.")]
     public float maxHeight = 10f;
 
     [Tooltip("Minimum height the ball can achieve.")]
     public float minHeight = -1f;
-
+    
+    [Tooltip("Ammount of Bounces that the ball can have.")]
+    public int maxBounces = 3;
+    
+    [Tooltip("The ball will become grounded after this time.")]
+    public float timeToGrounded = 2f;
+    
+    
     //----------------------------COMPONENTS----------------------------
     [HideInInspector]public Rigidbody rb;
     [HideInInspector]public SphereCollider sc;
-    [HideInInspector] public GameObject player;
+    [HideInInspector]public GameObject player;
     
     //---------------------------PRIVATE VARIABLES---------------------------
     [HideInInspector]public float speedModifiedDetectionRadius; // Detection radius modified by the speed of the ball
-    [HideInInspector] public Vector3 minimumSpeed;
-    
+    [HideInInspector]public Vector3 minimumSpeed;
+    [HideInInspector]public int bounces = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -65,10 +71,9 @@ public class BallSM : MonoBehaviour
         // Clamp the Y value of the ball to the minimum and maximum height
         transform.position = new Vector3(transform.position.x, 
             Mathf.Clamp(transform.position.y, minHeight, maxHeight), transform.position.z);
-        
+
         speedModifiedDetectionRadius = baseDetectionRadius +
-                                        (rb.linearVelocity.magnitude * detectionRadiusMultiplier);
-        
+                                       (rb.linearVelocity.magnitude * detectionRadiusMultiplier);
     }
     
     // Change the current state of the ball
@@ -119,7 +124,14 @@ public class BallSM : MonoBehaviour
                         ChangeState(GetComponent<DroppedState>());
                         break;
                     case "Bouncer":
-                        ChangeState(GetComponent<TargetingState>());
+                        if (bounces < maxBounces)
+                        {
+                            ChangeState(GetComponent<TargetingState>());
+                        }
+                        else
+                        {
+                            ChangeState(GetComponent<DroppedState>());
+                        }
                         break;
                     default:
                         break;

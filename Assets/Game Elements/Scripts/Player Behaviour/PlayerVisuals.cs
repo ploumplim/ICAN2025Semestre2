@@ -46,7 +46,7 @@ public class PlayerVisuals : MonoBehaviour
         chargeVisuals.transform.position = screenPosition;
 
         
-        // Update the Image fill amount with the charge porcentage.
+        // Update the Image fill amount with the charge percentage.
         chargeSprite.fillAmount = chargePorcentage;
         
     }
