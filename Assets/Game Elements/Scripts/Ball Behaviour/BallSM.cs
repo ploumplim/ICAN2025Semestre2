@@ -39,12 +39,12 @@ public class BallSM : MonoBehaviour
     //----------------------------COMPONENTS----------------------------
     [HideInInspector]public Rigidbody rb;
     [HideInInspector]public SphereCollider sc;
-    [HideInInspector] public GameObject player;
+    [HideInInspector]public GameObject player;
     
     //---------------------------PRIVATE VARIABLES---------------------------
     [HideInInspector]public float speedModifiedDetectionRadius; // Detection radius modified by the speed of the ball
-    [HideInInspector] public Vector3 minimumSpeed;
-    
+    [HideInInspector]public Vector3 minimumSpeed;
+    [HideInInspector]public int bounces = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -121,7 +121,14 @@ public class BallSM : MonoBehaviour
                         ChangeState(GetComponent<DroppedState>());
                         break;
                     case "Bouncer":
-                        ChangeState(GetComponent<TargetingState>());
+                        if (bounces < maxBounces)
+                        {
+                            ChangeState(GetComponent<TargetingState>());
+                        }
+                        else
+                        {
+                            ChangeState(GetComponent<DroppedState>());
+                        }
                         break;
                     default:
                         break;

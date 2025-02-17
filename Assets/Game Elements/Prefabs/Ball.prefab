@@ -283,12 +283,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
   ballSpeed: 10
+  minimumForce: 5
   ballVSpeed: 1
-  detectionRadius: 5
-  targetingTime: 0.25
+  baseDetectionRadius: 5
+  detectionRadiusMultiplier: 0.1
+  homingForce: 10
+  maxHeight: 10
+  minHeight: -1
+  maxBounces: 3
   rb: {fileID: 0}
   sc: {fileID: 0}
   player: {fileID: 0}
+  speedModifiedDetectionRadius: 0
+  minimumSpeed: {x: 0, y: 0, z: 0}
+  bounces: 0
 --- !u!114 &3984054927209078919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +309,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06721ab72bd916640a5ba0e749f083fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballMarker: {fileID: 0}
+  trailVisuals: {fileID: 3172110743681774408}
 --- !u!114 &966831823244586985
 MonoBehaviour:
   m_ObjectHideFlags: 0

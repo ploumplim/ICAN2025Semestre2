@@ -2,6 +2,14 @@ using UnityEngine;
 
 public class DroppedState : BallState
 {
+    public override void Enter()
+    {
+        base.Enter();
+        // Set the balls gravity to true.
+        BallSm.rb.useGravity = true;
+        BallSm.bounces = 0;
+    }
+
     public override void Tick()
     {
         base.Tick();

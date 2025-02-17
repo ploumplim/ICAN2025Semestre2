@@ -8,20 +8,30 @@ public class BallVisuals : MonoBehaviour
     // ---------------PUBLIC---------------
     [Tooltip("Game Object containing the UI image used to position the ball behind walls.")]
     public GameObject ballMarker;
+    [Tooltip("Game Object that holds the trail visuals.")]
+    public GameObject trailVisuals;
+    [Tooltip("Game Object that holds the ball visuals.")]
+    public GameObject ballVisuals;
     
     // ---------------PRIVATE---------------
     private BallSM ballSM;
     private Camera _mainCamera;
+    private TrailRenderer _trailRenderer;
+    private Material _ballMaterial;
 
     public void Start()
     {
         ballSM = GetComponent<BallSM>();
         _mainCamera = Camera.main;
+        _trailRenderer = trailVisuals.GetComponent<TrailRenderer>();
+        _ballMaterial = ballVisuals.GetComponent<MeshRenderer>().material;
     }
 
     private void FixedUpdate()
     {
         BallMarker();
+        TrailEmitter();
+        BallColor();
     }
 
     private void BallMarker()
@@ -37,4 +47,17 @@ public class BallVisuals : MonoBehaviour
         ballMarker.transform.position = screenPosition;
         ballMarker.SetActive(isBehindWall);
     }
+    
+    private void TrailEmitter()
+    {
+        // Enable or disable the trail renderer based on the ball's state
+        _trailRenderer.emitting = ballSM.currentState.GetType() == typeof(MidAirState);
+        // Change the color of the trail based on the ball's state. Red when it's midair, green otherwise.
+        _trailRenderer.startColor = ballSM.currentState.GetType() == typeof(MidAirState) ? Color.red : Color.green;
+        // Change the width of the trail based on the ball's speed.
+        _trailRenderer.widthMultiplier = ballSM.rb.linearVelocity.magnitude / 100;
+        
+    }
+    
+    
 }
