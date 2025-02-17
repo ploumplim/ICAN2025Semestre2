@@ -6,9 +6,13 @@ public class BallSM : MonoBehaviour
     public BallState currentState;
     
     [Header("Ball Stats")]
-    [Tooltip("Horizontal force with which the ball will be thrown in its forward direction.")]
+    [Tooltip("Horizontal force with which the ball will be thrown in its forward direction. This is multiplied by" +
+             "the charge value.")]
     public float ballSpeed = 10f;
-
+    
+    [Tooltip("minimum force that the ball has to have.")]
+    public float minimumForce = 5f;
+    
     [Tooltip("Vertical force with which the ball will be thrown in its up direction.")]
     public float ballVSpeed = 1;
     
@@ -36,7 +40,7 @@ public class BallSM : MonoBehaviour
     
     //---------------------------PRIVATE VARIABLES---------------------------
     [HideInInspector]public float speedModifiedDetectionRadius; // Detection radius modified by the speed of the ball
-
+    [HideInInspector] public Vector3 minimumSpeed;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -82,10 +86,12 @@ public class BallSM : MonoBehaviour
     {
         float finalSpeed = ballSpeed * chargeMultiplier;
         float finalVSpeed = ballVSpeed * chargeMultiplier;
+
+        minimumSpeed = player.GetComponent<Rigidbody>().linearVelocity + minimumForce * player.transform.forward;
         
-        rb.AddForce(transform.forward * finalSpeed, ForceMode.Impulse);
+        rb.AddForce(minimumSpeed + transform.forward * finalSpeed, ForceMode.Impulse);
         rb.AddForce(transform.up * finalVSpeed, ForceMode.Impulse);
-        Debug.Log(chargeMultiplier);
+        // Debug.Log(chargeMultiplier);
     }
     
     public void Bounce()
