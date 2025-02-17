@@ -10,11 +10,11 @@ public class PlayerScript : MonoBehaviour
 
     [Header("Player Stats")]
     public float speed = 5f;
-    public float mouseRotationSmoothSpeed = 10f;
-
+    // public float mouseRotationSmoothSpeed = 10f;
+    public float aimSpeedMod = 0f;
     [Header("Scene References")]
     public Camera playerCamera;
-
+    
     [HideInInspector] public PlayerInput playerInput;
     [HideInInspector] public InputAction moveAction;
     [HideInInspector] public InputAction throwAction;
@@ -87,6 +87,7 @@ public class PlayerScript : MonoBehaviour
         currentState.Exit();
         currentState = newState;
         currentState.Enter();
+        Debug.Log("State changed to: " + newState);
     }
 
     // ------------------------------ COLLISIONS ------------------------------
@@ -117,7 +118,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void Move()
+    public void Move(bool isAiming)
     {
         Vector2 moveInput = moveAction.ReadValue<Vector2>();
         // Apply movement
@@ -139,13 +140,26 @@ public class PlayerScript : MonoBehaviour
             Vector3 moveDirection = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
 
             // Move the player. 
-            rb.linearVelocity = new Vector3(moveDirection.x * speed,
-                rb.linearVelocity.y, 
-                moveDirection.z * speed);
+            if (!isAiming)
+            {
+                rb.linearVelocity = new Vector3(moveDirection.x * speed,
+                    rb.linearVelocity.y,
+                    moveDirection.z * speed);
+                
+            }
+            else
+            {
+                
+                rb.linearVelocity = new Vector3(moveDirection.x * speed * aimSpeedMod,
+                    rb.linearVelocity.y,
+                    moveDirection.z * speed * aimSpeedMod);
+                //Set the player's direction to the direction of the movement
+                transform.forward = moveDirection;
+            }
         }
         
         
-        if (moveAction.ReadValue<Vector2>() == Vector2.zero)
+        if (moveAction.ReadValue<Vector2>() == Vector2.zero && !isAiming)
         {
             ChangeState(GetComponent<IdleState>());
         }
@@ -208,28 +222,33 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ THROW ------------------------------
     public void OnThrow(InputAction.CallbackContext context)
     {
-        if (context.performed && heldBall)
+        if (heldBall)
         {
-            isCharging = true;
-            chargeValueIncrementor = 0f;
-            // Debug.Log(chargeValueIncrementor);
-        }
-        else if (context.canceled && heldBall)
-        {
-            isCharging = false;
-            if (chargeValueIncrementor>fixedChargedValue)
+            ChangeState(GetComponent<AimingState>());
+            if (context.performed)
             {
-                fixedChargedValue = chargeValueIncrementor;
-                ballSM.ChangeState(heldBall.GetComponent<TargetingState>());
-                ballSM.Throw(fixedChargedValue);
-                heldBall = null;
-                
-
-                // Reset après avoir utilisé la charge
-                fixedChargedValue = 0f;
+                isCharging = true;
+                chargeValueIncrementor = 0f;
+                // Debug.Log(chargeValueIncrementor);
             }
-           
+            else if (context.canceled)
+            {
+                isCharging = false;
+                if (chargeValueIncrementor > fixedChargedValue)
+                {
+                    fixedChargedValue = chargeValueIncrementor;
+                    ballSM.ChangeState(heldBall.GetComponent<TargetingState>());
+                    ballSM.Throw(fixedChargedValue);
+                    heldBall = null;
+                    // Reset après avoir utilisé la charge
+                    fixedChargedValue = 0f;
+                    ChangeState(GetComponent<IdleState>());
+
+                }
+
+            }
         }
+
     }
 
     // ------------------------------ PLAYER GIZMOS ------------------------------
