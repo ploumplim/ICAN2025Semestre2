@@ -8,7 +8,6 @@ public class MomentumState : PlayerState
         base.Enter();
         _timer = 0;
         PlayerScript.rb.linearDamping = PlayerScript.hitLinearDrag;
-        
     }
 
     public override void Tick()

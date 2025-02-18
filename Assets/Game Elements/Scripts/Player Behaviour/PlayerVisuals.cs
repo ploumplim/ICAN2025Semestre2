@@ -40,6 +40,8 @@ public class PlayerVisuals : MonoBehaviour
     public float parryTimerVisualOffsetX;
     [Tooltip("Parry timer visual Offset Y")]
     public float parryTimerVisualOffsetY;
+    [Tooltip("This particle is played when the player parries.")]
+    public ParticleSystem parryParticle;
     
     void Start()
     {
@@ -118,6 +120,15 @@ public class PlayerVisuals : MonoBehaviour
     }
     public void OnParryUnavailable()
     {
+        _playerMeshMaterial.color = _originalPlayerMeshColor;
+        _canParry = false;
+    }
+    
+    public void OnParry()
+    {
+        // Play the parry particle.
+        parryParticle.Play();
+        // Change the player's color to the original color.
         _playerMeshMaterial.color = _originalPlayerMeshColor;
         _canParry = false;
     }

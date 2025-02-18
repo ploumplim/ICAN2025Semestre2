@@ -10,6 +10,7 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ EVENTS ------------------------------
     public UnityEvent CanParryTheBallEvent;
     public UnityEvent CannotParryTheBallEvent;
+    [FormerlySerializedAs("BallParried")] public UnityEvent PlayerParried;
     
     // ------------------------------ PUBLIC VARIABLES ------------------------------
     public enum moveType
@@ -63,6 +64,8 @@ public class PlayerScript : MonoBehaviour
     public float parryCooldown = 0.5f;
     [Tooltip("The force applied to the ball when parrying.")]
     public float parryForce = 10f;
+    [Tooltip("The window of opportunity that the parry will hit the ball.")]
+    public float parryWindow = 0.4f;
     
     
     [Header("Scene References")]
@@ -178,6 +181,12 @@ public class PlayerScript : MonoBehaviour
             if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<MidAirState>())
             {
                 ChangeState(GetComponent<MomentumState>());
+                _parryPlayer.parryTimer = 0;
+                // Push the player in the opposite direction of the ball
+                Vector3 direction = transform.position - other.transform.position;
+                rb.AddForce(direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude, ForceMode.Impulse);
+                // Set ball to dropped state
+                other.gameObject.GetComponent<BallSM>().ChangeState(other.gameObject.GetComponent<DroppedState>());
             }
         }
     }
@@ -313,7 +322,7 @@ public class PlayerScript : MonoBehaviour
         if (canParry)
         {
             // Debug.Log("Parry!");
-            _parryPlayer.Parry();
+            PlayerParried?.Invoke();
             canParry = false;
             parryTimer = parryCooldown;
             StartCoroutine(ParryTime());
@@ -322,7 +331,9 @@ public class PlayerScript : MonoBehaviour
 
     IEnumerator ParryTime()
     {
+        _parryPlayer.playerHasParried = true;
         yield return new WaitForSeconds(parryCooldown);
+        _parryPlayer.playerHasParried = false;
         canParry = true;
     }
     
