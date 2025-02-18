@@ -35,6 +35,14 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("The speed at which the player moves when aiming.")]
     public float aimSpeedMod = 0f;
     
+    [Header("Knockback")]
+    [Tooltip("Time where the player loses control after being struck by the ball.")]
+    public float knockbackTime = 0.5f;
+    
+    [Tooltip("The normal linear drag of the player.")]
+    public float linearDrag = 3f;
+    [Tooltip("The linear drag when the player is hit by a ball.")]
+    public float hitLinearDrag = 0f;
     [Header("Rotation Lerps")]
     [Tooltip("Lerp time for the rotation while not aiming")]
     public float rotationLerpTime = 0.1f;
@@ -145,9 +153,9 @@ public class PlayerScript : MonoBehaviour
         {
             if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<MidAirState>())
             {
-                // Debug.Log("Test");
-                Parry();  
-                //TODO ParryState
+                ChangeState(GetComponent<MomentumState>());
+                Parry(); 
+                
             }
         }
     }
@@ -156,7 +164,8 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ MOVE ------------------------------
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (currentState is IdleState)
+        if (currentState is IdleState &&
+            currentState is not MomentumState)
         {
             ChangeState(GetComponent<MovingState>());
         }

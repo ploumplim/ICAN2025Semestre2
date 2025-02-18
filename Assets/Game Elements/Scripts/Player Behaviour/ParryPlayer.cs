@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ParryPlayer : MonoBehaviour
 {
+    private PlayerScript _playerScript;
     private Collider _col;
     public bool canParry;
     private GameObject _ballToParry;
@@ -9,6 +10,7 @@ public class ParryPlayer : MonoBehaviour
 
     private void Start()
     {
+        _playerScript = GetComponent<PlayerScript>();
         _col = GetComponent<Collider>();
     }
 
