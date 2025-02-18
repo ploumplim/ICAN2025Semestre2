@@ -15,14 +15,16 @@ public class PlayerScript : MonoBehaviour
     };
     
     [HideInInspector] public PlayerState currentState;
-
+    
+    [Header("MOVEMENT TYPES: \n " +
+        "Velocity: The player's movement is controlled \n" +
+        " by changing the velocity of the rigidbody.\n" +
+        "Force: The player's movement is controlled \n" +
+        " by applying a force to the rigidbody. \n" +
+        " This means that all movement variables \n " +
+        "should be decreased to avoid the player moving too fast.")]
     [Tooltip("Choose the player's movement type.")]
     public moveType movementType = moveType.Velocity;
-    
-[Header("Velocity: The player's movement is controlled by changing the velocity of the rigidbody.\n" +
-        "Force: The player's movement is controlled by applying a force to the rigidbody. This means that all \n" + 
-        "movement variables should be decreased to avoid the player moving too fast.")]
-    
     [Header("Movement variables")]
     [Tooltip("The player's speed when he has balls.")]
     public float speed = 5f;
