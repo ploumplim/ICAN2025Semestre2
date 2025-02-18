@@ -34,6 +34,7 @@ public class ParryPlayer : MonoBehaviour
                 canParry = true;
                 _ballToParry = other.gameObject;
                 _ballSM.canBeParriedEvent?.Invoke();
+                _playerScript.CanParryTheBallEvent?.Invoke();
                 _currentBallSpeed = _ballToParry.GetComponent<Rigidbody>().linearVelocity.magnitude;
             }
         }
@@ -45,6 +46,7 @@ public class ParryPlayer : MonoBehaviour
         {
             canParry = false;
             _ballSM.cannotBeParriedEvent?.Invoke();
+            _playerScript.CannotParryTheBallEvent?.Invoke();
             _ballToParry = null;
         }
     }
@@ -53,33 +55,34 @@ public class ParryPlayer : MonoBehaviour
     {
         if (canParry && _ballToParry)
         {
-            Debug.Log("Aled");
+            // Debug.Log("Aled");
             Rigidbody ballRigidbody = _ballToParry.GetComponent<Rigidbody>();
             if (ballRigidbody != null)
             {
                 ballRigidbody.linearVelocity = Vector3.zero;
                 ballRigidbody.AddForce(_playerScript.gameObject.transform.forward * parryForce * _currentBallSpeed, ForceMode.Impulse);
+                _ballSM.ChangeState(_ballSM.GetComponent<TargetingState>());
             }
             canParry = false;
         }
     }
 
-    // private void OnDrawGizmos()
-    // {
-    //     if (_col != null)
-    //     {
-    //         Gizmos.color = Color.green;
-    //         if (_col is BoxCollider)
-    //         {
-    //             BoxCollider box = (BoxCollider)_col;
-    //             Gizmos.DrawWireCube(box.bounds.center, box.bounds.size);
-    //         }
-    //         else if (_col is SphereCollider)
-    //         {
-    //             SphereCollider sphere = (SphereCollider)_col;
-    //             Gizmos.DrawWireSphere(sphere.bounds.center, sphere.bounds.size.x / 2);
-    //         }
-    //         // Add more collider types if needed
-    //     }
-    // }
+    private void OnDrawGizmos()
+    {
+        if (_col != null)
+        {
+            Gizmos.color = new Color(1, 0, 1); 
+            if (_col is BoxCollider)
+            {
+                BoxCollider box = (BoxCollider)_col;
+                Gizmos.DrawWireCube(box.bounds.center, box.bounds.size);
+            }
+            else if (_col is SphereCollider)
+            {
+                SphereCollider sphere = (SphereCollider)_col;
+                Gizmos.DrawWireSphere(sphere.bounds.center, sphere.bounds.size.x / 2);
+            }
+            // Add more collider types if needed
+        }
+    }
 }

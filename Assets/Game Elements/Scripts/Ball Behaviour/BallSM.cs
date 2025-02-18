@@ -62,9 +62,6 @@ public class BallSM : MonoBehaviour
     [Tooltip("The ball will become grounded if it reaches this minimum speed if grounded by speed is true.")]
     public float minimumSpeedToGround = 5f;
     
-
-    
-    
     
     //----------------------------COMPONENTS----------------------------
     [HideInInspector]public Rigidbody rb;

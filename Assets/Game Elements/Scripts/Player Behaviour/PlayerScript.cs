@@ -1,11 +1,16 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class PlayerScript : MonoBehaviour
 {
+    // ------------------------------ EVENTS ------------------------------
+    public UnityEvent CanParryTheBallEvent;
+    public UnityEvent CannotParryTheBallEvent;
+    
     // ------------------------------ PUBLIC VARIABLES ------------------------------
     public enum moveType
     {
@@ -84,7 +89,8 @@ public class PlayerScript : MonoBehaviour
     
     // ------------------------------ PARRY ------------------------------
     private ParryPlayer _parryPlayer;
-    private bool _canParry = true;
+    [FormerlySerializedAs("_canParry")] [HideInInspector] public bool canParry = true;
+    [HideInInspector] public float parryTimer = 0f;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void Start()
@@ -115,6 +121,11 @@ public class PlayerScript : MonoBehaviour
         }
         
         ChargingForce();
+        
+        if (parryTimer > 0)
+        {
+            parryTimer -= Time.deltaTime;
+        }
         
     }
     public void ChargingForce()
@@ -289,7 +300,8 @@ public class PlayerScript : MonoBehaviour
             
 
         }
-        if (!heldBall && context.performed)
+        if (!heldBall && context.performed &&
+            currentState is not MomentumState)
         {
             Parry();
         }
@@ -298,11 +310,12 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ PARRY ------------------------------
     public void Parry()
     {
-        if (_canParry)
+        if (canParry)
         {
-            Debug.Log("Parry!");
+            // Debug.Log("Parry!");
             _parryPlayer.Parry();
-            _canParry = false;
+            canParry = false;
+            parryTimer = parryCooldown;
             StartCoroutine(ParryTime());
         }
     }
@@ -310,7 +323,7 @@ public class PlayerScript : MonoBehaviour
     IEnumerator ParryTime()
     {
         yield return new WaitForSeconds(parryCooldown);
-        _canParry = true;
+        canParry = true;
     }
     
     // ------------------------------ PLAYER GIZMOS ------------------------------
