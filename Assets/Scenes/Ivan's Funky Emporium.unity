@@ -593,7 +593,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: chargeRate
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: linearDrag
@@ -633,7 +633,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: rotationWhileAimingLerpTime
-      value: 0.5
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: CanParryTheBallEvent.m_PersistentCalls.m_Calls.Array.size
@@ -2449,7 +2449,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1367746765431404474, guid: f71a0782fa0501142a5a8c04717a653a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -17
+      value: -16.5
       objectReference: {fileID: 0}
     - target: {fileID: 1367746765431404474, guid: f71a0782fa0501142a5a8c04717a653a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5269,7 +5269,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: ballSpeed
-      value: 30
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: maxHeight
@@ -5285,7 +5285,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: maxBounces
-      value: 10
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: homingForce
@@ -5293,7 +5293,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: minimumForce
-      value: 4
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: targetingTime
@@ -5316,8 +5316,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: midAirLinearDamping
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: minimumSpeedToGround
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: groundedLinearDamping
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: detectionRadiusMultiplier
