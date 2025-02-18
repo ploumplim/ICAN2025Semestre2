@@ -16,6 +16,20 @@ public class BallSM : MonoBehaviour
     [Tooltip("Vertical force with which the ball will be thrown in its up direction.")]
     public float ballVSpeed = 1;
     
+    [Tooltip("Maximum height the ball can achieve.")]
+    public float maxHeight = 10f;
+
+    [Tooltip("Minimum height the ball can achieve.")]
+    public float minHeight = -1f;
+    
+    [Tooltip("The linear damping value when the ball is grounded.")]
+    public float groundedLinearDamping = 1f;
+        
+    [Tooltip("The linear damping value when the ball is flying midair.")]
+    public float midAirLinearDamping = 0.1f;
+    
+    [Header("Aim assist settings (currently disabled)")]
+    
     [FormerlySerializedAs("detectionRadius")] [Tooltip("Base radius of the detection sphere.")]
     public float baseDetectionRadius = 5f;
     
@@ -26,12 +40,7 @@ public class BallSM : MonoBehaviour
     [Tooltip("The strength of the homing effect.")]
     public float homingForce = 10f;
     
-    [Tooltip("Maximum height the ball can achieve.")]
-    public float maxHeight = 10f;
-
-    [Tooltip("Minimum height the ball can achieve.")]
-    public float minHeight = -1f;
-    
+    [Header("Bouncing Stats")]
     [Tooltip("Ammount of Bounces that the ball can have.")]
     public int maxBounces = 3;
     
@@ -44,6 +53,9 @@ public class BallSM : MonoBehaviour
     
     [Tooltip("The ball will become grounded if it reaches this minimum speed if grounded by speed is true.")]
     public float minimumSpeedToGround = 5f;
+    
+
+    
     
     
     //----------------------------COMPONENTS----------------------------

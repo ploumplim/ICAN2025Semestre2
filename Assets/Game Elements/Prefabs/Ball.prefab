@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 3780658454886815385}
   m_Layer: 0
   m_Name: Ball
-  m_TagString: Untagged
+  m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -291,7 +291,9 @@ MonoBehaviour:
   maxHeight: 10
   minHeight: -1
   maxBounces: 3
+  groundedBySpeed: 0
   timeToGrounded: 5
+  minimumSpeedToGround: 5
   rb: {fileID: 0}
   sc: {fileID: 0}
   player: {fileID: 0}

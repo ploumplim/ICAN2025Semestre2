@@ -4470,7 +4470,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: minimumSpeedToGround
-      value: 25
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: detectionRadiusMultiplier
@@ -4478,7 +4478,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5645183620331005197, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_Drag
-      value: 0
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5645183620331005197, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_Mass

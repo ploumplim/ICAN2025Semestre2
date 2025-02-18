@@ -8,17 +8,8 @@ public class DroppedState : BallState
         // Set the balls gravity to true.
         BallSm.rb.useGravity = true;
         BallSm.bounces = 0;
+        //Set the rigid body's linear damping.
+        BallSm.rb.linearDamping = BallSm.groundedLinearDamping;
     }
-
-    public override void Tick()
-    {
-        base.Tick();
-        // Set the balls velocity to 0 gradually.
-        BallSm.rb.linearVelocity = Vector3.Lerp(BallSm.rb.linearVelocity, Vector3.zero, Time.deltaTime);
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-    }
+    
 }

@@ -98,7 +98,7 @@ public class PlayerScript : MonoBehaviour
         currentState.Exit();
         currentState = newState;
         currentState.Enter();
-        Debug.Log("State changed to: " + newState);
+        // Debug.Log("State changed to: " + newState);
     }
 
     // ------------------------------ COLLISIONS ------------------------------

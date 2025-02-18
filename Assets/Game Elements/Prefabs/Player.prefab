@@ -66,6 +66,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6866c5f2d12bcab4394daff3c41aaf1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canParry: 0
+  parryForce: 10
 --- !u!1 &3328443934547631640
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,7 +89,7 @@ GameObject:
   - component: {fileID: 86958798917315144}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -318,7 +320,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
   speed: 15
+  speedWithoutBallsModifier: 1
   aimSpeedMod: 0.3
+  rotationLerpTime: 0.1
+  rotationWhileAimingLerpTime: 0.1
   playerCamera: {fileID: 0}
   playerInput: {fileID: 0}
   moveAction:
@@ -353,6 +358,7 @@ MonoBehaviour:
   heldBall: {fileID: 0}
   ballSM: {fileID: 0}
   chargeValueIncrementor: 0.5
+  chargeRate: 0.5
 --- !u!114 &2291177913900343150
 MonoBehaviour:
   m_ObjectHideFlags: 0

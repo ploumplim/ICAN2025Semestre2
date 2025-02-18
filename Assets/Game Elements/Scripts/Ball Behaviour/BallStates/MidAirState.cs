@@ -10,6 +10,9 @@ public class MidAirState : BallState
     {
         base.Enter();
         timer = 0;
+        
+        //Set the rigid body's linear damping.
+        BallSm.rb.linearDamping = BallSm.midAirLinearDamping;
     }
     
     public override void Tick()
@@ -40,6 +43,9 @@ public class MidAirState : BallState
         }
         
         // set the ball's forward position to the direction of the velocity.
-        BallSm.transform.forward = BallSm.rb.linearVelocity.normalized;
+        if (BallSm.rb.linearVelocity.magnitude >= 0.1f)
+        {
+            BallSm.transform.forward = BallSm.rb.linearVelocity.normalized;
+        }
     }
 }

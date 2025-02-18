@@ -36,16 +36,53 @@ public class BallVisuals : MonoBehaviour
 
     private void BallMarker()
     {
-        
+        //------------------------------------------------------------------------
         // Convert the ball's position to screen space
         Vector3 screenPosition = _mainCamera.WorldToScreenPoint(transform.position);
 
-        // Check if the ball is behind a wall
-        bool isBehindWall = Physics.Linecast(_mainCamera.transform.position, transform.position, out RaycastHit hit);
-        
+        // Define a layer mask to exclude the canvas layer (assuming the canvas is on a layer named "UI")
+        int UILayerMask = ~LayerMask.GetMask("UI");
+
+        // Define the layer mask for the wall (assuming the wall is on a layer named "Wall")
+        int wallLayerMask = LayerMask.GetMask("Wall");
+
+        // Check if the ball is behind a wall, excluding the canvas layer
+        bool isBehindWall = false;
+        if (Physics.Linecast(_mainCamera.transform.position, transform.position, out RaycastHit hit, UILayerMask))
+        {
+            if (((1 << hit.transform.gameObject.layer) & wallLayerMask) != 0)
+            {
+                isBehindWall = true;
+            }
+        } 
         // Update the position of the ball marker in the canvas
         ballMarker.transform.position = screenPosition;
         ballMarker.SetActive(isBehindWall);
+        
+        
+        //------------------------------------------------------------------------
+        
+        // If the ball leaves the screen, make the ball marker stick to the edge of the screen, relative to the ball's position.
+        if (screenPosition.x < 0 || screenPosition.x > Screen.width || screenPosition.y < 0 ||
+            screenPosition.y > Screen.height)
+        {
+            // If the ball leaves the screen, make the ball marker stick to the edge of the screen, relative to the ball's position.
+            screenPosition.x = Mathf.Clamp(screenPosition.x, 0, Screen.width);
+            screenPosition.y = Mathf.Clamp(screenPosition.y, 0, Screen.height);
+        }
+        
+        
+        
+        
+        // // Log detailed information about the hit
+        // if (isBehindWall)
+        // {
+        //     Debug.Log($"Ball is behind wall. Hit object: {hit.transform.name}, Layer: {LayerMask.LayerToName(hit.transform.gameObject.layer)}");
+        // }
+        // else
+        // {
+        //     Debug.Log("Ball is not behind wall.");
+        // }
     }
     
     private void TrailEmitter()
