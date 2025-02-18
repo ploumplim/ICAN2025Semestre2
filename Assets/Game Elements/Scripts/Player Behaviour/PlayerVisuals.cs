@@ -12,8 +12,16 @@ public class PlayerVisuals : MonoBehaviour
     // Image component of the charging visuals.
     private Image chargeSprite;
     
+    // Player's normal mesh material and color.
+    private Material _playerMeshMaterial;
+    private Color _originalPlayerMeshColor;
+    
     //-------------PUBLIC VARIABLES-------------
     
+    [Tooltip("Player's mesh.")]
+    public GameObject playerMesh;
+    [Tooltip("Color when knocked back.")]
+    public Color knockbackColor;
     [Tooltip("Game Object that holds the charge visuals.")]
     public GameObject chargeVisuals;
     [Tooltip("charge visual Offset X")]
@@ -27,6 +35,9 @@ public class PlayerVisuals : MonoBehaviour
         playerScript = GetComponent<PlayerScript>();
         // Recover the Image from the charge visuals.
         chargeSprite = chargeVisuals.GetComponentInChildren<Image>();
+        // Recover the player's mesh material and color.
+        _playerMeshMaterial = playerMesh.GetComponent<MeshRenderer>().material;
+        _originalPlayerMeshColor = _playerMeshMaterial.color;
         
     }
 
@@ -48,6 +59,16 @@ public class PlayerVisuals : MonoBehaviour
         
         // Update the Image fill amount with the charge percentage.
         chargeSprite.fillAmount = chargePorcentage;
+        
+        switch (playerScript.currentState)
+        {
+            case MomentumState:
+                _playerMeshMaterial.color = knockbackColor;
+                break;
+            default:
+                _playerMeshMaterial.color = _originalPlayerMeshColor;
+                break;
+        }
         
     }
 }
