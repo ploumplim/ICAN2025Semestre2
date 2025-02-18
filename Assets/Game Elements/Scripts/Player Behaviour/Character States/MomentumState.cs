@@ -2,15 +2,28 @@ using UnityEngine;
 
 public class MomentumState : PlayerState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private float _timer;
+    public override void Enter()
     {
+        base.Enter();
+        _timer = 0;
+        PlayerScript.rb.linearDamping = PlayerScript.hitLinearDrag;
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Tick()
     {
-        
+        base.Tick();
+        _timer += Time.deltaTime;
+        if (_timer >= PlayerScript.knockbackTime)
+        {
+            PlayerScript.ChangeState(GetComponent<IdleState>());
+        }
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        PlayerScript.rb.linearDamping = PlayerScript.linearDrag;
     }
 }

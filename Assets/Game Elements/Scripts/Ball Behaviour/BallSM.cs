@@ -1,8 +1,16 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 public class BallSM : MonoBehaviour
 {
+    // ~~EVENTS~~
+    public UnityEvent canBeParriedEvent;
+    public UnityEvent cannotBeParriedEvent;
+    
+    
+    // ~~VARIABLES~~
     public BallState currentState;
     
     [Header("Ball Stats")]
@@ -54,9 +62,6 @@ public class BallSM : MonoBehaviour
     [Tooltip("The ball will become grounded if it reaches this minimum speed if grounded by speed is true.")]
     public float minimumSpeedToGround = 5f;
     
-
-    
-    
     
     //----------------------------COMPONENTS----------------------------
     [HideInInspector]public Rigidbody rb;
@@ -67,6 +72,9 @@ public class BallSM : MonoBehaviour
     [HideInInspector]public float speedModifiedDetectionRadius; // Detection radius modified by the speed of the ball
     [HideInInspector]public Vector3 minimumSpeed;
     [HideInInspector]public int bounces = 0;
+    [HideInInspector]public bool canBeParried = false
+        
+        ;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

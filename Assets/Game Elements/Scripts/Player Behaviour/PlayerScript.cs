@@ -1,13 +1,17 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class PlayerScript : MonoBehaviour
 {
-    // ------------------------------ VARIABLES ------------------------------
-
+    // ------------------------------ EVENTS ------------------------------
+    public UnityEvent CanParryTheBallEvent;
+    public UnityEvent CannotParryTheBallEvent;
     
+    // ------------------------------ PUBLIC VARIABLES ------------------------------
     public enum moveType
     {
         Velocity,
@@ -35,6 +39,14 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("The speed at which the player moves when aiming.")]
     public float aimSpeedMod = 0f;
     
+    [Header("Knockback")]
+    [Tooltip("Time where the player loses control after being struck by the ball.")]
+    public float knockbackTime = 0.5f;
+    
+    [Tooltip("The normal linear drag of the player.")]
+    public float linearDrag = 3f;
+    [Tooltip("The linear drag when the player is hit by a ball.")]
+    public float hitLinearDrag = 0f;
     [Header("Rotation Lerps")]
     [Tooltip("Lerp time for the rotation while not aiming")]
     public float rotationLerpTime = 0.1f;
@@ -46,10 +58,20 @@ public class PlayerScript : MonoBehaviour
     [Header("Charge shot")]
     public float chargeRate = 0.5f; // Rate at which the charge value increases
     
+    [Header("Parry")]
+    [Tooltip("The time the player has to wait between each parry.")]
+    public float parryCooldown = 0.5f;
+    [Tooltip("The force applied to the ball when parrying.")]
+    public float parryForce = 10f;
+    
+    
     [Header("Scene References")]
     public Camera playerCamera;
 
     public GameObject playerHand;
+    
+    // ------------------------------ PRIVATE VARIABLES ------------------------------
+    
     private bool _isAiming;
     [HideInInspector] public PlayerInput playerInput;
     [HideInInspector] public InputAction moveAction;
@@ -65,11 +87,16 @@ public class PlayerScript : MonoBehaviour
     private float fixedChargedValue;
     private bool isCharging = false;
     
-
+    // ------------------------------ PARRY ------------------------------
+    private ParryPlayer _parryPlayer;
+    [FormerlySerializedAs("_canParry")] [HideInInspector] public bool canParry = true;
+    [HideInInspector] public float parryTimer = 0f;
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void Start()
     {
         rb = GetComponent<Rigidbody>();
-
+        _parryPlayer = GetComponentInChildren<ParryPlayer>();
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
         throwAction = playerInput.actions["Attack"];
@@ -94,6 +121,11 @@ public class PlayerScript : MonoBehaviour
         }
         
         ChargingForce();
+        
+        if (parryTimer > 0)
+        {
+            parryTimer -= Time.deltaTime;
+        }
         
     }
     public void ChargingForce()
@@ -145,9 +177,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<MidAirState>())
             {
-                // Debug.Log("Test");
-                Parry();  
-                //TODO ParryState
+                ChangeState(GetComponent<MomentumState>());
             }
         }
     }
@@ -156,7 +186,8 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ MOVE ------------------------------
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (currentState is IdleState)
+        if (currentState is IdleState &&
+            currentState is not MomentumState)
         {
             ChangeState(GetComponent<MovingState>());
         }
@@ -234,11 +265,7 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-    // ------------------------------ PARRY ------------------------------
-    public void Parry()
-    {
-        // Debug.Log("Player");
-    }
+
 
 
 
@@ -270,10 +297,35 @@ public class PlayerScript : MonoBehaviour
                 }
 
             }
+            
+
+        }
+        if (!heldBall && context.performed &&
+            currentState is not MomentumState)
+        {
+            Parry();
         }
 
     }
+    // ------------------------------ PARRY ------------------------------
+    public void Parry()
+    {
+        if (canParry)
+        {
+            // Debug.Log("Parry!");
+            _parryPlayer.Parry();
+            canParry = false;
+            parryTimer = parryCooldown;
+            StartCoroutine(ParryTime());
+        }
+    }
 
+    IEnumerator ParryTime()
+    {
+        yield return new WaitForSeconds(parryCooldown);
+        canParry = true;
+    }
+    
     // ------------------------------ PLAYER GIZMOS ------------------------------
 
     // Create a gizmo to show the direction the player is looking at

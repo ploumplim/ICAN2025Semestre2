@@ -12,21 +12,26 @@ public class BallVisuals : MonoBehaviour
     public GameObject trailVisuals;
     [Tooltip("Game Object that holds the ball visuals.")]
     public GameObject ballVisuals;
-    
+    [Tooltip("The ball turns into this color when it can be parried.")]
+    public Color parryColor;
     // ---------------PRIVATE---------------
     private BallSM ballSM;
     private Camera _mainCamera;
     private TrailRenderer _trailRenderer;
     private Material _ballMaterial;
+    private Color _originalColor;
 
-    public void Start()
+    public void OnEnable()
     {
         ballSM = GetComponent<BallSM>();
         _mainCamera = Camera.main;
         _trailRenderer = trailVisuals.GetComponent<TrailRenderer>();
         _ballMaterial = ballVisuals.GetComponent<MeshRenderer>().material;
+        _originalColor = _ballMaterial.color;
+        
     }
-
+    
+    
     private void FixedUpdate()
     {
         BallMarker();
@@ -97,6 +102,23 @@ public class BallVisuals : MonoBehaviour
     private void BallColor()
     {
         // Change the color of the ball based on the ball's state. Red when it's midair, green otherwise.
-        _ballMaterial.color = ballSM.currentState.GetType() == typeof(MidAirState) ? Color.red : Color.green;
+        if (!ballSM.canBeParried)
+        {
+            _ballMaterial.color = ballSM.currentState.GetType() == typeof(MidAirState) ? Color.red : Color.green;
+        }
+    }
+
+    public void OnParryAvailable()
+    {
+        if (ballSM.currentState == ballSM.GetComponent<MidAirState>())
+        {
+            _ballMaterial.color = parryColor;
+            ballSM.canBeParried = true;
+        }
+    }
+    public void OnParryUnavailable()
+    {
+        _ballMaterial.color = _originalColor;
+        ballSM.canBeParried = false;
     }
 }
