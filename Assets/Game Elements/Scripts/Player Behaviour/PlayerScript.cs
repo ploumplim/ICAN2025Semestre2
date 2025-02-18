@@ -7,35 +7,53 @@ public class PlayerScript : MonoBehaviour
 {
     // ------------------------------ VARIABLES ------------------------------
 
-    public PlayerState currentState;
+    
+    public enum moveType
+    {
+        Velocity,
+        Force
+    };
+    
+    [HideInInspector] public PlayerState currentState;
 
-    [Header("Player Stats")]
+    [Tooltip("Choose the player's movement type.")]
+    public moveType movementType = moveType.Velocity;
+    
+[Header("Velocity: The player's movement is controlled by changing the velocity of the rigidbody.\n" +
+        "Force: The player's movement is controlled by applying a force to the rigidbody. This means that all \n" + 
+        "movement variables should be decreased to avoid the player moving too fast.")]
+    
+    [Header("Movement variables")]
     [Tooltip("The player's speed when he has balls.")]
     public float speed = 5f;
     
     [Tooltip("Multiplies the speed of the player when he has no balls.")]
     public float speedWithoutBallsModifier = 1f;
     
-    // public float mouseRotationSmoothSpeed = 10f;
     [Tooltip("The speed at which the player moves when aiming.")]
     public float aimSpeedMod = 0f;
     
+    [Header("Rotation Lerps")]
     [Tooltip("Lerp time for the rotation while not aiming")]
     public float rotationLerpTime = 0.1f;
     
-    [FormerlySerializedAs("rotationLerpTime")] [Tooltip("Lerp time for the rotation while aiming")]
+    [FormerlySerializedAs("rotationLerpTime")]
+    [Tooltip("Lerp time for the rotation while aiming")]
     public float rotationWhileAimingLerpTime = 0.1f;
+    
+    [Header("Charge shot")]
+    public float chargeRate = 0.5f; // Rate at which the charge value increases
+    
     [Header("Scene References")]
     public Camera playerCamera;
-    
+
+    public GameObject playerHand;
+    private bool _isAiming;
     [HideInInspector] public PlayerInput playerInput;
     [HideInInspector] public InputAction moveAction;
     [HideInInspector] public InputAction throwAction;
     [HideInInspector] public InputAction lookAction;
     [HideInInspector] public Rigidbody rb;
-    public GameObject playerHand;
-    private bool _isAiming;
-
     // ------------------------------ BALL ------------------------------
     [HideInInspector] public GameObject heldBall;
     [HideInInspector] public BallSM ballSM;
@@ -44,7 +62,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector]public float chargeValueIncrementor = 0.5f;
     private float fixedChargedValue;
     private bool isCharging = false;
-    public float chargeRate = 0.5f; // Rate at which the charge value increases
+    
 
     public void Start()
     {
@@ -125,7 +143,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<MidAirState>())
             {
-                Debug.Log("Test");
+                // Debug.Log("Test");
                 Parry();  
                 //TODO ParryState
             }
@@ -168,27 +186,20 @@ public class PlayerScript : MonoBehaviour
             {
                 if (heldBall)
                 {
-                    rb.linearVelocity = new Vector3(moveDirection.x * speed,
-                        rb.linearVelocity.y,
-                        moveDirection.z * speed);
+                    ApplyMovement(moveDirection, speed);
                     //Set the player's direction to the direction of the movement using a lerp
                     transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationLerpTime);
                 }
                 else
                 {
-                    rb.linearVelocity = new Vector3(moveDirection.x * speed * speedWithoutBallsModifier,
-                        rb.linearVelocity.y,
-                        moveDirection.z * speed * speedWithoutBallsModifier);
+                    ApplyMovement(moveDirection, speed * speedWithoutBallsModifier);
                     //Set the player's direction to the direction of the movement using a lerp
                     transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationLerpTime);
                 }
             }
             else
             {
-                
-                rb.linearVelocity = new Vector3(moveDirection.x * speed * aimSpeedMod,
-                    rb.linearVelocity.y,
-                    moveDirection.z * speed * aimSpeedMod);
+                ApplyMovement(moveDirection, speed * aimSpeedMod);
                 //Set the player's direction to the direction of the movement using a lerp
                 transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationWhileAimingLerpTime);
             }
@@ -201,12 +212,78 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    public void Parry()
+    private void ApplyMovement(Vector3 moveDirection, float finalSpeed)
     {
-        Debug.Log("Player");
+
+        switch (movementType)
+        {
+            case moveType.Force:
+                rb.AddForce(moveDirection * finalSpeed, ForceMode.VelocityChange);
+                break;
+            case moveType.Velocity:
+                rb.linearVelocity = new Vector3(moveDirection.x * finalSpeed,
+                rb.linearVelocity.y,
+                moveDirection.z * finalSpeed);
+            break;
+            
+                
+        }
+        
     }
 
-    // ------------------------------ LOOK ------------------------------
+
+    // ------------------------------ PARRY ------------------------------
+    public void Parry()
+    {
+        // Debug.Log("Player");
+    }
+
+
+
+    // ------------------------------ THROW ------------------------------
+    public void OnThrow(InputAction.CallbackContext context)
+    {
+        if (heldBall)
+        {
+            ChangeState(GetComponent<AimingState>());
+            if (context.performed)
+            {
+                isCharging = true;
+                chargeValueIncrementor = 0f;
+                // Debug.Log(chargeValueIncrementor);
+            }
+            else if (context.canceled)
+            {
+                isCharging = false;
+                if (chargeValueIncrementor > fixedChargedValue)
+                {
+                    fixedChargedValue = chargeValueIncrementor;
+                    ballSM.ChangeState(heldBall.GetComponent<TargetingState>());
+                    ballSM.Throw(fixedChargedValue);
+                    heldBall = null;
+                    // Reset après avoir utilisé la charge
+                    fixedChargedValue = 0f;
+                    ChangeState(GetComponent<IdleState>());
+
+                }
+
+            }
+        }
+
+    }
+
+    // ------------------------------ PLAYER GIZMOS ------------------------------
+
+    // Create a gizmo to show the direction the player is looking at
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(transform.position, transform.forward * 10);
+    }
+    
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEPRECATED CODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // ------------------------------ LOOK ------------------------------
     // public void OnLook(InputAction.CallbackContext context)
     // {
     //     // unlock the rigidbody rotation on Y
@@ -259,45 +336,4 @@ public class PlayerScript : MonoBehaviour
     //     // lock the rigidbody rotation on Y
     //     rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
     // }
-
-    // ------------------------------ THROW ------------------------------
-    public void OnThrow(InputAction.CallbackContext context)
-    {
-        if (heldBall)
-        {
-            ChangeState(GetComponent<AimingState>());
-            if (context.performed)
-            {
-                isCharging = true;
-                chargeValueIncrementor = 0f;
-                // Debug.Log(chargeValueIncrementor);
-            }
-            else if (context.canceled)
-            {
-                isCharging = false;
-                if (chargeValueIncrementor > fixedChargedValue)
-                {
-                    fixedChargedValue = chargeValueIncrementor;
-                    ballSM.ChangeState(heldBall.GetComponent<TargetingState>());
-                    ballSM.Throw(fixedChargedValue);
-                    heldBall = null;
-                    // Reset après avoir utilisé la charge
-                    fixedChargedValue = 0f;
-                    ChangeState(GetComponent<IdleState>());
-
-                }
-
-            }
-        }
-
-    }
-
-    // ------------------------------ PLAYER GIZMOS ------------------------------
-
-    // Create a gizmo to show the direction the player is looking at
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawRay(transform.position, transform.forward * 10);
-    }
 }

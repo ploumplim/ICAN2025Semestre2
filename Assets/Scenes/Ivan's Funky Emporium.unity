@@ -525,7 +525,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4958550416641463213, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4958550416641463213, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -533,7 +533,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4958550416641463213, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4958550416641463213, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -565,7 +565,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: speed
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: chargeRate
@@ -573,7 +573,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: aimSpeedMod
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: playerCamera
@@ -589,7 +589,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: speedWithoutBallsModifier
-      value: 1.5
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+      propertyPath: rotationWhileAimingLerpTime
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8257710722661929340, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_ActionEvents.Array.size
@@ -1097,7 +1101,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.4964001, y: -0.32275194, z: 0.20561564, w: 0.77919215}
-  m_LocalPosition: {x: 5, y: 16, z: -5}
+  m_LocalPosition: {x: 16.5, y: 50, z: -16.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4374,7 +4378,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3753866094500994814, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3753866094500994814, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4382,7 +4386,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3753866094500994814, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 54.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3753866094500994814, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4426,7 +4430,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: maxHeight
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: minHeight
@@ -4478,7 +4482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5645183620331005197, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_Drag
-      value: 0.2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5645183620331005197, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_Mass
