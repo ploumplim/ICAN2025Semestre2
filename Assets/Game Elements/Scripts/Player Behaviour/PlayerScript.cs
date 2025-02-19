@@ -74,11 +74,11 @@ public class PlayerScript : MonoBehaviour
     public float rollDuration = 1f;
     [Tooltip("The window of opportunity where the player can catch the ball whilst midair.")]
     public float catchWindow = 0.6f;
-    [Tooltip("The time the player has to wait between each roll.")]
-    public float rollCooldown = 0.5f;
-    [Tooltip("The speed that the player has to have at the end of the roll, if they dont catch" +
-             "the ball while rolling.")]
-    public float rollEndSpeed = 5f;
+    // [Tooltip("The time the player has to wait between each roll.")]
+    // public float rollCooldown = 0.5f;
+    // [Tooltip("The speed that the player has to have at the end of the roll, if they dont catch" +
+    //          "the ball while rolling.")]
+    // public float rollEndSpeed = 5f;
     
     [Header("Scene References")]
     public Camera playerCamera;
@@ -225,8 +225,9 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ MOVE ------------------------------
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (currentState is IdleState &&
-            currentState is not MomentumState)
+        if (currentState is not MomentumState &&
+            currentState is not RollingState &&
+            currentState is not AimingState)
         {
             ChangeState(GetComponent<MovingState>());
         }
