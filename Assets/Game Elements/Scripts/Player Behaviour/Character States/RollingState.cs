@@ -16,6 +16,7 @@ public override void Enter()
     {
         base.Tick();
         timer += Time.deltaTime;
+        
         if (timer >= PlayerScript.rollDuration)
         {
             timer = 0;

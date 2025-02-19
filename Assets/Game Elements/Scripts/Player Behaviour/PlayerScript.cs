@@ -215,6 +215,7 @@ public class PlayerScript : MonoBehaviour
                 if (currentState is RollingState)
                 {
                     // ballCaughtWhileRolling = true;
+                    Debug.Log("Ball touched while rolling");
                     GetComponent<RollingState>().CheckCatch(other.gameObject);
                 }
             }
