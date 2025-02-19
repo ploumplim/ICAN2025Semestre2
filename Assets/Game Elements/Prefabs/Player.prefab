@@ -4959,6 +4959,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHasParried: 0
+  parryTimer: 0
 --- !u!1 &3328443934547631640
 GameObject:
   m_ObjectHideFlags: 0
@@ -4977,6 +4978,7 @@ GameObject:
   - component: {fileID: 8431329008806425069}
   - component: {fileID: 924477131349713796}
   - component: {fileID: 1951496036296628564}
+  - component: {fileID: 3974316326334170041}
   - component: {fileID: 86958798917315144}
   m_Layer: 0
   m_Name: Player
@@ -5100,22 +5102,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4963522762754067053}
         m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
-        m_MethodName: OnLook
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 6b444451-8a00-4d00-a97e-f47457f736a8
-    m_ActionName: 'Player/Look[/Mouse/delta]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4963522762754067053}
-        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
         m_MethodName: OnThrow
         m_Mode: 0
         m_Arguments:
@@ -5172,6 +5158,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 540a4db2-f5c2-4bb8-856e-adda278faf19
     m_ActionName: 'Player/Parry[/XInputControllerWindows/buttonWest]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5089c710-ac29-4e77-8450-ea020db1f5bf
+    m_ActionName: 'Player/Roll[/XInputControllerWindows/buttonSouth]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -5269,11 +5259,11 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
-  lookAction:
-    m_Name: Look
+  rollAction:
+    m_Name: 
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: ad78e782-0038-4f02-ac8a-e8c8befdc9df
+    m_Id: a0c837f3-f49b-4623-8dd4-14bfe78d9dbf
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
@@ -5353,6 +5343,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21039349a2464581aed8f3d722e0d306, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3974316326334170041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3328443934547631640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d24d344422f6594a9016c6f3a57ab8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!136 &86958798917315144

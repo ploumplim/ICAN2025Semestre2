@@ -32,7 +32,7 @@ public class ParryPlayer : MonoBehaviour
         {
             // Debug.Log("Aled");
             parryTimer += Time.deltaTime;
-            if (canParry)
+            if (canParry && parryTimer <= _playerScript.parryWindow)
             {
                 Parry();    
             }
@@ -48,7 +48,7 @@ public class ParryPlayer : MonoBehaviour
             playerHasParried = false;
             canParry = false;
             parryTimer = 0;
-            Debug.Log("Parry cooldown over");
+            // Debug.Log("Parry cooldown over");
         }
     }
 
@@ -89,7 +89,10 @@ public class ParryPlayer : MonoBehaviour
             if (ballRigidbody != null)
             {
                 ballRigidbody.linearVelocity = Vector3.zero;
-                ballRigidbody.AddForce(_playerScript.gameObject.transform.forward * parryForce * _currentBallSpeed, ForceMode.Impulse);
+                // Calculate the vector between the player and the ball.
+                Vector3 direction = _ballToParry.transform.position - transform.position;
+                
+                ballRigidbody.AddForce(direction * (parryForce * _currentBallSpeed), ForceMode.Impulse);
                 _ballSM.ChangeState(_ballSM.GetComponent<TargetingState>());
                 parryTimer = 0;
                 canParry = false;
