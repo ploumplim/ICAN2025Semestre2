@@ -37,7 +37,7 @@ public override void Enter()
         {
             PlayerScript.heldBall = caughtObject;
             caughtObject.GetComponent<BallSM>().ChangeState(caughtObject.GetComponent<InHandState>());
-            Debug.Log("ball caught!");
+            // Debug.Log("ball caught!");
         }
     }
     
