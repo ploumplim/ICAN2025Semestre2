@@ -13,6 +13,10 @@ public class MidAirState : BallState
         
         //Set the rigid body's linear damping.
         BallSm.rb.linearDamping = BallSm.midAirLinearDamping;
+        
+        //Set the ball's mass.
+        BallSm.rb.mass = BallSm.midAirMass;
+        
     }
     
     public override void Tick()

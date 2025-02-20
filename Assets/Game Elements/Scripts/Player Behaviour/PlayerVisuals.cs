@@ -84,7 +84,8 @@ public class PlayerVisuals : MonoBehaviour
         }
 
         _parryTimerSprite.fillAmount = playerScript.parryTimer / playerScript.parryCooldown;
-        
+        RecoverAfterDash();
+
     }
 
     private void ChargeBar(Vector3 chargeVisualScreenPosition)
@@ -102,8 +103,20 @@ public class PlayerVisuals : MonoBehaviour
         
         // Update the Image fill amount with the charge percentage.
         chargeSprite.fillAmount = chargePorcentage;
+        
+        // Change the rotation of the player mesh to emulate them standing up.
     }
-    
+    public void RecoverAfterDash()
+    {
+        if (playerMesh.transform.rotation.x != 0)
+        {
+            // Rotate the player mesh on the X axis to emulate them standing up over time.
+            
+            playerMesh.transform.rotation = Quaternion.Euler
+            (Mathf.Lerp(playerMesh.transform.rotation.x, 0, Time.deltaTime * playerScript.rollDuration),
+                playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
+        }
+    }    
     private void ParryBar(Vector3 parryTimerVisualScreenPosition)
     {
         // Convert the player's hand position to screen space
@@ -143,6 +156,8 @@ public class PlayerVisuals : MonoBehaviour
     public void OnDashEnter()
     {
         dashTrail.emitting = true;
+        // Rotate the player mesh to be completely horizontal
+        playerMesh.transform.rotation = Quaternion.Euler(90, playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
     }
     
     public void OnDashExit()

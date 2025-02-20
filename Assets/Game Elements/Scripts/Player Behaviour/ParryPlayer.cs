@@ -91,6 +91,7 @@ public class ParryPlayer : MonoBehaviour
                 ballRigidbody.linearVelocity = Vector3.zero;
                 // Calculate the vector between the player and the ball.
                 Vector3 direction = _ballToParry.transform.position - transform.position;
+                direction = new Vector3(direction.x, 0, direction.z).normalized;
                 
                 ballRigidbody.AddForce(direction * (parryForce * _currentBallSpeed), ForceMode.Impulse);
                 _ballSM.ChangeState(_ballSM.GetComponent<TargetingState>());

@@ -13,7 +13,7 @@ public class BallSM : MonoBehaviour
     // ~~VARIABLES~~
     public BallState currentState;
     
-    [Header("Ball Stats")]
+    [Header("Ball Propulsion Settings")]
     [Tooltip("Horizontal force with which the ball will be thrown in its forward direction. This is multiplied by" +
              "the charge value.")]
     public float ballSpeed = 10f;
@@ -24,17 +24,25 @@ public class BallSM : MonoBehaviour
     [Tooltip("Vertical force with which the ball will be thrown in its up direction.")]
     public float ballVSpeed = 1;
     
+    [Header("Ball Height Settings")]
     [Tooltip("Maximum height the ball can achieve.")]
     public float maxHeight = 10f;
 
     [Tooltip("Minimum height the ball can achieve.")]
     public float minHeight = -1f;
     
+    [Header("Ball physical properties")]
     [Tooltip("The linear damping value when the ball is grounded.")]
     public float groundedLinearDamping = 1f;
         
     [Tooltip("The linear damping value when the ball is flying midair.")]
     public float midAirLinearDamping = 0.1f;
+    
+    [Tooltip("The mass of the ball while its grounded.")]
+    public float groundedMass = 1f;
+    
+    [Tooltip("The mass of the ball while its midair.")]
+    public float midAirMass = 0.1f;
     
     [Header("Aim assist settings (currently disabled)")]
     
@@ -52,6 +60,7 @@ public class BallSM : MonoBehaviour
     [Tooltip("Ammount of Bounces that the ball can have.")]
     public int maxBounces = 3;
     
+    [Header("Grounded Settings")]
    [Tooltip("Toggle. Turn on to make the ball be grounded by its speed and not by the time.")]
     public bool groundedBySpeed = false;
 

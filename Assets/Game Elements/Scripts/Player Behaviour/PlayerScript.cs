@@ -210,8 +210,9 @@ public class PlayerScript : MonoBehaviour
             // Debug.Log(currentState);
             if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<MidAirState>())
             {
-                if (currentState is not RollingState || currentState is not MomentumState)
+                if (GetComponent<RollingState>().timer > catchWindow || currentState is not MomentumState)
                 {
+                    PlayerEndedDash?.Invoke();
                     ChangeState(GetComponent<MomentumState>());
                     _parryPlayer.parryTimer = 0;
                     // Push the player in the opposite direction of the ball
