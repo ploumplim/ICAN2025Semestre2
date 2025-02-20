@@ -63,6 +63,8 @@ public class PlayerScript : MonoBehaviour
     public float parryForce = 10f;
     [Tooltip("The window of opportunity that the parry will hit the ball.")]
     public float parryWindow = 0.4f;
+    [Tooltip("The radius of the sphere that will detect the ball when parrying.")]
+    public float parryDetectionRadius = 3.5f;
     
     [Header("Roll")]
     [Tooltip("The initial speed of the roll.")]

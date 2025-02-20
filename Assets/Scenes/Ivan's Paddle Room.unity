@@ -224,6 +224,10 @@ PrefabInstance:
       value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 2291177913900343150, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+      propertyPath: parryRadius
+      value: 
+      objectReference: {fileID: 1274070870}
+    - target: {fileID: 2291177913900343150, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: chargeVisuals
       value: 
       objectReference: {fileID: 585536135}
@@ -261,7 +265,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4221711755328789275, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_Radius
-      value: 2.5
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 4892172112868591031, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_Drag
@@ -313,7 +317,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: speed
-      value: 17
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: rollSpeed
@@ -361,7 +365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: parryCooldown
-      value: 0.6
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: rotationLerpTime
@@ -369,7 +373,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: rollDetectionRadius
-      value: 2
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+      propertyPath: parryDetectionRadius
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: mouseRotationSmoothSpeed
@@ -438,6 +446,18 @@ PrefabInstance:
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: CannotParryTheBallEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5173066124080812186, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6567929651033778354, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+      propertyPath: m_Emitting
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6567929651033778354, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8156403620927567920, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_StaticShadowCaster
@@ -2031,6 +2051,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9948b55acf72a946a8b4ff3366b6485, type: 3}
+--- !u!135 &1274070870 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 4221711755328789275, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+  m_PrefabInstance: {fileID: 103656040}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1336556011
 GameObject:
   m_ObjectHideFlags: 0
@@ -2453,6 +2478,22 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1367416066683877582, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: m_Time
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1367416066683877582, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: m_Parameters.textureMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1367416066683877582, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: m_Parameters.numCapVertices
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1367416066683877582, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1367416066683877582, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_Parameters.colorGradient.ctime1
       value: 65535
       objectReference: {fileID: 0}
@@ -2550,7 +2591,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: ballSpeed
-      value: 56
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: maxHeight
