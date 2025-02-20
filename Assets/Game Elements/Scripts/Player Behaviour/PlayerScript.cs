@@ -7,10 +7,7 @@ using UnityEngine.Serialization;
 
 public class PlayerScript : MonoBehaviour
 {
-    // ------------------------------ EVENTS ------------------------------
-    public UnityEvent CanParryTheBallEvent;
-    public UnityEvent CannotParryTheBallEvent;
-    [FormerlySerializedAs("BallParried")] public UnityEvent PlayerParried;
+
     
     // ------------------------------ PUBLIC VARIABLES ------------------------------
     public enum moveType
@@ -74,6 +71,10 @@ public class PlayerScript : MonoBehaviour
     public float rollDuration = 1f;
     [Tooltip("The window of opportunity where the player can catch the ball whilst midair.")]
     public float catchWindow = 0.6f;
+    [Tooltip("This is the radius of the sphere that will detect the ball when rolling.")]
+    public float rollDetectionRadius = 5f;
+    
+    
     // [Tooltip("The time the player has to wait between each roll.")]
     // public float rollCooldown = 0.5f;
     // [Tooltip("The speed that the player has to have at the end of the roll, if they dont catch" +
@@ -84,6 +85,14 @@ public class PlayerScript : MonoBehaviour
     public Camera playerCamera;
 
     public GameObject playerHand;
+    
+    [Header("Events")]
+    // ------------------------------ EVENTS ------------------------------
+    public UnityEvent CanParryTheBallEvent;
+    public UnityEvent CannotParryTheBallEvent;
+    [FormerlySerializedAs("BallParried")] public UnityEvent PlayerParried;
+    public UnityEvent PlayerDashed;
+    public UnityEvent PlayerEndedDash;
     
     // ------------------------------ PRIVATE VARIABLES ------------------------------
     
@@ -198,7 +207,7 @@ public class PlayerScript : MonoBehaviour
         }
         if (other.gameObject.GetComponent<BallSM>())
         {
-            Debug.Log(currentState);
+            // Debug.Log(currentState);
             if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<MidAirState>())
             {
                 if (currentState is not RollingState || currentState is not MomentumState)
@@ -215,12 +224,12 @@ public class PlayerScript : MonoBehaviour
                 }
                 
             }
-            if (currentState is RollingState)
-            {
-                // ballCaughtWhileRolling = true;
-                Debug.Log("Ball touched while rolling");
-                GetComponent<RollingState>().CheckCatch(other.gameObject);
-            }
+            // if (currentState is RollingState)
+            // {
+            //     // ballCaughtWhileRolling = true;
+            //     Debug.Log("Ball touched while rolling");
+            //     GetComponent<RollingState>().CheckCatch(other.gameObject);
+            // }
         }
     }
 
@@ -338,7 +347,8 @@ public class PlayerScript : MonoBehaviour
             }
         }
         if (!heldBall && context.performed &&
-            currentState is not MomentumState)
+            currentState is not MomentumState &&
+            currentState is not RollingState)
         {
             Parry();
         }
@@ -371,8 +381,9 @@ public class PlayerScript : MonoBehaviour
     {
         if (context.performed)
         {
-            if (currentState is MovingState && !heldBall)
+            if (currentState is MovingState && !heldBall && canParry)
             {
+                PlayerDashed?.Invoke();
                 ChangeState(GetComponent<RollingState>());
             }
         }

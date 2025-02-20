@@ -17,7 +17,7 @@ public class CatchAndDash : MonoBehaviour
             {
                 if (playerScript.currentState == playerScript.GetComponent<RollingState>())
                 {
-                    Debug.Log("Ball is in MidAirState & player Roll");
+                    // Debug.Log("Ball is in MidAirState & player Roll");
                     ballSM.GetComponent<BallSM>().ChangeState(ballSM.GetComponent<InHandState>());
                     playerScript.heldBall = ballSM.gameObject;
                     // Add your logic here

@@ -42,6 +42,8 @@ public class PlayerVisuals : MonoBehaviour
     public float parryTimerVisualOffsetY;
     [Tooltip("This particle is played when the player parries.")]
     public ParticleSystem parryParticle;
+    [Tooltip("Trail that is left behind when player dashes")]
+    public TrailRenderer dashTrail;
     
     void Start()
     {
@@ -54,6 +56,10 @@ public class PlayerVisuals : MonoBehaviour
         _originalPlayerMeshColor = _playerMeshMaterial.color;
         _parryTimerSprite = parryTimerVisuals.GetComponentInChildren<Image>();
         
+        // Dash trail width is equal to the player's rollDetectionRadius.
+        dashTrail.widthMultiplier = playerScript.rollDetectionRadius;
+        
+        
     }
 
     // Update is called once per frame
@@ -63,6 +69,7 @@ public class PlayerVisuals : MonoBehaviour
         Vector3 playerScreenPosition = playerScript.playerCamera.WorldToScreenPoint(playerScript.transform.position);
         ChargeBar(handScreenPosition);
         ParryBar(playerScreenPosition);
+        
         if (!_canParry)
         {
             switch (playerScript.currentState)
@@ -131,5 +138,15 @@ public class PlayerVisuals : MonoBehaviour
         // Change the player's color to the original color.
         _playerMeshMaterial.color = _originalPlayerMeshColor;
         _canParry = false;
+    }
+    
+    public void OnDashEnter()
+    {
+        dashTrail.emitting = true;
+    }
+    
+    public void OnDashExit()
+    {
+        dashTrail.emitting = false;
     }
 }

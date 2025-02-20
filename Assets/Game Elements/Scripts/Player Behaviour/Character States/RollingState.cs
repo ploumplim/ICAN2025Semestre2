@@ -1,9 +1,10 @@
+using System;
 using UnityEngine;
 
 public class RollingState : PlayerState
 {
     public float timer;
-public override void Enter()
+    public override void Enter()
     {
         base.Enter();
         timer = 0;
@@ -17,9 +18,12 @@ public override void Enter()
         base.Tick();
         timer += Time.deltaTime;
         
+        Catch();
+        
         if (timer >= PlayerScript.rollDuration)
         {
             timer = 0;
+            PlayerScript.PlayerEndedDash?.Invoke();
             if (PlayerScript.moveInput == Vector2.zero)
             {
                 PlayerScript.ChangeState(PlayerScript.GetComponent<IdleState>());
@@ -31,14 +35,41 @@ public override void Enter()
         }
     }
 
-    public void CheckCatch(GameObject caughtObject)
+    public void Catch()
     {
-        if (timer <= PlayerScript.catchWindow)
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, PlayerScript.rollDetectionRadius);
+        // Remove any collider in my hitColliders that are not tagged "Ball"
+        hitColliders = Array.FindAll(hitColliders, hitCollider => hitCollider.CompareTag("Ball"));
+        
+        if (hitColliders.Length == 0) return;
+        
+        GameObject caughtBall = hitColliders[0].gameObject;
+
+        if (caughtBall)
         {
-            PlayerScript.heldBall = caughtObject;
-            caughtObject.GetComponent<BallSM>().ChangeState(caughtObject.GetComponent<InHandState>());
-            // Debug.Log("ball caught!");
+            BallSM ballSM = caughtBall.GetComponent<BallSM>();
+            if (ballSM && ballSM.currentState == ballSM.GetComponent<MidAirState>())
+            {
+                if (timer <= PlayerScript.catchWindow)
+                {
+                    PlayerScript.heldBall = caughtBall;
+                    ballSM.ChangeState(ballSM.GetComponent<InHandState>());
+                }
+            }
+                    
         }
     }
+    
+
+
+    // public void CheckCatch(GameObject caughtObject)
+    // {
+    //     if (timer <= PlayerScript.catchWindow)
+    //     {
+    //         PlayerScript.heldBall = caughtObject;
+    //         caughtObject.GetComponent<BallSM>().ChangeState(caughtObject.GetComponent<InHandState>());
+    //         // Debug.Log("ball caught!");
+    //     }
+    // }
     
 }
