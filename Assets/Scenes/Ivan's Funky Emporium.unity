@@ -613,7 +613,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: catchWindow
-      value: 0.3
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: movementType
@@ -625,7 +625,7 @@ PrefabInstance:
       objectReference: {fileID: 330585545}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: rollDuration
-      value: 0.5
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: hitLinearDrag
