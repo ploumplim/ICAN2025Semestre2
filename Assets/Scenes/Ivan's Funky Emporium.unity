@@ -1472,12 +1472,12 @@ Camera:
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
-  m_FOVAxisMode: 0
+  m_FOVAxisMode: 1
   m_Iso: 200
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 25.045933
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
@@ -1492,9 +1492,9 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 64.16855
   orthographic: 1
-  orthographic size: 18.49
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1518,13 +1518,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.30070576, y: 0, z: 0, w: 0.953717}
-  m_LocalPosition: {x: 21, y: 50, z: -50}
+  m_LocalRotation: {x: 0.42660013, y: 0.33944437, z: -0.17670354, w: 0.8194912}
+  m_LocalPosition: {x: -7, y: 14, z: -7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 207333243}
-  m_LocalEulerAnglesHint: {x: 35, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 55, y: 45, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1576,7 +1576,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ba2040119c69754cb9f8f11d7b19d65, type: 3}
   m_Name: 
@@ -1584,9 +1584,9 @@ MonoBehaviour:
   cameraHolderObject: {fileID: 207333242}
   player: {fileID: 535769156}
   ball: {fileID: 1651279641}
-  baseSize: 10
-  expansionMultiplier: 0.45
-  followSpeed: 5
+  baseSize: 8
+  expansionMultiplier: 0.17
+  followSpeed: 1
   zoomSpeed: 5
 --- !u!1001 &330995247
 PrefabInstance:
@@ -2709,7 +2709,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1367746765431404474, guid: f71a0782fa0501142a5a8c04717a653a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1367746765431404474, guid: f71a0782fa0501142a5a8c04717a653a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2717,7 +2717,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1367746765431404474, guid: f71a0782fa0501142a5a8c04717a653a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -13
+      value: -16.5
       objectReference: {fileID: 0}
     - target: {fileID: 1367746765431404474, guid: f71a0782fa0501142a5a8c04717a653a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6162,7 +6162,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: maxHeight
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: minHeight

@@ -84,13 +84,14 @@ public class ParryPlayer : MonoBehaviour
         if (canParry && _ballToParry)
         {
             // Debug.Log("Aled");
-            _currentBallSpeed = _ballToParry.GetComponent<Rigidbody>().linearVelocity.magnitude;
             Rigidbody ballRigidbody = _ballToParry.GetComponent<Rigidbody>();
             if (ballRigidbody != null)
             {
+                _currentBallSpeed = _ballToParry.GetComponent<Rigidbody>().linearVelocity.magnitude;
                 ballRigidbody.linearVelocity = Vector3.zero;
                 // Calculate the vector between the player and the ball.
                 Vector3 direction = _ballToParry.transform.position - transform.position;
+                
                 direction = new Vector3(direction.x, 0, direction.z).normalized;
                 
                 ballRigidbody.AddForce(direction * (parryForce * _currentBallSpeed), ForceMode.Impulse);
