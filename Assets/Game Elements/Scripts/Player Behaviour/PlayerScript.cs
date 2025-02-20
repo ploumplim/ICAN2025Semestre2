@@ -7,9 +7,7 @@ using UnityEngine.Serialization;
 
 public class PlayerScript : MonoBehaviour
 {
-    // ------------------------------ EVENTS ------------------------------
-    public UnityEvent CanParryTheBallEvent;
-    public UnityEvent CannotParryTheBallEvent;
+
     
     // ------------------------------ PUBLIC VARIABLES ------------------------------
     public enum moveType
@@ -63,12 +61,38 @@ public class PlayerScript : MonoBehaviour
     public float parryCooldown = 0.5f;
     [Tooltip("The force applied to the ball when parrying.")]
     public float parryForce = 10f;
+    [Tooltip("The window of opportunity that the parry will hit the ball.")]
+    public float parryWindow = 0.4f;
     
+    [Header("Roll")]
+    [Tooltip("The initial speed of the roll.")]
+    public float rollSpeed = 10f;
+    [Tooltip("The duration of the roll. This number HAS to be bigger than the catch window.")]
+    public float rollDuration = 1f;
+    [Tooltip("The window of opportunity where the player can catch the ball whilst midair.")]
+    public float catchWindow = 0.6f;
+    [Tooltip("This is the radius of the sphere that will detect the ball when rolling.")]
+    public float rollDetectionRadius = 5f;
+    
+    
+    // [Tooltip("The time the player has to wait between each roll.")]
+    // public float rollCooldown = 0.5f;
+    // [Tooltip("The speed that the player has to have at the end of the roll, if they dont catch" +
+    //          "the ball while rolling.")]
+    // public float rollEndSpeed = 5f;
     
     [Header("Scene References")]
     public Camera playerCamera;
 
     public GameObject playerHand;
+    
+    [Header("Events")]
+    // ------------------------------ EVENTS ------------------------------
+    public UnityEvent CanParryTheBallEvent;
+    public UnityEvent CannotParryTheBallEvent;
+    [FormerlySerializedAs("BallParried")] public UnityEvent PlayerParried;
+    public UnityEvent PlayerDashed;
+    public UnityEvent PlayerEndedDash;
     
     // ------------------------------ PRIVATE VARIABLES ------------------------------
     
@@ -76,7 +100,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public PlayerInput playerInput;
     [HideInInspector] public InputAction moveAction;
     [HideInInspector] public InputAction throwAction;
-    [HideInInspector] public InputAction lookAction;
+    [HideInInspector] public InputAction rollAction;
     [HideInInspector] public Rigidbody rb;
     // ------------------------------ BALL ------------------------------
     [HideInInspector] public GameObject heldBall;
@@ -91,6 +115,12 @@ public class PlayerScript : MonoBehaviour
     private ParryPlayer _parryPlayer;
     [FormerlySerializedAs("_canParry")] [HideInInspector] public bool canParry = true;
     [HideInInspector] public float parryTimer = 0f;
+    // ------------------------------ ROLL ------------------------------
+    // [HideInInspector]public bool ballCaughtWhileRolling;
+    
+    // ------------------------------ MOVE ------------------------------
+    [HideInInspector] public Vector2 moveInput;
+    
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void Start()
@@ -100,8 +130,8 @@ public class PlayerScript : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
         throwAction = playerInput.actions["Attack"];
-        lookAction = playerInput.actions["Look"];
-
+        rollAction = playerInput.actions["Roll"];
+        
         PlayerState[] states = GetComponents<PlayerState>();
         foreach (PlayerState state in states)
         {
@@ -114,13 +144,15 @@ public class PlayerScript : MonoBehaviour
     private void FixedUpdate()
     {
         currentState.Tick();
+        moveInput = moveAction.ReadValue<Vector2>();
+        ChargingForce();
 
+        // If the player is holding a ball, set the ball's position to the player's hand
         if (heldBall)
         {
             heldBall.transform.position = playerHand.transform.position;
         }
         
-        ChargingForce();
         
         if (parryTimer > 0)
         {
@@ -175,10 +207,29 @@ public class PlayerScript : MonoBehaviour
         }
         if (other.gameObject.GetComponent<BallSM>())
         {
+            // Debug.Log(currentState);
             if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<MidAirState>())
             {
-                ChangeState(GetComponent<MomentumState>());
+                if (currentState is not RollingState || currentState is not MomentumState)
+                {
+                    ChangeState(GetComponent<MomentumState>());
+                    _parryPlayer.parryTimer = 0;
+                    // Push the player in the opposite direction of the ball
+                    Vector3 direction = transform.position - other.transform.position;
+                    rb.AddForce(
+                        direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude,
+                        ForceMode.Impulse);
+                    // Set ball to dropped state
+                    other.gameObject.GetComponent<BallSM>().ChangeState(other.gameObject.GetComponent<DroppedState>());
+                }
+                
             }
+            // if (currentState is RollingState)
+            // {
+            //     // ballCaughtWhileRolling = true;
+            //     Debug.Log("Ball touched while rolling");
+            //     GetComponent<RollingState>().CheckCatch(other.gameObject);
+            // }
         }
     }
 
@@ -186,8 +237,9 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ MOVE ------------------------------
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (currentState is IdleState &&
-            currentState is not MomentumState)
+        if (currentState is not MomentumState &&
+            currentState is not RollingState &&
+            currentState is not AimingState)
         {
             ChangeState(GetComponent<MovingState>());
         }
@@ -195,7 +247,6 @@ public class PlayerScript : MonoBehaviour
 
     public void Move(bool isAiming)
     {
-        Vector2 moveInput = moveAction.ReadValue<Vector2>();
         // Apply movement
         if (moveInput != Vector2.zero)
         {
@@ -263,16 +314,13 @@ public class PlayerScript : MonoBehaviour
         }
         
     }
-
-
-
-
-
-
+    
+    // ------------------------------ THROW & PARRY ------------------------------
+    
     // ------------------------------ THROW ------------------------------
     public void OnThrow(InputAction.CallbackContext context)
     {
-        if (heldBall)
+        if (heldBall && currentState is not MomentumState && currentState is not RollingState)
         {
             ChangeState(GetComponent<AimingState>());
             if (context.performed)
@@ -297,11 +345,10 @@ public class PlayerScript : MonoBehaviour
                 }
 
             }
-            
-
         }
         if (!heldBall && context.performed &&
-            currentState is not MomentumState)
+            currentState is not MomentumState &&
+            currentState is not RollingState)
         {
             Parry();
         }
@@ -313,7 +360,7 @@ public class PlayerScript : MonoBehaviour
         if (canParry)
         {
             // Debug.Log("Parry!");
-            _parryPlayer.Parry();
+            PlayerParried?.Invoke();
             canParry = false;
             parryTimer = parryCooldown;
             StartCoroutine(ParryTime());
@@ -322,10 +369,45 @@ public class PlayerScript : MonoBehaviour
 
     IEnumerator ParryTime()
     {
+        _parryPlayer.playerHasParried = true;
         yield return new WaitForSeconds(parryCooldown);
+        _parryPlayer.playerHasParried = false;
         canParry = true;
     }
     
+    // ------------------------------ ROLL ------------------------------
+    
+    public void OnRoll(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (currentState is MovingState && !heldBall && canParry)
+            {
+                PlayerDashed?.Invoke();
+                ChangeState(GetComponent<RollingState>());
+            }
+        }
+    }
+    
+    public Vector3 RollPush()
+    {
+// Get the camera's forward and right vectors
+        Vector3 cameraForward = playerCamera.transform.forward;
+        Vector3 cameraRight = playerCamera.transform.right;
+
+        // Flatten the vectors to the ground plane
+        cameraForward.y = 0;
+        cameraRight.y = 0;
+
+        // Normalize the vectors
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        // Calculate the movement direction
+        Vector3 moveDirection = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
+        return moveDirection;
+    }
+
     // ------------------------------ PLAYER GIZMOS ------------------------------
 
     // Create a gizmo to show the direction the player is looking at

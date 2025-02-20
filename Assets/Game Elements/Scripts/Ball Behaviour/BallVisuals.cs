@@ -118,7 +118,11 @@ public class BallVisuals : MonoBehaviour
     }
     public void OnParryUnavailable()
     {
-        _ballMaterial.color = _originalColor;
-        ballSM.canBeParried = false;
+        if (ballSM.currentState == ballSM.GetComponent<MidAirState>())
+        {
+            _ballMaterial.color = _originalColor; 
+            ballSM.canBeParried = false;
+        }
+        
     }
 }

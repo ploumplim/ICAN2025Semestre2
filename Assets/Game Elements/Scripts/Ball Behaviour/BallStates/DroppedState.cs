@@ -10,6 +10,9 @@ public class DroppedState : BallState
         BallSm.bounces = 0;
         //Set the rigid body's linear damping.
         BallSm.rb.linearDamping = BallSm.groundedLinearDamping;
+        
+        // The ball cannot be parried.
+        BallSm.canBeParried = false;
     }
     
 }

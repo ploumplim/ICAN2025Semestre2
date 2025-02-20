@@ -15,6 +15,9 @@ public class ParryPlayer : MonoBehaviour
     private float parryForce;
 
     private float _currentBallSpeed;
+    
+    [FormerlySerializedAs("hasParried")] [HideInInspector] public bool playerHasParried;
+    [FormerlySerializedAs("_Timer")] [HideInInspector] public float parryTimer;
 
     private void Start()
     {
@@ -22,7 +25,32 @@ public class ParryPlayer : MonoBehaviour
         _col = GetComponent<Collider>();
         parryForce = _playerScript.parryForce;
     }
-    
+
+    private void FixedUpdate()
+    {
+        if (playerHasParried)
+        {
+            // Debug.Log("Aled");
+            parryTimer += Time.deltaTime;
+            if (canParry && parryTimer <= _playerScript.parryWindow)
+            {
+                Parry();    
+            }
+        }
+        else
+        {
+            parryTimer = 0;
+        }
+        
+        
+        if (parryTimer >= _playerScript.parryCooldown)
+        {
+            playerHasParried = false;
+            canParry = false;
+            parryTimer = 0;
+            // Debug.Log("Parry cooldown over");
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -35,7 +63,6 @@ public class ParryPlayer : MonoBehaviour
                 _ballToParry = other.gameObject;
                 _ballSM.canBeParriedEvent?.Invoke();
                 _playerScript.CanParryTheBallEvent?.Invoke();
-                _currentBallSpeed = _ballToParry.GetComponent<Rigidbody>().linearVelocity.magnitude;
             }
         }
     }
@@ -48,6 +75,7 @@ public class ParryPlayer : MonoBehaviour
             _ballSM.cannotBeParriedEvent?.Invoke();
             _playerScript.CannotParryTheBallEvent?.Invoke();
             _ballToParry = null;
+            parryTimer = 0;
         }
     }
 
@@ -56,33 +84,40 @@ public class ParryPlayer : MonoBehaviour
         if (canParry && _ballToParry)
         {
             // Debug.Log("Aled");
+            _currentBallSpeed = _ballToParry.GetComponent<Rigidbody>().linearVelocity.magnitude;
             Rigidbody ballRigidbody = _ballToParry.GetComponent<Rigidbody>();
             if (ballRigidbody != null)
             {
                 ballRigidbody.linearVelocity = Vector3.zero;
-                ballRigidbody.AddForce(_playerScript.gameObject.transform.forward * parryForce * _currentBallSpeed, ForceMode.Impulse);
+                // Calculate the vector between the player and the ball.
+                Vector3 direction = _ballToParry.transform.position - transform.position;
+                
+                ballRigidbody.AddForce(direction * (parryForce * _currentBallSpeed), ForceMode.Impulse);
                 _ballSM.ChangeState(_ballSM.GetComponent<TargetingState>());
+                parryTimer = 0;
+                canParry = false;
+                playerHasParried = false;
             }
-            canParry = false;
+            
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        if (_col != null)
-        {
-            Gizmos.color = new Color(1, 0, 1); 
-            if (_col is BoxCollider)
-            {
-                BoxCollider box = (BoxCollider)_col;
-                Gizmos.DrawWireCube(box.bounds.center, box.bounds.size);
-            }
-            else if (_col is SphereCollider)
-            {
-                SphereCollider sphere = (SphereCollider)_col;
-                Gizmos.DrawWireSphere(sphere.bounds.center, sphere.bounds.size.x / 2);
-            }
-            // Add more collider types if needed
-        }
-    }
+    // private void OnDrawGizmos()
+    // {
+    //     if (_col != null)
+    //     {
+    //         Gizmos.color = new Color(1, 0, 1); 
+    //         if (_col is BoxCollider)
+    //         {
+    //             BoxCollider box = (BoxCollider)_col;
+    //             Gizmos.DrawWireCube(box.bounds.center, box.bounds.size);
+    //         }
+    //         else if (_col is SphereCollider)
+    //         {
+    //             SphereCollider sphere = (SphereCollider)_col;
+    //             Gizmos.DrawWireSphere(sphere.bounds.center, sphere.bounds.size.x / 2);
+    //         }
+    //         // Add more collider types if needed
+    //     }
+    // }
 }
