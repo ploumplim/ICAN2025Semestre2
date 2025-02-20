@@ -198,6 +198,7 @@ public class PlayerScript : MonoBehaviour
         }
         if (other.gameObject.GetComponent<BallSM>())
         {
+            Debug.Log(currentState);
             if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<MidAirState>())
             {
                 if (currentState is not RollingState || currentState is not MomentumState)
@@ -212,12 +213,13 @@ public class PlayerScript : MonoBehaviour
                     // Set ball to dropped state
                     other.gameObject.GetComponent<BallSM>().ChangeState(other.gameObject.GetComponent<DroppedState>());
                 }
-                if (currentState is RollingState)
-                {
-                    // ballCaughtWhileRolling = true;
-                    Debug.Log("Ball touched while rolling");
-                    GetComponent<RollingState>().CheckCatch(other.gameObject);
-                }
+                
+            }
+            if (currentState is RollingState)
+            {
+                // ballCaughtWhileRolling = true;
+                Debug.Log("Ball touched while rolling");
+                GetComponent<RollingState>().CheckCatch(other.gameObject);
             }
         }
     }
@@ -334,8 +336,6 @@ public class PlayerScript : MonoBehaviour
                 }
 
             }
-            
-
         }
         if (!heldBall && context.performed &&
             currentState is not MomentumState)
