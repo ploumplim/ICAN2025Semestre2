@@ -5,10 +5,7 @@ using UnityEngine.Serialization;
 
 public class BallSM : MonoBehaviour
 {
-    // ~~EVENTS~~
-    public UnityEvent canBeParriedEvent;
-    public UnityEvent cannotBeParriedEvent;
-    
+
     
     // ~~VARIABLES~~
     public BallState currentState;
@@ -17,6 +14,9 @@ public class BallSM : MonoBehaviour
     [Tooltip("Horizontal force with which the ball will be thrown in its forward direction. This is multiplied by" +
              "the charge value.")]
     public float ballSpeed = 10f;
+    
+    [Tooltip("The ball will never go faster than this value.")]
+    public float maxSpeed = 20f;
     
     [Tooltip("minimum force that the ball has to have.")]
     public float minimumForce = 5f;
@@ -81,9 +81,11 @@ public class BallSM : MonoBehaviour
     [HideInInspector]public float speedModifiedDetectionRadius; // Detection radius modified by the speed of the ball
     [HideInInspector]public Vector3 minimumSpeed;
     [HideInInspector]public int bounces = 0;
-    [HideInInspector]public bool canBeParried = false
-        
-        ;
+    [HideInInspector] public bool canBeParried = false;
+    // ~~EVENTS~~
+    public UnityEvent canBeParriedEvent;
+    public UnityEvent cannotBeParriedEvent;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -110,6 +112,16 @@ public class BallSM : MonoBehaviour
 
         speedModifiedDetectionRadius = baseDetectionRadius +
                                        (rb.linearVelocity.magnitude * detectionRadiusMultiplier);
+
+        SetMaxSpeed();
+    }
+    
+    public void SetMaxSpeed()
+    {
+        if (rb.linearVelocity.magnitude > maxSpeed)
+        {
+            rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
+        }
     }
     
     // Change the current state of the ball
