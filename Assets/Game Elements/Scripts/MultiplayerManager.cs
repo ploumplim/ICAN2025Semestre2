@@ -56,5 +56,5 @@ public class MultiplayerManager : MonoBehaviour
         
         Debug.Log($"Manette {gamepad.displayName} assignée au joueur {player.name}");
     }
-    //TODO Spawn joueur
+    //TODO Spawn joueur avec manette
 }
