@@ -9,6 +9,7 @@ public class CameraScript : MonoBehaviour
     private float _sizeModifier; // The size modifier of the camera, based on the distance between the player and the ball.
     private Vector3 _playerPosition; // The position of the player.
     private Vector3 _ballPosition; // The position of the ball.
+    private Vector3 _middlePoint; // The middle point between the player and the ball.
     
     // ---------------PUBLIC---------------
     [Tooltip("The gameobject holding the camera. The code will move THIS object, while the camera is fixed to it as its" +
@@ -18,6 +19,8 @@ public class CameraScript : MonoBehaviour
     public GameObject player;
     [Tooltip("The ball object that the camera has to keep in sight.")]
     public GameObject ball;
+    [Tooltip("The game object at the center of the scene.")]
+    public GameObject center;
     [Tooltip("The base size of the camera.")]
     public float baseSize = 5f;
     [Tooltip("The camera's expansion multipler : How much the camera will expand based on the distance between the player and the ball.")]
@@ -32,7 +35,7 @@ public class CameraScript : MonoBehaviour
     public void FixedUpdate()
     {
         UpdateCameraPosition();
-        UpdateCameraSize();
+        // UpdateCameraSize();
     }
     
     private void UpdateCameraPosition()
@@ -41,9 +44,13 @@ public class CameraScript : MonoBehaviour
         _playerPosition = player.transform.position;
         // Get the ball's position
         _ballPosition = ball.transform.position;
+        // Get the center's position
+        _middlePoint = center.transform.position;
         
-        // Calculate the position between the player and the ball
-        Vector3 middlePoint = (_playerPosition + _ballPosition) / 2;
+        
+        // Calculate the position between the player. the ball and the Vector3.zero of the scene.
+        Vector3 middlePoint = (_playerPosition + _ballPosition + _middlePoint) / 3;
+        
         
         // Move the camera holder object to the middle point
         cameraHolderObject.transform.position = Vector3.Lerp(cameraHolderObject.transform.position,

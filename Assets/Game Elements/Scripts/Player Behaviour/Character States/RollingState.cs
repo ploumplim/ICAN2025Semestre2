@@ -8,6 +8,15 @@ public class RollingState : PlayerState
     {
         base.Enter();
         timer = 0;
+
+        
+        // check if can pass through ledges.
+        if (PlayerScript.canPassThroughLedges)
+        {
+            // Exclude the ledges layer while dashing.
+            Physics.IgnoreLayerCollision(PlayerScript.playerLayer, PlayerScript.ledgeLayer, true);
+        }
+        
         // push the player in the direction of the moveInput.
         Vector3 direction = PlayerScript.RollPush();
         PlayerScript.rb.AddForce(direction * PlayerScript.rollSpeed, ForceMode.Impulse);
@@ -18,6 +27,7 @@ public class RollingState : PlayerState
         base.Tick();
         timer += Time.deltaTime;
         
+        PlayerScript.SteerRoll();
         Catch();
         
         if (timer >= PlayerScript.rollDuration)
@@ -48,7 +58,8 @@ public class RollingState : PlayerState
         if (caughtBall)
         {
             BallSM ballSM = caughtBall.GetComponent<BallSM>();
-            if (ballSM && ballSM.currentState == ballSM.GetComponent<MidAirState>())
+            if (ballSM && ballSM.currentState == ballSM.GetComponent<MidAirState>() ||
+                ballSM.currentState == ballSM.GetComponent<DroppedState>())
             {
                 if (timer <= PlayerScript.catchWindow)
                 {
@@ -59,7 +70,17 @@ public class RollingState : PlayerState
                     
         }
     }
-    
+
+
+    public override void Exit()
+    {
+        base.Exit();
+        if (PlayerScript.canPassThroughLedges)
+        {
+            // Re-enable collisions with the ledges layer.
+            Physics.IgnoreLayerCollision(PlayerScript.playerLayer, PlayerScript.ledgeLayer, false);
+        }
+    }
 
 
     // public void CheckCatch(GameObject caughtObject)

@@ -14,6 +14,8 @@ public class BallVisuals : MonoBehaviour
     public GameObject ballVisuals;
     [Tooltip("The ball turns into this color when it can be parried.")]
     public Color parryColor;
+    [Tooltip("This is the ball's light.")]
+    public Light ballLight;
     // ---------------PRIVATE---------------
     private BallSM ballSM;
     private Camera _mainCamera;
@@ -36,7 +38,7 @@ public class BallVisuals : MonoBehaviour
     {
         BallMarker();
         TrailEmitter();
-        BallColor();
+        BallColorAndLight();
     }
 
     private void BallMarker()
@@ -103,12 +105,19 @@ public class BallVisuals : MonoBehaviour
         
     }
     
-    private void BallColor()
+    private void BallColorAndLight()
     {
         // Change the color of the ball based on the ball's state. Red when it's midair, green otherwise.
         if (!ballSM.canBeParried)
         {
+            // Change the color of the ball based on the ball's state. Red when it's midair, green otherwise.
             _ballMaterial.color = ballSM.currentState.GetType() == typeof(MidAirState) ? Color.red : Color.green;
+            
+            // Change the emission color of the ball based on the ball's state. Red when it's midair, green otherwise.
+            _ballMaterial.SetColor("_EmissionColor", ballSM.currentState.GetType() == typeof(MidAirState) ? Color.red : Color.green);
+            
+            // Change the color of the ball's light based on the ball's state. Red when it's midair, green otherwise.
+            ballLight.color = ballSM.currentState.GetType() == typeof(MidAirState) ? Color.red : Color.green;
         }
     }
 
