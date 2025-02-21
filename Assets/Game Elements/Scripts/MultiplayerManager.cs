@@ -53,7 +53,8 @@ public class MultiplayerManager : MonoBehaviour
 
         // Associe la manette à ce joueur
         controllerToPlayer[gamepad] = player;
-
+        
         Debug.Log($"Manette {gamepad.displayName} assignée au joueur {player.name}");
     }
+    //TODO Spawn joueur
 }
