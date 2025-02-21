@@ -3,19 +3,21 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.Serialization;
 
 public class MultiplayerManager : MonoBehaviour
 {
-    private PlayerInputManager playerInputManager;
-    private Dictionary<Gamepad, int> controllerIDs = new Dictionary<Gamepad, int>();
-    private HashSet<Gamepad> pendingGamepads = new HashSet<Gamepad>(); // Manettes en attente de détection
-    private int nextID = 1; // Commence à 1 pour éviter un ID nul
+    public Dictionary<Gamepad, GameObject> controllerToPlayer = new Dictionary<Gamepad, GameObject>();
+    public List<GameObject> availablePlayers = new List<GameObject>();
+    public List<GameObject> connectedPlayers = new List<GameObject>(); // Liste des joueurs déjà associés
+    public HashSet<Gamepad> pendingGamepads = new HashSet<Gamepad>();
 
     void Start()
     {
-        playerInputManager = GetComponent<PlayerInputManager>();
+        // Trouve tous les joueurs dans la scène avec le tag "Player"
+        availablePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
 
-        // Ajoute toutes les manettes déjà branchées à la liste d'attente
+        // Ajoute toutes les manettes déjà connectées à la liste d'attente
         foreach (var gamepad in Gamepad.all)
         {
             pendingGamepads.Add(gamepad);
@@ -24,28 +26,34 @@ public class MultiplayerManager : MonoBehaviour
 
     void Update()
     {
-        // Vérifie chaque manette en attente d'un premier input
-        foreach (var gamepad in pendingGamepads.ToList()) 
+        // Vérifie si une manette en attente appuie sur un bouton
+        foreach (var gamepad in pendingGamepads.ToList())
         {
             if (gamepad.allControls.Any(control => control is ButtonControl button && button.wasPressedThisFrame))
             {
-                RegisterController(gamepad);
+                AssignControllerToPlayer(gamepad);
                 pendingGamepads.Remove(gamepad);
-                return; // Évite plusieurs détections en même temps
+                return; // Évite de traiter plusieurs manettes en une frame
             }
         }
     }
 
-    private void RegisterController(Gamepad gamepad)
+    private void AssignControllerToPlayer(Gamepad gamepad)
     {
-        // Vérifie si la manette a déjà un ID (au cas où)
-        if (!controllerIDs.ContainsKey(gamepad))
+        if (availablePlayers.Count == 0)
         {
-            controllerIDs[gamepad] = nextID++;
+            Debug.LogWarning("Aucun joueur disponible pour être associé à la manette.");
+            return;
         }
 
-        // Ajoute le joueur
-        playerInputManager.JoinPlayer();
-        Debug.Log($"Joueur ajouté avec la manette : {gamepad.displayName} (ID: {controllerIDs[gamepad]})");
+        // Prend le premier joueur disponible
+        GameObject player = availablePlayers[0];
+        availablePlayers.RemoveAt(0); // Retire ce joueur de la liste des disponibles
+        connectedPlayers.Add(player); // Ajoute ce joueur à la liste des occupés
+
+        // Associe la manette à ce joueur
+        controllerToPlayer[gamepad] = player;
+
+        Debug.Log($"Manette {gamepad.displayName} assignée au joueur {player.name}");
     }
 }
