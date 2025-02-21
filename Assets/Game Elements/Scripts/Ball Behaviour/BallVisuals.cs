@@ -97,11 +97,15 @@ public class BallVisuals : MonoBehaviour
         // Enable or disable the trail based on the ball's state. Enabled when it's midair, disabled otherwise.
         _trailRenderer.emitting = ballSM.currentState.GetType() == typeof(MidAirState);
         
-        // Change the color of the trail based on the ball's state. Red when it's midair, green otherwise.
-        _trailRenderer.startColor = ballSM.currentState.GetType() == typeof(MidAirState) ? Color.red : Color.green;
+        // Get the current speed magnitude from the ball
+        float speed = ballSM.GetComponent<Rigidbody>().linearVelocity.magnitude;
         
-        // Change the width of the trail based on the ball's state. 0.1 when it's midair, 0.5 otherwise.
-        _trailRenderer.startWidth = ballSM.currentState.GetType() == typeof(MidAirState) ? 0.5f : 0.1f;
+        // Recover the current width of the trail
+        float currentWidth = _trailRenderer.startWidth;
+        
+        // Change the width of the trail based on the ball's speed. The faster the ball, the wider the trail.
+        _trailRenderer.startWidth = Mathf.Lerp(currentWidth, speed / 10, Time.deltaTime);
+        
         
     }
     
