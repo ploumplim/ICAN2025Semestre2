@@ -284,42 +284,25 @@ public class PlayerScript : MonoBehaviour
             Vector3 cameraForward = playerCamera.transform.forward;
             Vector3 cameraRight = playerCamera.transform.right;
 
-            // Flatten the vectors to the ground plane
+            // Flatten the vectors to the ground plane and normalize
             cameraForward.y = 0;
             cameraRight.y = 0;
-
-            // Normalize the vectors
             cameraForward.Normalize();
             cameraRight.Normalize();
 
             // Calculate the movement direction
             Vector3 moveDirection = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
 
-            // Move the player. 
-            if (!isAiming)
-            {
-                if (heldBall)
-                {
-                    ApplyMovement(moveDirection, speed);
-                    //Set the player's direction to the direction of the movement using a lerp
-                    transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationLerpTime);
-                }
-                else
-                {
-                    ApplyMovement(moveDirection, speed * speedWithoutBallsModifier);
-                    //Set the player's direction to the direction of the movement using a lerp
-                    transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationLerpTime);
-                }
-            }
-            else
-            {
-                ApplyMovement(moveDirection, speed * aimSpeedMod);
-                //Set the player's direction to the direction of the movement using a lerp
-                transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationWhileAimingLerpTime);
-            }
+            // Determine the speed and rotation lerp time based on the player's state
+            float currentSpeed = isAiming ? speed * aimSpeedMod : (heldBall ? speed : speed * speedWithoutBallsModifier);
+            float currentLerpTime = isAiming ? rotationWhileAimingLerpTime : rotationLerpTime;
+
+            // Apply movement and set the player's direction
+            ApplyMovement(moveDirection, currentSpeed);
+            transform.forward = Vector3.Slerp(transform.forward, moveDirection, currentLerpTime);
         }
-        
-        
+
+        // Change state to Idle if no movement input and not aiming
         if (moveAction.ReadValue<Vector2>() == Vector2.zero && !isAiming)
         {
             ChangeState(GetComponent<IdleState>());
