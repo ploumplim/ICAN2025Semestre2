@@ -14,6 +14,7 @@ public class MultiplayerManager : MonoBehaviour
     public GameObject ChargeVisualObject;
     public GameObject ParryTimeVisual;
     public GameObject playerPrefab;
+    public GameObject spawnObject;
     public Vector3 spawnPosition;
     public new Camera camera;
     
@@ -29,6 +30,8 @@ public class MultiplayerManager : MonoBehaviour
         {
             pendingGamepads.Add(gamepad);
         }
+        
+        spawnPosition = spawnObject.transform.position;
     }
     void Update()
     {
@@ -77,5 +80,10 @@ public class MultiplayerManager : MonoBehaviour
         availablePlayers.Add(newPlayer);
 
         Debug.Log($"New player spawned at position {spawnPosition}");
+    }
+
+    private void AssignValuesToPlayer()
+    {
+        
     }
 }

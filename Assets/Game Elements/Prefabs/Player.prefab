@@ -899,7 +899,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 2
+      value: 3.5
       mode: 0
       spread: 0
       speed:
@@ -5092,7 +5092,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 2
+  m_Radius: 3.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6613645981113877287
 MonoBehaviour:
@@ -5166,7 +5166,7 @@ CharacterController:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_LayerOverridePriority: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
@@ -5176,7 +5176,7 @@ CharacterController:
   m_SlopeLimit: 0
   m_StepOffset: 0
   m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4892172112868591031
 Rigidbody:
@@ -5187,7 +5187,7 @@ Rigidbody:
   m_GameObject: {fileID: 3328443934547631640}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 5
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -5291,6 +5291,10 @@ MonoBehaviour:
     m_ActionName: 'UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
       m_Calls: []
+    m_ActionId: c95b2375-e6d9-4b88-9c4c-c5e76515df4b
+    m_ActionName: 'UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
     m_ActionId: 7607c7b6-cd76-4816-beef-bd0341cfe950
     m_ActionName: 'UI/Submit[/Keyboard/enter]'
   - m_PersistentCalls:
@@ -5330,10 +5334,22 @@ MonoBehaviour:
     m_ActionId: 540a4db2-f5c2-4bb8-856e-adda278faf19
     m_ActionName: 'Player/Parry[/XInputControllerWindows/buttonWest]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4963522762754067053}
+        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+        m_MethodName: OnRoll
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 5089c710-ac29-4e77-8450-ea020db1f5bf
     m_ActionName: 'Player/Roll[/XInputControllerWindows/buttonSouth]'
-  m_NeverAutoSwitchControlSchemes: 0
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
@@ -5352,54 +5368,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
   movementType: 0
-  speed: 15
-  speedWithoutBallsModifier: 1
-  aimSpeedMod: 0.3
-  knockbackTime: 0.5
-  linearDrag: 3
-  hitLinearDrag: 0
-  rotationLerpTime: 0.1
+  speed: 22
+  speedWithoutBallsModifier: 1.7
+  aimSpeedMod: 0
+  knockbackTime: 0.25
+  linearDrag: 3.5
+  hitLinearDrag: 2.5
+  rotationLerpTime: 0.2
   rotationWhileAimingLerpTime: 0.1
-  chargeRate: 0.5
+  rollLerpTime: 0.1
+  chargeRate: 2
   parryCooldown: 0.5
-  parryForce: 10
+  parryForce: 4
   parryWindow: 0.4
-  rollSpeed: 10
-  rollDuration: 1
-  catchWindow: 0.6
-  rollDetectionRadius: 5
+  parryDetectionRadius: 3.5
+  rollSpeed: 50
+  rollDuration: 0.5
+  catchWindow: 0.4
+  rollDetectionRadius: 3.5
+  canPassThroughLedges: 1
+  MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
   playerHand: {fileID: 3570595457049578529}
   CanParryTheBallEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2291177913900343150}
-        m_TargetAssemblyTypeName: PlayerVisuals, Assembly-CSharp
-        m_MethodName: OnParryAvailable
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   CannotParryTheBallEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2291177913900343150}
-        m_TargetAssemblyTypeName: PlayerVisuals, Assembly-CSharp
-        m_MethodName: OnParryUnavailable
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   PlayerParried:
     m_PersistentCalls:
       m_Calls:
@@ -5474,6 +5470,8 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   rb: {fileID: 0}
+  ledgeLayer: 0
+  playerLayer: 0
   heldBall: {fileID: 0}
   ballSM: {fileID: 0}
   chargeValueIncrementor: 0.5
@@ -5494,8 +5492,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chargePorcentage: 0
   playerMesh: {fileID: 8492407723993443446}
-  knockbackColor: {r: 1, g: 0, b: 0, a: 0}
-  canParryColor: {r: 0, g: 0, b: 0, a: 0}
+  knockbackColor: {r: 1, g: 0, b: 0, a: 1}
+  canParryColor: {r: 0, g: 0.08110881, b: 1, a: 1}
   chargeVisuals: {fileID: 0}
   chargeVisualOffsetX: 0
   chargeVisualOffsetY: 0
@@ -5590,7 +5588,7 @@ Transform:
   m_GameObject: {fileID: 3570595457049578529}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 1.5}
+  m_LocalPosition: {x: 0, y: 1, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

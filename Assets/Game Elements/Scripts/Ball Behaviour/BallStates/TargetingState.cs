@@ -45,6 +45,7 @@ public class TargetingState : BallState
         //     // If no targets are found, change state to "MidAir"
         //     BallSm.ChangeState(BallSm.GetComponent<MidAirState>());
         // }
+        
         BallSm.ChangeState(BallSm.GetComponent<MidAirState>());
 
     }
