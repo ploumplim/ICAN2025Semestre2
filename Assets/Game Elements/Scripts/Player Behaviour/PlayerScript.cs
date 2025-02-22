@@ -81,6 +81,8 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("This boolean determines if when dashing the character can pass through ledges.")]
     public bool canPassThroughLedges = false;
     
+    public GameObject MultiplayerManager;
+    
     
     // [Tooltip("The time the player has to wait between each roll.")]
     // public float rollCooldown = 0.5f;
@@ -132,9 +134,23 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public Vector2 moveInput;
     
     
+    
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void Start()
     {
+        SetPlayerParameters();
+    }
+    
+    public void SetPlayerParameters()
+    {
+        MultiplayerManager = GameObject.FindWithTag("MultiPlayerManager");
+        playerCamera = MultiplayerManager.GetComponent<MultiplayerManager>().camera;
+        GetComponent<PlayerVisuals>().parryTimerVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().ParryTimeVisual;
+        GetComponent<PlayerVisuals>().chargeVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().ChargeVisualObject;
+        
+        
+        
         rb = GetComponent<Rigidbody>();
         _parryPlayer = GetComponentInChildren<ParryPlayer>();
         playerInput = GetComponent<PlayerInput>();
@@ -268,42 +284,25 @@ public class PlayerScript : MonoBehaviour
             Vector3 cameraForward = playerCamera.transform.forward;
             Vector3 cameraRight = playerCamera.transform.right;
 
-            // Flatten the vectors to the ground plane
+            // Flatten the vectors to the ground plane and normalize
             cameraForward.y = 0;
             cameraRight.y = 0;
-
-            // Normalize the vectors
             cameraForward.Normalize();
             cameraRight.Normalize();
 
             // Calculate the movement direction
             Vector3 moveDirection = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
 
-            // Move the player. 
-            if (!isAiming)
-            {
-                if (heldBall)
-                {
-                    ApplyMovement(moveDirection, speed);
-                    //Set the player's direction to the direction of the movement using a lerp
-                    transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationLerpTime);
-                }
-                else
-                {
-                    ApplyMovement(moveDirection, speed * speedWithoutBallsModifier);
-                    //Set the player's direction to the direction of the movement using a lerp
-                    transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationLerpTime);
-                }
-            }
-            else
-            {
-                ApplyMovement(moveDirection, speed * aimSpeedMod);
-                //Set the player's direction to the direction of the movement using a lerp
-                transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationWhileAimingLerpTime);
-            }
+            // Determine the speed and rotation lerp time based on the player's state
+            float currentSpeed = isAiming ? speed * aimSpeedMod : (heldBall ? speed : speed * speedWithoutBallsModifier);
+            float currentLerpTime = isAiming ? rotationWhileAimingLerpTime : rotationLerpTime;
+
+            // Apply movement and set the player's direction
+            ApplyMovement(moveDirection, currentSpeed);
+            transform.forward = Vector3.Slerp(transform.forward, moveDirection, currentLerpTime);
         }
-        
-        
+
+        // Change state to Idle if no movement input and not aiming
         if (moveAction.ReadValue<Vector2>() == Vector2.zero && !isAiming)
         {
             ChangeState(GetComponent<IdleState>());
