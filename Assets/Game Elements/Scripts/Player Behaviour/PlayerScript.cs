@@ -81,6 +81,8 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("This boolean determines if when dashing the character can pass through ledges.")]
     public bool canPassThroughLedges = false;
     
+    public GameObject MultiplayerManager;
+    
     
     // [Tooltip("The time the player has to wait between each roll.")]
     // public float rollCooldown = 0.5f;
@@ -132,9 +134,23 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public Vector2 moveInput;
     
     
+    
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void Start()
     {
+        SetPlayerParameters();
+    }
+    
+    public void SetPlayerParameters()
+    {
+        MultiplayerManager = GameObject.FindWithTag("MultiPlayerManager");
+        playerCamera = MultiplayerManager.GetComponent<MultiplayerManager>().camera;
+        GetComponent<PlayerVisuals>().parryTimerVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().ParryTimeVisual;
+        GetComponent<PlayerVisuals>().chargeVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().ChargeVisualObject;
+        
+        
+        
         rb = GetComponent<Rigidbody>();
         _parryPlayer = GetComponentInChildren<ParryPlayer>();
         playerInput = GetComponent<PlayerInput>();
