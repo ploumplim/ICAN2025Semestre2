@@ -1,62 +1,127 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 
 public class ParryPlayer : MonoBehaviour
 {
     private PlayerScript _playerScript;
-    private Collider _col;
-    public bool canParry;
+    private BallSM _ballSM;
+    
+    private SphereCollider _col;
+    private bool canParry;
     private GameObject _ballToParry;
-    public float parryForce = 10f; // Adjust the force as needed
+    private float parryForce;
+
+    private float _currentBallSpeed;
+    
+    [FormerlySerializedAs("hasParried")] [HideInInspector] public bool playerHasParried;
+    [FormerlySerializedAs("_Timer")] [HideInInspector] public float parryTimer;
 
     private void Start()
     {
-        _playerScript = GetComponent<PlayerScript>();
-        _col = GetComponent<Collider>();
+        _playerScript = GetComponentInParent<PlayerScript>();
+        _col = GetComponent<SphereCollider>();
+        parryForce = _playerScript.parryForce;
+    }
+
+    private void FixedUpdate()
+    {
+        _col.radius = _playerScript.parryDetectionRadius;
+        
+        if (playerHasParried)
+        {
+            // Debug.Log("Aled");
+            parryTimer += Time.deltaTime;
+            if (canParry && parryTimer <= _playerScript.parryWindow)
+            {
+                Parry();    
+            }
+        }
+        else
+        {
+            parryTimer = 0;
+        }
+        
+        
+        if (parryTimer >= _playerScript.parryCooldown)
+        {
+            playerHasParried = false;
+            canParry = false;
+            parryTimer = 0;
+            // Debug.Log("Parry cooldown over");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other)
+        if (other.gameObject.CompareTag("Ball"))
         {
-            BallSM ballSM = other.GetComponent<BallSM>();
-            if (ballSM != null && ballSM.currentState == ballSM.GetComponent<MidAirState>())
+            _ballSM = other.GetComponent<BallSM>();
+            if (_ballSM != null && _ballSM.currentState == _ballSM.GetComponent<MidAirState>())
             {
                 canParry = true;
                 _ballToParry = other.gameObject;
+                _ballSM.canBeParriedEvent?.Invoke();
+                _playerScript.CanParryTheBallEvent?.Invoke();
             }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Ball"))
+        {
+            canParry = false;
+            _ballSM.cannotBeParriedEvent?.Invoke();
+            _playerScript.CannotParryTheBallEvent?.Invoke();
+            _ballToParry = null;
+            parryTimer = 0;
         }
     }
 
     public void Parry()
     {
-        if (canParry && _ballToParry != null)
+        if (canParry && _ballToParry)
         {
-            Debug.Log("Aled");
+            // Debug.Log("Aled");
             Rigidbody ballRigidbody = _ballToParry.GetComponent<Rigidbody>();
             if (ballRigidbody != null)
             {
-                ballRigidbody.AddForce(Vector3.up * parryForce, ForceMode.Impulse);
+                _currentBallSpeed = _ballToParry.GetComponent<Rigidbody>().linearVelocity.magnitude;
+                ballRigidbody.linearVelocity = Vector3.zero;
+                // Calculate the vector between the player and the ball.
+                Vector3 direction = _ballToParry.transform.position - transform.position;
+                
+                direction = new Vector3(direction.x, 0, direction.z).normalized;
+                
+                ballRigidbody.AddForce(direction * (parryForce * _currentBallSpeed), ForceMode.Impulse);
+                _ballSM.ChangeState(_ballSM.GetComponent<TargetingState>());
+                parryTimer = 0;
+                canParry = false;
+                playerHasParried = false;
             }
-            canParry = false;
+            
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        if (_col != null)
-        {
-            Gizmos.color = Color.green;
-            if (_col is BoxCollider)
-            {
-                BoxCollider box = (BoxCollider)_col;
-                Gizmos.DrawWireCube(box.bounds.center, box.bounds.size);
-            }
-            else if (_col is SphereCollider)
-            {
-                SphereCollider sphere = (SphereCollider)_col;
-                Gizmos.DrawWireSphere(sphere.bounds.center, sphere.bounds.size.x / 2);
-            }
-            // Add more collider types if needed
-        }
-    }
+    // private void OnDrawGizmos()
+    // {
+    //     if (_col != null)
+    //     {
+    //         Gizmos.color = new Color(1, 0, 1); 
+    //         if (_col is BoxCollider)
+    //         {
+    //             BoxCollider box = (BoxCollider)_col;
+    //             Gizmos.DrawWireCube(box.bounds.center, box.bounds.size);
+    //         }
+    //         else if (_col is SphereCollider)
+    //         {
+    //             SphereCollider sphere = (SphereCollider)_col;
+    //             Gizmos.DrawWireSphere(sphere.bounds.center, sphere.bounds.size.x / 2);
+    //         }
+    //         // Add more collider types if needed
+    //     }
+    // }
 }
