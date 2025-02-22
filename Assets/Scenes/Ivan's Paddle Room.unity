@@ -865,10 +865,11 @@ MonoBehaviour:
   player: {fileID: 535769156}
   ball: {fileID: 1651279641}
   center: {fileID: 769405837}
-  baseSize: 8
-  expansionMultiplier: 0.17
   followSpeed: 1.5
-  zoomSpeed: 5
+  lockPoints:
+  - {fileID: 535769156}
+  - {fileID: 1651279641}
+  - {fileID: 769405837}
 --- !u!1 &450039675
 GameObject:
   m_ObjectHideFlags: 0
@@ -1127,8 +1128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfec636b17a62ed4f8a3e01228ddc0f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  posPointsObject: {fileID: 1446275144}
-  negPointsObject: {fileID: 1941076645}
   pointsText: {fileID: 1195386074}
 --- !u!1 &560465449
 GameObject:

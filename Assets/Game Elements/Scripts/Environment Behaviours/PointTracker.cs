@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PointTracker : MonoBehaviour
 {
-    public GameObject posPointsObject;
-    public GameObject negPointsObject;
     public TextMeshPro pointsText;
     
     private int _points;
