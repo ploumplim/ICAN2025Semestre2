@@ -98,6 +98,12 @@ public class CameraScript : MonoBehaviour
         return sum / points.Length;
     }
     
+    public void AddPlayerToArray(GameObject player)
+    {
+        Array.Resize(ref lockPoints, lockPoints.Length + 1);
+        lockPoints[lockPoints.Length - 1] = player;
+    }
+    
 }
 
     // private void UpdateCameraSize()
