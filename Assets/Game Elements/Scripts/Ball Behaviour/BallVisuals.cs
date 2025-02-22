@@ -14,6 +14,8 @@ public class BallVisuals : MonoBehaviour
     public GameObject ballVisuals;
     [Tooltip("The ball turns into this color when it can be parried.")]
     public Color parryColor;
+    [Tooltip("This is the ball's light.")]
+    public Light ballLight;
     // ---------------PRIVATE---------------
     private BallSM ballSM;
     private Camera _mainCamera;
@@ -36,7 +38,7 @@ public class BallVisuals : MonoBehaviour
     {
         BallMarker();
         TrailEmitter();
-        BallColor();
+        BallColorAndLight();
     }
 
     private void BallMarker()
@@ -95,20 +97,31 @@ public class BallVisuals : MonoBehaviour
         // Enable or disable the trail based on the ball's state. Enabled when it's midair, disabled otherwise.
         _trailRenderer.emitting = ballSM.currentState.GetType() == typeof(MidAirState);
         
-        // Change the color of the trail based on the ball's state. Red when it's midair, green otherwise.
-        _trailRenderer.startColor = ballSM.currentState.GetType() == typeof(MidAirState) ? Color.red : Color.green;
+        // Get the current speed magnitude from the ball
+        float speed = ballSM.GetComponent<Rigidbody>().linearVelocity.magnitude;
         
-        // Change the width of the trail based on the ball's state. 0.1 when it's midair, 0.5 otherwise.
-        _trailRenderer.startWidth = ballSM.currentState.GetType() == typeof(MidAirState) ? 0.5f : 0.1f;
+        // Recover the current width of the trail
+        float currentWidth = _trailRenderer.startWidth;
+        
+        // Change the width of the trail based on the ball's speed. The faster the ball, the wider the trail.
+        _trailRenderer.startWidth = Mathf.Lerp(currentWidth, speed / 10, Time.deltaTime);
+        
         
     }
     
-    private void BallColor()
+    private void BallColorAndLight()
     {
         // Change the color of the ball based on the ball's state. Red when it's midair, green otherwise.
         if (!ballSM.canBeParried)
         {
+            // Change the color of the ball based on the ball's state. Red when it's midair, green otherwise.
             _ballMaterial.color = ballSM.currentState.GetType() == typeof(MidAirState) ? Color.red : Color.green;
+            
+            // Change the emission color of the ball based on the ball's state. Red when it's midair, green otherwise.
+            _ballMaterial.SetColor("_EmissionColor", ballSM.currentState.GetType() == typeof(MidAirState) ? Color.red : Color.green);
+            
+            // Change the color of the ball's light based on the ball's state. Red when it's midair, green otherwise.
+            ballLight.color = ballSM.currentState.GetType() == typeof(MidAirState) ? Color.red : Color.green;
         }
     }
 

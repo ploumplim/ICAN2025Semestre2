@@ -9,7 +9,7 @@ public class ParryPlayer : MonoBehaviour
     private PlayerScript _playerScript;
     private BallSM _ballSM;
     
-    private Collider _col;
+    private SphereCollider _col;
     private bool canParry;
     private GameObject _ballToParry;
     private float parryForce;
@@ -22,12 +22,14 @@ public class ParryPlayer : MonoBehaviour
     private void Start()
     {
         _playerScript = GetComponentInParent<PlayerScript>();
-        _col = GetComponent<Collider>();
+        _col = GetComponent<SphereCollider>();
         parryForce = _playerScript.parryForce;
     }
 
     private void FixedUpdate()
     {
+        _col.radius = _playerScript.parryDetectionRadius;
+        
         if (playerHasParried)
         {
             // Debug.Log("Aled");

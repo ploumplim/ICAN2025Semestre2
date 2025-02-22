@@ -53,6 +53,9 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("Lerp time for the rotation while aiming")]
     public float rotationWhileAimingLerpTime = 0.1f;
     
+    [Tooltip("Lerp time for the rotation while rolling")]
+    public float rollLerpTime = 0.1f;
+    
     [Header("Charge shot")]
     public float chargeRate = 0.5f; // Rate at which the charge value increases
     
@@ -63,6 +66,8 @@ public class PlayerScript : MonoBehaviour
     public float parryForce = 10f;
     [Tooltip("The window of opportunity that the parry will hit the ball.")]
     public float parryWindow = 0.4f;
+    [Tooltip("The radius of the sphere that will detect the ball when parrying.")]
+    public float parryDetectionRadius = 3.5f;
     
     [Header("Roll")]
     [Tooltip("The initial speed of the roll.")]
@@ -73,6 +78,8 @@ public class PlayerScript : MonoBehaviour
     public float catchWindow = 0.6f;
     [Tooltip("This is the radius of the sphere that will detect the ball when rolling.")]
     public float rollDetectionRadius = 5f;
+    [Tooltip("This boolean determines if when dashing the character can pass through ledges.")]
+    public bool canPassThroughLedges = false;
     
     
     // [Tooltip("The time the player has to wait between each roll.")]
@@ -102,6 +109,9 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public InputAction throwAction;
     [HideInInspector] public InputAction rollAction;
     [HideInInspector] public Rigidbody rb;
+    [HideInInspector] public int ledgeLayer;
+    [HideInInspector] public int playerLayer;
+    
     // ------------------------------ BALL ------------------------------
     [HideInInspector] public GameObject heldBall;
     [HideInInspector] public BallSM ballSM;
@@ -131,6 +141,9 @@ public class PlayerScript : MonoBehaviour
         moveAction = playerInput.actions["Move"];
         throwAction = playerInput.actions["Attack"];
         rollAction = playerInput.actions["Roll"];
+        
+        ledgeLayer = LayerMask.NameToLayer("Ledge");
+        playerLayer = gameObject.layer;
         
         PlayerState[] states = GetComponents<PlayerState>();
         foreach (PlayerState state in states)
@@ -297,6 +310,32 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
+    public void SteerRoll()
+    {
+        // Get the camera's forward and right vectors
+        Vector3 cameraForward = playerCamera.transform.forward;
+        Vector3 cameraRight = playerCamera.transform.right;
+
+        // Flatten the vectors to the ground plane
+        cameraForward.y = 0;
+        cameraRight.y = 0;
+
+        // Normalize the vectors
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        // Calculate the movement direction lerping using the rollLerpTime
+        Vector3 moveDirection = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
+        
+        // change the player's forward direction to the direction of the movement
+        transform.forward = Vector3.Slerp(transform.forward, moveDirection, rollLerpTime);
+        
+        //Apply the movement, decreasing the speed of the player over time.
+        float decreasingSpeed = Mathf.Lerp(rollSpeed, 0, GetComponent<RollingState>().timer / rollDuration);
+        ApplyMovement(moveDirection, decreasingSpeed);
+        
+    }
+    
     private void ApplyMovement(Vector3 moveDirection, float finalSpeed)
     {
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class PlayerVisuals : MonoBehaviour
@@ -15,6 +16,7 @@ public class PlayerVisuals : MonoBehaviour
     // Image component of the parry timer visuals.
     private Image _parryTimerSprite;
     private bool _canParry;
+    private float _parryRadius;
     
     // Player's normal mesh material and color.
     private Material _playerMeshMaterial;
@@ -56,9 +58,8 @@ public class PlayerVisuals : MonoBehaviour
         _originalPlayerMeshColor = _playerMeshMaterial.color;
         _parryTimerSprite = parryTimerVisuals.GetComponentInChildren<Image>();
         
-        // Dash trail width is equal to the player's rollDetectionRadius.
-        dashTrail.widthMultiplier = playerScript.rollDetectionRadius;
-        
+
+        _parryRadius = playerScript.parryDetectionRadius;
         
     }
 
@@ -85,6 +86,12 @@ public class PlayerVisuals : MonoBehaviour
 
         _parryTimerSprite.fillAmount = playerScript.parryTimer / playerScript.parryCooldown;
         RecoverAfterDash();
+        // Dash trail width is equal to the player's rollDetectionRadius.
+        dashTrail.widthMultiplier = playerScript.rollDetectionRadius;
+        
+        // Update the parry radius collider.
+        var parryParticleShape = parryParticle.shape;
+        parryParticleShape.radius = _parryRadius;
 
     }
 
