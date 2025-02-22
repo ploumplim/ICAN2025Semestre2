@@ -15,7 +15,7 @@ public class ColliderEmitter : MonoBehaviour
     {
         if (other.gameObject.CompareTag(tagToLookFor))
         {
-            onColliderHit.Invoke();
+            onColliderHit?.Invoke();
         }
     }
 }
