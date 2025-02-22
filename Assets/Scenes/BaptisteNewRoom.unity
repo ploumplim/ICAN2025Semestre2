@@ -2938,6 +2938,8 @@ MonoBehaviour:
   connectedPlayers: []
   ChargeVisualObject: {fileID: 585536135}
   ParryTimeVisual: {fileID: 450039675}
+  playerPrefab: {fileID: 3328443934547631640, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+  spawnPosition: {x: -10, y: 2, z: -50}
   camera: {fileID: 330585545}
 --- !u!114 &634567690
 MonoBehaviour:
@@ -2954,7 +2956,7 @@ MonoBehaviour:
   m_NotificationBehavior: 2
   m_MaxPlayerCount: -1
   m_AllowJoining: 1
-  m_JoinBehavior: 0
+  m_JoinBehavior: 2
   m_PlayerJoinedEvent:
     m_PersistentCalls:
       m_Calls:

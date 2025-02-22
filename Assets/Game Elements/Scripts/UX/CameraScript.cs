@@ -102,7 +102,6 @@ public class CameraScript : MonoBehaviour
     {
         Array.Resize(ref lockPoints, lockPoints.Length + 1);
         lockPoints[lockPoints.Length - 1] = player;
-        Debug.Log(lockPoints.Length-1);
     }
     
 }

@@ -13,7 +13,9 @@ public class MultiplayerManager : MonoBehaviour
     public HashSet<Gamepad> pendingGamepads = new HashSet<Gamepad>();
     public GameObject ChargeVisualObject;
     public GameObject ParryTimeVisual;
-    public Camera camera;
+    public GameObject playerPrefab;
+    public Vector3 spawnPosition;
+    public new Camera camera;
     
 
     void Start()
@@ -35,7 +37,7 @@ public class MultiplayerManager : MonoBehaviour
         {
             if (gamepad.allControls.Any(control => control is ButtonControl button && button.wasPressedThisFrame))
             {
-                
+                SpawnNewPlayer();
                 AssignControllerToPlayer(gamepad);
                 pendingGamepads.Remove(gamepad);
                 return; // Évite de traiter plusieurs manettes en une frame
@@ -54,17 +56,26 @@ public class MultiplayerManager : MonoBehaviour
         
         // Prend le premier joueur disponible
         GameObject player = availablePlayers[0];
-        camera.GetComponent<CameraScript>().AddPlayerToArray(player.gameObject);
+        
         availablePlayers.RemoveAt(0); // Retire ce joueur de la liste des disponibles
         connectedPlayers.Add(player); // Ajoute ce joueur à la liste des occupés
         
-        
-        
-        
         // Associe la manette à ce joueur
         controllerToPlayer[gamepad] = player;
-       
+        
+        camera.GetComponent<CameraScript>().AddPlayerToArray(player.gameObject);
         
         Debug.Log($"Manette {gamepad.displayName} assignée au joueur {player.name}");
+    }
+
+    private void SpawnNewPlayer()
+    {
+        // Instantiate a new player object at a specified position and rotation
+        GameObject newPlayer = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+
+        // Add the new player to the list of available players
+        availablePlayers.Add(newPlayer);
+
+        Debug.Log($"New player spawned at position {spawnPosition}");
     }
 }
