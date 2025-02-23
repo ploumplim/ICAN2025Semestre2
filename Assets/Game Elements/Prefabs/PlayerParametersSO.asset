@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b89eb314617ed94fae92453a93f736f, type: 3}
+  m_Name: PlayerParametersSO
+  m_EditorClassIdentifier: 
+  movementType: 1
+  speed: 120
+  speedWithoutBallsModifier: 1
+  aimSpeedMod: 0
+  knockbackTime: 0.5
+  linearDrag: 3
+  hitLinearDrag: 0
+  rotationLerpTime: 0.1
+  rotationWhileAimingLerpTime: 0.1
+  rollLerpTime: 0.1
+  chargeRate: 0.5
+  parryCooldown: 0.5
+  parryForce: 10
+  parryWindow: 0.4
+  parryDetectionRadius: 3.5
+  rollSpeed: 10
+  rollDuration: 1
+  catchWindow: 0.6
+  rollDetectionRadius: 5
+  canPassThroughLedges: 0

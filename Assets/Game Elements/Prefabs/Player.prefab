@@ -5360,14 +5360,18 @@ MonoBehaviour:
   hitLinearDrag: 0
   rotationLerpTime: 0.1
   rotationWhileAimingLerpTime: 0.1
+  rollLerpTime: 0.1
   chargeRate: 0.5
   parryCooldown: 0.5
   parryForce: 10
   parryWindow: 0.4
+  parryDetectionRadius: 3.5
   rollSpeed: 10
   rollDuration: 1
   catchWindow: 0.6
   rollDetectionRadius: 5
+  canPassThroughLedges: 0
+  MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
   playerHand: {fileID: 3570595457049578529}
   CanParryTheBallEvent:
@@ -5474,12 +5478,15 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   rb: {fileID: 0}
+  ledgeLayer: 0
+  playerLayer: 0
   heldBall: {fileID: 0}
   ballSM: {fileID: 0}
   chargeValueIncrementor: 0.5
   canParry: 1
   parryTimer: 0
   moveInput: {x: 0, y: 0}
+  playerParameters: {fileID: 11400000, guid: f2cd075db7d8d174ab8936ac490dab3c, type: 2}
 --- !u!114 &2291177913900343150
 MonoBehaviour:
   m_ObjectHideFlags: 0

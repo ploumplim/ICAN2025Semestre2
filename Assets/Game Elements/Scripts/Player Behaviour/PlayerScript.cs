@@ -134,22 +134,50 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public Vector2 moveInput;
     
     
-    
+    public PlayerParametersSO playerParameters;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void Start()
     {
-        SetPlayerParameters();
+        CopyPlayerParameterFromSo();
     }
-    
-    public void SetPlayerParameters()
+
+    public void CopyPlayerParameterFromSo()
     {
+
+        // if (playerParameters.movementType  == PlayerParametersSO.MoveType.Velocity)
+        // {
+        //     movementType = moveType.Velocity;
+        // }
+        // else if (playerParameters.movementType  == PlayerParametersSO.MoveType.Velocity)
+        // {
+        //     movementType = moveType.Force;
+        // }
+        
+        speed = playerParameters.speed;
+        speedWithoutBallsModifier = playerParameters.speedWithoutBallsModifier;
+        aimSpeedMod = playerParameters.aimSpeedMod;
+        knockbackTime = playerParameters.knockbackTime;
+        linearDrag = playerParameters.linearDrag;
+        hitLinearDrag = playerParameters.hitLinearDrag;
+        rotationLerpTime = playerParameters.rotationLerpTime;
+        rotationWhileAimingLerpTime = playerParameters.rotationWhileAimingLerpTime;
+        rollLerpTime = playerParameters.rollLerpTime;
+        chargeRate = playerParameters.chargeRate;
+        parryCooldown = playerParameters.parryCooldown;
+        parryForce = playerParameters.parryForce;
+        parryWindow = playerParameters.parryWindow;
+        parryDetectionRadius = playerParameters.parryDetectionRadius;
+        rollSpeed = playerParameters.rollSpeed;
+        rollDuration = playerParameters.rollDuration;
+        catchWindow = playerParameters.catchWindow;
+        rollDetectionRadius = playerParameters.rollDetectionRadius;
+        canPassThroughLedges = playerParameters.canPassThroughLedges;
+        
         MultiplayerManager = GameObject.FindWithTag("MultiPlayerManager");
         playerCamera = MultiplayerManager.GetComponent<MultiplayerManager>().camera;
         GetComponent<PlayerVisuals>().parryTimerVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().ParryTimeVisual;
         GetComponent<PlayerVisuals>().chargeVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().ChargeVisualObject;
-        
-        
         
         rb = GetComponent<Rigidbody>();
         _parryPlayer = GetComponentInChildren<ParryPlayer>();
@@ -169,6 +197,7 @@ public class PlayerScript : MonoBehaviour
 
         currentState = GetComponent<IdleState>();
     }
+    
 
     private void FixedUpdate()
     {

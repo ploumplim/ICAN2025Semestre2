@@ -2581,6 +2581,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 450039675}
     - target: {fileID: 347135594415308757, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
+      propertyPath: spawnPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 347135594415308757, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
+      propertyPath: spawnPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 347135594415308757, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
+      propertyPath: spawnPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 347135594415308757, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
       propertyPath: ChargeVisualObject
       value: 
       objectReference: {fileID: 585536135}
