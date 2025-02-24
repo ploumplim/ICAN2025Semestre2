@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
@@ -7,7 +8,10 @@ using UnityEngine.Serialization;
 
 public class MultiplayerManager : MonoBehaviour
 {
+    
     public Dictionary<Gamepad, GameObject> controllerToPlayer = new Dictionary<Gamepad, GameObject>();
+    
+    
     public List<GameObject> availablePlayers = new List<GameObject>();
     public List<GameObject> connectedPlayers = new List<GameObject>(); // Liste des joueurs déjà associés
     public HashSet<Gamepad> pendingGamepads = new HashSet<Gamepad>();
@@ -15,15 +19,15 @@ public class MultiplayerManager : MonoBehaviour
     public GameObject ParryTimeVisual;
     public GameObject playerPrefab;
     public GameObject spawnObject;
-    public Vector3 spawnPosition;
+    [HideInInspector] public Vector3 spawnPosition;
     public new Camera camera;
     
 
     void Start()
     {
         
-        // Trouve tous les joueurs dans la scène avec le tag "Player"
-        availablePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
+        // // Trouve tous les joueurs dans la scène avec le tag "Player"
+        // availablePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
         
         // Ajoute toutes les manettes déjà connectées à la liste d'attente
         foreach (var gamepad in Gamepad.all)
@@ -36,9 +40,9 @@ public class MultiplayerManager : MonoBehaviour
     void Update()
     {
         // Vérifie si une manette en attente appuie sur un bouton
-        foreach (var gamepad in pendingGamepads.ToList())
+        foreach (Gamepad gamepad in pendingGamepads.ToList())
         {
-            if (gamepad.allControls.Any(control => control is ButtonControl button && button.wasPressedThisFrame))
+            if (gamepad.allControls.Any(control => control is ButtonControl { wasPressedThisFrame: true }))
             {
                 SpawnNewPlayer();
                 AssignControllerToPlayer(gamepad);
@@ -63,7 +67,23 @@ public class MultiplayerManager : MonoBehaviour
         availablePlayers.RemoveAt(0); // Retire ce joueur de la liste des disponibles
         connectedPlayers.Add(player); // Ajoute ce joueur à la liste des occupés
         
+        player.SetActive(true);
+        
         // Associe la manette à ce joueur
+        
+        // Assign the gamepad to the player's input manager
+        PlayerInput playerInput = player.GetComponent<PlayerInput>();
+        
+        if (playerInput != null)
+        {
+            playerInput.SwitchCurrentControlScheme(gamepad);
+        }
+        else
+        {
+            Debug.LogError("PlayerInput component not found on the player.");
+        }
+        
+        
         controllerToPlayer[gamepad] = player;
         
         camera.GetComponent<CameraScript>().AddPlayerToArray(player.gameObject);

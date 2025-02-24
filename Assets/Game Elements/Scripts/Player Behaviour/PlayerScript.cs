@@ -180,6 +180,10 @@ public class PlayerScript : MonoBehaviour
         if (heldBall)
         {
             heldBall.transform.position = playerHand.transform.position;
+            if (!ballSM)
+            {
+                ballSM = heldBall.GetComponent<BallSM>();
+            }
         }
         
         
@@ -234,33 +238,33 @@ public class PlayerScript : MonoBehaviour
             // The ball is set to the InHandState.
             ballSM.ChangeState(heldBall.GetComponent<InHandState>());
         }
-        if (other.gameObject.GetComponent<BallSM>())
-        {
-            // Debug.Log(currentState);
-            if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<MidAirState>())
-            {
-                if (GetComponent<RollingState>().timer > catchWindow || currentState is not MomentumState)
-                {
-                    PlayerEndedDash?.Invoke();
-                    ChangeState(GetComponent<MomentumState>());
-                    _parryPlayer.parryTimer = 0;
-                    // Push the player in the opposite direction of the ball
-                    Vector3 direction = transform.position - other.transform.position;
-                    rb.AddForce(
-                        direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude,
-                        ForceMode.Impulse);
-                    // Set ball to dropped state
-                    other.gameObject.GetComponent<BallSM>().ChangeState(other.gameObject.GetComponent<DroppedState>());
-                }
-                
-            }
-            // if (currentState is RollingState)
-            // {
-            //     // ballCaughtWhileRolling = true;
-            //     Debug.Log("Ball touched while rolling");
-            //     GetComponent<RollingState>().CheckCatch(other.gameObject);
-            // }
-        }
+        // if (other.gameObject.GetComponent<BallSM>())
+        // {
+        //     // Debug.Log(currentState);
+        //     if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<MidAirState>())
+        //     {
+        //         if (GetComponent<RollingState>().timer > catchWindow || currentState is not MomentumState)
+        //         {
+        //             PlayerEndedDash?.Invoke();
+        //             ChangeState(GetComponent<MomentumState>());
+        //             _parryPlayer.parryTimer = 0;
+        //             // Push the player in the opposite direction of the ball
+        //             Vector3 direction = transform.position - other.transform.position;
+        //             rb.AddForce(
+        //                 direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude,
+        //                 ForceMode.Impulse);
+        //             // Set ball to dropped state
+        //             other.gameObject.GetComponent<BallSM>().ChangeState(other.gameObject.GetComponent<DroppedState>());
+        //         }
+        //         
+        //     }
+        //     // if (currentState is RollingState)
+        //     // {
+        //     //     // ballCaughtWhileRolling = true;
+        //     //     Debug.Log("Ball touched while rolling");
+        //     //     GetComponent<RollingState>().CheckCatch(other.gameObject);
+        //     // }
+        // }
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INPUTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
