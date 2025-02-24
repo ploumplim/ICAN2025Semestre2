@@ -6,7 +6,7 @@ public class DroppedState : BallState
     {
         base.Enter();
         // Set the balls gravity to true.
-        BallSm.rb.useGravity = true;
+        // BallSm.rb.useGravity = true;
         BallSm.bounces = 0;
         
         //Set the rigid body's linear damping.

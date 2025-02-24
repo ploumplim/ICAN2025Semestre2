@@ -169,7 +169,7 @@ public class BallSM : MonoBehaviour
                 switch (other.gameObject.tag)
                 {
                     case "Floor":
-                        ChangeState(GetComponent<DroppedState>());
+                        // ChangeState(GetComponent<DroppedState>());
                         break;
                     case "Bouncer":
                         if (bounces < maxBounces)
@@ -189,7 +189,7 @@ public class BallSM : MonoBehaviour
                 switch (other.gameObject.tag)
                 {
                     case "Floor":
-                        ChangeState(GetComponent<DroppedState>());
+                        // ChangeState(GetComponent<DroppedState>());
                         break;
                 }
                 break;
