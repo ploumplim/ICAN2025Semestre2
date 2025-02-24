@@ -215,8 +215,24 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4892172112868591031, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+      propertyPath: m_Mass
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4892172112868591031, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_Constraints
       value: 116
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958550416641463213, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958550416641463213, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958550416641463213, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4958550416641463213, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -224,7 +240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4958550416641463213, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4958550416641463213, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -276,11 +292,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: parryForce
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: aimSpeedMod
-      value: 0.15
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: catchWindow
@@ -332,7 +348,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: speedWithoutBallsModifier
-      value: 1.7
+      value: 1.9
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: rotationWhileAimingLerpTime
@@ -632,6 +648,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BounceWall Ledge (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6892946332043369285, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
       propertyPath: m_LocalScale.x
       value: 30
@@ -862,13 +882,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraHolderObject: {fileID: 207333242}
-  player: {fileID: 535769156}
-  ball: {fileID: 1651279641}
-  center: {fileID: 769405837}
-  baseSize: 8
-  expansionMultiplier: 0.17
   followSpeed: 1.5
-  zoomSpeed: 5
+  lockPoints:
+  - {fileID: 535769156}
+  - {fileID: 1651279641}
+  - {fileID: 948601384}
 --- !u!1 &450039675
 GameObject:
   m_ObjectHideFlags: 0
@@ -1127,8 +1145,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfec636b17a62ed4f8a3e01228ddc0f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  posPointsObject: {fileID: 1446275144}
-  negPointsObject: {fileID: 1941076645}
   pointsText: {fileID: 1195386074}
 --- !u!1 &560465449
 GameObject:
@@ -1213,6 +1229,10 @@ PrefabInstance:
     - target: {fileID: 6892946332043369285, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
       propertyPath: m_Name
       value: BounceWall Ledge (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6892946332043369285, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
       propertyPath: m_LocalScale.x
@@ -1390,6 +1410,10 @@ PrefabInstance:
     - target: {fileID: 6892946332043369285, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
       propertyPath: m_Name
       value: BounceWall Ledge (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6892946332043369285, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
       propertyPath: m_LocalScale.x
@@ -1717,13 +1741,44 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 899939799}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.741086, y: 0.24327922, z: -0.521714, w: 0.34557405}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 10.5, z: 19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 130, y: 70.29, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1 &948601384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 948601385}
+  m_Layer: 6
+  m_Name: Midcourt
+  m_TagString: Untagged
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &948601385
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948601384}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 10, y: 2, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1027560445
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2282,6 +2337,10 @@ PrefabInstance:
     - target: {fileID: 6892946332043369285, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
       propertyPath: m_Name
       value: BounceWall Ledge (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6892946332043369285, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
       propertyPath: m_LocalScale.x
@@ -2861,6 +2920,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BounceWall Ledge (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 6892946332043369285, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
       propertyPath: m_LocalScale.x
       value: 50
@@ -3163,15 +3226,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3753866094500994814, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 3753866094500994814, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 3753866094500994814, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 3753866094500994814, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3239,7 +3302,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: maxSpeed
-      value: 60
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: ballSpeed
@@ -3505,6 +3568,7 @@ SceneRoots:
   - {fileID: 2136787207}
   - {fileID: 103656040}
   - {fileID: 3852979544680192326}
+  - {fileID: 948601385}
   - {fileID: 1050611115}
   - {fileID: 1437376583}
   - {fileID: 2043437024}

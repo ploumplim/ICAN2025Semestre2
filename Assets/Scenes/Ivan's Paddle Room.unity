@@ -268,7 +268,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: chargeRate
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: linearDrag
@@ -862,9 +862,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraHolderObject: {fileID: 207333242}
-  player: {fileID: 535769156}
-  ball: {fileID: 1651279641}
-  center: {fileID: 769405837}
   followSpeed: 1.5
   lockPoints:
   - {fileID: 535769156}
@@ -3238,11 +3235,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: maxSpeed
-      value: 60
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: ballSpeed
-      value: 80
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: maxHeight
@@ -3274,7 +3271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: minimumForce
-      value: 30
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: targetingTime
