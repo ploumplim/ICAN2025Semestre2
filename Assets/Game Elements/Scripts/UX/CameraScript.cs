@@ -32,7 +32,7 @@ public class CameraScript : MonoBehaviour
     public void FixedUpdate()
     {
         UpdateCameraPosition();
-        AdjustFoV();
+        // AdjustFoV();
     }
     
     private void UpdateCameraPosition()

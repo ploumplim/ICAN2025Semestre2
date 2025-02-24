@@ -51,5 +51,16 @@ public class MidAirState : BallState
         {
             BallSm.transform.forward = BallSm.rb.linearVelocity.normalized;
         }
+
+        CheckVerticalPosition();
+    }
+
+    public void CheckVerticalPosition()
+    {
+        // When the ball is at its maximum height, its vertical speed should be 0f.
+        if (BallSm.transform.position.y >= BallSm.maxHeight)
+        {
+            BallSm.rb.linearVelocity = new Vector3(BallSm.rb.linearVelocity.x, 0f, BallSm.rb.linearVelocity.z);
+        }
     }
 }
