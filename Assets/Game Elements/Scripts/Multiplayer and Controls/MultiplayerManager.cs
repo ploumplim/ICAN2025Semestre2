@@ -88,6 +88,9 @@ public class MultiplayerManager : MonoBehaviour
         
         camera.GetComponent<CameraScript>().AddPlayerToArray(player.gameObject);
         
+        AssignValuesToPlayer(player.gameObject);
+
+        
         Debug.Log($"Manette {gamepad.displayName} assignée au joueur {player.name}");
     }
 
@@ -95,15 +98,28 @@ public class MultiplayerManager : MonoBehaviour
     {
         // Instantiate a new player object at a specified position and rotation
         GameObject newPlayer = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
-
+        
+        
         // Add the new player to the list of available players
         availablePlayers.Add(newPlayer);
 
         Debug.Log($"New player spawned at position {spawnPosition}");
     }
 
-    private void AssignValuesToPlayer()
+    private void AssignValuesToPlayer(GameObject player)
     {
+        PlayerScript playerScript = player.GetComponent<PlayerScript>();
+        PlayerVisuals playerVisuals = player.GetComponent<PlayerVisuals>();
+        
+        // ---- Assign values to the player ----
+        
+        // ---- Visual values ----
+        
+        // Generate a random color.
+        Color randomColor = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
+        
+        // Assign the random color to the player's mesh.
+        playerVisuals.ChangePlayerColor(randomColor);
         
     }
 }
