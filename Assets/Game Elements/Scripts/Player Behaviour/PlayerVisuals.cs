@@ -176,14 +176,14 @@ public class PlayerVisuals : MonoBehaviour
     {
         if (_playerMeshMaterial)
         {
-            Debug.Log("Changing player color to " + color);
+            // Debug.Log("Changing player color to " + color);
             _playerMeshMaterial.color = color;
         }
         else
         {
             _playerMeshMaterial = playerMesh.GetComponentInChildren<MeshRenderer>().material;
             _playerMeshMaterial.color = color;
-            Debug.Log("Changing player color to " + color);
+            // Debug.Log("Changing player color to " + color);
         }
         
         

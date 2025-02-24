@@ -47,10 +47,14 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("Time where the player loses control after being struck by the ball.")]
     public float knockbackTime = 0.5f;
     
+    [Tooltip("This is the force multiplier applied to the player when hit by a ball.")]
+    public float knockbackForce = 10f;
+    
     [Tooltip("The normal linear drag of the player.")]
     public float linearDrag = 3f;
     [Tooltip("The linear drag when the player is hit by a ball.")]
     public float hitLinearDrag = 0f;
+    
     [Header("Rotation Lerps")]
     [Tooltip("Lerp time for the rotation while not aiming")]
     public float rotationLerpTime = 0.1f;
@@ -246,33 +250,40 @@ public class PlayerScript : MonoBehaviour
             // The ball is set to the InHandState.
             ballSM.ChangeState(heldBall.GetComponent<InHandState>());
         }
-        // if (other.gameObject.GetComponent<BallSM>())
-        // {
-        //     // Debug.Log(currentState);
-        //     if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<MidAirState>())
-        //     {
-        //         if (GetComponent<RollingState>().timer > catchWindow || currentState is not MomentumState)
-        //         {
-        //             PlayerEndedDash?.Invoke();
-        //             ChangeState(GetComponent<MomentumState>());
-        //             _parryPlayer.parryTimer = 0;
-        //             // Push the player in the opposite direction of the ball
-        //             Vector3 direction = transform.position - other.transform.position;
-        //             rb.AddForce(
-        //                 direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude,
-        //                 ForceMode.Impulse);
-        //             // Set ball to dropped state
-        //             other.gameObject.GetComponent<BallSM>().ChangeState(other.gameObject.GetComponent<DroppedState>());
-        //         }
-        //         
-        //     }
-        //     // if (currentState is RollingState)
-        //     // {
-        //     //     // ballCaughtWhileRolling = true;
-        //     //     Debug.Log("Ball touched while rolling");
-        //     //     GetComponent<RollingState>().CheckCatch(other.gameObject);
-        //     // }
-        // }
+        if (other.gameObject.GetComponent<BallSM>())
+        {
+            // Debug.Log(currentState);
+            if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<MidAirState>())
+            {
+                if (GetComponent<RollingState>().timer > catchWindow || currentState is not MomentumState)
+                {
+                    PlayerEndedDash?.Invoke();
+                    ChangeState(GetComponent<MomentumState>());
+                    _parryPlayer.parryTimer = 0;
+                    // Push the player in the opposite direction of the ball
+                    Vector3 direction = transform.position - other.transform.position;
+                    rb.AddForce(
+                        direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude * knockbackForce,
+                        ForceMode.Impulse);
+                    
+                    
+                    // Set ball to dropped state
+                    other.gameObject.GetComponent<BallSM>().ChangeState(other.gameObject.GetComponent<DroppedState>());
+                    // Apply an opposite force to the ball
+                    other.gameObject.GetComponent<Rigidbody>().AddForce(
+                        -direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude * knockbackForce,
+                        ForceMode.Impulse);
+                    
+                }
+                
+            }
+            // if (currentState is RollingState)
+            // {
+            //     // ballCaughtWhileRolling = true;
+            //     Debug.Log("Ball touched while rolling");
+            //     GetComponent<RollingState>().CheckCatch(other.gameObject);
+            // }
+        }
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INPUTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

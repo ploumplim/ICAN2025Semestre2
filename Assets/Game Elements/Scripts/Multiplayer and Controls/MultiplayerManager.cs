@@ -103,7 +103,7 @@ public class MultiplayerManager : MonoBehaviour
         // Add the new player to the list of available players
         availablePlayers.Add(newPlayer);
 
-        Debug.Log($"New player spawned at position {spawnPosition}");
+        // Debug.Log($"New player spawned at position {spawnPosition}");
     }
 
     private void AssignValuesToPlayer(GameObject player)

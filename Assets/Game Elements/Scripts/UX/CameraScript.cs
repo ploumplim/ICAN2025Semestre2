@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class CameraScript : MonoBehaviour
@@ -8,7 +9,8 @@ public class CameraScript : MonoBehaviour
     private float _trueCameraSize; // The actual size of the camera, calculated from the size modifier.
     private float _sizeModifier; // The size modifier of the camera, based on the distance between the player and the ball.
     private Vector3[] _lockPoints; // The array of points that the camera can lock itself to.
-    private Camera _camera; // The camera component of the camera object.
+    private GameObject cameraObject; // The camera component of the camera object.
+    private Vector3 _targetPoint; // The point that the camera should lock itself to.
     
     // ---------------PUBLIC---------------
     [Tooltip("The gameobject holding the camera. The code will move THIS object, while the camera is fixed to it as " +
@@ -18,21 +20,27 @@ public class CameraScript : MonoBehaviour
     [Tooltip("The camera's follow speed.")]
     public float followSpeed = 5f;
     
+    [Tooltip("The camera's speed when moving away from the scene.")]
+    public float zoomSpeed = 5f;
+    
     [Tooltip("This list contains all objects that the camera should use as points to lock itself.")]
     public GameObject[] lockPoints;
     
-    [Tooltip("The padding each lock point will have from the edge of the screen.")]
+    [Tooltip("This is the padding that the camera will have from the lock points.")]
     public float padding = 2f;
+    
     
     public void Start()
     {
         // Get the camera component of the camera object
-        _camera = GetComponent<Camera>();
+        cameraObject = cameraHolderObject.GetComponentInChildren<Camera>().gameObject;
     }
     public void FixedUpdate()
     {
         UpdateCameraPosition();
-        // AdjustFoV();
+        UpdateCameraDistance();
+        
+        // AdjustDistanceFromTarget(_targetPoint);
     }
     
     private void UpdateCameraPosition()
@@ -56,14 +64,15 @@ public class CameraScript : MonoBehaviour
         }
         
         // Calculate the average point between the lock points
-        Vector3 averagePoint = CalculateAveragePoint(_lockPoints);
+        _targetPoint = CalculateAveragePoint(_lockPoints);
         
         
         // Move the camera holder object to the middle point
         cameraHolderObject.transform.position = Vector3.Lerp(cameraHolderObject.transform.position,
-            averagePoint,followSpeed * Time.deltaTime);
+            _targetPoint,followSpeed * Time.deltaTime);
+        
+        
     }
-    
     
     public static Vector3 CalculateAveragePoint(Vector3[] points)
     {
@@ -87,27 +96,32 @@ public class CameraScript : MonoBehaviour
         lockPoints[^1] = player;
     }
 
-    public void AdjustFoV()
+    private void UpdateCameraDistance()
     {
-        if (_lockPoints == null || _lockPoints.Length == 0)
+        // Recover the vector distance between the camera holder object and the camera object
+        Vector3 distance = cameraObject.transform.position - cameraHolderObject.transform.position;
+        
+        // Check if all objects within the lockPoints array are visible
+        if (!AreAllLockPointsVisible())
         {
-            return;
+            // If they are, move the camera holder object away from the camera object
+            cameraHolderObject.transform.position += distance.normalized * (zoomSpeed * Time.deltaTime);
+            Debug.Log("Moving away" + cameraHolderObject.transform.position);
         }
+    }
 
-        // Calculate the bounding box that contains all the lock points
-        Bounds bounds = new Bounds(_lockPoints[0], Vector3.zero);
+    private bool AreAllLockPointsVisible()
+    {
+        Camera camera = cameraObject.GetComponent<Camera>();
         foreach (Vector3 point in _lockPoints)
         {
-            bounds.Encapsulate(point);
+            Vector3 viewportPoint = camera.WorldToViewportPoint(point);
+            if (viewportPoint.x < 0 || viewportPoint.x > 1 || viewportPoint.y < 0 || viewportPoint.y > 1)
+            {
+                return false;
+            }
         }
-
-        // Calculate the required height to fit the bounding box
-        float requiredHeight = bounds.extents.magnitude + padding;
-
-        // Adjust the camera's Y position
-        Vector3 newPosition = cameraHolderObject.transform.position;
-        newPosition.y = requiredHeight;
-        cameraHolderObject.transform.position = newPosition;
+        return true;
     }
     
 }
@@ -128,4 +142,29 @@ public class CameraScript : MonoBehaviour
     //     // Set the camera size
     //     GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize,
     //         _trueCameraSize, zoomSpeed * Time.deltaTime);
+    // }
+    
+    
+    // private bool AreAllLockPointsVisible()
+    // {
+    //     Camera camera = cameraObject.GetComponent<Camera>();
+    //     foreach (Vector3 point in _lockPoints)
+    //     {
+    //         Vector3 viewportPoint = camera.WorldToViewportPoint(point);
+    //         if (viewportPoint.x < 0 || viewportPoint.x > 1 || viewportPoint.y < 0 || viewportPoint.y > 1 || viewportPoint.z < 0)
+    //         {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
+    //
+    // public void AdjustDistanceFromTarget(Vector3 targetPoint)
+    // {
+    //     while (!AreAllLockPointsVisible())
+    //     {
+    //         // Move the camera holder object away from the target point
+    //         Vector3 direction = (cameraHolderObject.transform.position - targetPoint).normalized;
+    //         cameraHolderObject.transform.position += direction * (zoomSpeed * Time.deltaTime);
+    //     }
     // }
