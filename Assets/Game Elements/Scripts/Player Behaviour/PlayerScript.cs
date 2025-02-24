@@ -10,11 +10,17 @@ public class PlayerScript : MonoBehaviour
 
     
     // ------------------------------ PUBLIC VARIABLES ------------------------------
-    public enum moveType
+    public enum MoveType
     {
         Velocity,
         Force
     };
+
+    public enum ParryType
+    {
+        ForwardParry,
+        ReflectiveParry
+    }
     
     [HideInInspector] public PlayerState currentState;
     
@@ -26,7 +32,7 @@ public class PlayerScript : MonoBehaviour
         " This means that all movement variables \n " +
         "should be decreased to avoid the player moving too fast.")]
     [Tooltip("Choose the player's movement type.")]
-    public moveType movementType = moveType.Velocity;
+    public MoveType movementType = MoveType.Velocity;
     [Header("Movement variables")]
     [Tooltip("The player's speed when he has balls.")]
     public float speed = 5f;
@@ -60,6 +66,8 @@ public class PlayerScript : MonoBehaviour
     public float chargeRate = 0.5f; // Rate at which the charge value increases
     
     [Header("Parry")]
+    [Tooltip("Select the type of parry.")]
+    public ParryType parryType = ParryType.ForwardParry;
     [Tooltip("The time the player has to wait between each parry.")]
     public float parryCooldown = 0.5f;
     [Tooltip("The force applied to the ball when parrying.")]
@@ -344,10 +352,10 @@ public class PlayerScript : MonoBehaviour
 
         switch (movementType)
         {
-            case moveType.Force:
+            case MoveType.Force:
                 rb.AddForce(moveDirection * finalSpeed, ForceMode.VelocityChange);
                 break;
-            case moveType.Velocity:
+            case MoveType.Velocity:
                 rb.linearVelocity = new Vector3(moveDirection.x * finalSpeed,
                 rb.linearVelocity.y,
                 moveDirection.z * finalSpeed);

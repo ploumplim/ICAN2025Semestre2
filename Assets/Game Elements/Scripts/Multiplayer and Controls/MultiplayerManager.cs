@@ -42,7 +42,7 @@ public class MultiplayerManager : MonoBehaviour
         // Vérifie si une manette en attente appuie sur un bouton
         foreach (Gamepad gamepad in pendingGamepads.ToList())
         {
-            if (gamepad.allControls.Any(control => control is ButtonControl { wasPressedThisFrame: true }))
+            if (gamepad.buttonSouth.wasReleasedThisFrame)
             {
                 SpawnNewPlayer();
                 AssignControllerToPlayer(gamepad);

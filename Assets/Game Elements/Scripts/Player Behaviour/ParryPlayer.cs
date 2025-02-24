@@ -91,13 +91,27 @@ public class ParryPlayer : MonoBehaviour
             {
                 _currentBallSpeed = _ballToParry.GetComponent<Rigidbody>().linearVelocity.magnitude;
                 ballRigidbody.linearVelocity = Vector3.zero;
+                GameObject player = _playerScript.gameObject;
                 // Calculate the vector between the player and the ball.
-                Vector3 direction = _ballToParry.transform.position - transform.position;
+                Vector3 direction = new Vector3();
+                switch (_playerScript.parryType)
+                {
+                    case PlayerScript.ParryType.ForwardParry:
+                        // Send the ball in the direction the player is facing.
+                        direction = new Vector3(player.transform.forward.x, 0, player.transform.forward.z).normalized;
+                        ballRigidbody.AddForce(direction * (parryForce * _currentBallSpeed), ForceMode.Impulse);
+                        
+                        break;
+                    case PlayerScript.ParryType.ReflectiveParry: 
+                        direction = _ballToParry.transform.position - transform.position;
+                        direction = new Vector3(direction.x, 0, direction.z).normalized;
+                        // send the ball in the direction away from the player.
+                        ballRigidbody.AddForce(direction * (parryForce * _currentBallSpeed), ForceMode.Impulse);
+                        _ballSM.ChangeState(_ballSM.GetComponent<TargetingState>());
+                        break;
+                }
                 
-                direction = new Vector3(direction.x, 0, direction.z).normalized;
                 
-                ballRigidbody.AddForce(direction * (parryForce * _currentBallSpeed), ForceMode.Impulse);
-                _ballSM.ChangeState(_ballSM.GetComponent<TargetingState>());
                 parryTimer = 0;
                 canParry = false;
                 playerHasParried = false;
