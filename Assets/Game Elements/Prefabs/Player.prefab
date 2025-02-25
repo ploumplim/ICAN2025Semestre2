@@ -5145,7 +5145,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9195313607378371640}
@@ -5186,7 +5186,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3328443934547631640}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.8
   m_Drag: 5
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -5365,9 +5365,10 @@ MonoBehaviour:
   currentState: {fileID: 0}
   movementType: 0
   speed: 22
-  speedWithoutBallsModifier: 1.7
-  aimSpeedMod: 0
+  speedWithoutBallsModifier: 1.9
+  aimSpeedMod: 0.7
   knockbackTime: 0.25
+  knockbackForce: 10
   linearDrag: 3.5
   hitLinearDrag: 2.5
   rotationLerpTime: 0.2
@@ -5376,7 +5377,7 @@ MonoBehaviour:
   chargeRate: 2
   parryType: 0
   parryCooldown: 0.5
-  parryForce: 6
+  parryForce: 5
   parryWindow: 0.4
   parryDetectionRadius: 3.5
   rollSpeed: 50
@@ -5389,10 +5390,34 @@ MonoBehaviour:
   playerHand: {fileID: 3570595457049578529}
   CanParryTheBallEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2291177913900343150}
+        m_TargetAssemblyTypeName: PlayerVisuals, Assembly-CSharp
+        m_MethodName: OnParry
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   CannotParryTheBallEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3328443934547631640}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   PlayerParried:
     m_PersistentCalls:
       m_Calls:
@@ -5585,7 +5610,7 @@ Transform:
   m_GameObject: {fileID: 3570595457049578529}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 1.5}
+  m_LocalPosition: {x: 0, y: 1, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
