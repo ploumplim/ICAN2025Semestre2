@@ -10,11 +10,17 @@ public class PlayerScript : MonoBehaviour
 
     
     // ------------------------------ PUBLIC VARIABLES ------------------------------
-    public enum moveType
+    public enum MoveType
     {
         Velocity,
         Force
     };
+
+    public enum ParryType
+    {
+        ForwardParry,
+        ReflectiveParry
+    }
     
     [HideInInspector] public PlayerState currentState;
     
@@ -26,7 +32,7 @@ public class PlayerScript : MonoBehaviour
         " This means that all movement variables \n " +
         "should be decreased to avoid the player moving too fast.")]
     [Tooltip("Choose the player's movement type.")]
-    public moveType movementType = moveType.Velocity;
+    public MoveType movementType = MoveType.Velocity;
     [Header("Movement variables")]
     [Tooltip("The player's speed when he has balls.")]
     public float speed = 5f;
@@ -41,10 +47,14 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("Time where the player loses control after being struck by the ball.")]
     public float knockbackTime = 0.5f;
     
+    [Tooltip("This is the force multiplier applied to the player when hit by a ball.")]
+    public float knockbackForce = 10f;
+    
     [Tooltip("The normal linear drag of the player.")]
     public float linearDrag = 3f;
     [Tooltip("The linear drag when the player is hit by a ball.")]
     public float hitLinearDrag = 0f;
+    
     [Header("Rotation Lerps")]
     [Tooltip("Lerp time for the rotation while not aiming")]
     public float rotationLerpTime = 0.1f;
@@ -60,6 +70,8 @@ public class PlayerScript : MonoBehaviour
     public float chargeRate = 0.5f; // Rate at which the charge value increases
     
     [Header("Parry")]
+    [Tooltip("Select the type of parry.")]
+    public ParryType parryType = ParryType.ForwardParry;
     [Tooltip("The time the player has to wait between each parry.")]
     public float parryCooldown = 0.5f;
     [Tooltip("The force applied to the ball when parrying.")]
@@ -80,6 +92,8 @@ public class PlayerScript : MonoBehaviour
     public float rollDetectionRadius = 5f;
     [Tooltip("This boolean determines if when dashing the character can pass through ledges.")]
     public bool canPassThroughLedges = false;
+    
+    public GameObject MultiplayerManager;
     
     
     // [Tooltip("The time the player has to wait between each roll.")]
@@ -132,9 +146,23 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public Vector2 moveInput;
     
     
+    
+    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void Start()
     {
+        SetPlayerParameters();
+    }
+    
+    public void SetPlayerParameters()
+    {
+        MultiplayerManager = GameObject.FindWithTag("MultiPlayerManager");
+        playerCamera = MultiplayerManager.GetComponent<MultiplayerManager>().camera;
+        GetComponent<PlayerVisuals>().parryTimerVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().ParryTimeVisual;
+        GetComponent<PlayerVisuals>().chargeVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().ChargeVisualObject;
+        
+        
+        
         rb = GetComponent<Rigidbody>();
         _parryPlayer = GetComponentInChildren<ParryPlayer>();
         playerInput = GetComponent<PlayerInput>();
@@ -164,6 +192,10 @@ public class PlayerScript : MonoBehaviour
         if (heldBall)
         {
             heldBall.transform.position = playerHand.transform.position;
+            if (!ballSM)
+            {
+                ballSM = heldBall.GetComponent<BallSM>();
+            }
         }
         
         
@@ -231,10 +263,17 @@ public class PlayerScript : MonoBehaviour
                     // Push the player in the opposite direction of the ball
                     Vector3 direction = transform.position - other.transform.position;
                     rb.AddForce(
-                        direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude,
+                        direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude * knockbackForce,
                         ForceMode.Impulse);
+                    
+                    
                     // Set ball to dropped state
                     other.gameObject.GetComponent<BallSM>().ChangeState(other.gameObject.GetComponent<DroppedState>());
+                    // Apply an opposite force to the ball
+                    other.gameObject.GetComponent<Rigidbody>().AddForce(
+                        -direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude * knockbackForce,
+                        ForceMode.Impulse);
+                    
                 }
                 
             }
@@ -268,42 +307,25 @@ public class PlayerScript : MonoBehaviour
             Vector3 cameraForward = playerCamera.transform.forward;
             Vector3 cameraRight = playerCamera.transform.right;
 
-            // Flatten the vectors to the ground plane
+            // Flatten the vectors to the ground plane and normalize
             cameraForward.y = 0;
             cameraRight.y = 0;
-
-            // Normalize the vectors
             cameraForward.Normalize();
             cameraRight.Normalize();
 
             // Calculate the movement direction
             Vector3 moveDirection = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
 
-            // Move the player. 
-            if (!isAiming)
-            {
-                if (heldBall)
-                {
-                    ApplyMovement(moveDirection, speed);
-                    //Set the player's direction to the direction of the movement using a lerp
-                    transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationLerpTime);
-                }
-                else
-                {
-                    ApplyMovement(moveDirection, speed * speedWithoutBallsModifier);
-                    //Set the player's direction to the direction of the movement using a lerp
-                    transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationLerpTime);
-                }
-            }
-            else
-            {
-                ApplyMovement(moveDirection, speed * aimSpeedMod);
-                //Set the player's direction to the direction of the movement using a lerp
-                transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationWhileAimingLerpTime);
-            }
+            // Determine the speed and rotation lerp time based on the player's state
+            float currentSpeed = isAiming ? speed * aimSpeedMod : (heldBall ? speed : speed * speedWithoutBallsModifier);
+            float currentLerpTime = isAiming ? rotationWhileAimingLerpTime : rotationLerpTime;
+
+            // Apply movement and set the player's direction
+            ApplyMovement(moveDirection, currentSpeed);
+            transform.forward = Vector3.Slerp(transform.forward, moveDirection, currentLerpTime);
         }
-        
-        
+
+        // Change state to Idle if no movement input and not aiming
         if (moveAction.ReadValue<Vector2>() == Vector2.zero && !isAiming)
         {
             ChangeState(GetComponent<IdleState>());
@@ -341,10 +363,10 @@ public class PlayerScript : MonoBehaviour
 
         switch (movementType)
         {
-            case moveType.Force:
+            case MoveType.Force:
                 rb.AddForce(moveDirection * finalSpeed, ForceMode.VelocityChange);
                 break;
-            case moveType.Velocity:
+            case MoveType.Velocity:
                 rb.linearVelocity = new Vector3(moveDirection.x * finalSpeed,
                 rb.linearVelocity.y,
                 moveDirection.z * finalSpeed);

@@ -24,15 +24,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Parry",
-                    "type": "Button",
-                    "id": "540a4db2-f5c2-4bb8-856e-adda278faf19",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Roll",
                     "type": "Button",
                     "id": "5089c710-ac29-4e77-8450-ea020db1f5bf",
@@ -62,17 +53,6 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b1d4c491-7669-4e5a-8d80-5d0f6e40259d",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Parry",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

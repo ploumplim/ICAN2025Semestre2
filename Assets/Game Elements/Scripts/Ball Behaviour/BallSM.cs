@@ -138,7 +138,7 @@ public class BallSM : MonoBehaviour
     public void Throw(float chargeMultiplier)
     {
         float finalSpeed = ballSpeed * chargeMultiplier;
-        float finalVSpeed = ballVSpeed * chargeMultiplier;
+        float finalVSpeed = ballVSpeed;
 
         minimumSpeed = player.GetComponent<Rigidbody>().linearVelocity * 2f + minimumForce * player.transform.forward;
         
@@ -169,7 +169,7 @@ public class BallSM : MonoBehaviour
                 switch (other.gameObject.tag)
                 {
                     case "Floor":
-                        ChangeState(GetComponent<DroppedState>());
+                        // ChangeState(GetComponent<DroppedState>());
                         break;
                     case "Bouncer":
                         if (bounces < maxBounces)
@@ -189,7 +189,7 @@ public class BallSM : MonoBehaviour
                 switch (other.gameObject.tag)
                 {
                     case "Floor":
-                        ChangeState(GetComponent<DroppedState>());
+                        // ChangeState(GetComponent<DroppedState>());
                         break;
                 }
                 break;
