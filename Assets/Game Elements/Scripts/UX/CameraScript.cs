@@ -1,170 +1,106 @@
 using System;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
-    // ~~~~~~~~~~~~~~~~VARIABLES~~~~~~~~~~~~~~~~
-    // ---------------PRIVATE---------------
-    private float _trueCameraSize; // The actual size of the camera, calculated from the size modifier.
-    private float _sizeModifier; // The size modifier of the camera, based on the distance between the player and the ball.
-    private Vector3[] _lockPoints; // The array of points that the camera can lock itself to.
-    private GameObject cameraObject; // The camera component of the camera object.
-    private Vector3 _targetPoint; // The point that the camera should lock itself to.
-    
-    // ---------------PUBLIC---------------
-    [Tooltip("The gameobject holding the camera. The code will move THIS object, while the camera is fixed to it as " +
-             "a child of it.")]
-    public GameObject cameraHolderObject;
+    private Vector3[] _lockPoints; 
+    private GameObject _cameraObject;
+    private Vector3 _targetPoint;
 
-    [Tooltip("The camera's follow speed.")]
+    public GameObject cameraHolderObject;
     public float followSpeed = 5f;
-    
-    [Tooltip("The camera's speed when moving away from the scene.")]
     public float zoomSpeed = 5f;
-    
-    [Tooltip("This list contains all objects that the camera should use as points to lock itself.")]
     public GameObject[] lockPoints;
-    
-    [Tooltip("This is the padding that the camera will have from the lock points.")]
+    public GameObject Floor;
+    public Vector3 centerFloor;
+    public float distanceTargetCenter;
+
+    [Tooltip("Padding for camera zoom.")]
     public float padding = 2f;
-    
-    
-    public void Start()
+
+    [Tooltip("Min and Max Camera Distances.")]
+    public float minCameraDistance = 10f;
+    public float maxCameraDistance = 50f;
+
+    [Tooltip("Min and Max distance between players before adjusting zoom.")]
+    public float minTargetDistance = 5f;   // Nouvelle valeur pour éviter que la caméra zoome trop près
+    public float maxTargetDistance = 30f;  // Nouvelle valeur pour limiter l’éloignement de la caméra
+
+    private void Start()
     {
-        // Get the camera component of the camera object
-        cameraObject = cameraHolderObject.GetComponentInChildren<Camera>().gameObject;
+        _cameraObject = cameraHolderObject.GetComponentInChildren<Camera>().gameObject;
+        centerFloor = Floor.transform.position;
     }
-    public void FixedUpdate()
+
+    private void FixedUpdate()
     {
         UpdateCameraPosition();
         UpdateCameraDistance();
-        
-        // AdjustDistanceFromTarget(_targetPoint);
     }
-    
+
     private void UpdateCameraPosition()
     {
-        
-        // Get the length of the lockPoints array
-        int lockPointsLength = lockPoints.Length;
-        
-        // If the lockPoints array is not empty
-        if (lockPointsLength > 0)
+        if (lockPoints.Length > 0)
         {
-            // Create a new Vector3 array with the same length as the lockPoints array
-            _lockPoints = new Vector3[lockPointsLength];
-            
-            // Loop through the lockPoints array
-            for (int i = 0; i < lockPointsLength; i++)
-            {
-                // Set the current index of the _lockPoints array to the position of the current index of the lockPoints array
+            _lockPoints = new Vector3[lockPoints.Length];
+
+            for (int i = 0; i < lockPoints.Length; i++)
                 _lockPoints[i] = lockPoints[i].transform.position;
-            }
         }
-        
-        // Calculate the average point between the lock points
+
         _targetPoint = CalculateAveragePoint(_lockPoints);
-        
-        
-        // Move the camera holder object to the middle point
-        cameraHolderObject.transform.position = Vector3.Lerp(cameraHolderObject.transform.position,
-            _targetPoint,followSpeed * Time.deltaTime);
-        
-        
+        cameraHolderObject.transform.position = Vector3.Lerp(
+            cameraHolderObject.transform.position, _targetPoint, followSpeed * Time.deltaTime);
+
+        distanceTargetCenter = Vector3.Distance(centerFloor, _targetPoint);
     }
-    
+
+    private void UpdateCameraDistance()
+    {
+        
+        //TODO MODIFIER LE CODE POUR AMELIORER LE ZOOM ET DEZOOM DE LA CAM
+        
+        // On s'assure que la distance est comprise entre les limites définies
+        float clampedDistance = Mathf.Clamp(distanceTargetCenter, maxTargetDistance, minTargetDistance);
+
+        // Calcul de la nouvelle distance avec une interpolation linéaire
+        float targetDistance = Mathf.Lerp(minCameraDistance, maxCameraDistance, 
+                                          (clampedDistance - minTargetDistance) / (maxTargetDistance - minTargetDistance));
+        
+        // Récupération de la direction de la caméra
+        Vector3 cameraDirection = (_cameraObject.transform.position - cameraHolderObject.transform.position).normalized;
+
+        // Appliquer la nouvelle distance avec un lissage
+        _cameraObject.transform.position = Vector3.Lerp(
+            _cameraObject.transform.position,
+            cameraHolderObject.transform.position + cameraDirection * targetDistance,
+            Time.deltaTime * zoomSpeed
+        );
+    }
+
     public static Vector3 CalculateAveragePoint(Vector3[] points)
     {
         if (points == null || points.Length == 0)
-        {
             return Vector3.zero;
-        }
 
         Vector3 sum = Vector3.zero;
         foreach (Vector3 point in points)
-        {
             sum += point;
-        }
 
         return sum / points.Length;
     }
-    
+
     public void AddPlayerToArray(GameObject player)
     {
         Array.Resize(ref lockPoints, lockPoints.Length + 1);
         lockPoints[^1] = player;
     }
 
-    private void UpdateCameraDistance()
+    private void OnDrawGizmos()
     {
-        // Recover the vector distance between the camera holder object and the camera object
-        Vector3 distance = cameraObject.transform.position - cameraHolderObject.transform.position;
-        
-        // Check if all objects within the lockPoints array are visible
-        if (!AreAllLockPointsVisible())
-        {
-            // If they are, move the camera holder object away from the camera object
-            cameraHolderObject.transform.position += distance.normalized * (zoomSpeed * Time.deltaTime);
-            Debug.Log("Moving away" + cameraHolderObject.transform.position);
-        }
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(_targetPoint, 0.5f);
+        Gizmos.color = Color.white;
+        Gizmos.DrawSphere(centerFloor, 0.5f);
     }
-
-    private bool AreAllLockPointsVisible()
-    {
-        Camera camera = cameraObject.GetComponent<Camera>();
-        foreach (Vector3 point in _lockPoints)
-        {
-            Vector3 viewportPoint = camera.WorldToViewportPoint(point);
-            if (viewportPoint.x < 0 || viewportPoint.x > 1 || viewportPoint.y < 0 || viewportPoint.y > 1)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-    
 }
-
-// ---------------DEPRECATED---------------
-
-    // private void UpdateCameraSize()
-    // {
-    //     // Calculate the distance between the player and the ball
-    //     float distance = Vector3.Distance(_playerPosition, _ballPosition);
-    //     
-    //     // Calculate the size modifier based on the distance
-    //     _sizeModifier = distance * expansionMultiplier;
-    //     
-    //     // Calculate the true camera size
-    //     _trueCameraSize = baseSize + _sizeModifier;
-    //     
-    //     // Set the camera size
-    //     GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize,
-    //         _trueCameraSize, zoomSpeed * Time.deltaTime);
-    // }
-    
-    
-    // private bool AreAllLockPointsVisible()
-    // {
-    //     Camera camera = cameraObject.GetComponent<Camera>();
-    //     foreach (Vector3 point in _lockPoints)
-    //     {
-    //         Vector3 viewportPoint = camera.WorldToViewportPoint(point);
-    //         if (viewportPoint.x < 0 || viewportPoint.x > 1 || viewportPoint.y < 0 || viewportPoint.y > 1 || viewportPoint.z < 0)
-    //         {
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }
-    //
-    // public void AdjustDistanceFromTarget(Vector3 targetPoint)
-    // {
-    //     while (!AreAllLockPointsVisible())
-    //     {
-    //         // Move the camera holder object away from the target point
-    //         Vector3 direction = (cameraHolderObject.transform.position - targetPoint).normalized;
-    //         cameraHolderObject.transform.position += direction * (zoomSpeed * Time.deltaTime);
-    //     }
-    // }

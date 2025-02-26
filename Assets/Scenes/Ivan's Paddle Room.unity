@@ -544,7 +544,14 @@ MonoBehaviour:
   zoomSpeed: 5
   lockPoints:
   - {fileID: 1651279641}
+  Floor: {fileID: 1203503774}
+  centerFloor: {x: 0, y: 0, z: 0}
+  distanceTargetCenter: 0
   padding: 2
+  minCameraDistance: 25
+  maxCameraDistance: 100
+  minTargetDistance: 5
+  maxTargetDistance: 30
 --- !u!1 &450039675
 GameObject:
   m_ObjectHideFlags: 0
