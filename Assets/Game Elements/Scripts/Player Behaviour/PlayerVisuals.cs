@@ -75,7 +75,7 @@ public class PlayerVisuals : MonoBehaviour
         {
             switch (playerScript.currentState)
             {
-                case MomentumState:
+                case KnockbackState:
                     _playerMeshMaterial.color = knockbackColor;
                     break;
                 default:
@@ -139,7 +139,7 @@ public class PlayerVisuals : MonoBehaviour
     
     public void OnParryAvailable()
     {
-        if (playerScript.currentState != playerScript.GetComponent<MomentumState>())
+        if (playerScript.currentState != playerScript.GetComponent<KnockbackState>())
         {
             _playerMeshMaterial.color = canParryColor;
             _canParry = true;

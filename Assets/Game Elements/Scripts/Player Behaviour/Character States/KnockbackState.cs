@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MomentumState : PlayerState
+public class KnockbackState : PlayerState
 {
     private float _timer;
     public override void Enter()
@@ -16,7 +16,7 @@ public class MomentumState : PlayerState
         _timer += Time.deltaTime;
         if (_timer >= PlayerScript.knockbackTime)
         {
-            PlayerScript.ChangeState(GetComponent<IdleState>());
+            PlayerScript.ChangeState(GetComponent<NeutralState>());
         }
     }
 
