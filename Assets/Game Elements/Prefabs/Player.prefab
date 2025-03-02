@@ -5292,10 +5292,12 @@ MonoBehaviour:
   knockbackForce: 10
   linearDrag: 3.5
   hitLinearDrag: 2.5
-  chargeRate: 2
   parryType: 0
+  chargeRate: 1
   parryCooldown: 0.5
-  parryForce: 6
+  parryForce: 3
+  chargeClamp: 0.5
+  verticalPercent: 0.2
   parryWindow: 0.4
   parryDetectionRadius: 3.5
   rollSpeed: 50

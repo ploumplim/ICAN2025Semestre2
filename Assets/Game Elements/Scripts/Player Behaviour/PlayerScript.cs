@@ -59,16 +59,20 @@ public class PlayerScript : MonoBehaviour
     public float hitLinearDrag = 0f;
     
     //---------------------------------------------------------------------------------------
-    [Header("Charge shot")]
-    public float chargeRate = 0.5f; // Rate at which the charge value increases
-    //---------------------------------------------------------------------------------------
-    [Header("Parry")]
+    [Header("Hit parameters")]
     [Tooltip("Select the type of parry.")]
     public ParryType parryType = ParryType.ForwardParry;
+    [Tooltip("The rate at which the charge value increases.")]
+    public float chargeRate = 0.5f;
     [Tooltip("The time the player has to wait between each parry.")]
     public float parryCooldown = 0.5f;
-    [Tooltip("The force applied to the ball when parrying.")]
+    [Tooltip("The speed multiplier on the ball. .")]
     public float parryForce = 10f;
+    [Tooltip("This number is the minimum value that the charge reaches when tapped.")]
+    public float chargeClamp = 0.5f;
+    [Tooltip("This value (between 0 and 1) grants direction in the vertical axis to the player's parry. This is only" +
+             "applied when the ball is grounded.")]
+    public float verticalPercent = 0.2f;
     [Tooltip("The window of opportunity that the parry will hit the ball.")]
     public float parryWindow = 0.4f;
     [Tooltip("The radius of the sphere that will detect the ball when parrying.")]
@@ -122,12 +126,8 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public BallSM ballSM;
 
     // ------------------------------ CHARGING ------------------------------
-    [HideInInspector]public float chargeValueIncrementor = 0.5f;
-    private float fixedChargedValue;
-    private bool isCharging = false;
-    
+    [HideInInspector]public float chargeValueIncrementor = 0f;
     // ------------------------------ PARRY ------------------------------
-    private ParryPlayer _parryPlayer;
     [HideInInspector] public float parryTimer = 0f;
     // ------------------------------ ROLL ------------------------------
     // [HideInInspector]public bool ballCaughtWhileRolling;
@@ -153,8 +153,7 @@ public class PlayerScript : MonoBehaviour
         
         
         
-        rb = GetComponent<Rigidbody>();
-        _parryPlayer = GetComponentInChildren<ParryPlayer>();
+        rb = GetComponent<Rigidbody>(); 
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
         throwAction = playerInput.actions["Attack"];
@@ -213,13 +212,12 @@ public class PlayerScript : MonoBehaviour
         if (other.gameObject.GetComponent<BallSM>())
         {
             // Debug.Log(currentState);
-            if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<MidAirState>())
+            if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<FlyingState>())
             {
                 if (currentState is not KnockbackState)
                 {
                     PlayerEndedDash?.Invoke();
                     ChangeState(GetComponent<KnockbackState>());
-                    _parryPlayer.parryTimer = 0;
                     // Push the player in the opposite direction of the ball
                     Vector3 direction = transform.position - other.transform.position;
                     rb.AddForce(
@@ -257,7 +255,7 @@ public class PlayerScript : MonoBehaviour
             cameraRight.Normalize();
 
             // Calculate the movement direction
-            Vector3 moveDirection = (cameraForward * moveInputVector2.y + cameraRight * moveInputVector2.x).normalized;
+            Vector3 moveDirection = (cameraForward * moveInputVector2.y + cameraRight * moveInputVector2.x);
 
             // Apply movement and set the player's direction
             switch (movementType)
@@ -283,14 +281,14 @@ public class PlayerScript : MonoBehaviour
             ChangeState(GetComponent<ChargingState>());
         }
         
-        if (currentState is ChargingState && context.performed)
-        { 
-            Debug.Log("charging! charge: " + chargeValueIncrementor);
-        }
+        // if (currentState is ChargingState && context.performed)
+        // { 
+        //     // Debug.Log("charging! charge: " + chargeValueIncrementor);
+        // }
         else if (currentState is ChargingState && context.canceled) 
         { 
             ChangeState(GetComponent<ReleaseState>());
-            Debug.Log("released! charge: " + chargeValueIncrementor);
+            // Debug.Log("released! charge: " + chargeValueIncrementor);
         }
         
         
@@ -316,5 +314,11 @@ public class PlayerScript : MonoBehaviour
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawRay(transform.position, transform.forward * 10);
+        
+        // draw the parry sphere
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + transform.forward * parryDetectionRadius, parryDetectionRadius);
+        
+        
     }
 }

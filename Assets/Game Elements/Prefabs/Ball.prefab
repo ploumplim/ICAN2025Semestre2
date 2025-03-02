@@ -111,11 +111,11 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 1
+  m_Time: 0.3
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 2
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -142,9 +142,9 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 1, g: 0.016675629, b: 0, a: 0.24313726}
+      key1: {r: 1, g: 0.016675629, b: 0, a: 0.24313726}
+      key2: {r: 0, g: 0, b: 0, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -160,7 +160,7 @@ TrailRenderer:
       ctime7: 0
       atime0: 0
       atime1: 65535
-      atime2: 0
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
@@ -171,9 +171,9 @@ TrailRenderer:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
-    numCapVertices: 0
+    numCapVertices: 90
     alignment: 0
-    textureMode: 0
+    textureMode: 2
     textureScale: {x: 1, y: 1}
     shadowBias: 0.5
     generateLightingData: 0
@@ -195,10 +195,8 @@ GameObject:
   - component: {fileID: 5645183620331005197}
   - component: {fileID: 5565106716455342989}
   - component: {fileID: 3984054927209078919}
-  - component: {fileID: 966831823244586985}
   - component: {fileID: 6323144974866670032}
   - component: {fileID: 5365377086522546456}
-  - component: {fileID: 3780658454886815385}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Ball
@@ -253,7 +251,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -283,36 +281,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
-  ballSpeed: 10
-  maxSpeed: 20
-  minimumForce: 5
-  ballVSpeed: 1
-  maxHeight: 10
-  minHeight: -1
+  maxSpeed: 100
+  maxHeight: 7
+  minHeight: 0
   groundedLinearDamping: 1
-  midAirLinearDamping: 0.1
-  groundedMass: 1
-  midAirMass: 0.1
-  baseDetectionRadius: 5
-  detectionRadiusMultiplier: 0.1
-  homingForce: 10
-  maxBounces: 3
-  groundedBySpeed: 0
-  timeToGrounded: 5
-  minimumSpeedToGround: 5
+  flyingLinearDamping: 0.1
+  groundedMass: 5
+  flyingMass: 3
+  minimumSpeedToGround: 10
   rb: {fileID: 0}
-  sc: {fileID: 0}
-  player: {fileID: 0}
-  speedModifiedDetectionRadius: 0
-  minimumSpeed: {x: 0, y: 0, z: 0}
   bounces: 0
   canBeParried: 0
-  canBeParriedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  cannotBeParriedEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &3984054927209078919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,20 +307,8 @@ MonoBehaviour:
   ballMarker: {fileID: 0}
   trailVisuals: {fileID: 3172110743681774408}
   ballVisuals: {fileID: 5224228065908999798}
-  parryColor: {r: 0, g: 0, b: 0, a: 0}
+  parryColor: {r: 0, g: 0.11869693, b: 1, a: 1}
   ballLight: {fileID: 2671433560985040521}
---- !u!114 &966831823244586985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3874236971623783123}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9105f19886f9180499e76ee170cfea50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6323144974866670032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,19 +331,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0775bb70a4daac94d8ae53b941d36c06, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timer: 0
---- !u!114 &3780658454886815385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3874236971623783123}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca429423d0b5a3f42a535b9e01d94d7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5224228065908999798
@@ -508,9 +462,9 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 2
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 8
-  m_Range: 1.48
+  m_Color: {r: 0.06549895, g: 1, b: 0, a: 1}
+  m_Intensity: 8.41
+  m_Range: 4
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10

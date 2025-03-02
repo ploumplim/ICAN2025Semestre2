@@ -17,7 +17,8 @@ using UnityEngine;
         public void ChargingForce()
         {
                 PlayerScript.chargeValueIncrementor += PlayerScript.chargeRate * Time.deltaTime;
-                PlayerScript.chargeValueIncrementor = Mathf.Clamp(PlayerScript.chargeValueIncrementor, 0f, 1f);
+                PlayerScript.chargeValueIncrementor = Mathf.Clamp(PlayerScript.chargeValueIncrementor, 
+                    PlayerScript.chargeClamp, 1f);
                 // Debug.Log(chargeValueIncrementor);
                 
         }

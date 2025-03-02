@@ -27,7 +27,7 @@ public class ReleaseState : PlayerState
     {
         
         yield return new WaitForSeconds(PlayerScript.parryCooldown);
-        Debug.Log("Parry Ended");
+        // Debug.Log("Parry Ended");
         PlayerScript.ChangeState(GetComponent<NeutralState>());
     }
     
@@ -66,10 +66,23 @@ public class ReleaseState : PlayerState
     {
         if (ballToParry)
         {
+            float verticalPercent;
+            float minimumBallSpeed = ballToParry.GetComponent<BallSM>().minimumSpeedToGround;
             Rigidbody ballRigidbody = ballToParry.GetComponent<Rigidbody>();
             if (ballRigidbody != null)
             {
                 currentBallSpeed = ballToParry.GetComponent<Rigidbody>().linearVelocity.magnitude;
+
+                if (ballToParry.GetComponent<BallSM>().currentState != ballToParry.GetComponent<FlyingState>())
+                {
+                    currentBallSpeed = minimumBallSpeed * 1.3f;
+                    verticalPercent = 0f;
+                }
+                else
+                {
+                    verticalPercent = PlayerScript.verticalPercent;
+                }
+
                 ballRigidbody.linearVelocity = Vector3.zero;
                 GameObject player = PlayerScript.gameObject;
                 Vector3 direction;
@@ -77,19 +90,27 @@ public class ReleaseState : PlayerState
                 {
                     case PlayerScript.ParryType.ForwardParry:
                         // Send the ball in the direction the player is facing.
-                        direction = new Vector3(player.transform.forward.x, 0, player.transform.forward.z).normalized;
-                        ballRigidbody.AddForce(direction * (PlayerScript.parryForce * currentBallSpeed), ForceMode.Impulse);
-                        
+                        direction = new Vector3(player.transform.forward.x, verticalPercent, player.transform.forward.z).normalized;
+                        ApplyForce(ballRigidbody, direction);
+
                         break;
-                    case PlayerScript.ParryType.ReflectiveParry: 
+                    case PlayerScript.ParryType.ReflectiveParry:
                         direction = ballToParry.transform.position - transform.position;
-                        direction = new Vector3(direction.x, 0, direction.z).normalized;
-                        // send the ball in the direction away from the player.
-                        ballRigidbody.AddForce(direction * (PlayerScript.parryForce * currentBallSpeed), ForceMode.Impulse);
+                        direction = new Vector3(direction.x, verticalPercent, direction.z).normalized;
+
+                        ApplyForce(ballRigidbody, direction);
                         break;
                 }
             }
+            ballToParry = null;
         }
+
+    }
+
+    public void ApplyForce(Rigidbody ballRigidBody, Vector3 direction)
+    { 
+        ballRigidBody.AddForce(direction * (PlayerScript.chargeValueIncrementor *
+                                          PlayerScript.parryForce * currentBallSpeed), ForceMode.Impulse);
     }
     
     //---------------------------------------------------------------------------------
@@ -97,5 +118,7 @@ public class ReleaseState : PlayerState
     {
         base.Exit();
         PlayerScript.chargeValueIncrementor = 0f;
+        ballToParry = null;
+
     }
 }

@@ -43,7 +43,7 @@ public class BallLauncher : MonoBehaviour
                 ballRigidbody.linearVelocity = Vector3.zero; // Reset velocity
                 ballRigidbody.angularVelocity = Vector3.zero; // Reset angular velocity
                 ballRigidbody.AddForce(transform.right * launchForce, ForceMode.Impulse);
-                ballRigidbody.gameObject.GetComponent<BallSM>().currentState=ballRigidbody.gameObject.GetComponent<MidAirState>();
+                ballRigidbody.gameObject.GetComponent<BallSM>().currentState=ballRigidbody.gameObject.GetComponent<FlyingState>();
             }
         }
     }
