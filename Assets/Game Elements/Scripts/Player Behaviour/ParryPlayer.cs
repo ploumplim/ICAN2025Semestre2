@@ -1,141 +1,141 @@
-using System;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.Serialization;
-
-
-public class ParryPlayer : MonoBehaviour
-{
-    private PlayerScript _playerScript;
-    private BallSM _ballSM;
-    
-    private SphereCollider _col;
-    private bool canParry;
-    private GameObject _ballToParry;
-    private float parryForce;
-
-    private float _currentBallSpeed;
-    
-    [FormerlySerializedAs("hasParried")] [HideInInspector] public bool playerHasParried;
-    [FormerlySerializedAs("_Timer")] [HideInInspector] public float parryTimer;
-
-    private void Start()
-    {
-        _playerScript = GetComponentInParent<PlayerScript>();
-        _col = GetComponent<SphereCollider>();
-        parryForce = _playerScript.parryForce;
-    }
-
-    private void FixedUpdate()
-    {
-        _col.radius = _playerScript.parryDetectionRadius;
-        
-        if (playerHasParried)
-        {
-            // Debug.Log("Aled");
-            parryTimer += Time.deltaTime;
-            if (canParry && parryTimer <= _playerScript.parryWindow)
-            {
-                Parry();    
-            }
-        }
-        else
-        {
-            parryTimer = 0;
-        }
-        
-        
-        if (parryTimer >= _playerScript.parryCooldown)
-        {
-            playerHasParried = false;
-            canParry = false;
-            parryTimer = 0;
-            // Debug.Log("Parry cooldown over");
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Ball"))
-        {
-            _ballSM = other.GetComponent<BallSM>();
-            if (_ballSM != null && _ballSM.currentState == _ballSM.GetComponent<MidAirState>())
-            {
-                canParry = true;
-                _ballToParry = other.gameObject;
-                _ballSM.canBeParriedEvent?.Invoke();
-                _playerScript.CanParryTheBallEvent?.Invoke();
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Ball"))
-        {
-            canParry = false;
-            _ballSM.cannotBeParriedEvent?.Invoke();
-            _playerScript.CannotParryTheBallEvent?.Invoke();
-            _ballToParry = null;
-            parryTimer = 0;
-        }
-    }
-
-    public void Parry()
-    {
-        if (canParry && _ballToParry)
-        {
-            // Debug.Log("Aled");
-            Rigidbody ballRigidbody = _ballToParry.GetComponent<Rigidbody>();
-            if (ballRigidbody != null)
-            {
-                _currentBallSpeed = _ballToParry.GetComponent<Rigidbody>().linearVelocity.magnitude;
-                ballRigidbody.linearVelocity = Vector3.zero;
-                GameObject player = _playerScript.gameObject;
-                // Calculate the vector between the player and the ball.
-                Vector3 direction = new Vector3();
-                switch (_playerScript.parryType)
-                {
-                    case PlayerScript.ParryType.ForwardParry:
-                        // Send the ball in the direction the player is facing.
-                        direction = new Vector3(player.transform.forward.x, 0, player.transform.forward.z).normalized;
-                        ballRigidbody.AddForce(direction * (parryForce * _currentBallSpeed), ForceMode.Impulse);
-                        
-                        break;
-                    case PlayerScript.ParryType.ReflectiveParry: 
-                        direction = _ballToParry.transform.position - transform.position;
-                        direction = new Vector3(direction.x, 0, direction.z).normalized;
-                        // send the ball in the direction away from the player.
-                        ballRigidbody.AddForce(direction * (parryForce * _currentBallSpeed), ForceMode.Impulse);
-                        _ballSM.ChangeState(_ballSM.GetComponent<TargetingState>());
-                        break;
-                }
-                
-                
-                parryTimer = 0;
-                canParry = false;
-                playerHasParried = false;
-            }
-            
-        }
-    }
-
-    // private void OnDrawGizmos()
-    // {
-    //     if (_col != null)
-    //     {
-    //         Gizmos.color = new Color(1, 0, 1); 
-    //         if (_col is BoxCollider)
-    //         {
-    //             BoxCollider box = (BoxCollider)_col;
-    //             Gizmos.DrawWireCube(box.bounds.center, box.bounds.size);
-    //         }
-    //         else if (_col is SphereCollider)
-    //         {
-    //             SphereCollider sphere = (SphereCollider)_col;
-    //             Gizmos.DrawWireSphere(sphere.bounds.center, sphere.bounds.size.x / 2);
-    //         }
-    //         // Add more collider types if needed
-    //     }
-    // }
-}
+// using System;
+// using Unity.VisualScripting;
+// using UnityEngine;
+// using UnityEngine.Serialization;
+//
+//
+// public class ParryPlayer : MonoBehaviour
+// {
+//     private PlayerScript _playerScript;
+//     private BallSM _ballSM;
+//     
+//     private SphereCollider _col;
+//     private bool canParry;
+//     private GameObject _ballToParry;
+//     private float parryForce;
+//
+//     private float _currentBallSpeed;
+//     
+//     [FormerlySerializedAs("hasParried")] [HideInInspector] public bool playerHasParried;
+//     [FormerlySerializedAs("_Timer")] [HideInInspector] public float parryTimer;
+//
+//     private void Start()
+//     {
+//         _playerScript = GetComponentInParent<PlayerScript>();
+//         _col = GetComponent<SphereCollider>();
+//         parryForce = _playerScript.parryForce;
+//     }
+//
+//     private void FixedUpdate()
+//     {
+//         _col.radius = _playerScript.parryDetectionRadius;
+//         
+//         if (playerHasParried)
+//         {
+//             // Debug.Log("Aled");
+//             parryTimer += Time.deltaTime;
+//             if (canParry && parryTimer <= _playerScript.parryWindow)
+//             {
+//                 Parry();    
+//             }
+//         }
+//         else
+//         {
+//             parryTimer = 0;
+//         }
+//         
+//         
+//         if (parryTimer >= _playerScript.parryCooldown)
+//         {
+//             playerHasParried = false;
+//             canParry = false;
+//             parryTimer = 0;
+//             // Debug.Log("Parry cooldown over");
+//         }
+//     }
+//
+//     private void OnTriggerEnter(Collider other)
+//     {
+//         if (other.gameObject.CompareTag("Ball"))
+//         {
+//             _ballSM = other.GetComponent<BallSM>();
+//             if (_ballSM != null && _ballSM.currentState == _ballSM.GetComponent<FlyingState>())
+//             {
+//                 canParry = true;
+//                 _ballToParry = other.gameObject;
+//                 _ballSM.canBeParriedEvent?.Invoke();
+//                 _playerScript.CanParryTheBallEvent?.Invoke();
+//             }
+//         }
+//     }
+//
+//     private void OnTriggerExit(Collider other)
+//     {
+//         if (other.gameObject.CompareTag("Ball"))
+//         {
+//             canParry = false;
+//             _ballSM.cannotBeParriedEvent?.Invoke();
+//             _playerScript.CannotParryTheBallEvent?.Invoke();
+//             _ballToParry = null;
+//             parryTimer = 0;
+//         }
+//     }
+//
+//     public void Parry()
+//     {
+//         if (canParry && _ballToParry)
+//         {
+//             // Debug.Log("Aled");
+//             Rigidbody ballRigidbody = _ballToParry.GetComponent<Rigidbody>();
+//             if (ballRigidbody != null)
+//             {
+//                 _currentBallSpeed = _ballToParry.GetComponent<Rigidbody>().linearVelocity.magnitude;
+//                 ballRigidbody.linearVelocity = Vector3.zero;
+//                 GameObject player = _playerScript.gameObject;
+//                 // Calculate the vector between the player and the ball.
+//                 Vector3 direction = new Vector3();
+//                 switch (_playerScript.parryType)
+//                 {
+//                     case PlayerScript.ParryType.ForwardParry:
+//                         // Send the ball in the direction the player is facing.
+//                         direction = new Vector3(player.transform.forward.x, 0, player.transform.forward.z).normalized;
+//                         ballRigidbody.AddForce(direction * (parryForce * _currentBallSpeed), ForceMode.Impulse);
+//                         
+//                         break;
+//                     case PlayerScript.ParryType.ReflectiveParry: 
+//                         direction = _ballToParry.transform.position - transform.position;
+//                         direction = new Vector3(direction.x, 0, direction.z).normalized;
+//                         // send the ball in the direction away from the player.
+//                         ballRigidbody.AddForce(direction * (parryForce * _currentBallSpeed), ForceMode.Impulse);
+//                         _ballSM.ChangeState(_ballSM.GetComponent<HitState>());
+//                         break;
+//                 }
+//                 
+//                 
+//                 parryTimer = 0;
+//                 canParry = false;
+//                 playerHasParried = false;
+//             }
+//             
+//         }
+//     }
+//
+//     // private void OnDrawGizmos()
+//     // {
+//     //     if (_col != null)
+//     //     {
+//     //         Gizmos.color = new Color(1, 0, 1); 
+//     //         if (_col is BoxCollider)
+//     //         {
+//     //             BoxCollider box = (BoxCollider)_col;
+//     //             Gizmos.DrawWireCube(box.bounds.center, box.bounds.size);
+//     //         }
+//     //         else if (_col is SphereCollider)
+//     //         {
+//     //             SphereCollider sphere = (SphereCollider)_col;
+//     //             Gizmos.DrawWireSphere(sphere.bounds.center, sphere.bounds.size.x / 2);
+//     //         }
+//     //         // Add more collider types if needed
+//     //     }
+//     // }
+// }

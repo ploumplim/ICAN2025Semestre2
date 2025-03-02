@@ -18,7 +18,7 @@ public class RollingState : PlayerState
         }
         
         // push the player in the direction of the moveInput.
-        Vector3 direction = PlayerScript.RollPush();
+        Vector3 direction = PlayerScript.moveInputVector2;
         PlayerScript.rb.AddForce(direction * PlayerScript.rollSpeed, ForceMode.Impulse);
     }
 
@@ -26,50 +26,20 @@ public class RollingState : PlayerState
     {
         base.Tick();
         timer += Time.deltaTime;
-        
-        PlayerScript.SteerRoll();
-        Catch();
+        //Apply the movement, decreasing the speed of the player over time.
+        float decreasingSpeed = Mathf.Lerp(PlayerScript.rollSpeed, 0, GetComponent<RollingState>().timer / PlayerScript.rollDuration);
+        PlayerScript.Move(decreasingSpeed, PlayerScript.rollLerpTime);
+        // Catch();
         
         if (timer >= PlayerScript.rollDuration)
         {
             timer = 0;
             PlayerScript.PlayerEndedDash?.Invoke();
-            if (PlayerScript.moveInput == Vector2.zero)
-            {
-                PlayerScript.ChangeState(PlayerScript.GetComponent<IdleState>());
-            }
-            else
-            {
-                PlayerScript.ChangeState(PlayerScript.GetComponent<MovingState>());
-            }
+            PlayerScript.ChangeState(PlayerScript.GetComponent<NeutralState>());
         }
     }
 
-    public void Catch()
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, PlayerScript.rollDetectionRadius);
-        // Remove any collider in my hitColliders that are not tagged "Ball"
-        hitColliders = Array.FindAll(hitColliders, hitCollider => hitCollider.CompareTag("Ball"));
-        
-        if (hitColliders.Length == 0) return;
-        
-        GameObject caughtBall = hitColliders[0].gameObject;
-
-        if (caughtBall)
-        {
-            BallSM ballSM = caughtBall.GetComponent<BallSM>();
-            if (ballSM && ballSM.currentState == ballSM.GetComponent<MidAirState>() ||
-                ballSM.currentState == ballSM.GetComponent<DroppedState>())
-            {
-                if (timer <= PlayerScript.catchWindow)
-                {
-                    PlayerScript.heldBall = caughtBall;
-                    ballSM.ChangeState(ballSM.GetComponent<InHandState>());
-                }
-            }
-                    
-        }
-    }
+    
 
 
     public override void Exit()
@@ -93,4 +63,29 @@ public class RollingState : PlayerState
     //     }
     // }
     
+    // public void Catch()
+    // {
+    //     Collider[] hitColliders = Physics.OverlapSphere(transform.position, PlayerScript.rollDetectionRadius);
+    //     // Remove any collider in my hitColliders that are not tagged "Ball"
+    //     hitColliders = Array.FindAll(hitColliders, hitCollider => hitCollider.CompareTag("Ball"));
+    //     
+    //     if (hitColliders.Length == 0) return;
+    //     
+    //     GameObject caughtBall = hitColliders[0].gameObject;
+    //
+    //     if (caughtBall)
+    //     {
+    //         BallSM ballSM = caughtBall.GetComponent<BallSM>();
+    //         if (ballSM && ballSM.currentState == ballSM.GetComponent<MidAirState>() ||
+    //             ballSM.currentState == ballSM.GetComponent<DroppedState>())
+    //         {
+    //             if (timer <= PlayerScript.catchWindow)
+    //             {
+    //                 PlayerScript.heldBall = caughtBall;
+    //                 ballSM.ChangeState(ballSM.GetComponent<InHandState>());
+    //             }
+    //         }
+    //                 
+    //     }
+    // }
 }

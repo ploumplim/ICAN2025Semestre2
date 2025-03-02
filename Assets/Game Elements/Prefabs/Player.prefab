@@ -5040,74 +5040,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!1 &1762487384191265910
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7652896697361725976}
-  - component: {fileID: 4221711755328789275}
-  - component: {fileID: 6613645981113877287}
-  m_Layer: 0
-  m_Name: ParryCollider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7652896697361725976
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1762487384191265910}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4958550416641463213}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &4221711755328789275
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1762487384191265910}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 3.5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6613645981113877287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1762487384191265910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6866c5f2d12bcab4394daff3c41aaf1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerHasParried: 0
-  parryTimer: 0
 --- !u!1 &3328443934547631640
 GameObject:
   m_ObjectHideFlags: 0
@@ -5150,7 +5082,6 @@ Transform:
   m_Children:
   - {fileID: 9195313607378371640}
   - {fileID: 6610813216028825817}
-  - {fileID: 7652896697361725976}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &1163133444488782302
@@ -5254,26 +5185,14 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4963522762754067053}
-        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
-        m_MethodName: OnMove
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
     m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4963522762754067053}
         m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
-        m_MethodName: OnThrow
+        m_MethodName: OnChargeAttack
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5365,23 +5284,24 @@ MonoBehaviour:
   currentState: {fileID: 0}
   movementType: 0
   speed: 22
-  speedWithoutBallsModifier: 1.7
-  aimSpeedMod: 0
+  chargeSpeedModifier: 0.5
+  neutralLerpTime: 0.1
+  rollLerpTime: 0.1
+  chargeLerpTime: 0.1
   knockbackTime: 0.25
+  knockbackForce: 10
   linearDrag: 3.5
   hitLinearDrag: 2.5
-  rotationLerpTime: 0.2
-  rotationWhileAimingLerpTime: 0.1
-  rollLerpTime: 0.1
-  chargeRate: 2
   parryType: 0
+  chargeRate: 1
   parryCooldown: 0.5
-  parryForce: 6
+  parryForce: 3
+  chargeClamp: 0.5
+  verticalPercent: 0.2
   parryWindow: 0.4
   parryDetectionRadius: 3.5
   rollSpeed: 50
   rollDuration: 0.5
-  catchWindow: 0.4
   rollDetectionRadius: 3.5
   canPassThroughLedges: 1
   MultiplayerManager: {fileID: 0}
@@ -5472,9 +5392,8 @@ MonoBehaviour:
   heldBall: {fileID: 0}
   ballSM: {fileID: 0}
   chargeValueIncrementor: 0.5
-  canParry: 1
   parryTimer: 0
-  moveInput: {x: 0, y: 0}
+  moveInputVector2: {x: 0, y: 0}
 --- !u!114 &2291177913900343150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5535,6 +5454,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fff41904a9e03324d9f47ab5c200f48b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballToParry: {fileID: 0}
+  parrySpherePosition: {x: 0, y: 0, z: 0}
+  currentBallSpeed: 0
 --- !u!114 &1951496036296628564
 MonoBehaviour:
   m_ObjectHideFlags: 0

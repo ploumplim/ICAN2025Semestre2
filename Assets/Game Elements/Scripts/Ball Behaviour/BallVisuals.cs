@@ -95,7 +95,7 @@ public class BallVisuals : MonoBehaviour
     private void TrailEmitter()
     {
         // Enable or disable the trail based on the ball's state. Enabled when it's midair, disabled otherwise.
-        _trailRenderer.emitting = ballSM.currentState.GetType() == typeof(MidAirState);
+        _trailRenderer.emitting = ballSM.currentState.GetType() == typeof(FlyingState);
         
         // Get the current speed magnitude from the ball
         float speed = ballSM.GetComponent<Rigidbody>().linearVelocity.magnitude;
@@ -115,19 +115,19 @@ public class BallVisuals : MonoBehaviour
         if (!ballSM.canBeParried)
         {
             // Change the color of the ball based on the ball's state. Red when it's midair, green otherwise.
-            _ballMaterial.color = ballSM.currentState.GetType() == typeof(MidAirState) ? Color.red : Color.green;
+            _ballMaterial.color = ballSM.currentState.GetType() == typeof(FlyingState) ? Color.red : Color.green;
             
             // Change the emission color of the ball based on the ball's state. Red when it's midair, green otherwise.
-            _ballMaterial.SetColor("_EmissionColor", ballSM.currentState.GetType() == typeof(MidAirState) ? Color.red : Color.green);
+            _ballMaterial.SetColor("_EmissionColor", ballSM.currentState.GetType() == typeof(FlyingState) ? Color.red : Color.green);
             
             // Change the color of the ball's light based on the ball's state. Red when it's midair, green otherwise.
-            ballLight.color = ballSM.currentState.GetType() == typeof(MidAirState) ? Color.red : Color.green;
+            ballLight.color = ballSM.currentState.GetType() == typeof(FlyingState) ? Color.red : Color.green;
         }
     }
 
     public void OnParryAvailable()
     {
-        if (ballSM.currentState == ballSM.GetComponent<MidAirState>())
+        if (ballSM.currentState == ballSM.GetComponent<FlyingState>())
         {
             _ballMaterial.color = parryColor;
             ballSM.canBeParried = true;
@@ -135,7 +135,7 @@ public class BallVisuals : MonoBehaviour
     }
     public void OnParryUnavailable()
     {
-        if (ballSM.currentState == ballSM.GetComponent<MidAirState>())
+        if (ballSM.currentState == ballSM.GetComponent<FlyingState>())
         {
             _ballMaterial.color = _originalColor; 
             ballSM.canBeParried = false;
