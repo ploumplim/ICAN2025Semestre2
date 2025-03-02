@@ -106,7 +106,7 @@ public class CameraScript : MonoBehaviour
         {
             // If they are, move the camera holder object away from the camera object
             cameraHolderObject.transform.position += distance.normalized * (zoomSpeed * Time.deltaTime);
-            Debug.Log("Moving away" + cameraHolderObject.transform.position);
+            // Debug.Log("Moving away" + cameraHolderObject.transform.position);
         }
     }
 

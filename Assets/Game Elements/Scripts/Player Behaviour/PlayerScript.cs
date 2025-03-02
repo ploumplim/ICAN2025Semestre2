@@ -128,7 +128,6 @@ public class PlayerScript : MonoBehaviour
     
     // ------------------------------ PARRY ------------------------------
     private ParryPlayer _parryPlayer;
-    [FormerlySerializedAs("_canParry")] [HideInInspector] public bool canParry = true;
     [HideInInspector] public float parryTimer = 0f;
     // ------------------------------ ROLL ------------------------------
     // [HideInInspector]public bool ballCaughtWhileRolling;
@@ -276,36 +275,25 @@ public class PlayerScript : MonoBehaviour
         }
     }
     
-    // ------------------------------ THROW & PARRY ------------------------------
-    
-    // ------------------------------ THROW ------------------------------
-    public void OnThrow(InputAction.CallbackContext context)
+    // ------------------------------ CHARGE ATTACK ------------------------------
+    public void OnChargeAttack(InputAction.CallbackContext context)
     {
-        if (currentState is NeutralState)
+        if (currentState is NeutralState && context.started)
         {
             ChangeState(GetComponent<ChargingState>());
-            if (context.performed)
-            {
-                isCharging = true;
-                chargeValueIncrementor = 0f;
-                // Debug.Log(chargeValueIncrementor);
-            }
-            else if (context.canceled)
-            {
-                isCharging = false;
-                if (chargeValueIncrementor > fixedChargedValue)
-                {
-                    fixedChargedValue = chargeValueIncrementor;
-                    ballSM.ChangeState(heldBall.GetComponent<TargetingState>());
-                    ballSM.Throw(fixedChargedValue);
-                    heldBall = null;
-                    // Reset après avoir utilisé la charge
-                    fixedChargedValue = 0f;
-                    ChangeState(GetComponent<NeutralState>());
-                }
-
-            }
         }
+        
+        if (currentState is ChargingState && context.performed)
+        { 
+            Debug.Log("charging! charge: " + chargeValueIncrementor);
+        }
+        else if (currentState is ChargingState && context.canceled) 
+        { 
+            ChangeState(GetComponent<ReleaseState>());
+            Debug.Log("released! charge: " + chargeValueIncrementor);
+        }
+        
+        
     }
     // ------------------------------ ROLL ------------------------------
     
