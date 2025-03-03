@@ -5301,25 +5301,26 @@ MonoBehaviour:
   movementType: 0
   speed: 22
   chargeSpeedModifier: 0.5
-  neutralLerpTime: 0.1
+  neutralLerpTime: 1
   rollLerpTime: 0.1
   chargeLerpTime: 0.1
   knockbackTime: 0.25
-  knockbackForce: 10
+  knockbackForce: 1
   linearDrag: 3.5
   hitLinearDrag: 2.5
   parryType: 0
   chargeRate: 1
   parryCooldown: 0.5
-  parryForce: 15
+  parryForce: 2
   chargeClamp: 0.5
   verticalPercent: 0.2
-  parryWindow: 0.4
-  parryDetectionRadius: 3.5
+  parryDetectionRadius: 3.24
   rollSpeed: 50
   rollDuration: 0.5
   rollDetectionRadius: 3.5
   canPassThroughLedges: 1
+  buntForce: 8.5
+  buntSphereRadius: 2.16
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
   playerHand: {fileID: 3570595457049578529}
@@ -5414,7 +5415,6 @@ MonoBehaviour:
   rb: {fileID: 0}
   ledgeLayer: 0
   playerLayer: 0
-  heldBall: {fileID: 0}
   ballSM: {fileID: 0}
   chargeValueIncrementor: 0.5
   parryTimer: 0

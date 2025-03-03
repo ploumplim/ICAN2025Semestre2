@@ -92,7 +92,7 @@ public class ReleaseState : PlayerState
                         // Send the ball in the direction the player is facing.
                         direction = new Vector3(player.transform.forward.x, verticalPercent, player.transform.forward.z).normalized;
                         ApplyForce(ballRigidbody, direction);
-                        Debug.Log("Parry");
+                        // Debug.Log("Parry");
 
                         break;
                     case PlayerScript.ParryType.ReflectiveParry:
@@ -102,6 +102,7 @@ public class ReleaseState : PlayerState
                         ApplyForce(ballRigidbody, direction);
                         break;
                 }
+                ballToParry.GetComponent<BallSM>().ChangeState(ballToParry.GetComponent<FlyingState>());
             }
             ballToParry = null;
         }

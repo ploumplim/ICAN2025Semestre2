@@ -60,25 +60,23 @@ public class PlayerScript : MonoBehaviour
     
     //---------------------------------------------------------------------------------------
     [Header("Hit parameters")]
-    [Tooltip("Select the type of parry.")]
+    [Tooltip("Select the type of hit.")]
     public ParryType parryType = ParryType.ForwardParry;
-    [Tooltip("The rate at which the charge value increases.")]
+    [Tooltip("The rate at which the charge value increases for a hit.")]
     public float chargeRate = 0.5f;
-    [Tooltip("The time the player has to wait between each parry.")]
+    [Tooltip("The time the player has to wait between each hit.")]
     public float parryCooldown = 0.5f;
-    [Tooltip("The speed multiplier on the ball. .")]
+    [Tooltip("The speed multiplier on the ball when hit.")]
     public float parryForce = 10f;
     [Tooltip("This number is the minimum value that the charge reaches when tapped.")]
     public float chargeClamp = 0.5f;
     [Tooltip("This value (between 0 and 1) grants direction in the vertical axis to the player's parry. This is only" +
              "applied when the ball is grounded.")]
     public float verticalPercent = 0.2f;
-    [Tooltip("The window of opportunity that the parry will hit the ball.")]
-    public float parryWindow = 0.4f;
     [Tooltip("The radius of the sphere that will detect the ball when parrying.")]
     public float parryDetectionRadius = 3.5f;
     //---------------------------------------------------------------------------------------
-    [Header("Roll")]
+    [Header("Roll Settings")]
     [Tooltip("The initial speed of the roll.")]
     public float rollSpeed = 10f;
     [Tooltip("The duration of the roll.")]
@@ -87,6 +85,12 @@ public class PlayerScript : MonoBehaviour
     public float rollDetectionRadius = 5f;
     [Tooltip("This boolean determines if when dashing the character can pass through ledges.")]
     public bool canPassThroughLedges = false;
+    //---------------------------------------------------------------------------------------
+    [Header("Bunt Settings")]
+    [Tooltip("The force applied to the ball when bunting.")]
+    public float buntForce = 10f;
+    [Tooltip("The radius of the sphere that will detect the ball when bunting.")]
+    public float buntSphereRadius = 5f;
     //---------------------------------------------------------------------------------------
     [HideInInspector] public GameObject MultiplayerManager;
     
@@ -123,7 +127,6 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public int playerLayer;
     
     // ------------------------------ BALL ------------------------------
-    [HideInInspector] public GameObject heldBall;
     [HideInInspector] public BallSM ballSM;
 
     // ------------------------------ CHARGING ------------------------------
@@ -179,14 +182,6 @@ public class PlayerScript : MonoBehaviour
         moveInputVector2 = moveAction.ReadValue<Vector2>();
 
         // If the player is holding a ball, set the ball's position to the player's hand
-        if (heldBall)
-        {
-            heldBall.transform.position = playerHand.transform.position;
-            if (!ballSM)
-            {
-                ballSM = heldBall.GetComponent<BallSM>();
-            }
-        }
         
         
         if (parryTimer > 0)
@@ -300,21 +295,27 @@ public class PlayerScript : MonoBehaviour
     {
         if (currentState is NeutralState && context.started)
         {
-            Debug.Log("Bunt");
-
+            // Debug.Log("Bunt");
             // Définir la position et le rayon de l'OverlapSphere
-            Vector3 spherePosition = transform.position + transform.forward * parryDetectionRadius;
-            float sphereRadius = parryDetectionRadius*2;
+            Vector3 spherePosition = transform.position + transform.forward * buntSphereRadius;
 
             // Créer l'OverlapSphere et vérifier les collisions
-            Collider[] hitColliders = Physics.OverlapSphere(spherePosition, sphereRadius);
-            foreach (Collider hitCollider in hitColliders)
+            Collider[] hitColliders = Physics.OverlapSphere(spherePosition, buntSphereRadius);
+            
+            // Remove all hitColliders that don't have the Ball tag.
+            for (int i = 0; i < hitColliders.Length; i++)
             {
-                if (hitCollider.GetComponent<BallSM>() != null)
+                if (!hitColliders[i].CompareTag("Ball"))
                 {
-                    hitCollider.GetComponent<BallSM>().ChangeState(hitCollider.GetComponent<BuntState>());
-                    // Ajoutez ici le code à exécuter lorsque BallSM est détecté
+                    hitColliders[i] = null;
                 }
+            }
+            
+            // If hitColliders length is 1, save the ball (which is in the first position) in a variable.
+            if (hitColliders.Length == 1)
+            {
+                hitColliders[0].GetComponent<BallSM>().ChangeState(hitColliders[0].GetComponent<BuntState>());
+                hitColliders[0].GetComponent<Rigidbody>().AddForce(transform.up * buntForce, ForceMode.Impulse);
             }
         }
     }
@@ -345,7 +346,8 @@ public class PlayerScript : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position + transform.forward * parryDetectionRadius, parryDetectionRadius);
         
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position + transform.forward * parryDetectionRadius, parryDetectionRadius * 2);
+        // Draw the bunt sphere
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position + transform.forward * buntSphereRadius, buntSphereRadius);
     }
 }

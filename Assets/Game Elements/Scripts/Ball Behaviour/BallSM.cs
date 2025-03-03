@@ -16,10 +16,19 @@ public class BallSM : MonoBehaviour
     public float maxSpeed = 20f;
     
     //-------------------------------------------------------------------------------------
+    [FormerlySerializedAs("maxHeight")]
     [Header("Ball Height Settings")]
-    [Tooltip("Maximum height the ball can achieve.")]
-    public float maxHeight = 10f;
-
+    [Tooltip("Maximum height the ball can achieve while grounded.")]
+    public float groundedMaxHeight = 10f;
+    
+    [Tooltip("Maximum height the ball can achieve while bunted.")]
+    public float buntedMaxHeight = 20f;
+    
+    [Tooltip("Maximum height the ball can achieve while midair.")]
+    public float flyingMaxHeight = 30f;
+    
+    
+    
     [Tooltip("Minimum height the ball can achieve.")]
     public float minHeight = -1f;
     
@@ -27,12 +36,18 @@ public class BallSM : MonoBehaviour
     [Header("Ball physical properties")]
     [Tooltip("The linear damping value when the ball is grounded.")]
     public float groundedLinearDamping = 1f;
+    
+    [Tooltip("The linear damping value when the ball is bunted.")]
+    public float buntedLinearDamping = 0.5f;
         
     [FormerlySerializedAs("midAirLinearDamping")] [Tooltip("The linear damping value when the ball is flying midair.")]
     public float flyingLinearDamping = 0.1f;
     
     [Tooltip("The mass of the ball while its grounded.")]
     public float groundedMass = 1f;
+    
+    [Tooltip("The mass of the ball while its bunted.")]
+    public float buntedMass = 0.5f;
     
     [FormerlySerializedAs("midAirMass")] [Tooltip("The mass of the ball while its midair.")]
     public float flyingMass = 0.1f;
@@ -42,7 +57,6 @@ public class BallSM : MonoBehaviour
     [Tooltip("The ball will become dropped if it reaches this minimum speed if grounded by speed is true.")]
     public float minimumSpeedToGround = 5f;
     
-    public event Action OnBallHitFloor;
     
     
     //----------------------------COMPONENTS----------------------------
@@ -50,8 +64,9 @@ public class BallSM : MonoBehaviour
     
     //---------------------------PRIVATE VARIABLES---------------------------
     [HideInInspector]public int bounces = 0;
-    [HideInInspector] public bool canBeParried = false;
-    // ~~EVENTS~~
+    
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~EVENTS~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -82,9 +97,6 @@ public class BallSM : MonoBehaviour
     {
         // Call the Tick method of the current state
         currentState.Tick();
-
-        // Call the SetMaxHeight method, which will keep the ball within the height limits
-        SetMaxHeight();
         
         // Call the SetMaxSpeed method, which will keep the ball from going faster than the maxSpeed value
         SetMaxSpeed();
@@ -93,29 +105,27 @@ public class BallSM : MonoBehaviour
         FixVerticalSpeed();
         
         // Check the current speed of the ball. If it's above minimumSpeedToGround, the state of the ball will change to FlyingState.
-        if (rb.linearVelocity.magnitude > minimumSpeedToGround)
+        if (currentState is not BuntState)
         {
-            ChangeState(GetComponent<FlyingState>());
+            if (rb.linearVelocity.magnitude > minimumSpeedToGround)
+            {
+                ChangeState(GetComponent<FlyingState>());
+            }
+            else
+            {
+                ChangeState(GetComponent<DroppedState>());
+            }
         }
-        else
-        {
-            ChangeState(GetComponent<DroppedState>());
-        }
-    }
-    
-    public void StartBuntingState()
-    {
-        ChangeState(GetComponent<BuntState>());
     }
 
     public void FixVerticalSpeed()
     {
-        if (transform.position.y >= maxHeight)
+        if (transform.position.y >= groundedMaxHeight)
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
         }
     }
-    public void SetMaxHeight()
+    public void SetMaxHeight(float maxHeight)
     {
         transform.position = new Vector3(transform.position.x, 
             Mathf.Clamp(transform.position.y, minHeight, maxHeight), transform.position.z);
@@ -141,10 +151,6 @@ public class BallSM : MonoBehaviour
  
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Floor")&&currentState==GetComponent<BuntState>())
-        {
-            OnBallHitFloor?.Invoke();
-        }
         
         switch (currentState)
         {
@@ -155,6 +161,12 @@ public class BallSM : MonoBehaviour
                 }
                 break;
             case DroppedState:
+                break;
+            case BuntState:
+                if (other.gameObject.CompareTag("Floor"))
+                {
+                    ChangeState(GetComponent<DroppedState>());
+                }
                 break;
             default:
                 break;

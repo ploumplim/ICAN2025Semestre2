@@ -112,36 +112,26 @@ public class BallVisuals : MonoBehaviour
     private void BallColorAndLight()
     {
         // Change the color of the ball based on the ball's state. Red when it's midair, green otherwise.
-        if (!ballSM.canBeParried)
-        {
-            // Change the color of the ball based on the ball's state. Red when it's midair, green otherwise.
-            _ballMaterial.color = ballSM.currentState.GetType() == typeof(FlyingState) ? Color.red : Color.green;
-            
-            // Change the emission color of the ball based on the ball's state. Red when it's midair, green otherwise.
-            _ballMaterial.SetColor("_EmissionColor", ballSM.currentState.GetType() == typeof(FlyingState) ? Color.red : Color.green);
-            
-            // Change the color of the ball's light based on the ball's state. Red when it's midair, green otherwise.
-            ballLight.color = ballSM.currentState.GetType() == typeof(FlyingState) ? Color.red : Color.green;
-            
-            
-        }
-    }
 
-    public void OnParryAvailable()
-    {
-        if (ballSM.currentState == ballSM.GetComponent<FlyingState>())
-        {
-            _ballMaterial.color = parryColor;
-            ballSM.canBeParried = true;
-        }
-    }
-    public void OnParryUnavailable()
-    {
-        if (ballSM.currentState == ballSM.GetComponent<FlyingState>())
-        {
-            _ballMaterial.color = _originalColor; 
-            ballSM.canBeParried = false;
-        }
+            switch (ballSM.currentState)
+            {
+                case FlyingState:
+                    _ballMaterial.color = Color.red;
+                    _ballMaterial.SetColor("_EmissionColor", Color.red);
+                    ballLight.color = Color.red;
+                    break;
+                case DroppedState:
+                    _ballMaterial.color = Color.green;
+                    _ballMaterial.SetColor("_EmissionColor", Color.green);
+                    ballLight.color = Color.green;
+                    break;
+                case BuntState:
+                    _ballMaterial.color = Color.magenta;
+                    _ballMaterial.SetColor("_EmissionColor", Color.magenta);
+                    ballLight.color = Color.magenta;
+                    break;
+            }
+            
         
     }
 }

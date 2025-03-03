@@ -7,12 +7,7 @@ public class FlyingState : BallState
     public override void Enter()
     {
         base.Enter();
-        //Set the rigid body's linear damping.
-        BallSm.rb.linearDamping = BallSm.flyingLinearDamping;
-        //Set the ball's mass.
-        BallSm.rb.mass = BallSm.flyingMass;
-        // Remove the ball's gravity.
-        BallSm.rb.useGravity = false;
+        SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
         
     }
 
@@ -20,6 +15,7 @@ public class FlyingState : BallState
     {
         base.Tick();
         // Set the ball's vertical speed to 0.
+        BallSm.SetMaxHeight(BallSm.flyingMaxHeight);
         BallSm.rb.linearVelocity = new Vector3(BallSm.rb.linearVelocity.x, 0, BallSm.rb.linearVelocity.z);
     }
 }
