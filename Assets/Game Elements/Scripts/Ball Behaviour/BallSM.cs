@@ -42,6 +42,8 @@ public class BallSM : MonoBehaviour
     [Tooltip("The ball will become dropped if it reaches this minimum speed if grounded by speed is true.")]
     public float minimumSpeedToGround = 5f;
     
+    public event Action OnBallHitFloor;
+    
     
     //----------------------------COMPONENTS----------------------------
     [HideInInspector]public Rigidbody rb;
@@ -61,6 +63,7 @@ public class BallSM : MonoBehaviour
             state.Initialize(this);
         }
         currentState = GetComponent<DroppedState>();
+        
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~ CHANGE STATE ~~~~~~~~~~~~~~~~~~~~~~
@@ -99,6 +102,11 @@ public class BallSM : MonoBehaviour
             ChangeState(GetComponent<DroppedState>());
         }
     }
+    
+    public void StartBuntingState()
+    {
+        ChangeState(GetComponent<BuntState>());
+    }
 
     public void FixVerticalSpeed()
     {
@@ -133,6 +141,11 @@ public class BallSM : MonoBehaviour
  
     private void OnCollisionEnter(Collision other)
     {
+        if (other.gameObject.CompareTag("Floor")&&currentState==GetComponent<BuntState>())
+        {
+            OnBallHitFloor?.Invoke();
+        }
+        
         switch (currentState)
         {
             case FlyingState:

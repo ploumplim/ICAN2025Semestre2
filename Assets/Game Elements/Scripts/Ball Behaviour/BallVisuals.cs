@@ -122,6 +122,8 @@ public class BallVisuals : MonoBehaviour
             
             // Change the color of the ball's light based on the ball's state. Red when it's midair, green otherwise.
             ballLight.color = ballSM.currentState.GetType() == typeof(FlyingState) ? Color.red : Color.green;
+            
+            
         }
     }
 

@@ -117,6 +117,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public InputAction moveAction;
     [HideInInspector] public InputAction throwAction;
     [HideInInspector] public InputAction rollAction;
+    [HideInInspector] public InputAction BuntAction;
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public int ledgeLayer;
     [HideInInspector] public int playerLayer;
@@ -158,6 +159,7 @@ public class PlayerScript : MonoBehaviour
         moveAction = playerInput.actions["Move"];
         throwAction = playerInput.actions["Attack"];
         rollAction = playerInput.actions["Roll"];
+        BuntAction = playerInput.actions["Bunt"];
         
         ledgeLayer = LayerMask.NameToLayer("Ledge");
         playerLayer = gameObject.layer;
@@ -293,6 +295,30 @@ public class PlayerScript : MonoBehaviour
         
         
     }
+    // ------------------------------ BUNT ------------------------------
+    public void OnBunt(InputAction.CallbackContext context)
+    {
+        if (currentState is NeutralState && context.started)
+        {
+            Debug.Log("Bunt");
+
+            // Définir la position et le rayon de l'OverlapSphere
+            Vector3 spherePosition = transform.position + transform.forward * parryDetectionRadius;
+            float sphereRadius = parryDetectionRadius*2;
+
+            // Créer l'OverlapSphere et vérifier les collisions
+            Collider[] hitColliders = Physics.OverlapSphere(spherePosition, sphereRadius);
+            foreach (Collider hitCollider in hitColliders)
+            {
+                if (hitCollider.GetComponent<BallSM>() != null)
+                {
+                    hitCollider.GetComponent<BallSM>().ChangeState(hitCollider.GetComponent<BuntState>());
+                    // Ajoutez ici le code à exécuter lorsque BallSM est détecté
+                }
+            }
+        }
+    }
+    
     // ------------------------------ ROLL ------------------------------
     
     public void OnRoll(InputAction.CallbackContext context)
@@ -319,6 +345,7 @@ public class PlayerScript : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position + transform.forward * parryDetectionRadius, parryDetectionRadius);
         
-        
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position + transform.forward * parryDetectionRadius, parryDetectionRadius * 2);
     }
 }

@@ -5264,6 +5264,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 5089c710-ac29-4e77-8450-ea020db1f5bf
     m_ActionName: 'Player/Roll[/XInputControllerWindows/buttonSouth]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4963522762754067053}
+        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+        m_MethodName: OnBunt
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f05effeb-87b3-4c34-9213-05678b61ec7b
+    m_ActionName: 'Player/Bunt[/XInputControllerWindows/buttonEast]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -5295,7 +5311,7 @@ MonoBehaviour:
   parryType: 0
   chargeRate: 1
   parryCooldown: 0.5
-  parryForce: 3
+  parryForce: 15
   chargeClamp: 0.5
   verticalPercent: 0.2
   parryWindow: 0.4
@@ -5382,6 +5398,15 @@ MonoBehaviour:
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: a0c837f3-f49b-4623-8dd4-14bfe78d9dbf
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  BuntAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 7b9de470-a353-44a1-a3e0-8bb5b67bb853
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
