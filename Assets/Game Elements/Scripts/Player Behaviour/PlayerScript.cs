@@ -7,8 +7,8 @@ using UnityEngine.Serialization;
 
 public class PlayerScript : MonoBehaviour
 {
-
     
+
     // ------------------------------ PUBLIC VARIABLES ------------------------------
     public enum moveType
     {
@@ -16,6 +16,8 @@ public class PlayerScript : MonoBehaviour
         Force
     };
     
+    
+
     [HideInInspector] public PlayerState currentState;
     
     [Header("MOVEMENT TYPES: \n " +
@@ -86,6 +88,7 @@ public class PlayerScript : MonoBehaviour
 
     public GameObject playerHand;
     
+    
     [Header("Events")]
     // ------------------------------ EVENTS ------------------------------
     public UnityEvent CanParryTheBallEvent;
@@ -139,6 +142,9 @@ public class PlayerScript : MonoBehaviour
         }
 
         currentState = GetComponent<IdleState>();
+
+        
+
     }
 
     private void FixedUpdate()
@@ -242,6 +248,9 @@ public class PlayerScript : MonoBehaviour
             currentState is not AimingState)
         {
             ChangeState(GetComponent<MovingState>());
+
+            
+
         }
     }
 
@@ -293,6 +302,8 @@ public class PlayerScript : MonoBehaviour
         if (moveAction.ReadValue<Vector2>() == Vector2.zero && !isAiming)
         {
             ChangeState(GetComponent<IdleState>());
+            
+
         }
     }
 
@@ -309,8 +320,9 @@ public class PlayerScript : MonoBehaviour
                 rb.linearVelocity.y,
                 moveDirection.z * finalSpeed);
             break;
-            
                 
+
+
         }
         
     }
@@ -341,7 +353,7 @@ public class PlayerScript : MonoBehaviour
                     // Reset après avoir utilisé la charge
                     fixedChargedValue = 0f;
                     ChangeState(GetComponent<IdleState>());
-
+                    
                 }
 
             }
