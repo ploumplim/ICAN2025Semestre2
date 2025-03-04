@@ -13,5 +13,6 @@ public class BuntState : BallState
         base.Tick();
         // Arrêter d'écouter l'événement quand on quitte l'état
         BallSm.SetMaxHeight(BallSm.buntedMaxHeight);
+        BallSm.FixVerticalSpeed(BallSm.buntedMaxHeight);
     }
 }

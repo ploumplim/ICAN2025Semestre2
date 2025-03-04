@@ -100,27 +100,11 @@ public class BallSM : MonoBehaviour
         
         // Call the SetMaxSpeed method, which will keep the ball from going faster than the maxSpeed value
         SetMaxSpeed();
-        
-        // Call the FixVerticalSpeed method, which will keep the ball from going up when it reaches the maxHeight
-        FixVerticalSpeed();
-        
-        // Check the current speed of the ball. If it's above minimumSpeedToGround, the state of the ball will change to FlyingState.
-        if (currentState is not BuntState)
-        {
-            if (rb.linearVelocity.magnitude > minimumSpeedToGround)
-            {
-                ChangeState(GetComponent<FlyingState>());
-            }
-            else
-            {
-                ChangeState(GetComponent<DroppedState>());
-            }
-        }
     }
 
-    public void FixVerticalSpeed()
+    public void FixVerticalSpeed(float maxHeight)
     {
-        if (transform.position.y >= groundedMaxHeight)
+        if (transform.position.y >= maxHeight)
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
         }

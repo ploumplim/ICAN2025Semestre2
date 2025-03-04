@@ -293,29 +293,20 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ BUNT ------------------------------
     public void OnBunt(InputAction.CallbackContext context)
     {
-        if (currentState is NeutralState && context.started)
+        // Check the player state.
+        // Then, create an overlap sphere to detect the ball.
+        // If the ball is detected, apply a force to the ball using the bunt parameters.
+        if (currentState is NeutralState && context.performed)
         {
-            // Debug.Log("Bunt");
-            // Définir la position et le rayon de l'OverlapSphere
-            Vector3 spherePosition = transform.position + transform.forward * buntSphereRadius;
-
-            // Créer l'OverlapSphere et vérifier les collisions
-            Collider[] hitColliders = Physics.OverlapSphere(spherePosition, buntSphereRadius);
-            
-            // Remove all hitColliders that don't have the Ball tag.
-            for (int i = 0; i < hitColliders.Length; i++)
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward * buntSphereRadius,
+                buntSphereRadius);
+            foreach (var hitCollider in hitColliders)
             {
-                if (!hitColliders[i].CompareTag("Ball"))
+                if (hitCollider.GetComponent<BallSM>())
                 {
-                    hitColliders[i] = null;
+                    hitCollider.GetComponent<BallSM>().ChangeState(hitCollider.GetComponent<BuntState>());
+                    hitCollider.GetComponent<Rigidbody>().AddForce(transform.up * buntForce, ForceMode.Impulse);
                 }
-            }
-            
-            // If hitColliders length is 1, save the ball (which is in the first position) in a variable.
-            if (hitColliders.Length == 1)
-            {
-                hitColliders[0].GetComponent<BallSM>().ChangeState(hitColliders[0].GetComponent<BuntState>());
-                hitColliders[0].GetComponent<Rigidbody>().AddForce(transform.up * buntForce, ForceMode.Impulse);
             }
         }
     }

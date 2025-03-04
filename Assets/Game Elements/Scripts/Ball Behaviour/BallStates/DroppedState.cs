@@ -15,5 +15,7 @@ public class DroppedState : BallState
     {
         base.Tick();
         BallSm.SetMaxHeight(BallSm.groundedMaxHeight);
+        BallSm.FixVerticalSpeed(BallSm.groundedMaxHeight);
+
     }
 }
