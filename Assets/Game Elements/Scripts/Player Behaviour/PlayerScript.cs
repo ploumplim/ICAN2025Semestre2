@@ -81,8 +81,13 @@ public class PlayerScript : MonoBehaviour
     [Header("Bunt Settings")]
     [Tooltip("The force applied to the ball when bunting.")]
     public float buntForce = 10f;
+
     [Tooltip("The radius of the sphere that will detect the ball when bunting.")]
-    public float buntSphereRadius = 5f;
+    public float buntSphereRadius;
+
+    [Tooltip(("The position of the bunt sphere."))]
+    public float buntSpherePositionOffset;
+    
     //---------------------------------------------------------------------------------------
     [Header("Roll Settings")]
     [Tooltip("The initial speed of the roll.")]
@@ -301,7 +306,7 @@ public class PlayerScript : MonoBehaviour
         // If the ball is detected, apply a force to the ball using the bunt parameters.
         if (currentState is NeutralState && context.started)
         {
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward * buntSphereRadius,
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward * buntSpherePositionOffset,
                 buntSphereRadius);
             foreach (var hitCollider in hitColliders)
             {
@@ -342,6 +347,6 @@ public class PlayerScript : MonoBehaviour
         
         // Draw the bunt sphere
         Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(transform.position + transform.forward * buntSphereRadius, buntSphereRadius);
+        Gizmos.DrawWireSphere(transform.position + transform.forward * buntSpherePositionOffset, buntSphereRadius);
     }
 }
