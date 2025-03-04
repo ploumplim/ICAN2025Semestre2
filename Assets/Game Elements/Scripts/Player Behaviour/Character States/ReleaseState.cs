@@ -6,13 +6,15 @@ public class ReleaseState : PlayerState
 {
     [HideInInspector]public GameObject ballToParry;
     [HideInInspector]public Vector3 parrySpherePosition;
+    [HideInInspector]public float currentBallSpeed;
 
-    [HideInInspector] public float currentBallSpeed;
+    [HideInInspector] public bool ballHit;
     //---------------------------------------------------------------------------------
     public override void Enter()
     {
         base.Enter();
         Hit();
+        ballHit = false;
     }
 
     public void Hit()
@@ -35,13 +37,13 @@ public class ReleaseState : PlayerState
     public override void Tick()
     {
         base.Tick();
-        // Create a value called "parrySphereDistance" which is equal to the radius of the parry sphere, so that the sphere
-        // is always at a distance from the player that is equal to the radius of the sphere.
-        float parrySphereDistance = PlayerScript.parryDetectionRadius;
-        
-        // Now create a vector3 called "parrySpherePosition" which is equal to the player's forward
-        // position plus the parrySphereDistance.
-        parrySpherePosition = PlayerScript.transform.position + PlayerScript.transform.forward * parrySphereDistance;
+        // // Create a value called "parrySphereDistance" which is equal to the radius of the parry sphere, so that the sphere
+        // // is always at a distance from the player that is equal to the radius of the sphere.
+        // float parrySphereDistance = PlayerScript.parryDetectionRadius;
+        //
+        // // Now create a vector3 called "parrySpherePosition" which is equal to the player's forward
+        // // position plus the parrySphereDistance.
+        parrySpherePosition = PlayerScript.transform.position;
         
         HitBox();
         HitTheBall();
@@ -64,7 +66,7 @@ public class ReleaseState : PlayerState
 
     public void HitTheBall()
     {
-        if (ballToParry)
+        if (ballToParry && !ballHit)
         {
             float verticalPercent;
             float minimumBallSpeed = ballToParry.GetComponent<BallSM>().minimumSpeedToGround;
@@ -86,6 +88,7 @@ public class ReleaseState : PlayerState
                 ballRigidbody.linearVelocity = Vector3.zero;
                 GameObject player = PlayerScript.gameObject;
                 Vector3 direction;
+                ballToParry.GetComponent<BallSM>().ChangeState(ballToParry.GetComponent<FlyingState>());
                 switch (PlayerScript.parryType)
                 {
                     case PlayerScript.ParryType.ForwardParry:
@@ -102,9 +105,10 @@ public class ReleaseState : PlayerState
                         ApplyForce(ballRigidbody, direction);
                         break;
                 }
-                ballToParry.GetComponent<BallSM>().ChangeState(ballToParry.GetComponent<FlyingState>());
+                ballHit = true;
             }
             ballToParry = null;
+            // PlayerScript.ChangeState(GetComponent<NeutralState>());
         }
 
     }

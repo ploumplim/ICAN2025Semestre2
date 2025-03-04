@@ -5299,11 +5299,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
   movementType: 0
-  speed: 22
-  chargeSpeedModifier: 0.5
+  speed: 45
+  chargeSpeedModifier: 0.1
+  acceleration: 1
   neutralLerpTime: 1
   rollLerpTime: 0.1
-  chargeLerpTime: 0.1
+  chargeLerpTime: 0.5
   knockbackTime: 0.25
   knockbackForce: 1
   linearDrag: 3.5
@@ -5311,16 +5312,16 @@ MonoBehaviour:
   parryType: 0
   chargeRate: 1
   parryCooldown: 0.5
-  parryForce: 2
+  parryForce: 5
   chargeClamp: 0.5
   verticalPercent: 0.2
-  parryDetectionRadius: 3.24
+  parryDetectionRadius: 5
+  buntForce: 0.5
+  buntSphereRadius: 3
   rollSpeed: 50
   rollDuration: 0.5
   rollDetectionRadius: 3.5
   canPassThroughLedges: 1
-  buntForce: 8.5
-  buntSphereRadius: 2.16
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
   playerHand: {fileID: 3570595457049578529}
@@ -5482,6 +5483,7 @@ MonoBehaviour:
   ballToParry: {fileID: 0}
   parrySpherePosition: {x: 0, y: 0, z: 0}
   currentBallSpeed: 0
+  ballHit: 0
 --- !u!114 &1951496036296628564
 MonoBehaviour:
   m_ObjectHideFlags: 0

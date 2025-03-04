@@ -17,7 +17,5 @@ public class FlyingState : BallState
         // Set the ball's vertical speed to 0.
         BallSm.SetMaxHeight(BallSm.flyingMaxHeight);
         BallSm.FixVerticalSpeed(BallSm.flyingMaxHeight);
-
-        BallSm.rb.linearVelocity = new Vector3(BallSm.rb.linearVelocity.x, 0, BallSm.rb.linearVelocity.z);
     }
 }

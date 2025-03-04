@@ -38,6 +38,8 @@ public class PlayerScript : MonoBehaviour
     public float speed = 5f;
     [Tooltip("The speed at which the player moves when charging their hit.")]
     public float chargeSpeedModifier = 0.5f;
+    [Tooltip("The rate at which speed picks up when the input is being performed.")]
+    public float acceleration = 0.1f;
     //---------------------------------------------------------------------------------------
     [Header("Rotation Lerps")]
     [Tooltip("Lerp time for the rotation while not aiming")]
@@ -76,6 +78,12 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("The radius of the sphere that will detect the ball when parrying.")]
     public float parryDetectionRadius = 3.5f;
     //---------------------------------------------------------------------------------------
+    [Header("Bunt Settings")]
+    [Tooltip("The force applied to the ball when bunting.")]
+    public float buntForce = 10f;
+    [Tooltip("The radius of the sphere that will detect the ball when bunting.")]
+    public float buntSphereRadius = 5f;
+    //---------------------------------------------------------------------------------------
     [Header("Roll Settings")]
     [Tooltip("The initial speed of the roll.")]
     public float rollSpeed = 10f;
@@ -85,12 +93,7 @@ public class PlayerScript : MonoBehaviour
     public float rollDetectionRadius = 5f;
     [Tooltip("This boolean determines if when dashing the character can pass through ledges.")]
     public bool canPassThroughLedges = false;
-    //---------------------------------------------------------------------------------------
-    [Header("Bunt Settings")]
-    [Tooltip("The force applied to the ball when bunting.")]
-    public float buntForce = 10f;
-    [Tooltip("The radius of the sphere that will detect the ball when bunting.")]
-    public float buntSphereRadius = 5f;
+
     //---------------------------------------------------------------------------------------
     [HideInInspector] public GameObject MultiplayerManager;
     
@@ -258,12 +261,12 @@ public class PlayerScript : MonoBehaviour
             switch (movementType)
             {
                 case MoveType.Force:
-                    rb.AddForce(moveDirection * moveSpeed, ForceMode.VelocityChange);
+                    rb.AddForce(moveDirection * Mathf.Lerp(0, moveSpeed,acceleration), ForceMode.VelocityChange);
                     break;
                 case MoveType.Velocity:
-                    rb.linearVelocity = new Vector3(moveDirection.x * moveSpeed,
+                    rb.linearVelocity = new Vector3(moveDirection.x * Mathf.Lerp(0, moveSpeed,acceleration),
                         rb.linearVelocity.y,
-                        moveDirection.z * moveSpeed);
+                        moveDirection.z * Mathf.Lerp(0, moveSpeed,acceleration));
                     break;
             }
             transform.forward = Vector3.Slerp(transform.forward, moveDirection, lerpMoveSpeed);
@@ -296,7 +299,7 @@ public class PlayerScript : MonoBehaviour
         // Check the player state.
         // Then, create an overlap sphere to detect the ball.
         // If the ball is detected, apply a force to the ball using the bunt parameters.
-        if (currentState is NeutralState && context.performed)
+        if (currentState is NeutralState && context.started)
         {
             Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward * buntSphereRadius,
                 buntSphereRadius);
@@ -335,7 +338,7 @@ public class PlayerScript : MonoBehaviour
         
         // draw the parry sphere
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + transform.forward * parryDetectionRadius, parryDetectionRadius);
+        Gizmos.DrawWireSphere(transform.position, parryDetectionRadius);
         
         // Draw the bunt sphere
         Gizmos.color = Color.magenta;
