@@ -1,11 +1,51 @@
+using System.Collections;
 using UnityEngine;
 
 public class BuntingPlayerState : PlayerState
 {
     [HideInInspector] public float timer;
+    [HideInInspector] public bool ballBunted;
+    [HideInInspector] public GameObject ballToBunt;
+    
+    //---------------------------------------------------------------------------------
     public override void Enter()
     {
         base.Enter();
+        Bunt();
+        ballBunted = false;
+    }
+
+    public void Bunt()
+    {
+        PlayerScript.PlayerPerformedBunt?.Invoke();
+        PlayerScript.buntTimer = PlayerScript.buntDuration;
+        StartCoroutine(BuntTime());
+    }
+
+    IEnumerator BuntTime()
+    {
+        yield return new WaitForSeconds(PlayerScript.buntDuration);
+        PlayerScript.ChangeState(GetComponent<NeutralState>());
+    }
+    
+    // ---------------------------------------------------------------------------------
+    
+    public override void Tick()
+    {
+        base.Tick();
+        timer += Time.deltaTime;
+        PlayerScript.Move(PlayerScript.speed * PlayerScript.buntSpeedModifier, PlayerScript.chargeLerpTime);
+        BuntBox();
+        BuntTheBall();
+        
+        if (timer >= PlayerScript.buntCooldown)
+        {
+            PlayerScript.ChangeState(GetComponent<NeutralState>());
+        }
+    }
+
+    public void BuntBox()
+    {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward * 
             PlayerScript.buntSpherePositionOffset,
             PlayerScript.buntSphereRadius);
@@ -13,22 +53,25 @@ public class BuntingPlayerState : PlayerState
         {
             if (hitCollider.GetComponent<BallSM>())
             {
-                hitCollider.GetComponent<BallSM>().ChangeState(hitCollider.GetComponent<BuntedBallState>());
-                hitCollider.GetComponent<Rigidbody>().AddForce(transform.up * PlayerScript.buntForce, ForceMode.Impulse);
+                ballToBunt = hitCollider.gameObject;
             }
         }
     }
 
-    public override void Tick()
+    public void BuntTheBall()
     {
-        base.Tick();
-        timer += Time.deltaTime;
-        if (timer >= PlayerScript.buntCooldown)
+        if (ballToBunt && !ballBunted)
         {
-            PlayerScript.ChangeState(GetComponent<NeutralState>());
+            ballToBunt.GetComponent<BallSM>().ChangeState(ballToBunt.GetComponent<BuntedBallState>());
+            ballToBunt.GetComponent<Rigidbody>().AddForce(transform.up * PlayerScript.buntForce, ForceMode.Impulse);
+            ballBunted = true;
+            ballToBunt = null;
+            
         }
     }
 
+    
+    // ---------------------------------------------------------------------------------
     public override void Exit()
     {
         base.Exit();

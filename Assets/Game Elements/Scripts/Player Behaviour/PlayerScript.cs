@@ -36,16 +36,20 @@ public class PlayerScript : MonoBehaviour
     [Header("Movement variables")]
     [Tooltip("The player's speed when he has balls.")]
     public float speed = 5f;
-    [Tooltip("The speed at which the player moves when charging their hit.")]
+    [Tooltip("The modifier when the hit is being charge.")]
     public float chargeSpeedModifier = 0.5f;
+    [Tooltip("The modifier when the hit is released.")]
+    public float releaseSpeedModifier = 1f;
+    [Tooltip("The modifier when the player bunts.")]
+    public float buntSpeedModifier = 0.5f;
     [Tooltip("The rate at which speed picks up when the input is being performed.")]
     public float acceleration = 0.1f;
     //---------------------------------------------------------------------------------------
     [Header("Rotation Lerps")]
     [Tooltip("Lerp time for the rotation while not aiming")]
     public float neutralLerpTime = 0.1f;
-    [Tooltip("Lerp time for the rotation while rolling")]
-    public float rollLerpTime = 0.1f;
+    [FormerlySerializedAs("rollLerpTime")] [Tooltip("Lerp time for the rotation while rolling")]
+    public float dashLerpTime = 0.1f;
     [Tooltip("Lerp time for the rotation while charging a hit")]
     public float chargeLerpTime = 0.1f;
     
@@ -82,47 +86,38 @@ public class PlayerScript : MonoBehaviour
     [Header("Bunt Settings")]
     [Tooltip("The force applied to the ball when bunting.")]
     public float buntForce = 10f;
-
     [FormerlySerializedAs("buntTime")] [Tooltip("The time the player has to wait between each bunt.")]
     public float buntCooldown = 0.5f;
-    
-    
+    [Tooltip("The opportunity window that the bunt has to apply its effect on the ball.")]
+    public float buntDuration = 0.5f;
     [Tooltip("The radius of the sphere that will detect the ball when bunting.")]
     public float buntSphereRadius;
-
     [Tooltip(("The position of the bunt sphere."))]
     public float buntSpherePositionOffset;
-    
     //---------------------------------------------------------------------------------------
-    [Header("Roll Settings")]
-    [Tooltip("The initial speed of the roll.")]
-    public float rollSpeed = 10f;
-    [Tooltip("The duration of the roll.")]
-    public float rollDuration = 1f;
-    [Tooltip("This is the radius of the sphere that will detect the ball when rolling.")]
-    public float rollDetectionRadius = 5f;
+    [FormerlySerializedAs("rollSpeed")]
+    [Header("Dash Settings")]
+    [Tooltip("The dash speed.")]
+    public float dashSpeed = 10f;
+    [FormerlySerializedAs("rollDuration")] [Tooltip("The duration of the dash.")]
+    public float dashDuration = 1f;
+    [FormerlySerializedAs("rollDetectionRadius")] [Tooltip("This is the radius of the sphere that will detect the ball when rolling.")]
+    public float dashFeedbackTrail = 5f;
     [Tooltip("This boolean determines if when dashing the character can pass through ledges.")]
     public bool canPassThroughLedges = false;
 
     //---------------------------------------------------------------------------------------
     [HideInInspector] public GameObject MultiplayerManager;
     
-    
-    // [Tooltip("The time the player has to wait between each roll.")]
-    // public float rollCooldown = 0.5f;
-    // [Tooltip("The speed that the player has to have at the end of the roll, if they dont catch" +
-    //          "the ball while rolling.")]
-    // public float rollEndSpeed = 5f;
-    
     [Header("Scene References")]
     public Camera playerCamera;
 
     public GameObject playerHand;
     
-    [FormerlySerializedAs("PlayerParried")]
     [Header("Events")]
     // ------------------------------ EVENTS ------------------------------
     [FormerlySerializedAs("BallParried")] public UnityEvent PlayerPerformedHit;
+    public UnityEvent PlayerPerformedBunt;
     public UnityEvent PlayerDashed;
     public UnityEvent PlayerEndedDash;
     
@@ -145,6 +140,9 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector]public float chargeValueIncrementor = 0f;
     // ------------------------------ HIT ------------------------------
     [FormerlySerializedAs("parryTimer")] [HideInInspector] public float hitTimer = 0f;
+    // ------------------------------ BUNT ------------------------------
+    [HideInInspector] public float buntTimer = 0f;
+    
     // ------------------------------ ROLL ------------------------------
     // [HideInInspector]public bool ballCaughtWhileRolling;
     
@@ -306,9 +304,6 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ BUNT ------------------------------
     public void OnBunt(InputAction.CallbackContext context)
     {
-        // Check the player state.
-        // Then, create an overlap sphere to detect the ball.
-        // If the ball is detected, apply a force to the ball using the bunt parameters.
         if (currentState is NeutralState && context.started)
         {
             ChangeState(GetComponent<BuntingPlayerState>());
@@ -324,7 +319,7 @@ public class PlayerScript : MonoBehaviour
             if (currentState is NeutralState && moveInputVector2 != Vector2.zero)
             {
                 PlayerDashed?.Invoke();
-                ChangeState(GetComponent<RollingState>());
+                ChangeState(GetComponent<DashingState>());
             }
         }
     }

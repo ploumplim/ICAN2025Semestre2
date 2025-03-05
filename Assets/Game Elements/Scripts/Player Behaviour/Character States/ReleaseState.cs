@@ -29,7 +29,6 @@ public class ReleaseState : PlayerState
     {
         
         yield return new WaitForSeconds(PlayerScript.releaseDuration);
-        // Debug.Log("Parry Ended");
         PlayerScript.ChangeState(GetComponent<NeutralState>());
     }
     
@@ -37,14 +36,9 @@ public class ReleaseState : PlayerState
     public override void Tick()
     {
         base.Tick();
-        // // Create a value called "parrySphereDistance" which is equal to the radius of the parry sphere, so that the sphere
-        // // is always at a distance from the player that is equal to the radius of the sphere.
-        // float parrySphereDistance = PlayerScript.parryDetectionRadius;
-        //
-        // // Now create a vector3 called "parrySpherePosition" which is equal to the player's forward
-        // // position plus the parrySphereDistance.
         parrySpherePosition = PlayerScript.transform.position;
-        PlayerScript.Move(PlayerScript.speed * PlayerScript.chargeSpeedModifier, PlayerScript.chargeLerpTime);   
+        PlayerScript.Move(PlayerScript.speed * PlayerScript.releaseSpeedModifier,
+            PlayerScript.chargeLerpTime);   
         HitBox();
         HitTheBall();
     }

@@ -106,7 +106,8 @@ public class BallSM : MonoBehaviour
     {
         if (transform.position.y >= maxHeight)
         {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+            // When the ball reaches the maxHeight, set the vertical speed to 0.
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
         }
     }
     public void SetMaxHeight(float maxHeight)
@@ -126,9 +127,22 @@ public class BallSM : MonoBehaviour
     //~~~~~~~~~~~~~~~~~~~~~~ DRAW GIZMOS ~~~~~~~~~~~~~~~~~~~~~~
     private void OnDrawGizmos()
     {
-        // Draw a red line in the forward direction of the ball
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, transform.forward * 10);
+        // Draw a line that goes towards the ground from the ball. The color depends on the state.
+        switch (currentState)
+        {
+            case FlyingState:
+                Gizmos.color = Color.red;
+                break;
+            case DroppedState:
+                Gizmos.color = Color.green;
+                break;
+            case BuntedBallState:
+                Gizmos.color = Color.magenta;
+                break;
+            default:
+                break;
+        }
+        Gizmos.DrawRay(transform.position, transform.up * -100);
     }
     
     //~~~~~~~~~~~~~~~~~~~~~~ COLLISIONS ~~~~~~~~~~~~~~~~~~~~~~

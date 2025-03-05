@@ -5302,9 +5302,11 @@ MonoBehaviour:
   movementType: 0
   speed: 45
   chargeSpeedModifier: 0.1
+  releaseSpeedModifier: 1
+  buntSpeedModifier: 0.5
   acceleration: 1
   neutralLerpTime: 1
-  rollLerpTime: 0.1
+  dashLerpTime: 0.1
   chargeLerpTime: 0.5
   knockbackTime: 0.25
   knockbackForce: 1
@@ -5313,17 +5315,18 @@ MonoBehaviour:
   hitType: 0
   chargeRate: 1
   releaseDuration: 0.5
-  hitForce: 5
+  hitForce: 2
   chargeClamp: 0.5
   verticalPercent: 0.2
   hitDetectionRadius: 5
-  buntForce: 0.5
-  buntCooldown: 1
+  buntForce: 2
+  buntCooldown: 0.6
+  buntDuration: 0.5
   buntSphereRadius: 3
   buntSpherePositionOffset: 1.38
-  rollSpeed: 50
-  rollDuration: 0.5
-  rollDetectionRadius: 3.5
+  dashSpeed: 50
+  dashDuration: 0.5
+  dashFeedbackTrail: 3.5
   canPassThroughLedges: 1
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
@@ -5343,6 +5346,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  PlayerPerformedBunt:
+    m_PersistentCalls:
+      m_Calls: []
   PlayerDashed:
     m_PersistentCalls:
       m_Calls:
@@ -5416,6 +5422,7 @@ MonoBehaviour:
   ballSM: {fileID: 0}
   chargeValueIncrementor: 0.5
   hitTimer: 0
+  buntTimer: 0
   moveInputVector2: {x: 0, y: 0}
 --- !u!114 &2291177913900343150
 MonoBehaviour:
@@ -5494,6 +5501,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 0
+  ballBunted: 0
+  ballToBunt: {fileID: 0}
 --- !u!114 &1951496036296628564
 MonoBehaviour:
   m_ObjectHideFlags: 0

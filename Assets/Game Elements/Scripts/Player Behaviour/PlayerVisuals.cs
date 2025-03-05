@@ -87,7 +87,7 @@ public class PlayerVisuals : MonoBehaviour
         _parryTimerSprite.fillAmount = playerScript.hitTimer / playerScript.releaseDuration;
         RecoverAfterDash();
         // Dash trail width is equal to the player's rollDetectionRadius.
-        dashTrail.widthMultiplier = playerScript.rollDetectionRadius;
+        dashTrail.widthMultiplier = playerScript.dashFeedbackTrail;
         
         // Update the parry radius collider.
         var parryParticleShape = parryParticle.shape;
@@ -120,7 +120,7 @@ public class PlayerVisuals : MonoBehaviour
             // Rotate the player mesh on the X axis to emulate them standing up over time.
             
             playerMesh.transform.rotation = Quaternion.Euler
-            (Mathf.Lerp(playerMesh.transform.rotation.x, 0, Time.deltaTime * playerScript.rollDuration),
+            (Mathf.Lerp(playerMesh.transform.rotation.x, 0, Time.deltaTime * playerScript.dashDuration),
                 playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
         }
     }    
