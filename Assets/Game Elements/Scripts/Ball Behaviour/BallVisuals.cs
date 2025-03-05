@@ -125,7 +125,7 @@ public class BallVisuals : MonoBehaviour
                     _ballMaterial.SetColor("_EmissionColor", Color.green);
                     ballLight.color = Color.green;
                     break;
-                case BuntState:
+                case BuntedBallState:
                     _ballMaterial.color = Color.magenta;
                     _ballMaterial.SetColor("_EmissionColor", Color.magenta);
                     ballLight.color = Color.magenta;

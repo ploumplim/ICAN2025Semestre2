@@ -16,10 +16,10 @@ public class PlayerScript : MonoBehaviour
         Force
     };
 
-    public enum ParryType
+    public enum HitType
     {
-        ForwardParry,
-        ReflectiveParry
+        ForwardHit,
+        ReflectiveHit
     }
     
     [HideInInspector] public PlayerState currentState;
@@ -61,27 +61,32 @@ public class PlayerScript : MonoBehaviour
     public float hitLinearDrag = 0f;
     
     //---------------------------------------------------------------------------------------
+    [FormerlySerializedAs("parryType")]
     [Header("Hit parameters")]
     [Tooltip("Select the type of hit.")]
-    public ParryType parryType = ParryType.ForwardParry;
+    public HitType hitType = HitType.ForwardHit;
     [Tooltip("The rate at which the charge value increases for a hit.")]
     public float chargeRate = 0.5f;
-    [Tooltip("The time the player has to wait between each hit.")]
-    public float parryCooldown = 0.5f;
-    [Tooltip("The speed multiplier on the ball when hit.")]
-    public float parryForce = 10f;
+    [FormerlySerializedAs("parryCooldown")] [Tooltip("The duration that the hit has to apply force to the ball.")]
+    public float releaseDuration = 0.5f;
+    [FormerlySerializedAs("parryForce")] [Tooltip("The speed multiplier on the ball when hit.")]
+    public float hitForce = 10f;
     [Tooltip("This number is the minimum value that the charge reaches when tapped.")]
     public float chargeClamp = 0.5f;
-    [Tooltip("This value (between 0 and 1) grants direction in the vertical axis to the player's parry. This is only" +
+    [Tooltip("This value (between 0 and 1) grants direction in the vertical axis to the player's hit. This is only" +
              "applied when the ball is grounded.")]
     public float verticalPercent = 0.2f;
-    [Tooltip("The radius of the sphere that will detect the ball when parrying.")]
-    public float parryDetectionRadius = 3.5f;
+    [FormerlySerializedAs("parryDetectionRadius")] [Tooltip("The radius of the sphere that will detect the ball when hitting.")]
+    public float hitDetectionRadius = 3.5f;
     //---------------------------------------------------------------------------------------
     [Header("Bunt Settings")]
     [Tooltip("The force applied to the ball when bunting.")]
     public float buntForce = 10f;
 
+    [FormerlySerializedAs("buntTime")] [Tooltip("The time the player has to wait between each bunt.")]
+    public float buntCooldown = 0.5f;
+    
+    
     [Tooltip("The radius of the sphere that will detect the ball when bunting.")]
     public float buntSphereRadius;
 
@@ -114,11 +119,10 @@ public class PlayerScript : MonoBehaviour
 
     public GameObject playerHand;
     
+    [FormerlySerializedAs("PlayerParried")]
     [Header("Events")]
     // ------------------------------ EVENTS ------------------------------
-    public UnityEvent CanParryTheBallEvent;
-    public UnityEvent CannotParryTheBallEvent;
-    [FormerlySerializedAs("BallParried")] public UnityEvent PlayerParried;
+    [FormerlySerializedAs("BallParried")] public UnityEvent PlayerPerformedHit;
     public UnityEvent PlayerDashed;
     public UnityEvent PlayerEndedDash;
     
@@ -139,8 +143,8 @@ public class PlayerScript : MonoBehaviour
 
     // ------------------------------ CHARGING ------------------------------
     [HideInInspector]public float chargeValueIncrementor = 0f;
-    // ------------------------------ PARRY ------------------------------
-    [HideInInspector] public float parryTimer = 0f;
+    // ------------------------------ HIT ------------------------------
+    [FormerlySerializedAs("parryTimer")] [HideInInspector] public float hitTimer = 0f;
     // ------------------------------ ROLL ------------------------------
     // [HideInInspector]public bool ballCaughtWhileRolling;
     
@@ -160,7 +164,7 @@ public class PlayerScript : MonoBehaviour
     {
         MultiplayerManager = GameObject.FindWithTag("MultiPlayerManager");
         playerCamera = MultiplayerManager.GetComponent<MultiplayerManager>().camera;
-        GetComponent<PlayerVisuals>().parryTimerVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().ParryTimeVisual;
+        GetComponent<PlayerVisuals>().hitTimerVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().HitTimeVisual;
         GetComponent<PlayerVisuals>().chargeVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().ChargeVisualObject;
         
         
@@ -192,9 +196,9 @@ public class PlayerScript : MonoBehaviour
         // If the player is holding a ball, set the ball's position to the player's hand
         
         
-        if (parryTimer > 0)
+        if (hitTimer > 0)
         {
-            parryTimer -= Time.deltaTime;
+            hitTimer -= Time.deltaTime;
         }
         
     }
@@ -247,8 +251,6 @@ public class PlayerScript : MonoBehaviour
     public void Move(float moveSpeed, float lerpMoveSpeed)
     {
         // Apply movement
-        if (moveInputVector2 != Vector2.zero)
-        {
             // Get the camera's forward and right vectors
             Vector3 cameraForward = playerCamera.transform.forward;
             Vector3 cameraRight = playerCamera.transform.right;
@@ -274,8 +276,11 @@ public class PlayerScript : MonoBehaviour
                         moveDirection.z * Mathf.Lerp(0, moveSpeed,acceleration));
                     break;
             }
-            transform.forward = Vector3.Slerp(transform.forward, moveDirection, lerpMoveSpeed);
-        }
+
+            if (moveDirection != Vector3.zero)
+            {
+                transform.forward = Vector3.Slerp(transform.forward, moveDirection, lerpMoveSpeed);
+            }
     }
     
     // ------------------------------ CHARGE ATTACK ------------------------------
@@ -306,16 +311,7 @@ public class PlayerScript : MonoBehaviour
         // If the ball is detected, apply a force to the ball using the bunt parameters.
         if (currentState is NeutralState && context.started)
         {
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward * buntSpherePositionOffset,
-                buntSphereRadius);
-            foreach (var hitCollider in hitColliders)
-            {
-                if (hitCollider.GetComponent<BallSM>())
-                {
-                    hitCollider.GetComponent<BallSM>().ChangeState(hitCollider.GetComponent<BuntState>());
-                    hitCollider.GetComponent<Rigidbody>().AddForce(transform.up * buntForce, ForceMode.Impulse);
-                }
-            }
+            ChangeState(GetComponent<BuntingPlayerState>());
         }
     }
     
@@ -341,9 +337,9 @@ public class PlayerScript : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawRay(transform.position, transform.forward * 10);
         
-        // draw the parry sphere
+        // draw the hit sphere
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, parryDetectionRadius);
+        Gizmos.DrawWireSphere(transform.position, hitDetectionRadius);
         
         // Draw the bunt sphere
         Gizmos.color = Color.magenta;

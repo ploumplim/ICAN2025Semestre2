@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BuntState : BallState
+public class BuntedBallState : BallState
 {
     
     public override void Enter()

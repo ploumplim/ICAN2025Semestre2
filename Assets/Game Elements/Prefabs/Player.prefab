@@ -5058,6 +5058,7 @@ GameObject:
   - component: {fileID: 2442788646745104249}
   - component: {fileID: 8431329008806425069}
   - component: {fileID: 924477131349713796}
+  - component: {fileID: 2734832899062771135}
   - component: {fileID: 1951496036296628564}
   - component: {fileID: 3974316326334170041}
   m_Layer: 0
@@ -5309,16 +5310,17 @@ MonoBehaviour:
   knockbackForce: 1
   linearDrag: 3.5
   hitLinearDrag: 2.5
-  parryType: 0
+  hitType: 0
   chargeRate: 1
-  parryCooldown: 0.5
-  parryForce: 5
+  releaseDuration: 0.5
+  hitForce: 5
   chargeClamp: 0.5
   verticalPercent: 0.2
-  parryDetectionRadius: 5
+  hitDetectionRadius: 5
   buntForce: 0.5
+  buntCooldown: 1
   buntSphereRadius: 3
-  buntSpherePositionOffset: 0
+  buntSpherePositionOffset: 1.38
   rollSpeed: 50
   rollDuration: 0.5
   rollDetectionRadius: 3.5
@@ -5326,13 +5328,7 @@ MonoBehaviour:
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
   playerHand: {fileID: 3570595457049578529}
-  CanParryTheBallEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  CannotParryTheBallEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  PlayerParried:
+  PlayerPerformedHit:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2291177913900343150}
@@ -5419,7 +5415,7 @@ MonoBehaviour:
   playerLayer: 0
   ballSM: {fileID: 0}
   chargeValueIncrementor: 0.5
-  parryTimer: 0
+  hitTimer: 0
   moveInputVector2: {x: 0, y: 0}
 --- !u!114 &2291177913900343150
 MonoBehaviour:
@@ -5440,7 +5436,7 @@ MonoBehaviour:
   chargeVisuals: {fileID: 0}
   chargeVisualOffsetX: 0
   chargeVisualOffsetY: 0
-  parryTimerVisuals: {fileID: 0}
+  hitTimerVisuals: {fileID: 0}
   parryTimerVisualOffsetX: 0
   parryTimerVisualOffsetY: 0
   parryParticle: {fileID: 5173066124080812186}
@@ -5485,6 +5481,19 @@ MonoBehaviour:
   parrySpherePosition: {x: 0, y: 0, z: 0}
   currentBallSpeed: 0
   ballHit: 0
+--- !u!114 &2734832899062771135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3328443934547631640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99634c741eb0602468773a780d2a6177, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 0
 --- !u!114 &1951496036296628564
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -146,7 +146,7 @@ public class BallSM : MonoBehaviour
                 break;
             case DroppedState:
                 break;
-            case BuntState:
+            case BuntedBallState:
                 if (other.gameObject.CompareTag("Floor"))
                 {
                     ChangeState(GetComponent<DroppedState>());

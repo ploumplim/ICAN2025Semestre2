@@ -16,7 +16,7 @@ public class MultiplayerManager : MonoBehaviour
     public List<GameObject> connectedPlayers = new List<GameObject>(); // Liste des joueurs déjà associés
     public HashSet<Gamepad> pendingGamepads = new HashSet<Gamepad>();
     public GameObject ChargeVisualObject;
-    public GameObject ParryTimeVisual;
+    [FormerlySerializedAs("ParryTimeVisual")] public GameObject HitTimeVisual;
     public GameObject playerPrefab;
     public GameObject spawnObject;
     [HideInInspector] public Vector3 spawnPosition;
