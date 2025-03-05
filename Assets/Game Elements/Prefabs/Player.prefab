@@ -5300,8 +5300,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
   movementType: 0
-  speed: 45
-  chargeSpeedModifier: 0.1
+  speed: 25
+  chargeSpeedModifier: 0.4
   releaseSpeedModifier: 1
   buntSpeedModifier: 0.5
   acceleration: 1
@@ -5310,22 +5310,22 @@ MonoBehaviour:
   chargeLerpTime: 0.5
   knockbackTime: 0.25
   knockbackForce: 1
-  linearDrag: 3.5
-  hitLinearDrag: 2.5
+  linearDrag: 0.5
+  hitLinearDrag: 0.7
   hitType: 0
   chargeRate: 1
   releaseDuration: 0.5
-  hitForce: 2
+  hitForce: 2.5
   chargeClamp: 0.5
   verticalPercent: 0.2
-  hitDetectionRadius: 5
-  buntForce: 2
-  buntCooldown: 0.6
+  hitDetectionRadius: 3.4
+  buntForce: 0.6
+  buntCooldown: 0.9
   buntDuration: 0.5
   buntSphereRadius: 3
-  buntSpherePositionOffset: 1.38
-  dashSpeed: 50
-  dashDuration: 0.5
+  buntSpherePositionOffset: 1.4
+  dashSpeed: 45
+  dashDuration: 0.3
   dashFeedbackTrail: 3.5
   canPassThroughLedges: 1
   MultiplayerManager: {fileID: 0}
