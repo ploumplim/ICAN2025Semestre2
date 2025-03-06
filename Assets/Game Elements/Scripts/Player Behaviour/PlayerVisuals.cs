@@ -89,6 +89,9 @@ public class PlayerVisuals : MonoBehaviour
         // Dash trail width is equal to the player's rollDetectionRadius.
         dashTrail.widthMultiplier = playerScript.dashFeedbackTrail;
         
+        // Dash color is equal to the player's color.
+        dashTrail.startColor = _playerMeshMaterial.color;
+        
         // Update the parry radius collider.
         var parryParticleShape = parryParticle.shape;
         parryParticleShape.radius = _parryRadius;
