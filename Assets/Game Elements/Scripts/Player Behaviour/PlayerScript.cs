@@ -101,6 +101,8 @@ public class PlayerScript : MonoBehaviour
     public float dashSpeed = 10f;
     [FormerlySerializedAs("rollDuration")] [Tooltip("The duration of the dash.")]
     public float dashDuration = 1f;
+    [Tooltip("Cooldown between each dash.")]
+    public float dashCooldown = 0.5f;
     [FormerlySerializedAs("rollDetectionRadius")] [Tooltip("This is the radius of the sphere that will detect the ball when rolling.")]
     public float dashFeedbackTrail = 5f;
     [Tooltip("This boolean determines if when dashing the character can pass through ledges.")]
@@ -143,8 +145,9 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ BUNT ------------------------------
     [HideInInspector] public float buntTimer = 0f;
     
-    // ------------------------------ ROLL ------------------------------
+    // ------------------------------ DASH ------------------------------
     // [HideInInspector]public bool ballCaughtWhileRolling;
+    [HideInInspector] public float dashTimer = 0f;
     
     // ------------------------------ MOVE ------------------------------
     [FormerlySerializedAs("moveInput")] [HideInInspector] public Vector2 moveInputVector2;
@@ -184,8 +187,11 @@ public class PlayerScript : MonoBehaviour
         }
 
         currentState = GetComponent<NeutralState>();
+        
+        dashTimer = dashCooldown;
     }
 
+    // ------------------------------ FIXED UPDATE ------------------------------
     private void FixedUpdate()
     {
         currentState.Tick();
@@ -197,6 +203,16 @@ public class PlayerScript : MonoBehaviour
         if (hitTimer > 0)
         {
             hitTimer -= Time.deltaTime;
+        }
+        
+        
+        if (dashTimer < dashCooldown)
+        {
+            dashTimer += Time.deltaTime;
+        }
+        else if (dashTimer >= dashCooldown)
+        {
+            dashTimer = dashCooldown;
         }
         
     }
@@ -310,14 +326,17 @@ public class PlayerScript : MonoBehaviour
         }
     }
     
-    // ------------------------------ ROLL ------------------------------
+    // ------------------------------ DASH ------------------------------
     
-    public void OnRoll(InputAction.CallbackContext context)
+    public void OnDash(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (currentState is NeutralState &&
+            context.started && dashTimer >= dashCooldown)
         {
-            if (currentState is NeutralState && moveInputVector2 != Vector2.zero)
+            if (moveInputVector2 != Vector2.zero)
             {
+                // Debug.Log("Dashing!");
+                dashTimer = 0;
                 PlayerDashed?.Invoke();
                 ChangeState(GetComponent<DashingState>());
             }

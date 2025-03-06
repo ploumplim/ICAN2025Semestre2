@@ -5253,7 +5253,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4963522762754067053}
         m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
-        m_MethodName: OnRoll
+        m_MethodName: OnDash
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5423,6 +5423,7 @@ MonoBehaviour:
   chargeValueIncrementor: 0.5
   hitTimer: 0
   buntTimer: 0
+  dashTimer: 0
   moveInputVector2: {x: 0, y: 0}
 --- !u!114 &2291177913900343150
 MonoBehaviour:
@@ -5528,6 +5529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 0
+  dashDirection: {x: 0, y: 0}
 --- !u!1 &3570595457049578529
 GameObject:
   m_ObjectHideFlags: 0

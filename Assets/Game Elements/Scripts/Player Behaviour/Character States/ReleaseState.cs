@@ -68,7 +68,7 @@ public class ReleaseState : PlayerState
             if (ballRigidbody != null)
             {
                 currentBallSpeed = ballToParry.GetComponent<Rigidbody>().linearVelocity.magnitude;
-
+                
                 if (ballToParry.GetComponent<BallSM>().currentState != ballToParry.GetComponent<FlyingState>())
                 {
                     currentBallSpeed = minimumBallSpeed * 1.3f;
