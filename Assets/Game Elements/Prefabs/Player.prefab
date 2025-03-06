@@ -5253,7 +5253,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4963522762754067053}
         m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
-        m_MethodName: OnRoll
+        m_MethodName: OnDash
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5300,7 +5300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
   movementType: 0
-  speed: 45
+  speed: 25
   chargeSpeedModifier: 0.1
   releaseSpeedModifier: 1
   buntSpeedModifier: 0.5
@@ -5310,7 +5310,7 @@ MonoBehaviour:
   chargeLerpTime: 0.5
   knockbackTime: 0.25
   knockbackForce: 1
-  linearDrag: 3.5
+  linearDrag: 1
   hitLinearDrag: 2.5
   hitType: 0
   chargeRate: 1
@@ -5324,8 +5324,9 @@ MonoBehaviour:
   buntDuration: 0.5
   buntSphereRadius: 3
   buntSpherePositionOffset: 1.38
-  dashSpeed: 50
-  dashDuration: 0.5
+  dashSpeed: 100
+  dashDuration: 0.1
+  dashCooldown: 0.5
   dashFeedbackTrail: 3.5
   canPassThroughLedges: 1
   MultiplayerManager: {fileID: 0}
@@ -5423,6 +5424,7 @@ MonoBehaviour:
   chargeValueIncrementor: 0.5
   hitTimer: 0
   buntTimer: 0
+  dashTimer: 0
   moveInputVector2: {x: 0, y: 0}
 --- !u!114 &2291177913900343150
 MonoBehaviour:
@@ -5528,6 +5530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 0
+  dashDirection: {x: 0, y: 0}
 --- !u!1 &3570595457049578529
 GameObject:
   m_ObjectHideFlags: 0

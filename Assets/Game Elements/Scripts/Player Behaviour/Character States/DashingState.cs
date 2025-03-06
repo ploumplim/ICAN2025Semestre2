@@ -4,11 +4,12 @@ using UnityEngine;
 public class DashingState : PlayerState
 {
     public float timer;
+    public Vector2 dashDirection;
     public override void Enter()
     {
         base.Enter();
         timer = 0;
-
+        dashDirection = PlayerScript.moveInputVector2;
         
         // check if can pass through ledges.
         if (PlayerScript.canPassThroughLedges)
@@ -17,6 +18,8 @@ public class DashingState : PlayerState
             Physics.IgnoreLayerCollision(PlayerScript.playerLayer, PlayerScript.ledgeLayer, true);
         }
         
+
+
     }
 
     public override void Tick()
@@ -24,7 +27,8 @@ public class DashingState : PlayerState
         base.Tick();
         timer += Time.deltaTime;
         //Apply the movement, decreasing the speed of the player over time.
-        PlayerScript.Move(PlayerScript.dashSpeed, PlayerScript.dashLerpTime);
+        
+        PlayerScript.rb.linearVelocity = new Vector3(dashDirection.x * PlayerScript.dashSpeed, 0, dashDirection.y * PlayerScript.dashSpeed);
         
         if (timer >= PlayerScript.dashDuration)
         {
