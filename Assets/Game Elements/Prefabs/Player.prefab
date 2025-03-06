@@ -5319,13 +5319,13 @@ MonoBehaviour:
   chargeClamp: 0.5
   verticalPercent: 0.2
   hitDetectionRadius: 3.4
-  buntForce: 0.6
+  buntForce: 0.8
   buntCooldown: 0.9
-  buntDuration: 0.5
+  buntDuration: 0.4
   buntSphereRadius: 3
   buntSpherePositionOffset: 1.4
-  dashSpeed: 45
-  dashDuration: 0.3
+  dashSpeed: 40
+  dashDuration: 0.28
   dashFeedbackTrail: 3.5
   canPassThroughLedges: 1
   MultiplayerManager: {fileID: 0}
