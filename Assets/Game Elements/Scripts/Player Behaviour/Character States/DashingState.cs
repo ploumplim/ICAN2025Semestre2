@@ -58,7 +58,20 @@ public class DashingState : PlayerState
                 // If the player is not the player that is dashing to avoid self knock back.
                 if (playerDashedInto != PlayerScript)
                 {
-                    if (playerDashedInto.currentState != playerDashedInto.GetComponent<KnockbackState>())
+                    if (playerDashedInto.currentState == playerDashedInto.GetComponent<DashingState>())
+                    {
+                        PlayerScript.ChangeState(GetComponent<KnockbackState>());
+                        // Both players are dashing, so this player is pushed back.
+                        Vector3 direction = playerDashedInto.transform.position - PlayerScript.transform.position;
+                        PlayerScript.rb.AddForce(direction * ((PlayerScript.rb.linearVelocity.magnitude * PlayerScript.dashKnockbackModifier) * PlayerScript.knockbackForce), ForceMode.Impulse);
+                        
+                        // The other player is also pushed back.
+                        playerDashedInto.ChangeState(playerDashedInto.GetComponent<KnockbackState>());
+                        // Push the player back in the opposite direction of the dashing player using an impulse.
+                        playerDashedInto.rb.AddForce(-direction * ((PlayerScript.rb.linearVelocity.magnitude * PlayerScript.dashKnockbackModifier) * PlayerScript.knockbackForce), ForceMode.Impulse);
+                    }
+                    
+                    else if (playerDashedInto.currentState != playerDashedInto.GetComponent<KnockbackState>())
                     {
                         playerDashedInto.ChangeState(playerDashedInto.GetComponent<KnockbackState>());
                         
@@ -68,6 +81,8 @@ public class DashingState : PlayerState
                         // Push the player back in the opposite direction of the dashing player using an impulse.
                         playerDashedInto.rb.AddForce(direction * ((PlayerScript.rb.linearVelocity.magnitude * PlayerScript.dashKnockbackModifier) * PlayerScript.knockbackForce), ForceMode.Impulse);
                     }
+
+                    
                 }
             }
         }

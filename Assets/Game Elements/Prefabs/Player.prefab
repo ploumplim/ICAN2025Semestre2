@@ -5306,10 +5306,10 @@ MonoBehaviour:
   buntSpeedModifier: 0.5
   acceleration: 1
   neutralLerpTime: 1
-  dashLerpTime: 0.1
   chargeLerpTime: 0.5
   knockbackTime: 0.25
   knockbackForce: 1
+  dashKnockbackModifier: 0.5
   linearDrag: 0.5
   hitLinearDrag: 0
   hitType: 0
