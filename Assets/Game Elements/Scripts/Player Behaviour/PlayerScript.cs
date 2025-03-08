@@ -48,8 +48,6 @@ public class PlayerScript : MonoBehaviour
     [Header("Rotation Lerps")]
     [Tooltip("Lerp time for the rotation while not aiming")]
     public float neutralLerpTime = 0.1f;
-    [FormerlySerializedAs("rollLerpTime")] [Tooltip("Lerp time for the rotation while rolling")]
-    public float dashLerpTime = 0.1f;
     [Tooltip("Lerp time for the rotation while charging a hit")]
     public float chargeLerpTime = 0.1f;
     
@@ -59,6 +57,8 @@ public class PlayerScript : MonoBehaviour
     public float knockbackTime = 0.5f;
     [Tooltip("This is the force multiplier applied to the player when hit by a ball.")]
     public float knockbackForce = 10f;
+    [Tooltip("This modifier is applied only when the player is knock backed from another player's dash.")]
+    public float dashKnockbackModifier = 0.5f;
     [Tooltip("The normal linear drag of the player.")]
     public float linearDrag = 3f;
     [Tooltip("The linear drag when the player is hit by a ball.")]
@@ -82,6 +82,8 @@ public class PlayerScript : MonoBehaviour
     public float verticalPercent = 0.2f;
     [FormerlySerializedAs("parryDetectionRadius")] [Tooltip("The radius of the sphere that will detect the ball when hitting.")]
     public float hitDetectionRadius = 3.5f;
+    [Tooltip("The offset of the hit detection sphere.")]
+    public float hitDetectionOffset = 0f;
     //---------------------------------------------------------------------------------------
     [Header("Bunt Settings")]
     [Tooltip("The force applied to the ball when bunting.")]
@@ -103,8 +105,8 @@ public class PlayerScript : MonoBehaviour
     public float dashDuration = 1f;
     [Tooltip("Cooldown between each dash.")]
     public float dashCooldown = 0.5f;
-    [FormerlySerializedAs("rollDetectionRadius")] [Tooltip("This is the radius of the sphere that will detect the ball when rolling.")]
-    public float dashFeedbackTrail = 5f;
+    [FormerlySerializedAs("dashFeedbackTrail")] [Tooltip("This is the radius of the sphere that will detect the ball when rolling.")]
+    public float rollDetectionRadius = 5f;
     [Tooltip("This boolean determines if when dashing the character can pass through ledges.")]
     public bool canPassThroughLedges = false;
 
@@ -132,6 +134,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public InputAction rollAction;
     [HideInInspector] public InputAction BuntAction;
     [HideInInspector] public Rigidbody rb;
+    [HideInInspector] public CapsuleCollider col;
     [HideInInspector] public int ledgeLayer;
     [HideInInspector] public int playerLayer;
     
@@ -237,7 +240,7 @@ public class PlayerScript : MonoBehaviour
             // Debug.Log(currentState);
             if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<FlyingState>())
             {
-                if (currentState is not KnockbackState)
+                if (currentState is not KnockbackState && currentState is not DashingState)
                 {
                     PlayerEndedDash?.Invoke();
                     ChangeState(GetComponent<KnockbackState>());
@@ -348,12 +351,15 @@ public class PlayerScript : MonoBehaviour
     // Create a gizmo to show the direction the player is looking at
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
+        Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position, transform.forward * 10);
+        // Draw the dash sphere
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, rollDetectionRadius);
         
-        // draw the hit sphere
+        // Draw the hit sphere
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, hitDetectionRadius);
+        Gizmos.DrawWireSphere(transform.position + transform.forward * hitDetectionOffset, hitDetectionRadius);
         
         // Draw the bunt sphere
         Gizmos.color = Color.magenta;

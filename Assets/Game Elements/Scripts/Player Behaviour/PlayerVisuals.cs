@@ -87,10 +87,11 @@ public class PlayerVisuals : MonoBehaviour
         _parryTimerSprite.fillAmount = playerScript.hitTimer / playerScript.releaseDuration;
         RecoverAfterDash();
         // Dash trail width is equal to the player's rollDetectionRadius.
-        dashTrail.widthMultiplier = playerScript.dashFeedbackTrail;
+        dashTrail.widthMultiplier = playerScript.rollDetectionRadius * 2f;
         
         // Dash color is equal to the player's color.
         dashTrail.startColor = _playerMeshMaterial.color;
+        dashTrail.endColor = _playerMeshMaterial.color;
         
         // Update the parry radius collider.
         var parryParticleShape = parryParticle.shape;

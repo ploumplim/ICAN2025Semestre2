@@ -35,7 +35,7 @@ public class ReleaseState : PlayerState
     public override void Tick()
     {
         base.Tick();
-        parrySpherePosition = PlayerScript.transform.position;
+        parrySpherePosition = PlayerScript.transform.position + transform.forward * PlayerScript.hitDetectionOffset;
         PlayerScript.Move(PlayerScript.speed * PlayerScript.releaseSpeedModifier,
             PlayerScript.chargeLerpTime);   
         HitBox();

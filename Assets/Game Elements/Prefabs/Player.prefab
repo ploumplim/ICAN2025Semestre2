@@ -5119,7 +5119,7 @@ Rigidbody:
   m_GameObject: {fileID: 3328443934547631640}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 5
+  m_Drag: 0.5
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -5311,7 +5311,7 @@ MonoBehaviour:
   knockbackTime: 0.25
   knockbackForce: 1
   linearDrag: 0.5
-  hitLinearDrag: 0.7
+  hitLinearDrag: 0
   hitType: 0
   chargeRate: 1
   releaseDuration: 0.5
@@ -5319,6 +5319,7 @@ MonoBehaviour:
   chargeClamp: 0.5
   verticalPercent: 0.2
   hitDetectionRadius: 3.4
+  hitDetectionOffset: 0
   buntForce: 0.8
   buntCooldown: 0.9
   buntDuration: 0.4
@@ -5326,7 +5327,8 @@ MonoBehaviour:
   buntSpherePositionOffset: 1.4
   dashSpeed: 40
   dashDuration: 0.28
-  dashFeedbackTrail: 3.5
+  dashCooldown: 0.5
+  rollDetectionRadius: 2.5
   canPassThroughLedges: 1
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
@@ -5417,6 +5419,7 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   rb: {fileID: 0}
+  col: {fileID: 0}
   ledgeLayer: 0
   playerLayer: 0
   ballSM: {fileID: 0}

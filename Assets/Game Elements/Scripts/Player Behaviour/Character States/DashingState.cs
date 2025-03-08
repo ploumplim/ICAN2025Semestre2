@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class DashingState : PlayerState
 {
-    public float timer;
-    public Vector2 dashDirection;
+    [HideInInspector] public float timer;
+    [HideInInspector] public Vector2 dashDirection;
     public override void Enter()
     {
         base.Enter();
@@ -30,6 +30,11 @@ public class DashingState : PlayerState
         
         PlayerScript.rb.linearVelocity = new Vector3(dashDirection.x * PlayerScript.dashSpeed, 0, dashDirection.y * PlayerScript.dashSpeed);
         
+        //
+        
+        CheckPlayerCollisions();
+        
+        
         if (timer >= PlayerScript.dashDuration)
         {
             timer = 0;
@@ -38,7 +43,35 @@ public class DashingState : PlayerState
         }
     }
 
-    
+    private void CheckPlayerCollisions()
+    {
+        // Create an overlap sphere using the players position and the roll detection radius.
+        Collider[] hitColliders = Physics.OverlapSphere(PlayerScript.transform.position, PlayerScript.rollDetectionRadius);
+        
+        // If the collider is a player, that player is knock backed unless they are already in the knockback state.
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.GetComponent<PlayerScript>())
+            {
+                PlayerScript playerDashedInto = hitCollider.GetComponent<PlayerScript>();
+                
+                // If the player is not the player that is dashing to avoid self knock back.
+                if (playerDashedInto != PlayerScript)
+                {
+                    if (playerDashedInto.currentState != playerDashedInto.GetComponent<KnockbackState>())
+                    {
+                        playerDashedInto.ChangeState(playerDashedInto.GetComponent<KnockbackState>());
+                        
+                        // Calculate the vector between the two players.
+                        Vector3 direction = playerDashedInto.transform.position - PlayerScript.transform.position;
+                        
+                        // Push the player back in the opposite direction of the dashing player using an impulse.
+                        playerDashedInto.rb.AddForce(direction * ((PlayerScript.rb.linearVelocity.magnitude * PlayerScript.dashKnockbackModifier) * PlayerScript.knockbackForce), ForceMode.Impulse);
+                    }
+                }
+            }
+        }
+    }
 
 
     public override void Exit()
