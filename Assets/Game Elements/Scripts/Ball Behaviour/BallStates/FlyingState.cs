@@ -22,12 +22,12 @@ public class FlyingState : BallState
         if (timer >= BallSm.playerImmunityTime)
         {
             Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
-            Debug.Log("Player is no longer immune to the ball.");
+            // Debug.Log("Player is no longer immune to the ball.");
         }
         else
         {
             timer += Time.deltaTime;
-            Debug.Log("Player is immune to the ball.");
+            // Debug.Log("Player is immune to the ball.");
         }
         
         // Set the ball's vertical speed to 0.
