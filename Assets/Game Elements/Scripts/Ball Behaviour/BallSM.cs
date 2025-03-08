@@ -57,6 +57,10 @@ public class BallSM : MonoBehaviour
     [Tooltip("The ball will become dropped if it reaches this minimum speed if grounded by speed is true.")]
     public float minimumSpeedToGround = 5f;
     
+    // -------------------------------------------------------------------------------------
+    [Header("Player contact Settings")]
+    [Tooltip("The time the player is immune to the ball after hitting it.")]
+    public float playerImmunityTime = 0.1f;
     
     
     //----------------------------COMPONENTS----------------------------
@@ -64,6 +68,8 @@ public class BallSM : MonoBehaviour
     
     //---------------------------PRIVATE VARIABLES---------------------------
     [HideInInspector]public int bounces = 0;
+    [HideInInspector]public GameObject ballOwnerPlayer;
+    [HideInInspector]public SphereCollider col;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~EVENTS~~~~~~~~~~~~~~~~~~~~~~~~~~
     
@@ -71,6 +77,7 @@ public class BallSM : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        col = GetComponent<SphereCollider>();
         rb = GetComponent<Rigidbody>();
         BallState[] states = GetComponents<BallState>();
         foreach (BallState state in states)

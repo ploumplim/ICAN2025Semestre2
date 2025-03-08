@@ -2516,6 +2516,10 @@ PrefabInstance:
       propertyPath: flyingMaxHeight
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: playerImmunityTime
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 5645183620331005197, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: m_Constraints
       value: 112

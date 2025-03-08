@@ -7,7 +7,6 @@ public class ReleaseState : PlayerState
     [HideInInspector]public GameObject ballToParry;
     [HideInInspector]public Vector3 parrySpherePosition;
     [HideInInspector]public float currentBallSpeed;
-
     [HideInInspector] public bool ballHit;
     //---------------------------------------------------------------------------------
     public override void Enter()
@@ -82,7 +81,13 @@ public class ReleaseState : PlayerState
                 ballRigidbody.linearVelocity = Vector3.zero;
                 GameObject player = PlayerScript.gameObject;
                 Vector3 direction;
+                // Set the ball owner to the player that hit the ball.
+
+                ballToParry.GetComponent<BallSM>().ballOwnerPlayer = player;
+
                 ballToParry.GetComponent<BallSM>().ChangeState(ballToParry.GetComponent<FlyingState>());
+                
+
                 switch (PlayerScript.hitType)
                 {
                     case PlayerScript.HitType.ForwardHit:
