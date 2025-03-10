@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LevelSM : MonoBehaviour
 {
@@ -8,7 +9,8 @@ public class LevelSM : MonoBehaviour
     // ----------- PUBLIC VARIABLES -----------
     
     // ----------- EVENTS -----------
-    
+
+    public UnityEvent OnLevelEnded;
     
     // ----------- METHODS -----------
 
