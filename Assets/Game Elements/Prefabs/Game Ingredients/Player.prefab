@@ -175,9 +175,9 @@ Transform:
   m_GameObject: {fileID: 297732154456219095}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0.5, z: 1.1}
+  m_LocalScale: {x: 0.88, y: 0.88, z: 0.88}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 9195313607378371640}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5078,7 +5078,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.33, y: 1.42, z: 1.33}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9195313607378371640}
@@ -5281,6 +5281,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f05effeb-87b3-4c34-9213-05678b61ec7b
     m_ActionName: 'Player/Bunt[/XInputControllerWindows/buttonEast]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1616552d-3108-49e2-bbd8-8caf3d723af0
+    m_ActionName: UI/PauseAccess
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -5300,26 +5304,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
   movementType: 0
-  speed: 25
-  chargeSpeedModifier: 0.4
+  speed: 30
+  chargeSpeedModifier: 0.5
   releaseSpeedModifier: 1
   buntSpeedModifier: 0.5
-  acceleration: 1
+  acceleration: 0.9
   neutralLerpTime: 1
   chargeLerpTime: 0.5
-  knockbackTime: 0.25
-  knockbackForce: 1
-  dashKnockbackModifier: 0.5
-  linearDrag: 0.5
-  hitLinearDrag: 0
+  knockbackTime: 0.3
+  knockbackForce: 0.55
+  dashKnockbackModifier: 0.86
+  linearDrag: 0.2
+  hitLinearDrag: 0.3
   hitType: 0
   chargeRate: 1
   releaseDuration: 0.5
-  hitForce: 2.5
+  hitForce: 3
   chargeClamp: 0.5
   verticalPercent: 0.2
-  hitDetectionRadius: 3.4
-  hitDetectionOffset: 0
+  hitDetectionRadius: 3.3
+  hitDetectionOffset: 1.7
   buntForce: 0.8
   buntCooldown: 0.9
   buntDuration: 0.4
