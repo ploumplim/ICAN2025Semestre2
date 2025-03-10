@@ -25,7 +25,10 @@ public class MultiplayerManager : MonoBehaviour
 
     void Start()
     {
-        
+        void Awake()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
         // // Trouve tous les joueurs dans la scène avec le tag "Player"
         // availablePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
         
@@ -35,7 +38,7 @@ public class MultiplayerManager : MonoBehaviour
             pendingGamepads.Add(gamepad);
         }
         
-        spawnPosition = spawnObject.transform.position;
+        spawnPosition = transform.position;
     }
     void Update()
     {

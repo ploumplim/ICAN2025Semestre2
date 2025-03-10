@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class LevelChoiceState : GameState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private GameManagerSM gameManager;
+    public override void Enter()
     {
-      Debug.Log("Entrée dans LevelChoiceState");  
-    }
+        Debug.Log("LevelChoice Enter");
+        gameManager = GetComponent<GameManagerSM>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (gameManager != null)
+        {
+            gameManager.ChangeState(GetComponent<LoadingState>());
+        }
     }
 }

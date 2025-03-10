@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class PauseState : GameState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void Enter()
     {
-        
+        Debug.Log("PauseState Enter");
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Tick()
     {
-        
+        base.Tick();
     }
 }

@@ -1,16 +1,25 @@
+// PlayingState.cs
 using UnityEngine;
 
 public class PlayingState : GameState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private GameManagerSM gameManager;
+
+    public override void Enter()
     {
+        Debug.Log("PlayingState Enter");
+
+        gameManager = GetComponent<GameManagerSM>();
+
+        if (gameManager != null)
+        {
+            gameManager.ChangeState(GetComponent<EndGameState>());
+        }
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Tick()
     {
-        
+        base.Tick();
     }
 }

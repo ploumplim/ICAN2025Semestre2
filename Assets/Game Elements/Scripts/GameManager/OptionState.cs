@@ -1,13 +1,12 @@
-// EndGameState.cs
 using UnityEngine;
 
-public class EndGameState : GameState
+public class OptionState : GameState
 {
     private GameManagerSM gameManager;
 
     public override void Enter()
     {
-        Debug.Log("EndGame Enter");
+        Debug.Log("OptionState Enter");
 
         gameManager = GetComponent<GameManagerSM>();
 
@@ -15,10 +14,7 @@ public class EndGameState : GameState
         {
             gameManager.ChangeState(GetComponent<MenuState>());
         }
-        else
-        {
-            Debug.LogError("GameManagerSM not found on the GameObject.");
-        }
+        
     }
 
     public override void Tick()

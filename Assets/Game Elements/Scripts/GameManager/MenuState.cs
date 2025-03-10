@@ -3,14 +3,13 @@ using UnityEngine;
 public class MenuState : GameState
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void Enter()
     {
-        Debug.Log("Entrée dans MenuState");
+        Debug.Log("MenuState Enter");
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Tick()
     {
-        
+        base.Tick();
     }
 }
