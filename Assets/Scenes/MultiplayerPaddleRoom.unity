@@ -3386,7 +3386,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6838993880549433725, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6838993880549433725, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4377,6 +4377,9 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   pauseMenu: {fileID: 902607846}
+  PauseFonction:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8243870776174257224
 MonoBehaviour:
   m_ObjectHideFlags: 0
