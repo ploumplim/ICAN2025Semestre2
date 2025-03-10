@@ -13,4 +13,12 @@ public class BallState : MonoBehaviour
     public virtual void Enter(){}
     public virtual void Tick(){}
     public virtual void Exit(){}
+
+    public void SetParameters(float ballMass, float ballDamp, bool gravityBool)
+    {
+        BallSm.rb.mass = ballMass;
+        BallSm.rb.linearDamping = ballDamp;
+        BallSm.rb.useGravity = gravityBool;
+
+    }
 }

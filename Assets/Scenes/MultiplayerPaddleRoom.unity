@@ -717,11 +717,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8257710722661929340, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnRoll
+      value: OnDash
       objectReference: {fileID: 0}
     - target: {fileID: 8257710722661929340, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnRoll
+      value: OnDash
       objectReference: {fileID: 0}
     - target: {fileID: 8257710722661929340, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_ActionEvents.Array.data[15].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName

@@ -16,10 +16,10 @@ public class PlayerScript : MonoBehaviour
         Force
     };
 
-    public enum ParryType
+    public enum HitType
     {
-        ForwardParry,
-        ReflectiveParry
+        ForwardHit,
+        ReflectiveHit
     }
     
     [HideInInspector] public PlayerState currentState;
@@ -36,14 +36,18 @@ public class PlayerScript : MonoBehaviour
     [Header("Movement variables")]
     [Tooltip("The player's speed when he has balls.")]
     public float speed = 5f;
-    [Tooltip("The speed at which the player moves when charging their hit.")]
+    [Tooltip("The modifier when the hit is being charge.")]
     public float chargeSpeedModifier = 0.5f;
+    [Tooltip("The modifier when the hit is released.")]
+    public float releaseSpeedModifier = 1f;
+    [Tooltip("The modifier when the player bunts.")]
+    public float buntSpeedModifier = 0.5f;
+    [Tooltip("The rate at which speed picks up when the input is being performed.")]
+    public float acceleration = 0.1f;
     //---------------------------------------------------------------------------------------
     [Header("Rotation Lerps")]
     [Tooltip("Lerp time for the rotation while not aiming")]
     public float neutralLerpTime = 0.1f;
-    [Tooltip("Lerp time for the rotation while rolling")]
-    public float rollLerpTime = 0.1f;
     [Tooltip("Lerp time for the rotation while charging a hit")]
     public float chargeLerpTime = 0.1f;
     
@@ -53,49 +57,61 @@ public class PlayerScript : MonoBehaviour
     public float knockbackTime = 0.5f;
     [Tooltip("This is the force multiplier applied to the player when hit by a ball.")]
     public float knockbackForce = 10f;
+    [Tooltip("This modifier is applied only when the player is knock backed from another player's dash.")]
+    public float dashKnockbackModifier = 0.5f;
     [Tooltip("The normal linear drag of the player.")]
     public float linearDrag = 3f;
     [Tooltip("The linear drag when the player is hit by a ball.")]
     public float hitLinearDrag = 0f;
     
     //---------------------------------------------------------------------------------------
+    [FormerlySerializedAs("parryType")]
     [Header("Hit parameters")]
-    [Tooltip("Select the type of parry.")]
-    public ParryType parryType = ParryType.ForwardParry;
-    [Tooltip("The rate at which the charge value increases.")]
+    [Tooltip("Select the type of hit.")]
+    public HitType hitType = HitType.ForwardHit;
+    [Tooltip("The rate at which the charge value increases for a hit.")]
     public float chargeRate = 0.5f;
-    [Tooltip("The time the player has to wait between each parry.")]
-    public float parryCooldown = 0.5f;
-    [Tooltip("The speed multiplier on the ball. .")]
-    public float parryForce = 10f;
+    [FormerlySerializedAs("parryCooldown")] [Tooltip("The duration that the hit has to apply force to the ball.")]
+    public float releaseDuration = 0.5f;
+    [FormerlySerializedAs("parryForce")] [Tooltip("The speed multiplier on the ball when hit.")]
+    public float hitForce = 10f;
     [Tooltip("This number is the minimum value that the charge reaches when tapped.")]
     public float chargeClamp = 0.5f;
-    [Tooltip("This value (between 0 and 1) grants direction in the vertical axis to the player's parry. This is only" +
+    [Tooltip("This value (between 0 and 1) grants direction in the vertical axis to the player's hit. This is only" +
              "applied when the ball is grounded.")]
     public float verticalPercent = 0.2f;
-    [Tooltip("The window of opportunity that the parry will hit the ball.")]
-    public float parryWindow = 0.4f;
-    [Tooltip("The radius of the sphere that will detect the ball when parrying.")]
-    public float parryDetectionRadius = 3.5f;
+    [FormerlySerializedAs("parryDetectionRadius")] [Tooltip("The radius of the sphere that will detect the ball when hitting.")]
+    public float hitDetectionRadius = 3.5f;
+    [Tooltip("The offset of the hit detection sphere.")]
+    public float hitDetectionOffset = 0f;
     //---------------------------------------------------------------------------------------
-    [Header("Roll")]
-    [Tooltip("The initial speed of the roll.")]
-    public float rollSpeed = 10f;
-    [Tooltip("The duration of the roll.")]
-    public float rollDuration = 1f;
-    [Tooltip("This is the radius of the sphere that will detect the ball when rolling.")]
+    [Header("Bunt Settings")]
+    [Tooltip("The force applied to the ball when bunting.")]
+    public float buntForce = 10f;
+    [FormerlySerializedAs("buntTime")] [Tooltip("The time the player has to wait between each bunt.")]
+    public float buntCooldown = 0.5f;
+    [Tooltip("The opportunity window that the bunt has to apply its effect on the ball.")]
+    public float buntDuration = 0.5f;
+    [Tooltip("The radius of the sphere that will detect the ball when bunting.")]
+    public float buntSphereRadius;
+    [Tooltip(("The position of the bunt sphere."))]
+    public float buntSpherePositionOffset;
+    //---------------------------------------------------------------------------------------
+    [FormerlySerializedAs("rollSpeed")]
+    [Header("Dash Settings")]
+    [Tooltip("The dash speed.")]
+    public float dashSpeed = 10f;
+    [FormerlySerializedAs("rollDuration")] [Tooltip("The duration of the dash.")]
+    public float dashDuration = 1f;
+    [Tooltip("Cooldown between each dash.")]
+    public float dashCooldown = 0.5f;
+    [FormerlySerializedAs("dashFeedbackTrail")] [Tooltip("This is the radius of the sphere that will detect the ball when rolling.")]
     public float rollDetectionRadius = 5f;
     [Tooltip("This boolean determines if when dashing the character can pass through ledges.")]
     public bool canPassThroughLedges = false;
+
     //---------------------------------------------------------------------------------------
     [HideInInspector] public GameObject MultiplayerManager;
-    
-    
-    // [Tooltip("The time the player has to wait between each roll.")]
-    // public float rollCooldown = 0.5f;
-    // [Tooltip("The speed that the player has to have at the end of the roll, if they dont catch" +
-    //          "the ball while rolling.")]
-    // public float rollEndSpeed = 5f;
     
     [Header("Scene References")]
     public Camera playerCamera;
@@ -104,9 +120,8 @@ public class PlayerScript : MonoBehaviour
     
     [Header("Events")]
     // ------------------------------ EVENTS ------------------------------
-    public UnityEvent CanParryTheBallEvent;
-    public UnityEvent CannotParryTheBallEvent;
-    [FormerlySerializedAs("BallParried")] public UnityEvent PlayerParried;
+    [FormerlySerializedAs("BallParried")] public UnityEvent PlayerPerformedHit;
+    public UnityEvent PlayerPerformedBunt;
     public UnityEvent PlayerDashed;
     public UnityEvent PlayerEndedDash;
     
@@ -119,19 +134,23 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public InputAction rollAction;
     [HideInInspector] public InputAction BuntAction;
     [HideInInspector] public Rigidbody rb;
+    [HideInInspector] public CapsuleCollider col;
     [HideInInspector] public int ledgeLayer;
     [HideInInspector] public int playerLayer;
     
     // ------------------------------ BALL ------------------------------
-    [HideInInspector] public GameObject heldBall;
     [HideInInspector] public BallSM ballSM;
 
     // ------------------------------ CHARGING ------------------------------
     [HideInInspector]public float chargeValueIncrementor = 0f;
-    // ------------------------------ PARRY ------------------------------
-    [HideInInspector] public float parryTimer = 0f;
-    // ------------------------------ ROLL ------------------------------
+    // ------------------------------ HIT ------------------------------
+    [FormerlySerializedAs("parryTimer")] [HideInInspector] public float hitTimer = 0f;
+    // ------------------------------ BUNT ------------------------------
+    [HideInInspector] public float buntTimer = 0f;
+    
+    // ------------------------------ DASH ------------------------------
     // [HideInInspector]public bool ballCaughtWhileRolling;
+    [HideInInspector] public float dashTimer = 0f;
     
     // ------------------------------ MOVE ------------------------------
     [FormerlySerializedAs("moveInput")] [HideInInspector] public Vector2 moveInputVector2;
@@ -149,7 +168,7 @@ public class PlayerScript : MonoBehaviour
     {
         MultiplayerManager = GameObject.FindWithTag("MultiPlayerManager");
         playerCamera = MultiplayerManager.GetComponent<MultiplayerManager>().camera;
-        GetComponent<PlayerVisuals>().parryTimerVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().ParryTimeVisual;
+        GetComponent<PlayerVisuals>().hitTimerVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().HitTimeVisual;
         GetComponent<PlayerVisuals>().chargeVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().ChargeVisualObject;
         
         
@@ -171,27 +190,32 @@ public class PlayerScript : MonoBehaviour
         }
 
         currentState = GetComponent<NeutralState>();
+        
+        dashTimer = dashCooldown;
     }
 
+    // ------------------------------ FIXED UPDATE ------------------------------
     private void FixedUpdate()
     {
         currentState.Tick();
         moveInputVector2 = moveAction.ReadValue<Vector2>();
 
         // If the player is holding a ball, set the ball's position to the player's hand
-        if (heldBall)
+        
+        
+        if (hitTimer > 0)
         {
-            heldBall.transform.position = playerHand.transform.position;
-            if (!ballSM)
-            {
-                ballSM = heldBall.GetComponent<BallSM>();
-            }
+            hitTimer -= Time.deltaTime;
         }
         
         
-        if (parryTimer > 0)
+        if (dashTimer < dashCooldown)
         {
-            parryTimer -= Time.deltaTime;
+            dashTimer += Time.deltaTime;
+        }
+        else if (dashTimer >= dashCooldown)
+        {
+            dashTimer = dashCooldown;
         }
         
     }
@@ -216,7 +240,7 @@ public class PlayerScript : MonoBehaviour
             // Debug.Log(currentState);
             if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<FlyingState>())
             {
-                if (currentState is not KnockbackState)
+                if (currentState is not KnockbackState && currentState is not DashingState)
                 {
                     PlayerEndedDash?.Invoke();
                     ChangeState(GetComponent<KnockbackState>());
@@ -244,8 +268,6 @@ public class PlayerScript : MonoBehaviour
     public void Move(float moveSpeed, float lerpMoveSpeed)
     {
         // Apply movement
-        if (moveInputVector2 != Vector2.zero)
-        {
             // Get the camera's forward and right vectors
             Vector3 cameraForward = playerCamera.transform.forward;
             Vector3 cameraRight = playerCamera.transform.right;
@@ -263,16 +285,19 @@ public class PlayerScript : MonoBehaviour
             switch (movementType)
             {
                 case MoveType.Force:
-                    rb.AddForce(moveDirection * moveSpeed, ForceMode.VelocityChange);
+                    rb.AddForce(moveDirection * Mathf.Lerp(0, moveSpeed,acceleration), ForceMode.VelocityChange);
                     break;
                 case MoveType.Velocity:
-                    rb.linearVelocity = new Vector3(moveDirection.x * moveSpeed,
+                    rb.linearVelocity = new Vector3(moveDirection.x * Mathf.Lerp(0, moveSpeed,acceleration),
                         rb.linearVelocity.y,
-                        moveDirection.z * moveSpeed);
+                        moveDirection.z * Mathf.Lerp(0, moveSpeed,acceleration));
                     break;
             }
-            transform.forward = Vector3.Slerp(transform.forward, moveDirection, lerpMoveSpeed);
-        }
+
+            if (moveDirection != Vector3.zero)
+            {
+                transform.forward = Vector3.Slerp(transform.forward, moveDirection, lerpMoveSpeed);
+            }
     }
     
     // ------------------------------ CHARGE ATTACK ------------------------------
@@ -300,35 +325,23 @@ public class PlayerScript : MonoBehaviour
     {
         if (currentState is NeutralState && context.started)
         {
-            Debug.Log("Bunt");
-
-            // Définir la position et le rayon de l'OverlapSphere
-            Vector3 spherePosition = transform.position + transform.forward * parryDetectionRadius;
-            float sphereRadius = parryDetectionRadius*2;
-
-            // Créer l'OverlapSphere et vérifier les collisions
-            Collider[] hitColliders = Physics.OverlapSphere(spherePosition, sphereRadius);
-            foreach (Collider hitCollider in hitColliders)
-            {
-                if (hitCollider.GetComponent<BallSM>() != null)
-                {
-                    hitCollider.GetComponent<BallSM>().ChangeState(hitCollider.GetComponent<BuntState>());
-                    // Ajoutez ici le code à exécuter lorsque BallSM est détecté
-                }
-            }
+            ChangeState(GetComponent<BuntingPlayerState>());
         }
     }
     
-    // ------------------------------ ROLL ------------------------------
+    // ------------------------------ DASH ------------------------------
     
-    public void OnRoll(InputAction.CallbackContext context)
+    public void OnDash(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (currentState is NeutralState &&
+            context.started && dashTimer >= dashCooldown)
         {
-            if (currentState is NeutralState && moveInputVector2 != Vector2.zero)
+            if (moveInputVector2 != Vector2.zero)
             {
+                // Debug.Log("Dashing!");
+                dashTimer = 0;
                 PlayerDashed?.Invoke();
-                ChangeState(GetComponent<RollingState>());
+                ChangeState(GetComponent<DashingState>());
             }
         }
     }
@@ -338,14 +351,18 @@ public class PlayerScript : MonoBehaviour
     // Create a gizmo to show the direction the player is looking at
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawRay(transform.position, transform.forward * 10);
-        
-        // draw the parry sphere
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + transform.forward * parryDetectionRadius, parryDetectionRadius);
-        
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position + transform.forward * parryDetectionRadius, parryDetectionRadius * 2);
+        Gizmos.DrawRay(transform.position, transform.forward * 10);
+        // Draw the dash sphere
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, rollDetectionRadius);
+        
+        // Draw the hit sphere
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + transform.forward * hitDetectionOffset, hitDetectionRadius);
+        
+        // Draw the bunt sphere
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position + transform.forward * buntSpherePositionOffset, buntSphereRadius);
     }
 }

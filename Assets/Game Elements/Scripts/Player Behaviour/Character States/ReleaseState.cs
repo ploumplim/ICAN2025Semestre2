@@ -6,28 +6,28 @@ public class ReleaseState : PlayerState
 {
     [HideInInspector]public GameObject ballToParry;
     [HideInInspector]public Vector3 parrySpherePosition;
-
-    [HideInInspector] public float currentBallSpeed;
+    [HideInInspector]public float currentBallSpeed;
+    [HideInInspector] public bool ballHit;
     //---------------------------------------------------------------------------------
     public override void Enter()
     {
         base.Enter();
         Hit();
+        ballHit = false;
     }
 
     public void Hit()
     {
         // Debug.Log("Parry!");
-        PlayerScript.PlayerParried?.Invoke();
-        PlayerScript.parryTimer = PlayerScript.parryCooldown;
+        PlayerScript.PlayerPerformedHit?.Invoke();
+        PlayerScript.hitTimer = PlayerScript.releaseDuration;
         StartCoroutine(HitTime());
     }
     
     IEnumerator HitTime()
     {
         
-        yield return new WaitForSeconds(PlayerScript.parryCooldown);
-        // Debug.Log("Parry Ended");
+        yield return new WaitForSeconds(PlayerScript.releaseDuration);
         PlayerScript.ChangeState(GetComponent<NeutralState>());
     }
     
@@ -35,14 +35,9 @@ public class ReleaseState : PlayerState
     public override void Tick()
     {
         base.Tick();
-        // Create a value called "parrySphereDistance" which is equal to the radius of the parry sphere, so that the sphere
-        // is always at a distance from the player that is equal to the radius of the sphere.
-        float parrySphereDistance = PlayerScript.parryDetectionRadius;
-        
-        // Now create a vector3 called "parrySpherePosition" which is equal to the player's forward
-        // position plus the parrySphereDistance.
-        parrySpherePosition = PlayerScript.transform.position + PlayerScript.transform.forward * parrySphereDistance;
-        
+        parrySpherePosition = PlayerScript.transform.position + transform.forward * PlayerScript.hitDetectionOffset;
+        PlayerScript.Move(PlayerScript.speed * PlayerScript.releaseSpeedModifier,
+            PlayerScript.chargeLerpTime);   
         HitBox();
         HitTheBall();
     }
@@ -50,7 +45,7 @@ public class ReleaseState : PlayerState
     public void HitBox()
     {
         // create an overlap sphere that detects the ball. If it did, set the ball to parry to the ball that was detected.
-        Collider[] hitColliders = Physics.OverlapSphere(parrySpherePosition, PlayerScript.parryDetectionRadius);
+        Collider[] hitColliders = Physics.OverlapSphere(parrySpherePosition, PlayerScript.hitDetectionRadius);
         int i = 0;
         while (i < hitColliders.Length)
         {
@@ -64,7 +59,7 @@ public class ReleaseState : PlayerState
 
     public void HitTheBall()
     {
-        if (ballToParry)
+        if (ballToParry && !ballHit)
         {
             float verticalPercent;
             float minimumBallSpeed = ballToParry.GetComponent<BallSM>().minimumSpeedToGround;
@@ -72,7 +67,7 @@ public class ReleaseState : PlayerState
             if (ballRigidbody != null)
             {
                 currentBallSpeed = ballToParry.GetComponent<Rigidbody>().linearVelocity.magnitude;
-
+                
                 if (ballToParry.GetComponent<BallSM>().currentState != ballToParry.GetComponent<FlyingState>())
                 {
                     currentBallSpeed = minimumBallSpeed * 1.3f;
@@ -86,24 +81,33 @@ public class ReleaseState : PlayerState
                 ballRigidbody.linearVelocity = Vector3.zero;
                 GameObject player = PlayerScript.gameObject;
                 Vector3 direction;
-                switch (PlayerScript.parryType)
+                // Set the ball owner to the player that hit the ball.
+
+                ballToParry.GetComponent<BallSM>().ballOwnerPlayer = player;
+
+                ballToParry.GetComponent<BallSM>().ChangeState(ballToParry.GetComponent<FlyingState>());
+                
+
+                switch (PlayerScript.hitType)
                 {
-                    case PlayerScript.ParryType.ForwardParry:
+                    case PlayerScript.HitType.ForwardHit:
                         // Send the ball in the direction the player is facing.
                         direction = new Vector3(player.transform.forward.x, verticalPercent, player.transform.forward.z).normalized;
                         ApplyForce(ballRigidbody, direction);
-                        Debug.Log("Parry");
+                        // Debug.Log("Parry");
 
                         break;
-                    case PlayerScript.ParryType.ReflectiveParry:
+                    case PlayerScript.HitType.ReflectiveHit:
                         direction = ballToParry.transform.position - transform.position;
                         direction = new Vector3(direction.x, verticalPercent, direction.z).normalized;
 
                         ApplyForce(ballRigidbody, direction);
                         break;
                 }
+                ballHit = true;
             }
             ballToParry = null;
+            // PlayerScript.ChangeState(GetComponent<NeutralState>());
         }
 
     }
@@ -111,7 +115,7 @@ public class ReleaseState : PlayerState
     public void ApplyForce(Rigidbody ballRigidBody, Vector3 direction)
     { 
         ballRigidBody.AddForce(direction * (PlayerScript.chargeValueIncrementor *
-                                          PlayerScript.parryForce * currentBallSpeed), ForceMode.Impulse);
+                                          PlayerScript.hitForce * currentBallSpeed), ForceMode.Impulse);
     }
     
     //---------------------------------------------------------------------------------

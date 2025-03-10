@@ -36,8 +36,8 @@ public class PlayerVisuals : MonoBehaviour
     public float chargeVisualOffsetX;
     [Tooltip("charge visual Offset Y")]
     public float chargeVisualOffsetY;
-    [Tooltip("Game Object that holds the parry timer visuals.")]
-    public GameObject parryTimerVisuals;
+    [FormerlySerializedAs("parryTimerVisuals")] [Tooltip("Game Object that holds the parry timer visuals.")]
+    public GameObject hitTimerVisuals;
     [Tooltip("Parry timer visual Offset X")]
     public float parryTimerVisualOffsetX;
     [Tooltip("Parry timer visual Offset Y")]
@@ -56,10 +56,10 @@ public class PlayerVisuals : MonoBehaviour
         // Recover the player's mesh material and color.
         _playerMeshMaterial = playerMesh.GetComponent<MeshRenderer>().material;
         _originalPlayerMeshColor = _playerMeshMaterial.color;
-        _parryTimerSprite = parryTimerVisuals.GetComponentInChildren<Image>();
+        _parryTimerSprite = hitTimerVisuals.GetComponentInChildren<Image>();
         
 
-        _parryRadius = playerScript.parryDetectionRadius;
+        _parryRadius = playerScript.hitDetectionRadius;
         
     }
 
@@ -84,10 +84,14 @@ public class PlayerVisuals : MonoBehaviour
             }
         }
 
-        _parryTimerSprite.fillAmount = playerScript.parryTimer / playerScript.parryCooldown;
+        _parryTimerSprite.fillAmount = playerScript.hitTimer / playerScript.releaseDuration;
         RecoverAfterDash();
         // Dash trail width is equal to the player's rollDetectionRadius.
-        dashTrail.widthMultiplier = playerScript.rollDetectionRadius;
+        dashTrail.widthMultiplier = playerScript.rollDetectionRadius * 2f;
+        
+        // Dash color is equal to the player's color.
+        dashTrail.startColor = _playerMeshMaterial.color;
+        dashTrail.endColor = _playerMeshMaterial.color;
         
         // Update the parry radius collider.
         var parryParticleShape = parryParticle.shape;
@@ -120,7 +124,7 @@ public class PlayerVisuals : MonoBehaviour
             // Rotate the player mesh on the X axis to emulate them standing up over time.
             
             playerMesh.transform.rotation = Quaternion.Euler
-            (Mathf.Lerp(playerMesh.transform.rotation.x, 0, Time.deltaTime * playerScript.rollDuration),
+            (Mathf.Lerp(playerMesh.transform.rotation.x, 0, Time.deltaTime * playerScript.dashDuration),
                 playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
         }
     }    
@@ -134,7 +138,7 @@ public class PlayerVisuals : MonoBehaviour
         parryTimerVisualScreenPosition.y += parryTimerVisualOffsetY;
 
         // Update the position of the parry timer visuals in the canvas
-        parryTimerVisuals.transform.position = parryTimerVisualScreenPosition;
+        hitTimerVisuals.transform.position = parryTimerVisualScreenPosition;
     }
     
     public void OnParryAvailable()

@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 3984054927209078919}
   - component: {fileID: 6323144974866670032}
   - component: {fileID: 5365377086522546456}
+  - component: {fileID: 2317312007862079952}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Ball
@@ -282,16 +283,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
   maxSpeed: 100
-  maxHeight: 7
+  groundedMaxHeight: 1
+  buntedMaxHeight: 20
+  flyingMaxHeight: 2
   minHeight: 0
   groundedLinearDamping: 1
+  buntedLinearDamping: 0
   flyingLinearDamping: 0.1
   groundedMass: 5
+  buntedMass: 5
   flyingMass: 3
   minimumSpeedToGround: 10
   rb: {fileID: 0}
   bounces: 0
-  canBeParried: 0
 --- !u!114 &3984054927209078919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,6 +335,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0775bb70a4daac94d8ae53b941d36c06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2317312007862079952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3874236971623783123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f64cfa7997ef19e47b4056feb8bd382f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5224228065908999798

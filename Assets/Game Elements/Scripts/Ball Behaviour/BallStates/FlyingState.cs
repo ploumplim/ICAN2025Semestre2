@@ -3,23 +3,35 @@ using UnityEngine;
 public class FlyingState : BallState
 {
     //The ball is midair. It will be in this state until it hits the ground.
+    [HideInInspector] public float timer;
     
     public override void Enter()
     {
+        timer = 0;
         base.Enter();
-        //Set the rigid body's linear damping.
-        BallSm.rb.linearDamping = BallSm.flyingLinearDamping;
-        //Set the ball's mass.
-        BallSm.rb.mass = BallSm.flyingMass;
-        // Remove the ball's gravity.
-        BallSm.rb.useGravity = false;
+        SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
         
+        // The ball's collider should not hit the player's collider.
+        Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
     }
 
     public override void Tick()
     {
         base.Tick();
+        
+        if (timer >= BallSm.playerImmunityTime)
+        {
+            Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
+            // Debug.Log("Player is no longer immune to the ball.");
+        }
+        else
+        {
+            timer += Time.deltaTime;
+            // Debug.Log("Player is immune to the ball.");
+        }
+        
         // Set the ball's vertical speed to 0.
-        BallSm.rb.linearVelocity = new Vector3(BallSm.rb.linearVelocity.x, 0, BallSm.rb.linearVelocity.z);
+        BallSm.SetMaxHeight(BallSm.flyingMaxHeight);
+        BallSm.FixVerticalSpeed(BallSm.flyingMaxHeight);
     }
 }

@@ -5058,6 +5058,7 @@ GameObject:
   - component: {fileID: 2442788646745104249}
   - component: {fileID: 8431329008806425069}
   - component: {fileID: 924477131349713796}
+  - component: {fileID: 2734832899062771135}
   - component: {fileID: 1951496036296628564}
   - component: {fileID: 3974316326334170041}
   m_Layer: 0
@@ -5118,7 +5119,7 @@ Rigidbody:
   m_GameObject: {fileID: 3328443934547631640}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 5
+  m_Drag: 0.5
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -5252,7 +5253,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4963522762754067053}
         m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
-        m_MethodName: OnRoll
+        m_MethodName: OnDash
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5299,37 +5300,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
   movementType: 0
-  speed: 22
-  chargeSpeedModifier: 0.5
-  neutralLerpTime: 0.1
-  rollLerpTime: 0.1
-  chargeLerpTime: 0.1
+  speed: 25
+  chargeSpeedModifier: 0.4
+  releaseSpeedModifier: 1
+  buntSpeedModifier: 0.5
+  acceleration: 1
+  neutralLerpTime: 1
+  chargeLerpTime: 0.5
   knockbackTime: 0.25
-  knockbackForce: 10
-  linearDrag: 3.5
-  hitLinearDrag: 2.5
-  parryType: 0
+  knockbackForce: 1
+  dashKnockbackModifier: 0.5
+  linearDrag: 0.5
+  hitLinearDrag: 0
+  hitType: 0
   chargeRate: 1
-  parryCooldown: 0.5
-  parryForce: 15
+  releaseDuration: 0.5
+  hitForce: 2.5
   chargeClamp: 0.5
   verticalPercent: 0.2
-  parryWindow: 0.4
-  parryDetectionRadius: 3.5
-  rollSpeed: 50
-  rollDuration: 0.5
-  rollDetectionRadius: 3.5
+  hitDetectionRadius: 3.4
+  hitDetectionOffset: 0
+  buntForce: 0.8
+  buntCooldown: 0.9
+  buntDuration: 0.4
+  buntSphereRadius: 3
+  buntSpherePositionOffset: 1.4
+  dashSpeed: 40
+  dashDuration: 0.28
+  dashCooldown: 0.5
+  rollDetectionRadius: 2.5
   canPassThroughLedges: 1
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
   playerHand: {fileID: 3570595457049578529}
-  CanParryTheBallEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  CannotParryTheBallEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  PlayerParried:
+  PlayerPerformedHit:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2291177913900343150}
@@ -5344,6 +5348,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  PlayerPerformedBunt:
+    m_PersistentCalls:
+      m_Calls: []
   PlayerDashed:
     m_PersistentCalls:
       m_Calls:
@@ -5412,12 +5419,14 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   rb: {fileID: 0}
+  col: {fileID: 0}
   ledgeLayer: 0
   playerLayer: 0
-  heldBall: {fileID: 0}
   ballSM: {fileID: 0}
   chargeValueIncrementor: 0.5
-  parryTimer: 0
+  hitTimer: 0
+  buntTimer: 0
+  dashTimer: 0
   moveInputVector2: {x: 0, y: 0}
 --- !u!114 &2291177913900343150
 MonoBehaviour:
@@ -5438,7 +5447,7 @@ MonoBehaviour:
   chargeVisuals: {fileID: 0}
   chargeVisualOffsetX: 0
   chargeVisualOffsetY: 0
-  parryTimerVisuals: {fileID: 0}
+  hitTimerVisuals: {fileID: 0}
   parryTimerVisualOffsetX: 0
   parryTimerVisualOffsetY: 0
   parryParticle: {fileID: 5173066124080812186}
@@ -5482,6 +5491,22 @@ MonoBehaviour:
   ballToParry: {fileID: 0}
   parrySpherePosition: {x: 0, y: 0, z: 0}
   currentBallSpeed: 0
+  ballHit: 0
+--- !u!114 &2734832899062771135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3328443934547631640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99634c741eb0602468773a780d2a6177, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 0
+  ballBunted: 0
+  ballToBunt: {fileID: 0}
 --- !u!114 &1951496036296628564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5507,6 +5532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 0
+  dashDirection: {x: 0, y: 0}
 --- !u!1 &3570595457049578529
 GameObject:
   m_ObjectHideFlags: 0
