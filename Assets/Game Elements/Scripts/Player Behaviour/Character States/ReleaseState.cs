@@ -100,10 +100,18 @@ public class ReleaseState : PlayerState
                     case PlayerScript.HitType.ReflectiveHit:
                         direction = ballToParry.transform.position - transform.position;
                         direction = new Vector3(direction.x, verticalPercent, direction.z).normalized;
-
                         ApplyForce(ballRigidbody, direction);
                         break;
                 }
+                
+                // Check the ball's growthType. If it's OnHit, grow the ball.
+                if (ballToParry.GetComponent<BallSM>().growthType == BallSM.GrowthType.OnHit)
+                {
+                    ballToParry.GetComponent<BallSM>().GrowBall();
+                }
+                
+                
+                
                 ballHit = true;
             }
             ballToParry = null;
