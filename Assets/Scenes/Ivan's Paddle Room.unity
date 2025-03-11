@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &8171539 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6260442938243992832, guid: f71a0782fa0501142a5a8c04717a653a, type: 3}
+  m_PrefabInstance: {fileID: 2026709087}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &79125514
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,13 +408,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 0, y: 17.5, z: -14}
+  m_LocalRotation: {x: 0.46174863, y: 0, z: 0, w: 0.8870109}
+  m_LocalPosition: {x: 0, y: 17.5, z: -17.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 207333243}
-  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 55, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -471,7 +476,12 @@ MonoBehaviour:
   zoomSpeed: 5
   lockPoints:
   - {fileID: 1651279641}
+  - {fileID: 1981709982}
+  - {fileID: 1353511128}
+  - {fileID: 8171539}
+  - {fileID: 1189691633}
   padding: 2
+  minHeight: 25
 --- !u!1 &450039675
 GameObject:
   m_ObjectHideFlags: 0
@@ -1459,6 +1469,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f71a0782fa0501142a5a8c04717a653a, type: 3}
+--- !u!1 &1189691633 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6260442938243992832, guid: f71a0782fa0501142a5a8c04717a653a, type: 3}
+  m_PrefabInstance: {fileID: 1118172013}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1195386072
 GameObject:
   m_ObjectHideFlags: 0
@@ -1775,6 +1790,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1353511128 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6260442938243992832, guid: f71a0782fa0501142a5a8c04717a653a, type: 3}
+  m_PrefabInstance: {fileID: 1168291571}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1446275144
 GameObject:
   m_ObjectHideFlags: 0
@@ -2281,6 +2301,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1981709982 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6260442938243992832, guid: f71a0782fa0501142a5a8c04717a653a, type: 3}
+  m_PrefabInstance: {fileID: 654827140}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2026709087
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2450,6 +2475,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3059810454532666425, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
       propertyPath: m_Name
+      value: LevelManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3059810454532666425, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: m_TagString
       value: LevelManager
       objectReference: {fileID: 0}
     - target: {fileID: 6504521702067660533, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
@@ -2689,7 +2718,7 @@ MonoBehaviour:
   playerAndBallsDebugObject: {fileID: 507760132}
   inputActionAsset: {fileID: 0}
   pauseAction:
-    m_Name: 
+    m_Name: Pause
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: da33c129-12b1-4af5-9190-03bf87d9d1eb
