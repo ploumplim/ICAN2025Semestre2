@@ -5061,6 +5061,8 @@ GameObject:
   - component: {fileID: 2734832899062771135}
   - component: {fileID: 1951496036296628564}
   - component: {fileID: 3974316326334170041}
+  - component: {fileID: -6270888105009861134}
+  - component: {fileID: -9058261084534589756}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -5281,6 +5283,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: f05effeb-87b3-4c34-9213-05678b61ec7b
     m_ActionName: 'Player/Bunt[/XInputControllerWindows/buttonEast]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1616552d-3108-49e2-bbd8-8caf3d723af0
+    m_ActionName: UI/PauseAccess
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -5533,6 +5539,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: 0
   dashDirection: {x: 0, y: 0}
+--- !u!114 &-6270888105009861134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3328443934547631640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec9b3f61f508a594f8768f02d3eff6ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-9058261084534589756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3328443934547631640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c1ace14d07c67243a12a8fdd6393cee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3570595457049578529
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,11 @@ public class SetupState : LevelState
     {
         LevelManager.DestroyAllPointWalls();
         LevelManager.DestroyAllNeutralWalls();
+        LevelManager.ResetAllPoints();
+        
+        // Spawn ball
+        LevelManager.SpawnBall();
+        LevelManager.InitPlayers();
         
     }
 }

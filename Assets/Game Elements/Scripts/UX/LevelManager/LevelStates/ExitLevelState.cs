@@ -5,7 +5,7 @@ public class ExitLevelState : LevelState
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
 
-    public override void Exit()
+    public override void Enter()
     {
         LevelSM.OnLevelEnded?.Invoke();
     }

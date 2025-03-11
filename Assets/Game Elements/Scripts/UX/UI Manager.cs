@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using System.Text;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -17,20 +20,43 @@ public class UIManager : MonoBehaviour
     public GameObject pauseMenu;
 
     public UnityEvent PauseFonction;
+    
+    [Header("Score Information")]
+    public LevelManager levelManager;
+    
+    private List<GameObject> _playerList;
 
     void Start()
     {
         _playerAndBallsText = playerAndBallsDebugObject.GetComponent<TextMeshProUGUI>();
+        _playerList = levelManager.players;
     }
 
     void Update()
     {
+            TextUpdate();
+    }
+
+    
+    public void TextUpdate()
+    {
         _playerAndBallsText.text = "\n BALL \n State: " + ball.GetComponent<BallSM>().currentState +
                                    "\n Speed: " + ball.GetComponent<Rigidbody>().linearVelocity.magnitude +
                                    "\n Combo Bounces: " + ball.GetComponent<BallSM>().bounces +
-                                   "\n Owner: " + ball.GetComponent<BallSM>().ballOwnerPlayer;
+                                   "\n Owner: " + ball.GetComponent<BallSM>().ballOwnerPlayer +
+                                   
+                                   "\n Global Score: " + levelManager.globalScore +
+                                   "\n Round: " + levelManager.currentRound + " / " + levelManager.totalRounds;
+        
+        StringBuilder playerScores = new StringBuilder();
+        foreach (GameObject player in _playerList)
+        {
+            playerScores.Append("\n" + player.name + " Score: " + player.GetComponent<PlayerPointTracker>().points);
+        }
+        _playerAndBallsText.text += playerScores.ToString();
+        
     }
-
+    
     public void OnPauseAction(InputAction.CallbackContext context)
     {
         if (pauseMenu.activeSelf)

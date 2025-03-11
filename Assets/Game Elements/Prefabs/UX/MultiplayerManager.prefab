@@ -104,7 +104,8 @@ MonoBehaviour:
   availablePlayers: []
   connectedPlayers: []
   ChargeVisualObject: {fileID: 0}
-  ParryTimeVisual: {fileID: 0}
+  HitTimeVisual: {fileID: 0}
   playerPrefab: {fileID: 3328443934547631640, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+  spawnObject: {fileID: 0}
   spawnPosition: {x: -10, y: 2, z: -50}
   camera: {fileID: 0}
