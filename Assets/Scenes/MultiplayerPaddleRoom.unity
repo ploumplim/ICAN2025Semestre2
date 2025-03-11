@@ -2318,6 +2318,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7683787567743412218, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnLevelEnded.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7683787567743412218, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnLevelEnded.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7683787567743412218, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnLevelEnded.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 977163998}
+    - target: {fileID: 7683787567743412218, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnLevelEnded.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7683787567743412218, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnLevelEnded.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RestartGameSM
+      objectReference: {fileID: 0}
+    - target: {fileID: 7683787567743412218, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnLevelEnded.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelSM, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7683787567743412218, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnLevelEnded.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2332,6 +2360,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59501da154a527242a24d9625e366b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &977163998 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7683787567743412218, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+  m_PrefabInstance: {fileID: 977163996}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab8d0339f6c1ea340ad0163b55ccb989, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1027560445

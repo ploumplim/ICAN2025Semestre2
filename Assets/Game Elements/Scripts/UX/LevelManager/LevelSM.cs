@@ -41,6 +41,12 @@ public class LevelSM : MonoBehaviour
         Debug.Log("Changed state to: " + currentState);
     }
     
+    public void RestartGameSM()
+    {
+        ChangeState(GetComponent<OutOfLevelState>());
+        GameManager.Instance.gameObject.GetComponent<GameManagerSM>().ChangeState(GameManager.Instance.gameObject.GetComponent<EndGameState>());
+    }
+    
     // Update is called once per frame
     void Update()
     {
