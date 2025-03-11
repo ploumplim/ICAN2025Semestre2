@@ -76,5 +76,6 @@ public class BuntingPlayerState : PlayerState
     {
         base.Exit();
         timer = 0;
+        ballToBunt = null;
     }
 }

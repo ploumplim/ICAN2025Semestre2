@@ -38,6 +38,7 @@ public class LevelSM : MonoBehaviour
         
         currentState = newState;
         currentState.Enter();
+        Debug.Log("Changed state to: " + currentState);
     }
     
     // Update is called once per frame

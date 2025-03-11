@@ -2,15 +2,21 @@ using UnityEngine;
 
 public class BufferState : LevelState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private bool _finalRound;
+    public override void Enter()
     {
-        
+        LevelManager.DestroyAllPointWalls();
+        LevelManager.DestroyAllNeutralWalls();
+        _finalRound = LevelManager.RoundCheck();
+        if (_finalRound)
+        {
+            LevelSM.ChangeState(GetComponent<ExitLevelState>());
+        }
+        else
+        {
+            LevelSM.ChangeState(GetComponent<InRoundState>());
+            LevelManager.SpawnBall();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
