@@ -2,15 +2,10 @@ using UnityEngine;
 
 public class SetupState : LevelState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public override void Enter()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        LevelManager.DestroyAllPointWalls();
+        LevelManager.DestroyAllNeutralWalls();
         
     }
 }

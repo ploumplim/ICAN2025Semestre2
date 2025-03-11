@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class LevelManager : MonoBehaviour
 {
@@ -10,8 +11,10 @@ public class LevelManager : MonoBehaviour
     private MultiplayerManager _multiplayerManager; // Reference to the Multiplayer Manager
     [HideInInspector] public List<GameObject> players; // List of players in the level
     [HideInInspector] public GameObject gameBall; // Reference to the game ball
+    [HideInInspector] public List<GameObject> pointWalls;
+    [HideInInspector] public List<GameObject> neutralWalls;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    [Header("Level Manager Settings")]
+    [Header("Prefab settings")]
     [Tooltip("Insert the ball prefab here to spawn it when the level starts and on" +
              "each subsequent round.")]
     public GameObject ballPrefab;
@@ -19,6 +22,17 @@ public class LevelManager : MonoBehaviour
     public GameObject pointWallPrefab;
     [Tooltip("Insert the neutral wall prefab here, which will not provide points to the player.")]
     public GameObject neutralWallPrefab;
+    // --------------------------------------------------------------------------------
+    [Header("Rounds Manager")]
+    public int currentRound; // The current round of the game
+    public int maxRounds; // The maximum number of rounds in the game
+    
+    //--------------------------------------------------------------------------------
+    [Header("Level Manager Lists")]
+    [Tooltip("This list holds all the positions of the point walls.")]
+    public List<Position> pointWallPositions;
+    [Tooltip("This list holds all the positions of the neutral walls.")]
+    public List<Position> neutralWallPositions;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ EVENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
@@ -39,7 +53,25 @@ public class LevelManager : MonoBehaviour
             _currentState = _levelSM.currentState;
         }
     }
-    // ------------------------ MANAGE ENTITIES ♚ ♛  ------------------------
+    // ------------------------ MANAGE ROUNDS 🃦 🃧 🃨 🃩  ------------------------
+
+    public void RoundCheck()
+    {
+        currentRound += 1;
+        
+        // If the current round is greater than the maximum rounds, end the game.
+        if (currentRound < maxRounds)
+        {
+            _levelSM.ChangeState(GetComponent<InRoundState>());
+
+        }
+        else
+        {
+            _levelSM.ChangeState(GetComponent<ExitLevelState>());
+        }
+    }
+    
+    // ------------------------ MANAGE BALL ♚♛  ------------------------
     public void SpawnBall()
     {
         if (ballPrefab)
@@ -51,6 +83,45 @@ public class LevelManager : MonoBehaviour
             }
             
             gameBall = Instantiate(ballPrefab, Vector3.zero, Quaternion.identity);
+            // Change the gameBall's object name
+            gameBall.name = "Ball";
+            
+        }
+    }
+    
+    // ------------------------ MANAGE WALLS ♜♜  ------------------------
+    public void SpawnPointWall(Vector3 position)
+    {
+        if (pointWallPrefab)
+        {
+            Instantiate(pointWallPrefab, position, Quaternion.identity);
+            // Add the point wall to the list of point walls
+            pointWalls.Add(pointWallPrefab);
+        }
+    }
+    
+    public void SpawnNeutralWall(Vector3 position)
+    {
+        if (neutralWallPrefab)
+        {
+            Instantiate(neutralWallPrefab, position, Quaternion.identity);
+            // Add the neutral wall to the list of neutral walls
+            neutralWalls.Add(neutralWallPrefab);
+        }
+    }
+    public void DestroyAllPointWalls()
+    {
+        foreach (GameObject wall in pointWalls)
+        {
+            Destroy(wall);
+        }
+    }
+    
+    public void DestroyAllNeutralWalls()
+    {
+        foreach (GameObject wall in neutralWalls)
+        {
+            Destroy(wall);
         }
     }
     

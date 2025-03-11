@@ -8,39 +8,42 @@ using UnityEngine.Serialization;
 
 public class MultiplayerManager : MonoBehaviour
 {
-    
+
     public Dictionary<Gamepad, GameObject> controllerToPlayer = new Dictionary<Gamepad, GameObject>();
-    
-    
+
+
     public List<GameObject> availablePlayers = new List<GameObject>();
     public List<GameObject> connectedPlayers = new List<GameObject>(); // Liste des joueurs déjà associés
     public HashSet<Gamepad> pendingGamepads = new HashSet<Gamepad>();
     public GameObject ChargeVisualObject;
-    [FormerlySerializedAs("ParryTimeVisual")] public GameObject HitTimeVisual;
+
+    [FormerlySerializedAs("ParryTimeVisual")]
+    public GameObject HitTimeVisual;
+
     public GameObject playerPrefab;
     public GameObject spawnObject;
     [HideInInspector] public Vector3 spawnPosition;
     public new Camera camera;
-    
 
-    void Start()
-    {
-        void Awake()
-        {
-            DontDestroyOnLoad(gameObject);
-        }
-        // // Trouve tous les joueurs dans la scène avec le tag "Player"
-        // availablePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
-        
-        // Ajoute toutes les manettes déjà connectées à la liste d'attente
+
+
+    void Awake()
+    { 
+        DontDestroyOnLoad(gameObject);
+    // // Trouve tous les joueurs dans la scène avec le tag "Player"
+    // availablePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
+
+    // Ajoute toutes les manettes déjà connectées à la liste d'attente
         foreach (var gamepad in Gamepad.all)
         {
             pendingGamepads.Add(gamepad);
         }
-        
+
         spawnPosition = transform.position;
+    
     }
-    void Update()
+
+void Update()
     {
         // Vérifie si une manette en attente appuie sur un bouton
         foreach (Gamepad gamepad in pendingGamepads.ToList())
