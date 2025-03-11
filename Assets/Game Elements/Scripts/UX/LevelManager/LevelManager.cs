@@ -46,7 +46,9 @@ public class LevelManager : MonoBehaviour
     [Tooltip("This list holds all the rounds in the level.")]
     public List<Round> rounds;
 
-    
+    //--------------------------------------------------------------------------------
+    [Header("Ingame GUI Manager")]
+    public IngameGUIManager ingameGUIManager;
 
     
     
@@ -69,6 +71,7 @@ public class LevelManager : MonoBehaviour
 
             _levelSM = GetComponent<LevelSM>();
             _levelSM.Init();
+            
         }
         else
         {
@@ -160,6 +163,7 @@ public class LevelManager : MonoBehaviour
             gameBall = Instantiate(ballPrefab, ballSpawnPosition.position, Quaternion.identity);
             // Change the gameBall's object name
             gameBall.name = "Ball";
+
             
         }
     }

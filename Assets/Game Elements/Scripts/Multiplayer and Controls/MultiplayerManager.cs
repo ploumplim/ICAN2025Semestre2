@@ -11,10 +11,13 @@ public class MultiplayerManager : MonoBehaviour
 
     public Dictionary<Gamepad, GameObject> controllerToPlayer = new Dictionary<Gamepad, GameObject>();
 
+    public List<Transform> spawnPoints = new List<Transform>();
+    
 
     public List<GameObject> availablePlayers = new List<GameObject>();
     public List<GameObject> connectedPlayers = new List<GameObject>(); // Liste des joueurs déjà associés
-    public HashSet<Gamepad> pendingGamepads = new HashSet<Gamepad>();
+    public HashSet<Gamepad> pendingGamepads = new HashSet<Gamepad>(); // Liste des manettes en attente
+    public HashSet<Gamepad> assignedGamepads = new HashSet<Gamepad>(); // Liste des manettes déjà assignées
     public GameObject ChargeVisualObject;
 
     [FormerlySerializedAs("ParryTimeVisual")]
@@ -32,19 +35,30 @@ public class MultiplayerManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     // // Trouve tous les joueurs dans la scène avec le tag "Player"
     // availablePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
-
-    // Ajoute toutes les manettes déjà connectées à la liste d'attente
-        foreach (var gamepad in Gamepad.all)
-        {
-            pendingGamepads.Add(gamepad);
-        }
-
+    
         spawnPosition = transform.position;
     
     }
 
 void Update()
     {
+        // 
+        // Ajoute toutes les manettes déjà connectées à la liste d'attente    
+        
+        foreach (var gamepad in Gamepad.all)
+        {
+            // create a loop that checks if that gamepad is already in the list.
+            if (!assignedGamepads.Contains(gamepad) && !pendingGamepads.Contains(gamepad))
+            {
+                Debug.Log("Detected Gamepad : " + gamepad.displayName);
+                pendingGamepads.Add(gamepad);
+            }
+        }
+        
+        
+        
+        
+        
         // Vérifie si une manette en attente appuie sur un bouton
         foreach (Gamepad gamepad in pendingGamepads.ToList())
         {
@@ -53,6 +67,7 @@ void Update()
                 SpawnNewPlayer();
                 AssignControllerToPlayer(gamepad);
                 pendingGamepads.Remove(gamepad);
+                assignedGamepads.Add(gamepad);
                 return; // Évite de traiter plusieurs manettes en une frame
             }
         }

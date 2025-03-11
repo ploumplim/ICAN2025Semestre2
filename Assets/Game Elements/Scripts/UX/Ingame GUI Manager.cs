@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class UIManager : MonoBehaviour
+public class IngameGUIManager : MonoBehaviour
 {
     public GameObject ball;
 
@@ -29,17 +29,40 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         _playerAndBallsText = playerAndBallsDebugObject.GetComponent<TextMeshProUGUI>();
-        _playerList = levelManager.players;
+        
     }
 
     void Update()
     {
-            TextUpdate();
+        _playerList = levelManager.players;
+        TextUpdate();
     }
-
+    
+    void OnEnable()
+    {
+        pauseAction.Enable(); 
+    }
     
     public void TextUpdate()
     {
+        if(!ball || !levelManager || _playerList.Count == 0)
+        {
+            if (!ball)
+            {
+                Debug.Log("Ball is null");
+            }
+            if (!levelManager)
+            {
+                Debug.Log("LevelManager is null");
+            }
+            if (_playerList.Count == 0)
+            {
+                Debug.Log("PlayerList is empty");
+            }
+            
+            return;
+        }
+        
         _playerAndBallsText.text = "\n BALL \n State: " + ball.GetComponent<BallSM>().currentState +
                                    "\n Speed: " + ball.GetComponent<Rigidbody>().linearVelocity.magnitude +
                                    "\n Combo Bounces: " + ball.GetComponent<BallSM>().bounces +
