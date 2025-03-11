@@ -48,12 +48,10 @@ public class UIManager : MonoBehaviour
                                    "\n Global Score: " + levelManager.globalScore +
                                    "\n Round: " + levelManager.currentRound + " / " + levelManager.totalRounds;
         
-        StringBuilder playerScores = new StringBuilder();
         foreach (GameObject player in _playerList)
         {
-            playerScores.Append("\n" + player.name + " Score: " + player.GetComponent<PlayerPointTracker>().points);
+            _playerAndBallsText.text += "\n" + player.name + " Score: " + player.GetComponent<PlayerPointTracker>().points;
         }
-        _playerAndBallsText.text += playerScores.ToString();
         
     }
     

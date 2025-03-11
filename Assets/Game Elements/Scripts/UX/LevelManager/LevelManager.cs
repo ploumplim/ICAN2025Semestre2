@@ -62,10 +62,20 @@ public class LevelManager : MonoBehaviour
         // Using the multiplayer manager, fill my list of players with the players in the scene.
         if (_multiplayerManager)
         {
-            players = _multiplayerManager.connectedPlayers;
+            if (players.Count != _multiplayerManager.connectedPlayers.Count)
+            {
+                players = _multiplayerManager.connectedPlayers;
+            }
+
+            _levelSM = GetComponent<LevelSM>();
+            _levelSM.Init();
         }
-        _levelSM = GetComponent<LevelSM>();
-        _levelSM.Init(); 
+        else
+        {
+            Debug.LogError("Multiplayer Manager not found in the scene.");
+        }
+        
+        totalRounds = rounds.Count;
     }
 
     public void Update()
@@ -74,7 +84,14 @@ public class LevelManager : MonoBehaviour
         {
             _currentState = _levelSM.currentState;
         }
-        
+
+        if (_multiplayerManager)
+        {
+            if (players.Count != _multiplayerManager.connectedPlayers.Count)
+            {
+                players = _multiplayerManager.connectedPlayers;
+            }
+        }
 
 
     }
