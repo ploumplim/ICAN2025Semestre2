@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayingState : GameState
 {
+    public LevelSM levelSM;
+
     private GameManagerSM gameManager;
 
     public override void Enter()
@@ -11,11 +13,15 @@ public class PlayingState : GameState
 
         gameManager = GetComponent<GameManagerSM>();
 
-        if (gameManager != null)
-        {
-            gameManager.ChangeState(GetComponent<EndGameState>());
-        }
-        
+        levelSM = GameObject.FindWithTag("LevelManager").GetComponent<LevelSM>();
+        levelSM.Init(); // Ensure Init is called before ChangeState
+        InitGame();
+    }
+
+    public void InitGame()
+    {
+        Debug.Log(levelSM.currentState);
+        levelSM.Init();
     }
 
     public override void Tick()
