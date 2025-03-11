@@ -99,6 +99,8 @@ public class MultiplayerManager : MonoBehaviour
         // Instantiate a new player object at a specified position and rotation
         GameObject newPlayer = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
         
+        // Change the player's name to include the player's number
+        newPlayer.name = $"Player {connectedPlayers.Count + 1}";
         
         // Add the new player to the list of available players
         availablePlayers.Add(newPlayer);
@@ -108,7 +110,7 @@ public class MultiplayerManager : MonoBehaviour
 
     private void AssignValuesToPlayer(GameObject player)
     {
-        PlayerScript playerScript = player.GetComponent<PlayerScript>();
+        // PlayerScript playerScript = player.GetComponent<PlayerScript>();
         PlayerVisuals playerVisuals = player.GetComponent<PlayerVisuals>();
         
         // ---- Assign values to the player ----
