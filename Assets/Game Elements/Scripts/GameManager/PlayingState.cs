@@ -1,6 +1,5 @@
 // PlayingState.cs
 using UnityEngine;
-using System.Linq;
 
 public class PlayingState : GameState
 {
@@ -10,16 +9,19 @@ public class PlayingState : GameState
 
     public override void Enter()
     {
+        Debug.Log("PlayingState Enter");
+
         gameManager = GetComponent<GameManagerSM>();
-        
-        // levelSM = GameObject.FindWithTag("LevelManager").GetComponent<LevelSM>();
-        // InitGame();
+
+        levelSM = GameObject.FindWithTag("LevelManager").GetComponent<LevelSM>();
+        levelSM.Init(); // Ensure Init is called before ChangeState
+        InitGame();
     }
 
     public void InitGame()
     {
         Debug.Log(levelSM.currentState);
-        levelSM.ChangeState(GetComponent<SetupState>());
+        levelSM.Init();
     }
 
     public override void Tick()
