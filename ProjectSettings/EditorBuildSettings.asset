@@ -5,9 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TestRoom.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/BaptScene/MenuStart.unity
+    guid: 03fb3a33c05bc1a4688a86321739cb20
+  - enabled: 1
+    path: Assets/Scenes/MultiplayerPaddleRoom.unity
+    guid: 237d96c1cd86b2041ba3b319d367ef54
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: faedd64316153784e871a659db823dd6, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
