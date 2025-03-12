@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -13,6 +14,7 @@ public class LevelSM : MonoBehaviour
     public UnityEvent OnLevelEnded;
     
     // ----------- METHODS -----------
+    
 
     // Call the init function when the level is loaded, which starts the state machine.
     public void Init()
@@ -25,8 +27,12 @@ public class LevelSM : MonoBehaviour
         {
             state.Initialize(this, levelManager);
         }
-        
         currentState = GetComponent<OutOfLevelState>();
+    }
+    
+    public void StartLevel()
+    {
+        ChangeState(GetComponent<SetupState>());
     }
     
     public void ChangeState(LevelState newState)

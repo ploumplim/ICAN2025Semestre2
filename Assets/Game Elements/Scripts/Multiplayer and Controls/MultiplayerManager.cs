@@ -9,7 +9,6 @@ using UnityEngine.Serialization;
 public class MultiplayerManager : MonoBehaviour
 {
     public HandleGamePads handleGamePads;
-    public Dictionary<Gamepad, GameObject> controllerToPlayer = new Dictionary<Gamepad, GameObject>();
     public List<Transform> spawnPoints = new List<Transform>();
     public LevelManager levelManager;
     public GameObject playerToConnect;
@@ -29,7 +28,7 @@ public class MultiplayerManager : MonoBehaviour
     // // Trouve tous les joueurs dans la scène avec le tag "Player"
     // availablePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
     levelManager = GetComponentInParent<LevelManager>();
-    fillSpawnPoints();
+    FillSpawnPoints();
     handleGamePads = FindFirstObjectByType<HandleGamePads>();
 
     if (handleGamePads)
@@ -40,7 +39,7 @@ public class MultiplayerManager : MonoBehaviour
     
     }
 
-    void fillSpawnPoints()
+    void FillSpawnPoints()
     {
         foreach (Transform child in spawnParent.transform)
         {
@@ -48,33 +47,19 @@ public class MultiplayerManager : MonoBehaviour
         }
     }
 
-    void AtoJoin()
+    void AtoJoin(Gamepad gamepad)
     {
         if (handleGamePads.AssignedGamepads.Count < spawnPoints.Count)
         {
-            foreach (Gamepad gamepad in handleGamePads.PendingGamepads.ToList())
-            {
-                if (gamepad.buttonSouth.wasReleasedThisFrame)
-                {
                     SpawnNewPlayer(spawnPoints[handleGamePads.AssignedGamepads.Count]); // Spawn un joueur à la position correspondante.
-                    AssignControllerToPlayer(gamepad); // Assign the gamepad to a player.
-                    return; // Évite de
-                }
-            }
+                    connectedPlayers.Add(playerToConnect);
+                    HandleGamePads.AssignControllerToPlayer(gamepad, playerToConnect); // Assign the gamepad to a player.
+                    camera.GetComponent<CameraScript>().AddPlayerToArray(playerToConnect.gameObject);
+                    AssignValuesToPlayer(playerToConnect);
+                    playerToConnect = null;
         }
     }
 
-    void Update()
-    {
-        if (handleGamePads)
-        {
-            handleGamePads.CheckGamepadAssignments();
-        }
-        else
-        {
-            Debug.LogWarning("HandleGamePads not found in the scene.");
-        }
-    }
 
     private void SpawnNewPlayer(Transform spawnPosition)
     {
@@ -92,51 +77,6 @@ public class MultiplayerManager : MonoBehaviour
     }
     
     
-    private void AssignControllerToPlayer(Gamepad gamepad)
-    {
-        
-        // if (availablePlayers.Count == 0)
-        // {
-        //     Debug.LogWarning("Aucun joueur disponible pour être associé à la manette.");
-        //     return;
-        // }
-        
-        if (!playerToConnect)
-        {
-            Debug.LogWarning("No player to connect to the controller.");
-            return;
-        }
-        
-        // // Prend le premier joueur disponible
-        // GameObject player = availablePlayers[0];
-        //
-        // availablePlayers.RemoveAt(0); // Retire ce joueur de la liste des disponibles
-        
-        GameObject player = playerToConnect;
-        playerToConnect = null;
-        connectedPlayers.Add(player);
-        player.SetActive(true);
-        
-        // Assign the gamepad to the player's input manager
-        PlayerInput playerInput = player.GetComponent<PlayerInput>();
-        
-        if (playerInput != null)
-        {
-            playerInput.SwitchCurrentControlScheme(gamepad);
-        }
-        else
-        {
-            Debug.LogError("PlayerInput component not found on the player.");
-        }
-        
-        controllerToPlayer[gamepad] = player;
-        camera.GetComponent<CameraScript>().AddPlayerToArray(player.gameObject);
-        AssignValuesToPlayer(player.gameObject);
-        Debug.Log($"Manette {gamepad.displayName} assignée au joueur {player.name}");
-    }
-
-
-
     private void AssignValuesToPlayer(GameObject player)
     {
         // PlayerScript playerScript = player.GetComponent<PlayerScript>();

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
 public class LevelManager : MonoBehaviour
@@ -21,7 +22,6 @@ public class LevelManager : MonoBehaviour
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     private LevelSM _levelSM; // Reference to the Level State Machine
     private LevelState _currentState; // Reference to the current state of the level
-    private MultiplayerManager _multiplayerManager; // Reference to the Multiplayer Manager
     [HideInInspector] public List<GameObject> players; // List of players in the level
     [HideInInspector] public int globalScore; // Global score of the level
     [HideInInspector] public GameObject gameBall; // Reference to the game ball
@@ -47,52 +47,64 @@ public class LevelManager : MonoBehaviour
     public List<Round> rounds;
 
     //--------------------------------------------------------------------------------
-    [Header("Ingame GUI Manager")]
+    [Header("UX Manager")]
     public IngameGUIManager ingameGUIManager;
+    [SerializeField]private MultiplayerManager multiplayerManager; // Reference to the Multiplayer Manager
+
 
     
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ EVENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
+
+    public void Start()
+    {
+        Initialize(); // Delete this when Game State machine is implemented.
+    }
+
     // Call initialize when level is starting.
     
     public void Initialize()
     {
-        _multiplayerManager = FindObjectOfType<MultiplayerManager>();
-        // Using the multiplayer manager, fill my list of players with the players in the scene.
-        if (_multiplayerManager)
-        {
-            if (players.Count != _multiplayerManager.connectedPlayers.Count)
-            {
-                players = _multiplayerManager.connectedPlayers;
-            }
-
-            _levelSM = GetComponent<LevelSM>();
-            _levelSM.Init();
-            
-        }
-        else
-        {
-            Debug.LogError("Multiplayer Manager not found in the scene.");
-        }
         
+        _levelSM = GetComponent<LevelSM>();
+        _levelSM.Init();
         totalRounds = rounds.Count;
     }
 
     public void Update()
     {
+        // Update the current state of the level
         if (_levelSM && _levelSM.currentState)
         {
             _currentState = _levelSM.currentState;
         }
 
-        if (_multiplayerManager)
+        // Add players to the scene if outside of level.
+        if (multiplayerManager.handleGamePads && _currentState is OutOfLevelState)
         {
-            if (players.Count != _multiplayerManager.connectedPlayers.Count)
+            multiplayerManager.handleGamePads.CheckGamepadAssignments();
+        }
+        else
+        {
+            if (!multiplayerManager.handleGamePads)
             {
-                players = _multiplayerManager.connectedPlayers;
+                Debug.LogWarning("HandleGamePads not found in the scene.");
+            }
+            if (_currentState is not OutOfLevelState)
+            {
+                Debug.LogWarning("Current state is not OutOfLevelState.");
+            }
+        }
+        
+        
+        // Update the player list
+        if (multiplayerManager)
+        {
+            if (players.Count != multiplayerManager.connectedPlayers.Count)
+            {
+                players = multiplayerManager.connectedPlayers;
             }
         }
 
