@@ -8,89 +8,114 @@ using UnityEngine.Serialization;
 
 public class MultiplayerManager : MonoBehaviour
 {
-
+    public HandleGamePads handleGamePads;
     public Dictionary<Gamepad, GameObject> controllerToPlayer = new Dictionary<Gamepad, GameObject>();
-
     public List<Transform> spawnPoints = new List<Transform>();
-    
-
-    public List<GameObject> availablePlayers = new List<GameObject>();
+    public LevelManager levelManager;
+    public GameObject playerToConnect;
+    // public List<GameObject> availablePlayers = new List<GameObject>();
     public List<GameObject> connectedPlayers = new List<GameObject>(); // Liste des joueurs déjà associés
-    public HashSet<Gamepad> pendingGamepads = new HashSet<Gamepad>(); // Liste des manettes en attente
-    public HashSet<Gamepad> assignedGamepads = new HashSet<Gamepad>(); // Liste des manettes déjà assignées
     public GameObject ChargeVisualObject;
-
     [FormerlySerializedAs("ParryTimeVisual")]
     public GameObject HitTimeVisual;
-
     public GameObject playerPrefab;
-    public GameObject spawnObject;
-    [HideInInspector] public Vector3 spawnPosition;
+    [FormerlySerializedAs("spawnObject")] public GameObject spawnParent;
     public new Camera camera;
 
 
 
     void Awake()
     { 
-        DontDestroyOnLoad(gameObject);
     // // Trouve tous les joueurs dans la scène avec le tag "Player"
     // availablePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
-    
-        spawnPosition = transform.position;
-    
-    }
+    levelManager = GetComponentInParent<LevelManager>();
+    fillSpawnPoints();
+    handleGamePads = FindFirstObjectByType<HandleGamePads>();
 
-void Update()
+    if (handleGamePads)
     {
-        // 
-        // Ajoute toutes les manettes déjà connectées à la liste d'attente    
-        
-        foreach (var gamepad in Gamepad.all)
+        //subscribe to the OnSouthButtonPressed event
+        handleGamePads.OnSouthButtonPressed += AtoJoin;
+    }
+    
+    }
+
+    void fillSpawnPoints()
+    {
+        foreach (Transform child in spawnParent.transform)
         {
-            // create a loop that checks if that gamepad is already in the list.
-            if (!assignedGamepads.Contains(gamepad) && !pendingGamepads.Contains(gamepad))
-            {
-                Debug.Log("Detected Gamepad : " + gamepad.displayName);
-                pendingGamepads.Add(gamepad);
-            }
+            spawnPoints.Add(child);
         }
-        
-        
-        
-        
-        
-        // Vérifie si une manette en attente appuie sur un bouton
-        foreach (Gamepad gamepad in pendingGamepads.ToList())
+    }
+
+    void AtoJoin()
+    {
+        if (handleGamePads.AssignedGamepads.Count < spawnPoints.Count)
         {
-            if (gamepad.buttonSouth.wasReleasedThisFrame)
+            foreach (Gamepad gamepad in handleGamePads.PendingGamepads.ToList())
             {
-                SpawnNewPlayer();
-                AssignControllerToPlayer(gamepad);
-                pendingGamepads.Remove(gamepad);
-                assignedGamepads.Add(gamepad);
-                return; // Évite de traiter plusieurs manettes en une frame
+                if (gamepad.buttonSouth.wasReleasedThisFrame)
+                {
+                    SpawnNewPlayer(spawnPoints[handleGamePads.AssignedGamepads.Count]); // Spawn un joueur à la position correspondante.
+                    AssignControllerToPlayer(gamepad); // Assign the gamepad to a player.
+                    return; // Évite de
+                }
             }
         }
     }
 
+    void Update()
+    {
+        if (handleGamePads)
+        {
+            handleGamePads.CheckGamepadAssignments();
+        }
+        else
+        {
+            Debug.LogWarning("HandleGamePads not found in the scene.");
+        }
+    }
+
+    private void SpawnNewPlayer(Transform spawnPosition)
+    {
+        // Instantiate a new player object at a specified position and rotation
+        GameObject newPlayer = Instantiate(playerPrefab, spawnPosition.position, Quaternion.identity);
+        
+        // Change the player's name to include the player's number
+        newPlayer.name = $"Player {connectedPlayers.Count + 1}";
+        
+        // Add the new player to the list of available players
+        // availablePlayers.Add(newPlayer);
+        playerToConnect = newPlayer;
+
+        // Debug.Log($"New player spawned at position {spawnPosition}");
+    }
+    
+    
     private void AssignControllerToPlayer(Gamepad gamepad)
     {
         
-        if (availablePlayers.Count == 0)
+        // if (availablePlayers.Count == 0)
+        // {
+        //     Debug.LogWarning("Aucun joueur disponible pour être associé à la manette.");
+        //     return;
+        // }
+        
+        if (!playerToConnect)
         {
-            Debug.LogWarning("Aucun joueur disponible pour être associé à la manette.");
+            Debug.LogWarning("No player to connect to the controller.");
             return;
         }
         
-        // Prend le premier joueur disponible
-        GameObject player = availablePlayers[0];
+        // // Prend le premier joueur disponible
+        // GameObject player = availablePlayers[0];
+        //
+        // availablePlayers.RemoveAt(0); // Retire ce joueur de la liste des disponibles
         
-        availablePlayers.RemoveAt(0); // Retire ce joueur de la liste des disponibles
-        connectedPlayers.Add(player); // Ajoute ce joueur à la liste des occupés
-        
+        GameObject player = playerToConnect;
+        playerToConnect = null;
+        connectedPlayers.Add(player);
         player.SetActive(true);
-        
-        // Associe la manette à ce joueur
         
         // Assign the gamepad to the player's input manager
         PlayerInput playerInput = player.GetComponent<PlayerInput>();
@@ -104,30 +129,13 @@ void Update()
             Debug.LogError("PlayerInput component not found on the player.");
         }
         
-        
         controllerToPlayer[gamepad] = player;
-        
         camera.GetComponent<CameraScript>().AddPlayerToArray(player.gameObject);
-        
         AssignValuesToPlayer(player.gameObject);
-
-        
         Debug.Log($"Manette {gamepad.displayName} assignée au joueur {player.name}");
     }
 
-    private void SpawnNewPlayer()
-    {
-        // Instantiate a new player object at a specified position and rotation
-        GameObject newPlayer = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
-        
-        // Change the player's name to include the player's number
-        newPlayer.name = $"Player {connectedPlayers.Count + 1}";
-        
-        // Add the new player to the list of available players
-        availablePlayers.Add(newPlayer);
 
-        // Debug.Log($"New player spawned at position {spawnPosition}");
-    }
 
     private void AssignValuesToPlayer(GameObject player)
     {
