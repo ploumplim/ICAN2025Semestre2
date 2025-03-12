@@ -19,11 +19,13 @@ public class IngameGUIManager : MonoBehaviour
 
     public GameObject pauseMenu;
 
+    
     public UnityEvent PauseFonction;
     
-    [Header("Score Information")]
+    [Header("GUI")]
     public LevelManager levelManager;
-    
+    public GameObject startGameButtonObject;
+
     private List<GameObject> _playerList;
 
     void Start()
@@ -36,6 +38,11 @@ public class IngameGUIManager : MonoBehaviour
     {
         _playerList = levelManager.players;
         TextUpdate();
+    }
+    
+    public void AssignBall(GameObject ballObject)
+    {
+        ball = ballObject;
     }
     
     void OnEnable()

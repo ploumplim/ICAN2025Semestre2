@@ -30,10 +30,6 @@ public class LevelSM : MonoBehaviour
         currentState = GetComponent<OutOfLevelState>();
     }
     
-    public void StartLevel()
-    {
-        ChangeState(GetComponent<SetupState>());
-    }
     
     public void ChangeState(LevelState newState)
     {

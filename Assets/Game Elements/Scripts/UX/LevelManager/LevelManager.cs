@@ -23,12 +23,14 @@ public class LevelManager : MonoBehaviour
     private LevelSM _levelSM; // Reference to the Level State Machine
     private LevelState _currentState; // Reference to the current state of the level
     [HideInInspector] public List<GameObject> players; // List of players in the level
+    private List<Transform> _playerSpawnPoints; // List of player spawn points
     [HideInInspector] public int globalScore; // Global score of the level
     [HideInInspector] public GameObject gameBall; // Reference to the game ball
     [HideInInspector] public List<GameObject> pointWalls; // List of point walls
     [HideInInspector] public List<GameObject> neutralWalls; // List of neutral walls
-    [HideInInspector] public int currentRound;
-    [HideInInspector] public int totalRounds;
+    [HideInInspector] public int currentRound; // Current round of the level
+    [HideInInspector] public int totalRounds; // Total rounds of the level
+    [HideInInspector] public bool gameIsRunning; // Boolean to check if the game is running
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     [Header("Prefab settings")]
     [Tooltip("Insert the ball prefab here to spawn it when the level starts and on" +
@@ -43,7 +45,16 @@ public class LevelManager : MonoBehaviour
 
     //--------------------------------------------------------------------------------
     [Header("Round Manager")]
-    [Tooltip("This list holds all the rounds in the level.")]
+    
+    [Tooltip("This float value determines the time it takes to set up the level before the first round.")]
+    public float setupTime = 1.5f;
+    
+    [Tooltip("This float value determines the time it takes to buffer between rounds.")]
+    public float roundBufferTime = 1.5f;
+    
+    
+    
+    [Tooltip("This list holds all the rounds in the level. Modify the level design of each round here.")]
     public List<Round> rounds;
 
     //--------------------------------------------------------------------------------
@@ -63,10 +74,13 @@ public class LevelManager : MonoBehaviour
         Initialize(); // Delete this when Game State machine is implemented.
     }
 
-    // Call initialize when level is starting.
-    
+    // Call initialize to set up the level manager.
     public void Initialize()
     {
+        if (multiplayerManager)
+        {
+            _playerSpawnPoints = multiplayerManager.spawnPoints;
+        }
         
         _levelSM = GetComponent<LevelSM>();
         _levelSM.Init();
@@ -82,11 +96,12 @@ public class LevelManager : MonoBehaviour
         }
 
         // Add players to the scene if outside of level.
-        if (multiplayerManager.handleGamePads && _currentState is OutOfLevelState)
+        if (multiplayerManager.handleGamePads && _currentState is OutOfLevelState
+            && !gameIsRunning)
         {
             multiplayerManager.handleGamePads.CheckGamepadAssignments();
         }
-        else
+        else if (!gameIsRunning)
         {
             if (!multiplayerManager.handleGamePads)
             {
@@ -111,7 +126,27 @@ public class LevelManager : MonoBehaviour
 
     }
     // ------------------------ MANAGE ROUNDS 🃦 🃧 🃨 🃩  ------------------------
-
+    public void StartLevel()
+    {
+        if (players.Count >= 2 && !gameIsRunning)
+        {
+            _levelSM.ChangeState(GetComponent<SetupState>());
+            // Disable the game start button in the GUI
+            ingameGUIManager.startGameButtonObject.SetActive(false);
+        }
+        else
+        {
+            if (players.Count < 2)
+            {
+                Debug.LogWarning("Not enough players to start the level.");
+            }
+            if (gameIsRunning)
+            {
+                Debug.LogWarning("The game is already running.");
+            }
+        }
+    }
+    
     public bool RoundCheck()
     {
         // Check if the current round is less than the total rounds.
@@ -130,34 +165,23 @@ public class LevelManager : MonoBehaviour
     
     public void StartRound()
     {
-        // Increment the current round
-        currentRound++;
+        DestroyAllPointWalls();
+        DestroyAllNeutralWalls();
         // Reset the global score
         globalScore = 0;
         // Spawn the ball
         SpawnBall();
+        // Init the players
+        InitPlayers();
         // Spawn the point walls
-        foreach (Transform pointWallPosition in rounds[currentRound].pointWallPositions)
-        {
-            SpawnPointWall(pointWallPosition.position);
-        }
-        // Spawn the neutral walls
-        foreach (Transform neutralWallPosition in rounds[currentRound].neutralWallPositions)
-        {
-            SpawnNeutralWall(neutralWallPosition.position);
-        }
+        SpawnCurrentRoundWalls();
+        // Increment the current round
     }
     
     public void EndRound(GameObject winningPlayer)
     {
         // Add the global score to the winning player's individual score
         AddScoreToPlayer(globalScore, winningPlayer);
-        // Destroy all point walls
-        DestroyAllPointWalls();
-        // Destroy all neutral walls
-        DestroyAllNeutralWalls();
-        // Destroy the ball
-        Destroy(gameBall);
     }
     
     // ------------------------ MANAGE BALL ♚♛  ------------------------
@@ -175,6 +199,8 @@ public class LevelManager : MonoBehaviour
             gameBall = Instantiate(ballPrefab, ballSpawnPosition.position, Quaternion.identity);
             // Change the gameBall's object name
             gameBall.name = "Ball";
+            // Assign the ball to the GUI
+            ingameGUIManager.AssignBall(gameBall);
 
             
         }
@@ -188,16 +214,44 @@ public class LevelManager : MonoBehaviour
         {
             player.GetComponent<PlayerScript>().ChangeState(player.GetComponent<NeutralState>());
         }
+        // Put players in the correct spawn point.
+        for (int i = 0; i < players.Count; i++)
+        {
+            players[i].transform.position = _playerSpawnPoints[i].position;
+        }
     }
     
     // ------------------------ MANAGE WALLS ♜♜  ------------------------
+    
+    public void SpawnCurrentRoundWalls()
+    {
+        // Spawn the point walls
+        int i = 0;
+        int j = 0;
+        foreach (Transform pointWallPosition in rounds[currentRound].pointWallPositions)
+        {
+            SpawnPointWall(pointWallPosition.position);
+            // Make it a child of the pointWallPosition's game object.
+            pointWalls[i].transform.parent = pointWallPosition;
+            i++;
+        }
+        // Spawn the neutral walls
+        foreach (Transform neutralWallPosition in rounds[currentRound].neutralWallPositions)
+        {
+            SpawnNeutralWall(neutralWallPosition.position);
+            // Make it a child of the neutralWallPosition's game object.
+            neutralWalls[j].transform.parent = neutralWallPosition;
+            j++;
+        }
+    }
+    
     public void SpawnPointWall(Vector3 position)
     {
         if (pointWallPrefab)
         {
-            Instantiate(pointWallPrefab, position, Quaternion.identity);
+            GameObject pointWall = Instantiate(pointWallPrefab, position, Quaternion.identity);
             // Add the point wall to the list of point walls
-            pointWalls.Add(pointWallPrefab);
+            pointWalls.Add(pointWall);
         }
     }
     
@@ -205,9 +259,9 @@ public class LevelManager : MonoBehaviour
     {
         if (neutralWallPrefab)
         {
-            Instantiate(neutralWallPrefab, position, Quaternion.identity);
+            GameObject neutralWall = Instantiate(neutralWallPrefab, position, Quaternion.identity);
             // Add the neutral wall to the list of neutral walls
-            neutralWalls.Add(neutralWallPrefab);
+            neutralWalls.Add(neutralWall);
         }
     }
     public void DestroyAllPointWalls()

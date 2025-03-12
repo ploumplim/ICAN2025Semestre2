@@ -5,9 +5,9 @@ public class PlayerPointTracker : MonoBehaviour
 {
     [FormerlySerializedAs("Points")] public int points;
 
-    public void AddPoints(int points)
+    public void AddPoints(int addpoints)
     {
-        this.points += points;
+        this.points += addpoints;
     }
 
     public void ResetPoints()

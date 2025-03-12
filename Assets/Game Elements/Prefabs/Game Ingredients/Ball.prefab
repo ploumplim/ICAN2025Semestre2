@@ -267,7 +267,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &5565106716455342989
 MonoBehaviour:
@@ -282,20 +282,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
-  maxSpeed: 100
+  maxSpeed: 80
   groundedMaxHeight: 1
-  buntedMaxHeight: 20
-  flyingMaxHeight: 2
+  buntedMaxHeight: 7
+  flyingMaxHeight: 1.5
   minHeight: 0
   groundedLinearDamping: 1
   buntedLinearDamping: 0
   flyingLinearDamping: 0.1
-  groundedMass: 5
-  buntedMass: 5
-  flyingMass: 3
+  groundedMass: 1
+  buntedMass: 0.1
+  flyingMass: 1
+  neutralScale: 0.75
+  growthRate: 0.1
+  shrinkRate: 0.1
+  minimumScale: 0.75
+  maximumScale: 3.5
+  growthType: 1
   minimumSpeedToGround: 10
+  playerImmunityTime: 0.2
   rb: {fileID: 0}
   bounces: 0
+  ballOwnerPlayer: {fileID: 0}
+  col: {fileID: 0}
 --- !u!114 &3984054927209078919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,7 +317,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06721ab72bd916640a5ba0e749f083fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballMarker: {fileID: 0}
   trailVisuals: {fileID: 3172110743681774408}
   ballVisuals: {fileID: 5224228065908999798}
   parryColor: {r: 0, g: 0.11869693, b: 1, a: 1}
@@ -337,6 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0775bb70a4daac94d8ae53b941d36c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: 0
 --- !u!114 &2317312007862079952
 MonoBehaviour:
   m_ObjectHideFlags: 0
