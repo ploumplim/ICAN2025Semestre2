@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
 using UnityEngine.UIElements;
@@ -52,11 +53,18 @@ public class LevelManager : MonoBehaviour
     [Tooltip("This float value determines the time it takes to buffer between rounds.")]
     public float roundBufferTime = 1.5f;
     
-    
-    
     [Tooltip("This list holds all the rounds in the level. Modify the level design of each round here.")]
     public List<Round> rounds;
 
+    //--------------------------------------------------------------------------------
+    [Header("Score Settings")]
+    [Tooltip("This int value determines the score the player gets when they hit the flying ball.")]
+    public int ballHitScore = 1;
+    [Tooltip("This int value determines the score the player gets when they hit the bunted ball.")]
+    public int buntedBallHitScore = 2;
+    [Tooltip("This int value determines the score the player gets when they hit the point wall.")]
+    public int pointWallHitScore = 3;
+    
     //--------------------------------------------------------------------------------
     [Header("UX Manager")]
     public IngameGUIManager ingameGUIManager;
@@ -133,6 +141,12 @@ public class LevelManager : MonoBehaviour
             _levelSM.ChangeState(GetComponent<SetupState>());
             // Disable the game start button in the GUI
             ingameGUIManager.startGameButtonObject.SetActive(false);
+            
+            foreach (GameObject player in players)
+            {
+                // subscribe to the OnBallHitEvent
+                player.GetComponent<PlayerScript>().OnBallHit += AddScoreToPlayer;
+            }
         }
         else
         {
@@ -221,6 +235,22 @@ public class LevelManager : MonoBehaviour
         }
     }
     
+    public void RemovePlayerControl()
+    {
+        foreach (GameObject player in players)
+        {
+            player.GetComponent<PlayerInput>().DeactivateInput();
+        }
+    }
+    
+    public void ReturnPlayerControl()
+    {
+        foreach (GameObject player in players)
+        {
+            player.GetComponent<PlayerInput>().ActivateInput();
+        }
+    }
+    
     // ------------------------ MANAGE WALLS ♜♜  ------------------------
     
     public void SpawnCurrentRoundWalls()
@@ -284,9 +314,25 @@ public class LevelManager : MonoBehaviour
     {
         globalScore += score;
     }
-    public void AddScoreToPlayer(int score, GameObject player)
+    public void AddScoreToPlayer(int score, GameObject player, BallState ballState = null)
     {
-        player.GetComponent<PlayerPointTracker>().AddPoints(score);
+        if (!ballState)
+        {
+            player.GetComponent<PlayerPointTracker>().AddPoints(score);
+        }
+        else
+        {
+            switch (ballState)
+            {
+                case FlyingState:
+                    player.GetComponent<PlayerPointTracker>().AddPoints(ballHitScore);
+                    break;
+                case BuntedBallState:
+                    player.GetComponent<PlayerPointTracker>().AddPoints(buntedBallHitScore);
+                    break;
+                
+            }
+        }
     }
     
     public void ResetAllPoints()
