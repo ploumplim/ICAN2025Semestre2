@@ -243,6 +243,7 @@ public class PlayerScript : MonoBehaviour
             // Debug.Log(currentState);
             if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<FlyingState>())
             {
+                Debug.Log("Ball hit player");
                 if (currentState is not KnockbackState && currentState is not DashingState)
                 {
                     PlayerEndedDash?.Invoke();

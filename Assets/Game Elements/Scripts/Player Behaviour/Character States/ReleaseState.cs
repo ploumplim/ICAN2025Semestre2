@@ -15,6 +15,7 @@ public class ReleaseState : PlayerState
         base.Enter();
         Hit();
         ballHit = false;
+        currentBallSpeed = 0f;
     }
 
     public void Hit()
@@ -68,6 +69,7 @@ public class ReleaseState : PlayerState
             if (ballRigidbody != null)
             {
                 currentBallSpeed = ballToHit.GetComponent<Rigidbody>().linearVelocity.magnitude;
+                // Debug.Log("Ball Speed: " + currentBallSpeed);
                 
                 if (ballToHit.GetComponent<BallSM>().currentState != ballToHit.GetComponent<FlyingState>())
                 {
@@ -80,6 +82,8 @@ public class ReleaseState : PlayerState
                 }
 
                 ballRigidbody.linearVelocity = Vector3.zero;
+                
+                
                 GameObject player = PlayerScript.gameObject;
                 Vector3 direction;
                 // Set the ball owner to the player that hit the ball.
@@ -126,8 +130,14 @@ public class ReleaseState : PlayerState
 
     public void ApplyForce(Rigidbody ballRigidBody, Vector3 direction)
     { 
-        ballRigidBody.AddForce(direction * (PlayerScript.chargeValueIncrementor *
-                                          PlayerScript.hitForce * currentBallSpeed), ForceMode.Impulse);
+        // Instead of adding a force, set the speed of the ball directly.
+        
+        ballRigidBody.linearVelocity = direction * (PlayerScript.chargeValueIncrementor *
+                                                   PlayerScript.hitForce * currentBallSpeed);
+        
+        
+        // ballRigidBody.AddForce(direction * (PlayerScript.chargeValueIncrementor *
+        //                                   PlayerScript.hitForce * currentBallSpeed), ForceMode.Impulse);
     }
     
     //---------------------------------------------------------------------------------

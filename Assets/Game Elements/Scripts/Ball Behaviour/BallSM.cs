@@ -19,7 +19,8 @@ public class BallSM : MonoBehaviour
     [Header("Ball Propulsion Settings")]
     [Tooltip("The ball will never go faster than this value.")]
     public float maxSpeed = 20f;
-    
+    [Tooltip("The ball becomes lethal when it reaches this speed.")]
+    public float lethalSpeed = 10f;
     //-------------------------------------------------------------------------------------
     [FormerlySerializedAs("maxHeight")]
     [Header("Ball Height Settings")]

@@ -33,5 +33,11 @@ public class FlyingState : BallState
         // Set the ball's vertical speed to 0.
         BallSm.SetMaxHeight(BallSm.flyingMaxHeight);
         BallSm.FixVerticalSpeed(BallSm.flyingMaxHeight);
+        
+        // if the ball is going above the lethal speed, set the ball to the LethalBallState.
+        if (BallSm.rb.linearVelocity.magnitude >= BallSm.lethalSpeed)
+        {
+            BallSm.ChangeState(GetComponent<LethalBallState>());
+        }
     }
 }
