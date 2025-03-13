@@ -81,8 +81,11 @@ public class BallSM : MonoBehaviour
     [HideInInspector]public int bounces = 0;
     [HideInInspector]public GameObject ballOwnerPlayer;
     [HideInInspector]public SphereCollider col;
+    [HideInInspector]public int pointWallPoints;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~EVENTS~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    public UnityEvent<int> pointWallHit;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -200,6 +203,11 @@ public class BallSM : MonoBehaviour
                 if (growthType == GrowthType.OnBounce)
                 {
                     GrowBall();
+                }
+                
+                if (other.gameObject.CompareTag("PointWall"))
+                {
+                    pointWallHit?.Invoke(pointWallPoints);
                 }
                 
                 break;

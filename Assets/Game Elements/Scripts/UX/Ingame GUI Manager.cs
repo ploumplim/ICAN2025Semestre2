@@ -75,7 +75,7 @@ public class IngameGUIManager : MonoBehaviour
                                    "\n Combo Bounces: " + ball.GetComponent<BallSM>().bounces +
                                    "\n Owner: " + ball.GetComponent<BallSM>().ballOwnerPlayer +
                                    
-                                   "\n Global Score: " + levelManager.globalScore +
+                                   "\n Score pot: " + levelManager.potScore +
                                    "\n Round: " + levelManager.currentRound + " / " + levelManager.totalRounds;
         
         foreach (GameObject player in _playerList)

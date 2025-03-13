@@ -25,7 +25,7 @@ public class LevelManager : MonoBehaviour
     private LevelState _currentState; // Reference to the current state of the level
     [HideInInspector] public List<GameObject> players; // List of players in the level
     private List<Transform> _playerSpawnPoints; // List of player spawn points
-    [HideInInspector] public int globalScore; // Global score of the level
+    [FormerlySerializedAs("globalScore")] [HideInInspector] public int potScore; // Global score of the level
     [HideInInspector] public GameObject gameBall; // Reference to the game ball
     [HideInInspector] public List<GameObject> pointWalls; // List of point walls
     [HideInInspector] public List<GameObject> neutralWalls; // List of neutral walls
@@ -182,7 +182,7 @@ public class LevelManager : MonoBehaviour
         DestroyAllPointWalls();
         DestroyAllNeutralWalls();
         // Reset the global score
-        globalScore = 0;
+        potScore = 0;
         // Spawn the ball
         SpawnBall();
         // Init the players
@@ -195,7 +195,7 @@ public class LevelManager : MonoBehaviour
     public void EndRound(GameObject winningPlayer)
     {
         // Add the global score to the winning player's individual score
-        AddScoreToPlayer(globalScore, winningPlayer);
+        AddScoreToPlayer(potScore, winningPlayer);
     }
     
     // ------------------------ MANAGE BALL ♚♛  ------------------------
@@ -204,8 +204,13 @@ public class LevelManager : MonoBehaviour
         if (ballPrefab)
         {
             // Destroy the ball if it exists
-            if (GameObject.FindWithTag("Ball"))
+            
+            GameObject existingBall = GameObject.FindWithTag("Ball");
+            
+            if (existingBall)
             {
+                // unsuscribe to all the events
+                existingBall.GetComponent<BallSM>().pointWallHit.RemoveAllListeners();
                 Destroy(GameObject.FindWithTag("Ball"));
             }
             
@@ -215,8 +220,10 @@ public class LevelManager : MonoBehaviour
             gameBall.name = "Ball";
             // Assign the ball to the GUI
             ingameGUIManager.AssignBall(gameBall);
-
-            
+            // Assign the ball value.
+            gameBall.GetComponent<BallSM>().pointWallPoints = pointWallHitScore;
+            //suscribe to the OnPointWallHit event
+            gameBall.GetComponent<BallSM>().pointWallHit.AddListener(AddGlobalScore);
         }
     }
     
@@ -312,7 +319,7 @@ public class LevelManager : MonoBehaviour
     // ------------------------ MANAGE SCORES 🏆🏆  ------------------------
     public void AddGlobalScore(int score)
     {
-        globalScore += score;
+        potScore += score;
     }
     public void AddScoreToPlayer(int score, GameObject player, BallState ballState = null)
     {
@@ -337,7 +344,7 @@ public class LevelManager : MonoBehaviour
     
     public void ResetAllPoints()
     {
-        globalScore = 0;
+        potScore = 0;
         foreach (GameObject player in players)
         {
             player.GetComponent<PlayerPointTracker>().ResetPoints();
