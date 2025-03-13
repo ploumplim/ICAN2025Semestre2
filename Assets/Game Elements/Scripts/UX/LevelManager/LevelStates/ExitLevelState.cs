@@ -8,5 +8,9 @@ public class ExitLevelState : LevelState
     public override void Enter()
     {
         LevelSM.OnLevelEnded?.Invoke();
+        LevelSM.ChangeState(GetComponent<OutOfLevelState>());
+        LevelManager.gameIsRunning = false;
+        LevelManager.ingameGUIManager.startGameButtonObject.SetActive(false);
+
     }
 }

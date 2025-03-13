@@ -6,6 +6,11 @@ using UnityEngine.Serialization;
 public class BallSM : MonoBehaviour
 {
 
+    public enum GrowthType
+    {
+        OnHit,
+        OnBounce
+    }
     
     // ~~VARIABLES~~
     public BallState currentState;
@@ -20,15 +25,10 @@ public class BallSM : MonoBehaviour
     [Header("Ball Height Settings")]
     [Tooltip("Maximum height the ball can achieve while grounded.")]
     public float groundedMaxHeight = 10f;
-    
     [Tooltip("Maximum height the ball can achieve while bunted.")]
     public float buntedMaxHeight = 20f;
-    
     [Tooltip("Maximum height the ball can achieve while midair.")]
     public float flyingMaxHeight = 30f;
-    
-    
-    
     [Tooltip("Minimum height the ball can achieve.")]
     public float minHeight = -1f;
     
@@ -36,21 +36,32 @@ public class BallSM : MonoBehaviour
     [Header("Ball physical properties")]
     [Tooltip("The linear damping value when the ball is grounded.")]
     public float groundedLinearDamping = 1f;
-    
     [Tooltip("The linear damping value when the ball is bunted.")]
     public float buntedLinearDamping = 0.5f;
-        
     [FormerlySerializedAs("midAirLinearDamping")] [Tooltip("The linear damping value when the ball is flying midair.")]
     public float flyingLinearDamping = 0.1f;
-    
     [Tooltip("The mass of the ball while its grounded.")]
     public float groundedMass = 1f;
-    
     [Tooltip("The mass of the ball while its bunted.")]
     public float buntedMass = 0.5f;
-    
     [FormerlySerializedAs("midAirMass")] [Tooltip("The mass of the ball while its midair.")]
     public float flyingMass = 0.1f;
+    
+    //-------------------------------------------------------------------------------------
+    [Header("Ball Size Settings")]
+    [Tooltip("The ball's normal size.")]
+    public float neutralScale = 1f;
+    [Tooltip("The ball's growth rate.")]
+    public float growthRate = 0.1f;
+    [Tooltip("The ball's shrink rate.")]
+    public float shrinkRate = 0.1f;
+    [Tooltip("The ball's minimum scale.")]
+    public float minimumScale = 0.5f;
+    [Tooltip("The ball's maximum scale.")]
+    public float maximumScale = 3.5f;
+    [Tooltip("The ball's growth type.")]
+    public GrowthType growthType = GrowthType.OnHit;
+    
     
     //-------------------------------------------------------------------------------------
     [Header("Dropped Settings")]
@@ -129,7 +140,30 @@ public class BallSM : MonoBehaviour
             rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
         }
     }
+    //~~~~~~~~~~~~~~~~~~~~~~ GROWTH ~~~~~~~~~~~~~~~~~~~~~~
+
+    public void GrowBall()
+    {
+        transform.localScale += new Vector3(growthRate, growthRate, growthRate);
+        if (transform.localScale.x > maximumScale)
+        {
+            transform.localScale = new Vector3(maximumScale, maximumScale, maximumScale);
+        }
+    }
     
+    public void ShrinkBall()
+    {
+        transform.localScale -= new Vector3(shrinkRate, shrinkRate, shrinkRate);
+        if (transform.localScale.x < minimumScale)
+        {
+            transform.localScale = new Vector3(minimumScale, minimumScale, minimumScale);
+        }
+    }
+    
+    public void ResetBallSize()
+    {
+        transform.localScale = new Vector3(neutralScale, neutralScale, neutralScale);
+    }
 
     //~~~~~~~~~~~~~~~~~~~~~~ DRAW GIZMOS ~~~~~~~~~~~~~~~~~~~~~~
     private void OnDrawGizmos()
@@ -159,11 +193,15 @@ public class BallSM : MonoBehaviour
         
         switch (currentState)
         {
-            case FlyingState:
-                if (other.gameObject.CompareTag("Bouncer"))
-                { 
-                    bounces++;
+            case FlyingState: 
+                bounces++;
+                
+                // Check the ball GrowthType. If it's OnBounce, grow the ball.
+                if (growthType == GrowthType.OnBounce)
+                {
+                    GrowBall();
                 }
+                
                 break;
             case DroppedState:
                 break;

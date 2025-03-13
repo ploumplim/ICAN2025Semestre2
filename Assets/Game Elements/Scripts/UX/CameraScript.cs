@@ -115,14 +115,23 @@ public class CameraScript : MonoBehaviour
     private bool AreAllLockPointsVisible()
     {
         Camera camera = cameraObject.GetComponent<Camera>();
-        foreach (Vector3 point in _lockPoints)
+        
+        if (_lockPoints == null || _lockPoints.Length == 0)
         {
-            Vector3 viewportPoint = camera.WorldToViewportPoint(point);
-            if (viewportPoint.x < 0 || viewportPoint.x > 1 || viewportPoint.y < 0 || viewportPoint.y > 1)
+            return false;
+        }
+        else
+        {
+            foreach (Vector3 point in _lockPoints)
             {
-                return false;
+                Vector3 viewportPoint = camera.WorldToViewportPoint(point);
+                if (viewportPoint.x < 0 || viewportPoint.x > 1 || viewportPoint.y < 0 || viewportPoint.y > 1)
+                {
+                    return false;
+                }
             }
         }
+
         return true;
     }
 

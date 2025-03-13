@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections;
 public class BufferState : LevelState
 {
     private bool _finalRound;
@@ -11,12 +11,22 @@ public class BufferState : LevelState
         if (_finalRound)
         {
             LevelSM.ChangeState(GetComponent<ExitLevelState>());
+            
+            Debug.Log("That was the final round. Changing state to ExitLevelState.");
         }
         else
         {
-            LevelSM.ChangeState(GetComponent<InRoundState>());
+            StartCoroutine(WaitForBufferTime());
             LevelManager.SpawnBall();
         }
+    }
+    
+    IEnumerator WaitForBufferTime()
+    {
+        Debug.Log("Waiting for buffer time.");
+        yield return new WaitForSeconds(LevelManager.roundBufferTime);
+        LevelSM.ChangeState(LevelManager.GetComponent<InRoundState>());
+        Debug.Log("Buffer time passed. Next round starting.");
     }
 
 }

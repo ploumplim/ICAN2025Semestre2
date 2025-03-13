@@ -125,6 +125,9 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent PlayerDashed;
     public UnityEvent PlayerEndedDash;
     
+    // action events
+    public event Action<int,GameObject,BallState> OnBallHit;
+    
     // ------------------------------ PRIVATE VARIABLES ------------------------------
     
     private bool _isAiming;
@@ -344,6 +347,12 @@ public class PlayerScript : MonoBehaviour
                 ChangeState(GetComponent<DashingState>());
             }
         }
+    }
+    
+    // ------------------------------ EVENTS ------------------------------
+    public void OnBallHitEventMethod(GameObject ball)
+    {
+        OnBallHit?.Invoke(0,gameObject,ball.GetComponent<BallSM>().currentState);
     }
 
     // ------------------------------ PLAYER GIZMOS ------------------------------

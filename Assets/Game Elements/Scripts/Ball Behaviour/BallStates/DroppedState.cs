@@ -6,6 +6,7 @@ public class DroppedState : BallState
     {
         base.Enter();
         BallSm.bounces = 0;
+        BallSm.ResetBallSize();
         SetParameters(BallSm.groundedMass, BallSm.groundedLinearDamping, true);
         
         // Ball should not collide with any player when it is on the ground.
