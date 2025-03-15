@@ -87,6 +87,9 @@ public class BallSM : MonoBehaviour
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~EVENTS~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     public UnityEvent<int> pointWallHit;
+    public UnityEvent<int> OnPointBounce;
+    public UnityEvent<int> OnNeutralBounce;
+    public UnityEvent<float> OnBallFlight;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -199,7 +202,6 @@ public class BallSM : MonoBehaviour
         {
             case FlyingState:
                 bounces++;
-
                 // Check the ball GrowthType. If it's OnBounce, grow the ball.
                 if (growthType == GrowthType.OnBounce)
                 {
@@ -209,6 +211,12 @@ public class BallSM : MonoBehaviour
                 if (other.gameObject.CompareTag("PointWall"))
                 {
                     pointWallHit?.Invoke(pointWallPoints);
+                    OnPointBounce?.Invoke(bounces);
+                }
+                
+                if (other.gameObject.CompareTag("NeutralWall"))
+                {
+                    OnNeutralBounce?.Invoke(bounces);
                 }
 
                 break;
@@ -222,6 +230,7 @@ public class BallSM : MonoBehaviour
 
                 break;
             case LethalBallState:
+                bounces++;
                 if (growthType == GrowthType.OnBounce)
                 {
                     GrowBall();
@@ -230,6 +239,11 @@ public class BallSM : MonoBehaviour
                 if (other.gameObject.CompareTag("PointWall"))
                 {
                     pointWallHit?.Invoke(pointWallPoints);
+                }
+                
+                if (other.gameObject.CompareTag("NeutralWall"))
+                {
+                    OnNeutralBounce?.Invoke(bounces);
                 }
                 break;
             default:

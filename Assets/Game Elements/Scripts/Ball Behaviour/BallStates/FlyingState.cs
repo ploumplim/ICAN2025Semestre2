@@ -13,6 +13,7 @@ public class FlyingState : BallState
         
         // The ball's collider should not hit the player's collider.
         Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
+        BallSm.OnBallFlight?.Invoke(BallSm.rb.linearVelocity.magnitude);
     }
 
     public override void Tick()

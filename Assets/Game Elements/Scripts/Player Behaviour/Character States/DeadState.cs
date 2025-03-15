@@ -5,6 +5,7 @@ public class DeadState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        PlayerScript.OnPlayerDeath?.Invoke();
         // ignore the ballLayer.
         Physics.IgnoreLayerCollision(PlayerScript.playerLayer,
             PlayerScript.ballLayer, true);

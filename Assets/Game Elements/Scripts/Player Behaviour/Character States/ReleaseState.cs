@@ -21,7 +21,7 @@ public class ReleaseState : PlayerState
     public void Hit()
     {
         // Debug.Log("Parry!");
-        PlayerScript.PlayerPerformedHit?.Invoke();
+        PlayerScript.OnPlayerHitReleased?.Invoke(PlayerScript.chargeValueIncrementor);
         PlayerScript.hitTimer = PlayerScript.releaseDuration;
         StartCoroutine(HitTime());
     }
@@ -63,6 +63,7 @@ public class ReleaseState : PlayerState
     {
         if (ballToHit && !ballHit)
         {
+            PlayerScript.OnBallHitByPlayer?.Invoke(PlayerScript.chargeValueIncrementor);
             float verticalPercent;
             float minimumBallSpeed = ballToHit.GetComponent<BallSM>().minimumSpeedToGround;
             Rigidbody ballRigidbody = ballToHit.GetComponent<Rigidbody>();
