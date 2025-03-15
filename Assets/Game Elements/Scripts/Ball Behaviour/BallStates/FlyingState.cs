@@ -40,4 +40,10 @@ public class FlyingState : BallState
             BallSm.ChangeState(GetComponent<LethalBallState>());
         }
     }
+    
+    public override void Exit()
+    {
+        base.Exit();
+        Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
+    }
 }

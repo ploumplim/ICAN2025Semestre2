@@ -46,6 +46,8 @@ public class PlayerVisuals : MonoBehaviour
     public ParticleSystem parryParticle;
     [Tooltip("Trail that is left behind when player dashes")]
     public TrailRenderer dashTrail;
+    [Tooltip("Particle that is played when the player dies.")]
+    public ParticleSystem deadParticle;
     
     void Start()
     {
@@ -70,20 +72,24 @@ public class PlayerVisuals : MonoBehaviour
         ChargeBar(handScreenPosition);
         ParryBar(playerScreenPosition);
         
-        if (!_canParry)
-        {
-            switch (playerScript.currentState)
-            {
-                case DeadState:
-                    _playerMeshMaterial.color = Color.black;
-                    break;
-                case KnockbackState:
-                    _playerMeshMaterial.color = knockbackColor;
-                    break;
-                default:
-                    _playerMeshMaterial.color = _originalPlayerMeshColor;
-                    break;
-            }
+        
+        switch (playerScript.currentState) 
+        { 
+            case NeutralState:
+                _playerMeshMaterial.color = _originalPlayerMeshColor;
+                if (deadParticle.isPlaying)
+                {deadParticle.Stop();}
+                break;
+            case DeadState:
+                _playerMeshMaterial.color = Color.black; 
+                if (!deadParticle.isPlaying)
+                {deadParticle.Play();}
+                break;
+            case KnockbackState:
+                _playerMeshMaterial.color = knockbackColor;
+                break;
+            default:
+                break;
         }
 
         _parryTimerSprite.fillAmount = playerScript.hitTimer / playerScript.releaseDuration;

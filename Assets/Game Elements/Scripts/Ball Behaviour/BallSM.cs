@@ -194,23 +194,23 @@ public class BallSM : MonoBehaviour
  
     private void OnCollisionEnter(Collision other)
     {
-        
+
         switch (currentState)
         {
-            case FlyingState: 
+            case FlyingState:
                 bounces++;
-                
+
                 // Check the ball GrowthType. If it's OnBounce, grow the ball.
                 if (growthType == GrowthType.OnBounce)
                 {
                     GrowBall();
                 }
-                
+
                 if (other.gameObject.CompareTag("PointWall"))
                 {
                     pointWallHit?.Invoke(pointWallPoints);
                 }
-                
+
                 break;
             case DroppedState:
                 break;
@@ -218,6 +218,18 @@ public class BallSM : MonoBehaviour
                 if (other.gameObject.CompareTag("Floor"))
                 {
                     ChangeState(GetComponent<DroppedState>());
+                }
+
+                break;
+            case LethalBallState:
+                if (growthType == GrowthType.OnBounce)
+                {
+                    GrowBall();
+                }
+
+                if (other.gameObject.CompareTag("PointWall"))
+                {
+                    pointWallHit?.Invoke(pointWallPoints);
                 }
                 break;
             default:

@@ -76,7 +76,9 @@ public class CameraScript : MonoBehaviour
 
         var newPositionXvalue = cameraHolderObject.transform.position;
         newPositionXvalue.x = newPosition.x;
-        cameraHolderObject.transform.position = newPositionXvalue;
+        var cameraHolderObjectVec3 = cameraHolderObject.transform.position;
+        cameraHolderObjectVec3.x = Mathf.Lerp(cameraHolderObject.transform.position.x, newPositionXvalue.x, followSpeed * Time.deltaTime);
+        cameraHolderObject.transform.position = cameraHolderObjectVec3;
     }
 
     public static Vector3 CalculateAveragePoint(Vector3[] points)
@@ -117,19 +119,8 @@ public class CameraScript : MonoBehaviour
         // Recover the vector distance between the camera holder object and the camera object
         Vector3 tPointAndCamVec3 = _targetPoint - cameraHolderObject.transform.position;
         
-        // // Apply the offset to the distance.
-        // tPointAndCamVec3 = Vector3.Lerp(tPointAndCamVec3, tPointAndCamVec3 * padding, Time.deltaTime);
-        
         // Clamp the distance between the min and max distance
         float distance = tPointAndCamVec3.magnitude;
-        // if (distance > maxDistance)
-        // {
-        //     holderAndCameraVector = holderAndCameraVector.normalized * maxDistance;
-        // }
-        // if (distance < minDistance)
-        // {
-        //     holderAndCameraVector = holderAndCameraVector.normalized * minDistance;
-        // }
         
         // Check if all objects within the lockPoints array are visible
         if (!AreAllLockPointsVisible())
@@ -138,12 +129,6 @@ public class CameraScript : MonoBehaviour
             cameraHolderObject.transform.position = Vector3.Lerp(cameraHolderObject.transform.position,
                 cameraHolderObject.transform.position + tPointAndCamVec3, zoomSpeed * Time.deltaTime);
         }
-        // else
-        // {
-        //     // If they are not, move the camera holder object towards the camera object
-        //     cameraHolderObject.transform.position = Vector3.Lerp(cameraHolderObject.transform.position,
-        //         cameraHolderObject.transform.position-tPointAndCamVec3, zoomSpeed * Time.deltaTime);
-        // }
     }
 
     private bool AreAllLockPointsVisible()

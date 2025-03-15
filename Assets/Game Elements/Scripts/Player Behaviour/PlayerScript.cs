@@ -140,6 +140,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public CapsuleCollider col;
     [HideInInspector] public int ledgeLayer;
     [HideInInspector] public int playerLayer;
+    [HideInInspector] public int ballLayer;
     
     // ------------------------------ BALL ------------------------------
     [HideInInspector] public BallSM ballSM;
@@ -165,6 +166,7 @@ public class PlayerScript : MonoBehaviour
     public void Start()
     {
         SetPlayerParameters();
+        col = GetComponent<CapsuleCollider>();
     }
     
     public void SetPlayerParameters()
@@ -185,6 +187,7 @@ public class PlayerScript : MonoBehaviour
         
         ledgeLayer = LayerMask.NameToLayer("Ledge");
         playerLayer = gameObject.layer;
+        ballLayer = LayerMask.NameToLayer("Ball");
         
         PlayerState[] states = GetComponents<PlayerState>();
         foreach (PlayerState state in states)
@@ -243,8 +246,10 @@ public class PlayerScript : MonoBehaviour
             // Debug.Log(currentState);
             if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<FlyingState>())
             {
-                Debug.Log("Ball hit player");
-                if (currentState is not KnockbackState && currentState is not DashingState)
+                // Debug.Log("Ball hit player");
+                if (currentState is not KnockbackState &&
+                    currentState is not DashingState &&
+                    currentState is not DeadState)
                 {
                     PlayerEndedDash?.Invoke();
                     ChangeState(GetComponent<KnockbackState>());
@@ -261,6 +266,18 @@ public class PlayerScript : MonoBehaviour
                         ForceMode.Impulse);
                 }
                 
+            }
+            else if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<LethalBallState>())
+            {
+                // Debug.Log("Ball hit player");
+                if (currentState is not KnockbackState &&
+                    currentState is not DashingState &&
+                    currentState is not DeadState)
+                {
+                    PlayerEndedDash?.Invoke();
+                    ChangeState(GetComponent<DeadState>());
+                    // Debug.Log("Player died");
+                }
             }
 
         }
