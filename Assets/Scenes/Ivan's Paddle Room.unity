@@ -1628,6 +1628,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: roundBufferTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
       propertyPath: gameCameraScript
       value: 
       objectReference: {fileID: 330585548}
