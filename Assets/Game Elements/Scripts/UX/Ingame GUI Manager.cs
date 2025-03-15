@@ -25,6 +25,7 @@ public class IngameGUIManager : MonoBehaviour
     [Header("GUI")]
     public LevelManager levelManager;
     public GameObject startGameButtonObject;
+    public GameObject resetPlayersObject;
 
     private List<GameObject> _playerList;
 

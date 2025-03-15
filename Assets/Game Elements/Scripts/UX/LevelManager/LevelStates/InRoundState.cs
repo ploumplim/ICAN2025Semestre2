@@ -14,7 +14,6 @@ public class InRoundState : LevelState
         {
             // Add the player to the list of players that are alive.
             _playersAlive.Add(player);
-            
             // Debug.Log("Player added to the list of players that are alive." + player.name);
         }
     }
@@ -40,7 +39,7 @@ public class InRoundState : LevelState
         {
             // If there is only one player left, then the round is over.
             // Change the state to BufferState.
-            Debug.Log("Only one player left. Changing state to BufferState.");
+            // Debug.Log("Only one player left. Changing state to BufferState.");
             winningPlayer = _playersAlive[0];
             LevelSM.ChangeState(LevelManager.GetComponent<BufferState>());
         }

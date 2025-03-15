@@ -64,6 +64,11 @@ public class CameraScript : MonoBehaviour
                 _lockPoints[i] = lockPoints[i].transform.position;
             }
         }
+        else
+        {
+            // If the lockPoints array is empty, return
+            return;
+        }
 
         // Calculate the average point between the lock points
         _targetPoint = CalculateAveragePoint(_lockPoints);
@@ -110,6 +115,8 @@ public class CameraScript : MonoBehaviour
             if (lockPoints[i] == @object)
             {
                 lockPoints[i] = null;
+                // Remove the null element from the array
+                lockPoints = Array.FindAll(lockPoints, x => x != null);
             }
         }
     }

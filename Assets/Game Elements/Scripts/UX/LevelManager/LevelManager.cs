@@ -136,13 +136,14 @@ public class LevelManager : MonoBehaviour
 
     }
     // ------------------------ MANAGE ROUNDS 🃦 🃧 🃨 🃩  ------------------------
-    public void StartLevel()
+    public void StartLevel() // CALL THIS METHOD TO START THE LEVEL
     {
         if (players.Count >= 2 && !gameIsRunning)
         {
             _levelSM.ChangeState(GetComponent<SetupState>());
             // Disable the game start button in the GUI
             ingameGUIManager.startGameButtonObject.SetActive(false);
+            ingameGUIManager.resetPlayersObject.SetActive(false);
             
             foreach (GameObject player in players)
             {
@@ -170,7 +171,6 @@ public class LevelManager : MonoBehaviour
         // If it is not, change the state to OutOfLevelState.
         if (currentRound < totalRounds)
         {
-            currentRound++;
             return false;
         }
         else
