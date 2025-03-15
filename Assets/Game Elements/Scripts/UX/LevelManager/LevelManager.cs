@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -68,6 +69,7 @@ public class LevelManager : MonoBehaviour
     //--------------------------------------------------------------------------------
     [Header("UX Manager")]
     public IngameGUIManager ingameGUIManager;
+    public CameraScript gameCameraScript;
     [SerializeField]private MultiplayerManager multiplayerManager; // Reference to the Multiplayer Manager
 
 
@@ -211,6 +213,8 @@ public class LevelManager : MonoBehaviour
             {
                 // unsuscribe to all the events
                 existingBall.GetComponent<BallSM>().pointWallHit.RemoveAllListeners();
+                // from the game camera script, remove the ball from the list of lockpoints.
+                gameCameraScript.RemoveObjectFromArray(existingBall);
                 Destroy(GameObject.FindWithTag("Ball"));
             }
             
@@ -224,6 +228,8 @@ public class LevelManager : MonoBehaviour
             gameBall.GetComponent<BallSM>().pointWallPoints = pointWallHitScore;
             //suscribe to the OnPointWallHit event
             gameBall.GetComponent<BallSM>().pointWallHit.AddListener(AddGlobalScore);
+            // Add the ball to the list of lockpoints in the camera script.
+            gameCameraScript.AddObjectToArray(gameBall);
         }
     }
     

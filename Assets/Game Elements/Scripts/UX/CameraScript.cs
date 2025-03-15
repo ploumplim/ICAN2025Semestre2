@@ -28,8 +28,11 @@ public class CameraScript : MonoBehaviour
     [Tooltip("This is the padding that the camera will have from the lock points.")]
     public float padding = 2f;
 
-    [Tooltip("The minimum height the camera can go.")]
-    public float minHeight = 0f;
+    [Tooltip("The minimum distance the camera can go when moving towards the lockpoint.")]
+    public float minDistance = 0f;
+    
+    [Tooltip("The maximum distance the camera can go when moving towards the lockpoint.")]
+    public float maxDistance = 10f;
 
     public void Start()
     {
@@ -64,17 +67,16 @@ public class CameraScript : MonoBehaviour
 
         // Calculate the average point between the lock points
         _targetPoint = CalculateAveragePoint(_lockPoints);
+        
+        
 
         // Move the camera holder object to the middle point
         Vector3 newPosition = Vector3.Lerp(cameraHolderObject.transform.position, _targetPoint, followSpeed * Time.deltaTime);
 
-        // Ensure the camera does not go below the minimum height
-        if (newPosition.y < minHeight)
-        {
-            newPosition.y = minHeight;
-        }
 
-        cameraHolderObject.transform.position = newPosition;
+        var newPositionXvalue = cameraHolderObject.transform.position;
+        newPositionXvalue.x = newPosition.x;
+        cameraHolderObject.transform.position = newPositionXvalue;
     }
 
     public static Vector3 CalculateAveragePoint(Vector3[] points)
@@ -93,28 +95,60 @@ public class CameraScript : MonoBehaviour
         return sum / points.Length;
     }
 
-    public void AddPlayerToArray(GameObject player)
+    public void AddObjectToArray(GameObject @object)
     {
         Array.Resize(ref lockPoints, lockPoints.Length + 1);
-        lockPoints[^1] = player;
+        lockPoints[^1] = @object;
+    }
+    
+    public void RemoveObjectFromArray(GameObject @object)
+    {
+        for (int i = 0; i < lockPoints.Length; i++)
+        {
+            if (lockPoints[i] == @object)
+            {
+                lockPoints[i] = null;
+            }
+        }
     }
 
     private void UpdateCameraDistance()
     {
         // Recover the vector distance between the camera holder object and the camera object
-        Vector3 distance = cameraObject.transform.position - cameraHolderObject.transform.position;
-
+        Vector3 tPointAndCamVec3 = _targetPoint - cameraHolderObject.transform.position;
+        
+        // // Apply the offset to the distance.
+        // tPointAndCamVec3 = Vector3.Lerp(tPointAndCamVec3, tPointAndCamVec3 * padding, Time.deltaTime);
+        
+        // Clamp the distance between the min and max distance
+        float distance = tPointAndCamVec3.magnitude;
+        // if (distance > maxDistance)
+        // {
+        //     holderAndCameraVector = holderAndCameraVector.normalized * maxDistance;
+        // }
+        // if (distance < minDistance)
+        // {
+        //     holderAndCameraVector = holderAndCameraVector.normalized * minDistance;
+        // }
+        
         // Check if all objects within the lockPoints array are visible
         if (!AreAllLockPointsVisible())
         {
             // If they are, move the camera holder object away from the camera object
-            cameraHolderObject.transform.position += distance.normalized * (zoomSpeed * Time.deltaTime);
+            cameraHolderObject.transform.position = Vector3.Lerp(cameraHolderObject.transform.position,
+                cameraHolderObject.transform.position + tPointAndCamVec3, zoomSpeed * Time.deltaTime);
         }
+        // else
+        // {
+        //     // If they are not, move the camera holder object towards the camera object
+        //     cameraHolderObject.transform.position = Vector3.Lerp(cameraHolderObject.transform.position,
+        //         cameraHolderObject.transform.position-tPointAndCamVec3, zoomSpeed * Time.deltaTime);
+        // }
     }
 
     private bool AreAllLockPointsVisible()
     {
-        Camera camera = cameraObject.GetComponent<Camera>();
+        Camera gameCamera = cameraObject.GetComponent<Camera>();
         
         if (_lockPoints == null || _lockPoints.Length == 0)
         {
@@ -124,7 +158,7 @@ public class CameraScript : MonoBehaviour
         {
             foreach (Vector3 point in _lockPoints)
             {
-                Vector3 viewportPoint = camera.WorldToViewportPoint(point);
+                Vector3 viewportPoint = gameCamera.WorldToViewportPoint(point);
                 if (viewportPoint.x < 0 || viewportPoint.x > 1 || viewportPoint.y < 0 || viewportPoint.y > 1)
                 {
                     return false;

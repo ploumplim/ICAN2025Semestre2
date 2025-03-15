@@ -54,7 +54,7 @@ public class MultiplayerManager : MonoBehaviour
                     SpawnNewPlayer(spawnPoints[handleGamePads.AssignedGamepads.Count]); // Spawn un joueur à la position correspondante.
                     connectedPlayers.Add(playerToConnect);
                     HandleGamePads.AssignControllerToPlayer(gamepad, playerToConnect); // Assign the gamepad to a player.
-                    camera.GetComponent<CameraScript>().AddPlayerToArray(playerToConnect.gameObject);
+                    camera.GetComponent<CameraScript>().AddObjectToArray(playerToConnect.gameObject);
                     AssignValuesToPlayer(playerToConnect);
                     playerToConnect = null;
         }

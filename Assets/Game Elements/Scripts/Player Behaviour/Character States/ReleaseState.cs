@@ -81,7 +81,7 @@ public class ReleaseState : PlayerState
                     verticalPercent = PlayerScript.verticalPercent;
                 }
 
-                ballRigidbody.linearVelocity = Vector3.zero;
+                // ballRigidbody.linearVelocity = Vector3.zero;
                 
                 
                 GameObject player = PlayerScript.gameObject;
@@ -123,21 +123,15 @@ public class ReleaseState : PlayerState
                 ballHit = true;
             }
             ballToHit = null;
-            // PlayerScript.ChangeState(GetComponent<NeutralState>());
         }
 
     }
 
     public void ApplyForce(Rigidbody ballRigidBody, Vector3 direction)
     { 
-        // Instead of adding a force, set the speed of the ball directly.
-        
-        ballRigidBody.linearVelocity = direction * (PlayerScript.chargeValueIncrementor *
-                                                   PlayerScript.hitForce * currentBallSpeed);
-        
-        
-        // ballRigidBody.AddForce(direction * (PlayerScript.chargeValueIncrementor *
-        //                                   PlayerScript.hitForce * currentBallSpeed), ForceMode.Impulse);
+        // Calculate the new velocity based on the direction and current speed
+        float newSpeed = PlayerScript.chargeValueIncrementor * PlayerScript.hitForce * currentBallSpeed;
+        ballRigidBody.linearVelocity = direction.normalized * newSpeed;
     }
     
     //---------------------------------------------------------------------------------
