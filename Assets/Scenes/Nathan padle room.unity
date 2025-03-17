@@ -586,6 +586,8 @@ MonoBehaviour:
   lockPoints:
   - {fileID: 1651279641}
   padding: 1
+  minDistance: 0
+  maxDistance: 10
 --- !u!1001 &361093722
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2214,6 +2216,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 79125514}
     - target: {fileID: 347135594415308757, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
+      propertyPath: spawnParent
+      value: 
+      objectReference: {fileID: 79125514}
+    - target: {fileID: 347135594415308757, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
+      propertyPath: HitTimeVisual
+      value: 
+      objectReference: {fileID: 450039675}
+    - target: {fileID: 347135594415308757, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
       propertyPath: ParryTimeVisual
       value: 
       objectReference: {fileID: 450039675}
@@ -2235,7 +2245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6838993880549433725, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -56
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 6838993880549433725, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2836,7 +2846,7 @@ PrefabInstance:
       objectReference: {fileID: 2127437674}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: maxSpeed
-      value: 90
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: buntedMass
@@ -2847,8 +2857,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: growthRate
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: growthType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: groundedMass
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: maximumScale
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
       propertyPath: buntedMaxHeight
@@ -2964,6 +2986,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ball: {fileID: 1651279641}
   playerAndBallsDebugObject: {fileID: 507760132}
+  inputActionAsset: {fileID: 0}
+  pauseAction:
+    m_Name: Pause
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 45d49817-a5ec-4949-aca6-aa98ee3f24b8
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  pauseMenu: {fileID: 0}
+  PauseFonction:
+    m_PersistentCalls:
+      m_Calls: []
+  levelManager: {fileID: 0}
+  startGameButtonObject: {fileID: 0}
+  resetPlayersObject: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

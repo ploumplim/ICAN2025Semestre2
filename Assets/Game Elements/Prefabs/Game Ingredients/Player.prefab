@@ -10148,21 +10148,21 @@ MonoBehaviour:
   chargeLerpTime: 0.5
   knockbackTime: 0.25
   knockbackForce: 1
-  dashKnockbackModifier: 0.5
+  dashKnockbackModifier: 0.6
   linearDrag: 0.5
-  hitLinearDrag: 0
+  hitLinearDrag: 0.4
   hitType: 0
-  chargeRate: 1
+  chargeRate: 0.4
   releaseDuration: 0.5
-  hitForce: 2.5
-  chargeClamp: 0.5
+  hitForce: 2
+  chargeClamp: 0.6
   verticalPercent: 0.2
   hitDetectionRadius: 3.4
   hitDetectionOffset: 0
   buntForce: 0.8
-  buntCooldown: 0.9
-  buntDuration: 0.4
-  buntSphereRadius: 3
+  buntCooldown: 1.5
+  buntDuration: 0.3
+  buntSphereRadius: 1.8
   buntSpherePositionOffset: 1.4
   dashSpeed: 40
   dashDuration: 0.28
