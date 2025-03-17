@@ -118,23 +118,12 @@ public class PlayerScript : MonoBehaviour
 
     public GameObject playerHand;
     
-    [FormerlySerializedAs("PlayerPerformedHit")]
     [Header("Events")]
     // ------------------------------ EVENTS ------------------------------
-    public UnityEvent OnHitButtonPressed;
-    [FormerlySerializedAs("BallParried")]
-    public UnityEvent<float> OnPlayerHitReleased;
-    public UnityEvent<float> OnBallHitByPlayer;
-    public UnityEvent OnPlayerHitByBall;
-    [FormerlySerializedAs("PlayerPerformedBunt")]
-    public UnityEvent OnPlayerPerformedBunt;
-    public UnityEvent OnPlayerBuntBall;
-    
-    [FormerlySerializedAs("PlayerDashed")]
-    public UnityEvent OnPlayerDash;
+    [FormerlySerializedAs("BallParried")] public UnityEvent PlayerPerformedHit;
+    public UnityEvent PlayerPerformedBunt;
+    public UnityEvent PlayerDashed;
     public UnityEvent PlayerEndedDash;
-    public UnityEvent OnPlayerDeath;
-    
     
     // action events
     public event Action<int,GameObject,BallState> OnBallHit;
@@ -254,7 +243,6 @@ public class PlayerScript : MonoBehaviour
     {
         if (other.gameObject.GetComponent<BallSM>())
         {
-            OnPlayerHitByBall?.Invoke();
             // Debug.Log(currentState);
             if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<FlyingState>())
             {
@@ -338,7 +326,6 @@ public class PlayerScript : MonoBehaviour
     {
         if (currentState is NeutralState && context.started)
         {
-            OnHitButtonPressed?.Invoke();
             ChangeState(GetComponent<ChargingState>());
         }
         
@@ -374,7 +361,7 @@ public class PlayerScript : MonoBehaviour
             {
                 // Debug.Log("Dashing!");
                 dashTimer = 0;
-                OnPlayerDash?.Invoke();
+                PlayerDashed?.Invoke();
                 ChangeState(GetComponent<DashingState>());
             }
         }

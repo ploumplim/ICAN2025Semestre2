@@ -17,7 +17,7 @@ public class BuntingPlayerState : PlayerState
 
     public void Bunt()
     {
-        PlayerScript.OnPlayerPerformedBunt?.Invoke();
+        PlayerScript.PlayerPerformedBunt?.Invoke();
         PlayerScript.buntTimer = PlayerScript.buntDuration;
         StartCoroutine(BuntTime());
     }
@@ -62,7 +62,6 @@ public class BuntingPlayerState : PlayerState
     {
         if (ballToBunt && !ballBunted)
         {
-            PlayerScript.OnPlayerBuntBall?.Invoke();
             ballToBunt.GetComponent<BallSM>().ChangeState(ballToBunt.GetComponent<BuntedBallState>());
             ballToBunt.GetComponent<Rigidbody>().AddForce(transform.up * PlayerScript.buntForce, ForceMode.Impulse);
             ballBunted = true;
