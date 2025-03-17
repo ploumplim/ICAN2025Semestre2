@@ -14,7 +14,6 @@ public class PlayerVisuals : MonoBehaviour
     private Image chargeSprite;
     
     // Image component of the parry timer visuals.
-    private Image _parryTimerSprite;
     private bool _canParry;
     private float _parryRadius;
     
@@ -53,11 +52,8 @@ public class PlayerVisuals : MonoBehaviour
     {
         // Recover the PlayerScript from the player.
         playerScript = GetComponent<PlayerScript>();
-        // Recover the Image from the charge visuals.
-        chargeSprite = chargeVisuals.GetComponentInChildren<Image>();
         // Recover the player's mesh material and color.
         _playerMeshMaterial = playerMesh.GetComponent<MeshRenderer>().material;
-        _parryTimerSprite = hitTimerVisuals.GetComponentInChildren<Image>();
         
 
         _parryRadius = playerScript.hitDetectionRadius;
@@ -67,10 +63,6 @@ public class PlayerVisuals : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {        
-        Vector3 handScreenPosition = playerScript.playerCamera.WorldToScreenPoint(playerScript.playerHand.transform.position);
-        Vector3 playerScreenPosition = playerScript.playerCamera.WorldToScreenPoint(playerScript.transform.position);
-        ChargeBar(handScreenPosition);
-        ParryBar(playerScreenPosition);
         
         
         switch (playerScript.currentState) 
@@ -92,7 +84,6 @@ public class PlayerVisuals : MonoBehaviour
                 break;
         }
 
-        _parryTimerSprite.fillAmount = playerScript.hitTimer / playerScript.releaseDuration;
         RecoverAfterDash();
         // Dash trail width is equal to the player's rollDetectionRadius.
         dashTrail.widthMultiplier = playerScript.rollDetectionRadius * 2f;

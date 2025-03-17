@@ -8,37 +8,31 @@ using UnityEngine.InputSystem;
 
 public class IngameGUIManager : MonoBehaviour
 {
+    [Header("Game Objects Settings and Prefabs")]
     public GameObject ball;
-
     [Header("Player and Ball Debug Information")]
     public GameObject playerAndBallsDebugObject;
     private TextMeshProUGUI _playerAndBallsText;
-
-    public InputActionAsset inputActionAsset;
     public InputAction pauseAction;
-
     public GameObject pauseMenu;
-
-    
-    public UnityEvent PauseFonction;
-    
     [Header("GUI")]
     public LevelManager levelManager;
     public GameObject startGameButtonObject;
     public GameObject resetPlayersObject;
-
     private List<GameObject> _playerList;
+    [SerializeField] private TextMeshPro _globalPointsText;
 
     void Start()
     {
         _playerAndBallsText = playerAndBallsDebugObject.GetComponent<TextMeshProUGUI>();
-        
     }
 
     void Update()
     {
         _playerList = levelManager.players;
         TextUpdate();
+        // Update the global point texts using the levelManager's global points.
+        _globalPointsText.text = levelManager.potScore.ToString();
     }
     
     public void AssignBall(GameObject ballObject)
