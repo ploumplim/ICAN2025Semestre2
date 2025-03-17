@@ -2236,6 +2236,10 @@ PrefabInstance:
       propertyPath: CannotParryTheBallEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8156403620927567920, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: -876546973899608171, guid: d9fb1259fc4243c49a4eda0f251b0410, type: 3}
     - target: {fileID: 8257710722661929340, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_DefaultControlScheme
       value: Gamepad
