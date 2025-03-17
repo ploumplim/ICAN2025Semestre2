@@ -1836,6 +1836,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ball
       objectReference: {fileID: 0}
+    - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: maxSpeed
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: growthRate
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: growthType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: shrinkRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: lethalSpeed
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 5565106716455342989, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+      propertyPath: maximumScale
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
