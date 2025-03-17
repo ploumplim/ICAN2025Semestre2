@@ -5,17 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class LoadingState : GameState
 {
-    private GameManagerSM gameManager;
 
     public override void Enter()
     {
         Debug.Log("LoadingState Enter");
 
-        gameManager = GetComponent<GameManagerSM>();
+        GameManagerSM = GetComponent<GameManagerSM>();
 
-        if (gameManager != null)
+        if (GameManagerSM != null)
         {
             // Start the coroutine to change to PlayingState after 2 seconds
+            
+            
             StartCoroutine(ChangeToPlayingStateAfterDelay(2f));
         }
     }
@@ -25,11 +26,23 @@ public class LoadingState : GameState
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(1);
         yield return null; // Wait for the scene to load
-        gameManager.ChangeState(GetComponent<PlayingState>());
+        GameManagerSM.ChangeState(GetComponent<PlayingState>());
     }
 
     public override void Tick()
     {
         base.Tick();
+    }
+    
+    public override void Exit()
+    {
+        // Debug.Log("LoadingState Exit");
+
+        foreach (var VARIABLE in  GameManager.mpManager.connectedPlayers)
+        {
+            VARIABLE.GetComponent<PlayerScript>().InMenu = false;
+        }
+       
+
     }
 }

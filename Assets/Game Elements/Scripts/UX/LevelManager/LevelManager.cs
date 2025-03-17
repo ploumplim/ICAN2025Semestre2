@@ -19,7 +19,6 @@ public class LevelManager : MonoBehaviour
 
     }
     
-    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     private LevelSM _levelSM; // Reference to the Level State Machine
     private LevelState _currentState; // Reference to the current state of the level
@@ -43,6 +42,10 @@ public class LevelManager : MonoBehaviour
     public GameObject pointWallPrefab;
     [Tooltip("Insert the neutral wall prefab here, which will not provide points to the player.")]
     public GameObject neutralWallPrefab;
+    
+    public List<Transform> spawnPoints = new List<Transform>();
+    [FormerlySerializedAs("spawnObject")] public GameObject spawnParent;
+    public new Camera camera;
 
     //--------------------------------------------------------------------------------
     [Header("Round Manager")]
@@ -69,9 +72,8 @@ public class LevelManager : MonoBehaviour
     [Header("UX Manager")]
     public IngameGUIManager ingameGUIManager;
     [SerializeField]private MultiplayerManager multiplayerManager; // Reference to the Multiplayer Manager
-
-
-    
+    //-------------------------------VISUALS-------------------------------------------------//
+    public GameObject GlobalVisuals;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ EVENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
@@ -80,19 +82,25 @@ public class LevelManager : MonoBehaviour
     public void Start()
     {
         Initialize(); // Delete this when Game State machine is implemented.
-    }
+        FillSpawnPoints();
+    }       
+
+
 
     // Call initialize to set up the level manager.
     public void Initialize()
     {
-        if (multiplayerManager)
-        {
-            _playerSpawnPoints = multiplayerManager.spawnPoints;
-        }
+        _playerSpawnPoints = spawnPoints;
         
         _levelSM = GetComponent<LevelSM>();
         _levelSM.Init();
         totalRounds = rounds.Count;
+        
+        foreach (var player in players)
+        {
+            player.GetComponent<PlayerScript>().SetPlayerParameters(GlobalVisuals.GetComponent<GlobalVisual>());
+        }
+        
     }
 
     public void Update()
@@ -102,6 +110,8 @@ public class LevelManager : MonoBehaviour
         {
             _currentState = _levelSM.currentState;
         }
+
+        
 
         // Add players to the scene if outside of level.
         if (multiplayerManager.handleGamePads && _currentState is OutOfLevelState
@@ -160,7 +170,13 @@ public class LevelManager : MonoBehaviour
             }
         }
     }
-    
+    void FillSpawnPoints()
+    {
+        foreach (Transform child in spawnParent.transform)
+        {
+            spawnPoints.Add(child);
+        }
+    }
     public bool RoundCheck()
     {
         // Check if the current round is less than the total rounds.
@@ -186,7 +202,7 @@ public class LevelManager : MonoBehaviour
         // Spawn the ball
         SpawnBall();
         // Init the players
-        InitPlayers();
+        InitPlayers(camera);
         // Spawn the point walls
         SpawnCurrentRoundWalls();
         // Increment the current round
@@ -222,11 +238,12 @@ public class LevelManager : MonoBehaviour
     
     // ------------------------ MANAGE PLAYERS ♟♞  ------------------------
     
-    public void InitPlayers()
+    public void InitPlayers(Camera gCamera)
     {
         foreach (GameObject player in players)
         {
             player.GetComponent<PlayerScript>().ChangeState(player.GetComponent<NeutralState>());
+            player.GetComponent<PlayerScript>().playerCamera = gCamera;
         }
         // Put players in the correct spawn point.
         for (int i = 0; i < players.Count; i++)

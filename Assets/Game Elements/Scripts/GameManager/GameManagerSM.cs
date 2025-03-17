@@ -4,23 +4,22 @@ public class GameManagerSM : MonoBehaviour
 {
     // ~~VARIABLES~~
     public GameState currentState;
-
+    
+    
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
     }
 
-    void Start()
+    public void InitGameSM(GameManager gameManager)
     {
-        GameState[] states = GetComponents<GameState>();
-        foreach (GameState state in states)
-        {
-            state.Initialize(this);
-        }
-        ChangeState(GetComponent<MenuState>());
-
+                GameState[] states = GetComponents<GameState>();
+                foreach (GameState state in states)
+                {
+                    state.Initialize(this, gameManager);
+                }
+                ChangeState(GetComponent<MenuState>());
     }
-
     // ~~~~~~~~~~~~~~~~~~~~~~ CHANGE STATE ~~~~~~~~~~~~~~~~~~~~~~
     public void ChangeState(GameState newState)
     {

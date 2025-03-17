@@ -30,14 +30,19 @@ public class PlayerVisuals : MonoBehaviour
     public Color knockbackColor;
     [Tooltip("Color when parry is available.")]
     public Color canParryColor;
-    [Tooltip("Game Object that holds the charge visuals.")]
+    
+    // [Tooltip("Game Object that holds the charge visuals.")]
     public GameObject chargeVisuals;
+     
+     
     [Tooltip("charge visual Offset X")]
     public float chargeVisualOffsetX;
     [Tooltip("charge visual Offset Y")]
     public float chargeVisualOffsetY;
-    [FormerlySerializedAs("parryTimerVisuals")] [Tooltip("Game Object that holds the parry timer visuals.")]
+    
+    // [FormerlySerializedAs("parryTimerVisuals")] [Tooltip("Game Object that holds the parry timer visuals.")]
     public GameObject hitTimerVisuals;
+    
     [Tooltip("Parry timer visual Offset X")]
     public float parryTimerVisualOffsetX;
     [Tooltip("Parry timer visual Offset Y")]
@@ -46,17 +51,19 @@ public class PlayerVisuals : MonoBehaviour
     public ParticleSystem parryParticle;
     [Tooltip("Trail that is left behind when player dashes")]
     public TrailRenderer dashTrail;
+
+    public GameObject PlayerVisualObject;
     
     void Start()
     {
         // Recover the PlayerScript from the player.
         playerScript = GetComponent<PlayerScript>();
         // Recover the Image from the charge visuals.
-        chargeSprite = chargeVisuals.GetComponentInChildren<Image>();
+        // chargeSprite = chargeVisuals.GetComponentInChildren<Image>();
         // Recover the player's mesh material and color.
         _playerMeshMaterial = playerMesh.GetComponent<MeshRenderer>().material;
         _originalPlayerMeshColor = _playerMeshMaterial.color;
-        _parryTimerSprite = hitTimerVisuals.GetComponentInChildren<Image>();
+        // _parryTimerSprite = hitTimerVisuals.GetComponentInChildren<Image>();
         
 
         _parryRadius = playerScript.hitDetectionRadius;
@@ -65,37 +72,43 @@ public class PlayerVisuals : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate()
-    {        
-        Vector3 handScreenPosition = playerScript.playerCamera.WorldToScreenPoint(playerScript.playerHand.transform.position);
-        Vector3 playerScreenPosition = playerScript.playerCamera.WorldToScreenPoint(playerScript.transform.position);
-        ChargeBar(handScreenPosition);
-        ParryBar(playerScreenPosition);
-        
-        if (!_canParry)
+    {
+        if (GameManager.Instance._gameManagerSM.currentState ==
+            GameManager.Instance._gameManagerSM.GetComponent<PlayingState>())
         {
-            switch (playerScript.currentState)
+            Vector3 handScreenPosition = playerScript.playerCamera.WorldToScreenPoint(playerScript.playerHand.transform.position);
+            Vector3 playerScreenPosition = playerScript.playerCamera.WorldToScreenPoint(playerScript.transform.position);
+            PlayerVisualObject = GameObject.FindWithTag("visualObject");
+            ChargeBar(handScreenPosition);
+            ParryBar(playerScreenPosition);
+            
+            if (!_canParry)
             {
-                case KnockbackState:
-                    _playerMeshMaterial.color = knockbackColor;
-                    break;
-                default:
-                    _playerMeshMaterial.color = _originalPlayerMeshColor;
-                    break;
+                switch (playerScript.currentState)
+                {
+                    case KnockbackState:
+                        _playerMeshMaterial.color = knockbackColor;
+                        break;
+                    default:
+                        _playerMeshMaterial.color = _originalPlayerMeshColor;
+                        break;
+                }
             }
-        }
 
-        _parryTimerSprite.fillAmount = playerScript.hitTimer / playerScript.releaseDuration;
-        RecoverAfterDash();
-        // Dash trail width is equal to the player's rollDetectionRadius.
-        dashTrail.widthMultiplier = playerScript.rollDetectionRadius * 2f;
+            _parryTimerSprite.fillAmount = playerScript.hitTimer / playerScript.releaseDuration;
+            RecoverAfterDash();
+            // Dash trail width is equal to the player's rollDetectionRadius.
+            dashTrail.widthMultiplier = playerScript.rollDetectionRadius * 2f;
         
-        // Dash color is equal to the player's color.
-        dashTrail.startColor = _playerMeshMaterial.color;
-        dashTrail.endColor = _playerMeshMaterial.color;
+            // Dash color is equal to the player's color.
+            dashTrail.startColor = _playerMeshMaterial.color;
+            dashTrail.endColor = _playerMeshMaterial.color;
         
-        // Update the parry radius collider.
-        var parryParticleShape = parryParticle.shape;
-        parryParticleShape.radius = _parryRadius;
+            // Update the parry radius collider.
+            var parryParticleShape = parryParticle.shape;
+            parryParticleShape.radius = _parryRadius;
+        }
+       
 
     }
 
@@ -110,7 +123,7 @@ public class PlayerVisuals : MonoBehaviour
         chargeVisualScreenPosition.y += chargeVisualOffsetY;
 
         // Update the position of the charge visuals in the canvas
-        chargeVisuals.transform.position = chargeVisualScreenPosition;
+        PlayerVisualObject.GetComponent<GlobalVisual>().ChargeVisualObject.transform.position = chargeVisualScreenPosition;
         
         // Update the Image fill amount with the charge percentage.
         chargeSprite.fillAmount = chargePorcentage;
@@ -138,7 +151,7 @@ public class PlayerVisuals : MonoBehaviour
         parryTimerVisualScreenPosition.y += parryTimerVisualOffsetY;
 
         // Update the position of the parry timer visuals in the canvas
-        hitTimerVisuals.transform.position = parryTimerVisualScreenPosition;
+        PlayerVisualObject.GetComponent<GlobalVisual>().HitTimeVisual.transform.position = parryTimerVisualScreenPosition;
     }
     
     public void OnParryAvailable()

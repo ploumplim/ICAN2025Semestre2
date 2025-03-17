@@ -141,6 +141,11 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public int ledgeLayer;
     [HideInInspector] public int playerLayer;
     
+    [SerializeField] private GameObject GlobalVisuals;
+    public bool InMenu = true;
+    
+    
+    
     // ------------------------------ BALL ------------------------------
     [HideInInspector] public BallSM ballSM;
 
@@ -158,23 +163,23 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ MOVE ------------------------------
     [FormerlySerializedAs("moveInput")] [HideInInspector] public Vector2 moveInputVector2;
     
-    
-    
-    
+
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    public void Start()
+    void Start()
     {
-        SetPlayerParameters();
+        if (playerCamera == null)
+        {
+            playerCamera = Camera.main; // Assign the main camera if not assigned
+        }
     }
     
-    public void SetPlayerParameters()
+    public void SetPlayerParameters(GlobalVisual globalVisual)
     {
         MultiplayerManager = GameObject.FindWithTag("MultiPlayerManager");
-        playerCamera = MultiplayerManager.GetComponent<MultiplayerManager>().camera;
-        GetComponent<PlayerVisuals>().hitTimerVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().HitTimeVisual;
-        GetComponent<PlayerVisuals>().chargeVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().ChargeVisualObject;
-        
-        
+        //playerCamera = MultiplayerManager.GetComponent<MultiplayerManager>().camera;
+        GetComponent<PlayerVisuals>().hitTimerVisuals = GlobalVisuals.GetComponent<GlobalVisual>().HitTimeVisual;
+        GetComponent<PlayerVisuals>().chargeVisuals = GlobalVisuals.GetComponent<GlobalVisual>().ChargeVisualObject;
         
         rb = GetComponent<Rigidbody>(); 
         playerInput = GetComponent<PlayerInput>();
@@ -200,27 +205,28 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ FIXED UPDATE ------------------------------
     private void FixedUpdate()
     {
-        currentState.Tick();
-        moveInputVector2 = moveAction.ReadValue<Vector2>();
+        if (!InMenu)
+        {
+            currentState.Tick();
+            moveInputVector2 = moveAction.ReadValue<Vector2>();
 
-        // If the player is holding a ball, set the ball's position to the player's hand
-        
-        
-        if (hitTimer > 0)
-        {
-            hitTimer -= Time.deltaTime;
+            // If the player is holding a ball, set the ball's position to the player's hand
+
+            if (hitTimer > 0)
+            {
+                hitTimer -= Time.deltaTime;
+            }
+
+
+            if (dashTimer < dashCooldown)
+            {
+                dashTimer += Time.deltaTime;
+            }
+            else if (dashTimer >= dashCooldown)
+            {
+                dashTimer = dashCooldown;
+            }
         }
-        
-        
-        if (dashTimer < dashCooldown)
-        {
-            dashTimer += Time.deltaTime;
-        }
-        else if (dashTimer >= dashCooldown)
-        {
-            dashTimer = dashCooldown;
-        }
-        
     }
     
 
@@ -270,7 +276,7 @@ public class PlayerScript : MonoBehaviour
 
     public void Move(float moveSpeed, float lerpMoveSpeed)
     {
-        // Apply movement
+            // Apply movement
             // Get the camera's forward and right vectors
             Vector3 cameraForward = playerCamera.transform.forward;
             Vector3 cameraRight = playerCamera.transform.right;
@@ -301,6 +307,7 @@ public class PlayerScript : MonoBehaviour
             {
                 transform.forward = Vector3.Slerp(transform.forward, moveDirection, lerpMoveSpeed);
             }
+        
     }
     
     // ------------------------------ CHARGE ATTACK ------------------------------

@@ -1,15 +1,22 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class MenuState : GameState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public override void Enter()
     {
         Debug.Log("MenuState Enter");
+        // foreach (var VARIABLE in GameManager.mpManager.connectedPlayers)
+        // {
+        //     VARIABLE.GetComponent<PlayerScript>().InMenu = true;
+        // }
+        
     }
 
-    public override void Tick()
+    public void GoToLevelChoiceState()
     {
-        base.Tick();
+        GameManagerSM.ChangeState(GetComponent<LevelChoiceState>());
+        SceneManager.LoadScene(1); 
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class LevelChoiceState : GameState
@@ -8,9 +9,6 @@ public class LevelChoiceState : GameState
         Debug.Log("LevelChoice Enter");
         gameManager = GetComponent<GameManagerSM>();
 
-        if (gameManager != null)
-        {
-            gameManager.ChangeState(GetComponent<LoadingState>());
-        }
+        
     }
 }

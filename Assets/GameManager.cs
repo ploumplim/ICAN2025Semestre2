@@ -1,8 +1,25 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
+
+    public GameManagerSM _gameManagerSM;
+    
+    public MultiplayerManager mpManager;
+
+    public void OnEnable()
+    {
+        _gameManagerSM = GetComponent<GameManagerSM>();
+        _gameManagerSM.InitGameSM(this);
+        if (_gameManagerSM.currentState != _gameManagerSM.GetComponent<MenuState>())
+        {
+            mpManager = _gameManagerSM.GetComponent<MultiplayerManager>();
+        }
+        
+        
+    }
 
     public static GameManager Instance
     {
@@ -46,4 +63,5 @@ public class GameManager : MonoBehaviour
         Debug.Log("ResumeGame");
         Time.timeScale = 1f;
     }
+    
 }

@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class GameState : MonoBehaviour
 {
-    protected GameManagerSM BallSm;
-    
+    protected GameManagerSM GameManagerSM;
+    protected GameManager GameManager;
     //Called on FSM Start
-    public void Initialize(GameManagerSM ballSm)
+    public void Initialize(GameManagerSM ballSm, GameManager gameManager)
     {
-        this.BallSm = ballSm;
+        this.GameManagerSM = ballSm;
+        this.GameManager = gameManager;
     }
 
     public virtual void Enter(){}
