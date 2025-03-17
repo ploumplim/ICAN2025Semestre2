@@ -11,7 +11,6 @@ public class HandleGamePads : MonoBehaviour
     
     [SerializeField] public HashSet<Gamepad> PendingGamepads = new HashSet<Gamepad>();
     [SerializeField] public HashSet<Gamepad> AssignedGamepads = new HashSet<Gamepad>();
-    public Image cursorPrefab;
 
     private void Awake()
     {

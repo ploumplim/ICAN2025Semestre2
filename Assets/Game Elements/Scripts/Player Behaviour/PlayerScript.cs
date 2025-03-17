@@ -140,9 +140,11 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public CapsuleCollider col;
     [HideInInspector] public int ledgeLayer;
     [HideInInspector] public int playerLayer;
-    
     [SerializeField] private GameObject GlobalVisuals;
+    
+    // ------------------------------ MENU ------------------------------
     public bool InMenu = true;
+    public bool IsReady = false;
     
     
     
@@ -309,6 +311,19 @@ public class PlayerScript : MonoBehaviour
             }
         
     }
+
+    public void SetReady()
+    {
+        Debug.Log(gameObject.name + " isReady =  "+ IsReady);
+        if (GameManager.Instance._gameManagerSM.currentState ==
+            GameManager.Instance._gameManagerSM.GetComponent<LevelChoiceState>())
+        {
+            this.IsReady = !IsReady;
+            Debug.Log(gameObject.name + " isReady =  "+ IsReady);
+        }
+    }
+
+    
     
     // ------------------------------ CHARGE ATTACK ------------------------------
     public void OnChargeAttack(InputAction.CallbackContext context)

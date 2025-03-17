@@ -14,6 +14,7 @@ public class LevelSelector : MonoBehaviour
 
     public void Start()
     {
+        
         handleGamePads = FindFirstObjectByType<HandleGamePads>();
         DetectionNewPlayer(assignedGamepad);
     }

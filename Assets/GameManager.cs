@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
 
     public GameManagerSM _gameManagerSM;
-    
+
     public MultiplayerManager mpManager;
 
     public void OnEnable()
@@ -17,8 +17,6 @@ public class GameManager : MonoBehaviour
         {
             mpManager = _gameManagerSM.GetComponent<MultiplayerManager>();
         }
-        
-        
     }
 
     public static GameManager Instance
@@ -27,7 +25,7 @@ public class GameManager : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = FindObjectOfType<GameManager>();
+                _instance = FindFirstObjectByType<GameManager>();
                 if (_instance == null)
                 {
                     GameObject singleton = new GameObject(typeof(GameManager).ToString());
@@ -63,5 +61,13 @@ public class GameManager : MonoBehaviour
         Debug.Log("ResumeGame");
         Time.timeScale = 1f;
     }
-    
+
+    public void SetReady()
+    {
+        if (GameManager.Instance._gameManagerSM.currentState ==
+            GameManager.Instance._gameManagerSM.GetComponent<LevelChoiceState>())
+        {
+
+        }
+    }
 }

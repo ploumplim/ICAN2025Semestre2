@@ -110,6 +110,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SetReady",
+                    "type": "Button",
+                    "id": "94e9a2a6-d4a9-4c1c-ae84-3ebb22296967",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -132,6 +141,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Validate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "085baed0-4b74-4dbb-af35-80ac92f67fef",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "SetReady",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
