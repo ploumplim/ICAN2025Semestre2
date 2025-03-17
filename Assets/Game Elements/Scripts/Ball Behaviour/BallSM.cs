@@ -19,7 +19,8 @@ public class BallSM : MonoBehaviour
     [Header("Ball Propulsion Settings")]
     [Tooltip("The ball will never go faster than this value.")]
     public float maxSpeed = 20f;
-    
+    [Tooltip("The ball becomes lethal when it reaches this speed.")]
+    public float lethalSpeed = 10f;
     //-------------------------------------------------------------------------------------
     [FormerlySerializedAs("maxHeight")]
     [Header("Ball Height Settings")]
@@ -81,8 +82,14 @@ public class BallSM : MonoBehaviour
     [HideInInspector]public int bounces = 0;
     [HideInInspector]public GameObject ballOwnerPlayer;
     [HideInInspector]public SphereCollider col;
+    [HideInInspector]public int pointWallPoints;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~EVENTS~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    public UnityEvent<int> pointWallHit;
+    public UnityEvent<int> OnPointBounce;
+    public UnityEvent<int> OnNeutralBounce;
+    public UnityEvent<float> OnBallFlight;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -190,18 +197,28 @@ public class BallSM : MonoBehaviour
  
     private void OnCollisionEnter(Collision other)
     {
-        
+
         switch (currentState)
         {
-            case FlyingState: 
+            case FlyingState:
                 bounces++;
-                
                 // Check the ball GrowthType. If it's OnBounce, grow the ball.
                 if (growthType == GrowthType.OnBounce)
                 {
                     GrowBall();
                 }
+
+                if (other.gameObject.CompareTag("PointWall"))
+                {
+                    pointWallHit?.Invoke(pointWallPoints);
+                    OnPointBounce?.Invoke(bounces);
+                }
                 
+                if (other.gameObject.CompareTag("NeutralWall"))
+                {
+                    OnNeutralBounce?.Invoke(bounces);
+                }
+
                 break;
             case DroppedState:
                 break;
@@ -209,6 +226,24 @@ public class BallSM : MonoBehaviour
                 if (other.gameObject.CompareTag("Floor"))
                 {
                     ChangeState(GetComponent<DroppedState>());
+                }
+
+                break;
+            case LethalBallState:
+                bounces++;
+                if (growthType == GrowthType.OnBounce)
+                {
+                    GrowBall();
+                }
+
+                if (other.gameObject.CompareTag("PointWall"))
+                {
+                    pointWallHit?.Invoke(pointWallPoints);
+                }
+                
+                if (other.gameObject.CompareTag("NeutralWall"))
+                {
+                    OnNeutralBounce?.Invoke(bounces);
                 }
                 break;
             default:

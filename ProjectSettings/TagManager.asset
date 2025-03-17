@@ -11,6 +11,8 @@ TagManager:
   - MultiPlayerManager
   - GameManager
   - LevelManager
+  - NeutralWall
+  - PointWall
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - Water
   - UI
   - Ledge
-  - 
+  - Ball
   - 
   - 
   - 

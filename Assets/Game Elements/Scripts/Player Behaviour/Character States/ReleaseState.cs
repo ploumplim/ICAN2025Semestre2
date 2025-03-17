@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ReleaseState : PlayerState
 {
-    [HideInInspector]public GameObject ballToParry;
+    [FormerlySerializedAs("ballToParry")] [HideInInspector]public GameObject ballToHit;
     [HideInInspector]public Vector3 parrySpherePosition;
     [HideInInspector]public float currentBallSpeed;
     [HideInInspector] public bool ballHit;
@@ -14,12 +15,13 @@ public class ReleaseState : PlayerState
         base.Enter();
         Hit();
         ballHit = false;
+        currentBallSpeed = 0f;
     }
 
     public void Hit()
     {
         // Debug.Log("Parry!");
-        PlayerScript.PlayerPerformedHit?.Invoke();
+        PlayerScript.OnPlayerHitReleased?.Invoke(PlayerScript.chargeValueIncrementor);
         PlayerScript.hitTimer = PlayerScript.releaseDuration;
         StartCoroutine(HitTime());
     }
@@ -51,7 +53,7 @@ public class ReleaseState : PlayerState
         {
             if (hitColliders[i].gameObject.CompareTag("Ball"))
             {
-                ballToParry = hitColliders[i].gameObject;
+                ballToHit = hitColliders[i].gameObject;
             }
             i++;
         }
@@ -59,16 +61,18 @@ public class ReleaseState : PlayerState
 
     public void HitTheBall()
     {
-        if (ballToParry && !ballHit)
+        if (ballToHit && !ballHit)
         {
+            PlayerScript.OnBallHitByPlayer?.Invoke(PlayerScript.chargeValueIncrementor);
             float verticalPercent;
-            float minimumBallSpeed = ballToParry.GetComponent<BallSM>().minimumSpeedToGround;
-            Rigidbody ballRigidbody = ballToParry.GetComponent<Rigidbody>();
+            float minimumBallSpeed = ballToHit.GetComponent<BallSM>().minimumSpeedToGround;
+            Rigidbody ballRigidbody = ballToHit.GetComponent<Rigidbody>();
             if (ballRigidbody != null)
             {
-                currentBallSpeed = ballToParry.GetComponent<Rigidbody>().linearVelocity.magnitude;
+                currentBallSpeed = ballToHit.GetComponent<Rigidbody>().linearVelocity.magnitude;
+                // Debug.Log("Ball Speed: " + currentBallSpeed);
                 
-                if (ballToParry.GetComponent<BallSM>().currentState != ballToParry.GetComponent<FlyingState>())
+                if (ballToHit.GetComponent<BallSM>().currentState != ballToHit.GetComponent<FlyingState>())
                 {
                     currentBallSpeed = minimumBallSpeed * 1.3f;
                     verticalPercent = 0f;
@@ -78,14 +82,18 @@ public class ReleaseState : PlayerState
                     verticalPercent = PlayerScript.verticalPercent;
                 }
 
-                ballRigidbody.linearVelocity = Vector3.zero;
+                // ballRigidbody.linearVelocity = Vector3.zero;
+                
+                
                 GameObject player = PlayerScript.gameObject;
                 Vector3 direction;
                 // Set the ball owner to the player that hit the ball.
 
-                ballToParry.GetComponent<BallSM>().ballOwnerPlayer = player;
+                ballToHit.GetComponent<BallSM>().ballOwnerPlayer = player;
+                
+                PlayerScript.OnBallHitEventMethod(ballToHit); // Call the event that triggers the ball hit.
 
-                ballToParry.GetComponent<BallSM>().ChangeState(ballToParry.GetComponent<FlyingState>());
+                ballToHit.GetComponent<BallSM>().ChangeState(ballToHit.GetComponent<FlyingState>()); // Change the ball's state to flying.
                 
 
                 switch (PlayerScript.hitType)
@@ -98,32 +106,33 @@ public class ReleaseState : PlayerState
 
                         break;
                     case PlayerScript.HitType.ReflectiveHit:
-                        direction = ballToParry.transform.position - transform.position;
+                        direction = ballToHit.transform.position - transform.position;
                         direction = new Vector3(direction.x, verticalPercent, direction.z).normalized;
                         ApplyForce(ballRigidbody, direction);
                         break;
                 }
+
                 
                 // Check the ball's growthType. If it's OnHit, grow the ball.
-                if (ballToParry.GetComponent<BallSM>().growthType == BallSM.GrowthType.OnHit)
+                if (ballToHit.GetComponent<BallSM>().growthType == BallSM.GrowthType.OnHit)
                 {
-                    ballToParry.GetComponent<BallSM>().GrowBall();
+                    ballToHit.GetComponent<BallSM>().GrowBall();
                 }
                 
                 
                 
                 ballHit = true;
             }
-            ballToParry = null;
-            // PlayerScript.ChangeState(GetComponent<NeutralState>());
+            ballToHit = null;
         }
 
     }
 
     public void ApplyForce(Rigidbody ballRigidBody, Vector3 direction)
     { 
-        ballRigidBody.AddForce(direction * (PlayerScript.chargeValueIncrementor *
-                                          PlayerScript.hitForce * currentBallSpeed), ForceMode.Impulse);
+        // Calculate the new velocity based on the direction and current speed
+        float newSpeed = PlayerScript.chargeValueIncrementor * PlayerScript.hitForce * currentBallSpeed;
+        ballRigidBody.linearVelocity = direction.normalized * newSpeed;
     }
     
     //---------------------------------------------------------------------------------
@@ -131,7 +140,7 @@ public class ReleaseState : PlayerState
     {
         base.Exit();
         PlayerScript.chargeValueIncrementor = 0f;
-        ballToParry = null;
+        ballToHit = null;
 
     }
 }

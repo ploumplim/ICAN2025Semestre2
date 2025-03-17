@@ -14,6 +14,7 @@ public class InRoundState : LevelState
         {
             // Add the player to the list of players that are alive.
             _playersAlive.Add(player);
+            // Debug.Log("Player added to the list of players that are alive." + player.name);
         }
     }
 
@@ -26,6 +27,7 @@ public class InRoundState : LevelState
         foreach (GameObject player in LevelManager.players)
         {
             PlayerScript playerScript = player.GetComponent<PlayerScript>();
+            
             if (playerScript.currentState == player.GetComponent<DeadState>())
             {
                 // Remove the player from the list of players that are alive.
@@ -37,6 +39,7 @@ public class InRoundState : LevelState
         {
             // If there is only one player left, then the round is over.
             // Change the state to BufferState.
+            // Debug.Log("Only one player left. Changing state to BufferState.");
             winningPlayer = _playersAlive[0];
             LevelSM.ChangeState(LevelManager.GetComponent<BufferState>());
         }
@@ -45,6 +48,7 @@ public class InRoundState : LevelState
     
     public override void Exit()
     {
+        Debug.Log("Exiting InRoundState.");
         LevelManager.EndRound(winningPlayer);
         // Reset the list of players that are alive.
         _playersAlive = null;

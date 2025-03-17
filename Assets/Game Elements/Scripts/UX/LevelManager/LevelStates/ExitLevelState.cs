@@ -7,6 +7,15 @@ public class ExitLevelState : LevelState
 
     public override void Enter()
     {
+        base.Enter();
         LevelSM.OnLevelEnded?.Invoke();
+        LevelManager.gameIsRunning = false;
+        LevelManager.DestroyAllNeutralWalls();
+        LevelManager.DestroyAllPointWalls();
+        LevelManager.ResetAllPoints();
+        LevelManager.currentRound = 0;
+        LevelSM.ChangeState(GetComponent<OutOfLevelState>());
+
+
     }
 }

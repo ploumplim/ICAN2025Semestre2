@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8330626829919473925}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5548595604930693327}
   - component: {fileID: 1367416066683877582}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,7 +198,8 @@ GameObject:
   - component: {fileID: 6323144974866670032}
   - component: {fileID: 5365377086522546456}
   - component: {fileID: 2317312007862079952}
-  m_Layer: 0
+  - component: {fileID: 8323023954229853944}
+  m_Layer: 7
   m_Name: Ball
   m_TagString: Ball
   m_Icon: {fileID: 0}
@@ -267,7 +268,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &5565106716455342989
 MonoBehaviour:
@@ -282,20 +283,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
-  maxSpeed: 100
+  maxSpeed: 80
+  lethalSpeed: 40
   groundedMaxHeight: 1
-  buntedMaxHeight: 20
-  flyingMaxHeight: 2
+  buntedMaxHeight: 7
+  flyingMaxHeight: 1.5
   minHeight: 0
-  groundedLinearDamping: 1
+  groundedLinearDamping: 5
   buntedLinearDamping: 0
-  flyingLinearDamping: 0.1
-  groundedMass: 5
-  buntedMass: 5
-  flyingMass: 3
+  flyingLinearDamping: 0
+  groundedMass: 1
+  buntedMass: 0.1
+  flyingMass: 0.5
+  neutralScale: 0.75
+  growthRate: 0.1
+  shrinkRate: 0.1
+  minimumScale: 0.75
+  maximumScale: 3.5
+  growthType: 1
   minimumSpeedToGround: 10
+  playerImmunityTime: 0.2
   rb: {fileID: 0}
   bounces: 0
+  ballOwnerPlayer: {fileID: 0}
+  col: {fileID: 0}
+  pointWallPoints: 0
+  pointWallHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3984054927209078919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,11 +323,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06721ab72bd916640a5ba0e749f083fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballMarker: {fileID: 0}
   trailVisuals: {fileID: 3172110743681774408}
   ballVisuals: {fileID: 5224228065908999798}
-  parryColor: {r: 0, g: 0.11869693, b: 1, a: 1}
   ballLight: {fileID: 2671433560985040521}
+  flyingTrailColor: {r: 1, g: 0, b: 0, a: 0.5}
+  lethalTrailColor: {r: 0, g: 0, b: 0, a: 0.5}
+  flyingBallColor: {r: 1, g: 0, b: 0, a: 1}
+  lethalBallColor: {r: 0, g: 0, b: 0, a: 1}
+  buntedBallColor: {r: 1, g: 0, b: 1, a: 1}
+  groundedBallColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!114 &6323144974866670032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,6 +356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0775bb70a4daac94d8ae53b941d36c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: 0
 --- !u!114 &2317312007862079952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,6 +367,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f64cfa7997ef19e47b4056feb8bd382f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8323023954229853944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3874236971623783123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a0d6b6c9af4b1db872a72d45c9324b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5224228065908999798
@@ -360,7 +392,7 @@ GameObject:
   - component: {fileID: 4578784923513014829}
   - component: {fileID: 3304653493971590499}
   - component: {fileID: 7667218259090401313}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -446,7 +478,7 @@ GameObject:
   - component: {fileID: 616386383739416477}
   - component: {fileID: 2671433560985040521}
   - component: {fileID: 2106379735314143496}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}

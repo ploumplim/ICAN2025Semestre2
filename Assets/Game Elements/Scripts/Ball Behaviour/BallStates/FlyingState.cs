@@ -13,6 +13,7 @@ public class FlyingState : BallState
         
         // The ball's collider should not hit the player's collider.
         Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
+        BallSm.OnBallFlight?.Invoke(BallSm.rb.linearVelocity.magnitude);
     }
 
     public override void Tick()
@@ -33,5 +34,17 @@ public class FlyingState : BallState
         // Set the ball's vertical speed to 0.
         BallSm.SetMaxHeight(BallSm.flyingMaxHeight);
         BallSm.FixVerticalSpeed(BallSm.flyingMaxHeight);
+        
+        // if the ball is going above the lethal speed, set the ball to the LethalBallState.
+        if (BallSm.rb.linearVelocity.magnitude >= BallSm.lethalSpeed)
+        {
+            BallSm.ChangeState(GetComponent<LethalBallState>());
+        }
+    }
+    
+    public override void Exit()
+    {
+        base.Exit();
+        Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
     }
 }

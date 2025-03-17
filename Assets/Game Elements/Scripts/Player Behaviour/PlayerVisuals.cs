@@ -46,6 +46,8 @@ public class PlayerVisuals : MonoBehaviour
     public ParticleSystem parryParticle;
     [Tooltip("Trail that is left behind when player dashes")]
     public TrailRenderer dashTrail;
+    [Tooltip("Particle that is played when the player dies.")]
+    public ParticleSystem deadParticle;
     
     void Start()
     {
@@ -55,7 +57,6 @@ public class PlayerVisuals : MonoBehaviour
         chargeSprite = chargeVisuals.GetComponentInChildren<Image>();
         // Recover the player's mesh material and color.
         _playerMeshMaterial = playerMesh.GetComponent<MeshRenderer>().material;
-        _originalPlayerMeshColor = _playerMeshMaterial.color;
         _parryTimerSprite = hitTimerVisuals.GetComponentInChildren<Image>();
         
 
@@ -71,17 +72,24 @@ public class PlayerVisuals : MonoBehaviour
         ChargeBar(handScreenPosition);
         ParryBar(playerScreenPosition);
         
-        if (!_canParry)
-        {
-            switch (playerScript.currentState)
-            {
-                case KnockbackState:
-                    _playerMeshMaterial.color = knockbackColor;
-                    break;
-                default:
-                    _playerMeshMaterial.color = _originalPlayerMeshColor;
-                    break;
-            }
+        
+        switch (playerScript.currentState) 
+        { 
+            case NeutralState:
+                _playerMeshMaterial.color = _originalPlayerMeshColor;
+                if (deadParticle.isPlaying)
+                {deadParticle.Stop();}
+                break;
+            case DeadState:
+                _playerMeshMaterial.color = Color.black; 
+                if (!deadParticle.isPlaying)
+                {deadParticle.Play();}
+                break;
+            case KnockbackState:
+                _playerMeshMaterial.color = knockbackColor;
+                break;
+            default:
+                break;
         }
 
         _parryTimerSprite.fillAmount = playerScript.hitTimer / playerScript.releaseDuration;
@@ -151,7 +159,6 @@ public class PlayerVisuals : MonoBehaviour
     }
     public void OnParryUnavailable()
     {
-        _playerMeshMaterial.color = _originalPlayerMeshColor;
         _canParry = false;
     }
     
@@ -160,7 +167,6 @@ public class PlayerVisuals : MonoBehaviour
         // Play the parry particle.
         parryParticle.Play();
         // Change the player's color to the original color.
-        _playerMeshMaterial.color = _originalPlayerMeshColor;
         _canParry = false;
     }
     
@@ -182,11 +188,13 @@ public class PlayerVisuals : MonoBehaviour
         {
             // Debug.Log("Changing player color to " + color);
             _playerMeshMaterial.color = color;
+            _originalPlayerMeshColor = color;
         }
         else
         {
             _playerMeshMaterial = playerMesh.GetComponentInChildren<MeshRenderer>().material;
             _playerMeshMaterial.color = color;
+            _originalPlayerMeshColor = color;
             // Debug.Log("Changing player color to " + color);
         }
         
