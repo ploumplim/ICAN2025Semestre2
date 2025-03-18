@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
@@ -23,7 +24,7 @@ public class LevelManager : MonoBehaviour
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     private LevelSM _levelSM; // Reference to the Level State Machine
-    private LevelState _currentState; // Reference to the current state of the level
+    [FormerlySerializedAs("_currentState")] public LevelState currentState; // Reference to the current state of the level
     [HideInInspector] public List<GameObject> players; // List of players in the level
     private List<Transform> _playerSpawnPoints; // List of player spawn points
     [FormerlySerializedAs("globalScore")] [HideInInspector] public int potScore; // Global score of the level
@@ -54,6 +55,10 @@ public class LevelManager : MonoBehaviour
     [Tooltip("This float value determines the time it takes to buffer between rounds.")]
     public float roundBufferTime = 1.5f;
     
+    [Tooltip("This value represents the delay after the last player is dead during a round, before the buffer" +
+             "is called.")]
+    public float roundVictoryDelay = 2f;
+    
     [Tooltip("This list holds all the rounds in the level. Modify the level design of each round here.")]
     public List<Round> rounds;
 
@@ -76,6 +81,11 @@ public class LevelManager : MonoBehaviour
     
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ EVENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public UnityEvent OnGameStart;
+    public UnityEvent<string> OnGameEnd;
+    public UnityEvent<int> OnRoundStarted;
+    public UnityEvent<string> OnRoundEnded;
+
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -102,11 +112,11 @@ public class LevelManager : MonoBehaviour
         // Update the current state of the level
         if (_levelSM && _levelSM.currentState)
         {
-            _currentState = _levelSM.currentState;
+            currentState = _levelSM.currentState;
         }
 
         // Add players to the scene if outside of level.
-        if (multiplayerManager.handleGamePads && _currentState is OutOfLevelState
+        if (multiplayerManager.handleGamePads && currentState is OutOfLevelState
             && !gameIsRunning)
         {
             multiplayerManager.handleGamePads.CheckGamepadAssignments();
@@ -117,7 +127,7 @@ public class LevelManager : MonoBehaviour
             {
                 Debug.LogWarning("HandleGamePads not found in the scene.");
             }
-            if (_currentState is not OutOfLevelState)
+            if (currentState is not OutOfLevelState)
             {
                 Debug.LogWarning("Current state is not OutOfLevelState.");
             }
@@ -191,7 +201,6 @@ public class LevelManager : MonoBehaviour
         InitPlayers();
         // Spawn the point walls
         SpawnCurrentRoundWalls();
-        // Increment the current round
     }
     
     public void EndRound(GameObject winningPlayer)
@@ -274,8 +283,14 @@ public class LevelManager : MonoBehaviour
         foreach (Transform pointWallPosition in rounds[currentRound].pointWallPositions)
         {
             SpawnPointWall(pointWallPosition.position);
+            
             // Make it a child of the pointWallPosition's game object.
-            pointWalls[i].transform.parent = pointWallPosition;
+
+            if (pointWalls[i])
+            {
+                pointWalls[i].transform.parent = pointWallPosition;
+            }
+
             i++;
         }
         // Spawn the neutral walls
@@ -283,7 +298,10 @@ public class LevelManager : MonoBehaviour
         {
             SpawnNeutralWall(neutralWallPosition.position);
             // Make it a child of the neutralWallPosition's game object.
-            neutralWalls[j].transform.parent = neutralWallPosition;
+            if (neutralWalls[j])
+            {
+                neutralWalls[j].transform.parent = neutralWallPosition;
+            }
             j++;
         }
     }

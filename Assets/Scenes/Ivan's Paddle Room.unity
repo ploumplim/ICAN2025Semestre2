@@ -1701,9 +1701,53 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 186596005}
     - target: {fileID: 1684366950800916125, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
+      propertyPath: _startGameText
+      value: 
+      objectReference: {fileID: 2057427144335995174}
+    - target: {fileID: 1684366950800916125, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
       propertyPath: _globalPointsText
       value: 
       objectReference: {fileID: 747793106}
+    - target: {fileID: 1684366950800916125, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
+      propertyPath: _RoundInformationAffichage
+      value: 
+      objectReference: {fileID: 2057427144335995174}
+    - target: {fileID: 2739360979628391035, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
+      propertyPath: m_text
+      value: Press Start Level to Start!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2739360979628391035, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 6d60772071e8b044a8b1ad15efab8e58, type: 2}
+    - target: {fileID: 2739360979628391035, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2739360979628391035, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2739360979628391035, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.8696006
+      objectReference: {fileID: 0}
+    - target: {fileID: 2739360979628391035, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2739360979628391035, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 6d60772071e8b044a8b1ad15efab8e58, type: 2}
+    - target: {fileID: 2739360979628391035, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278247167
+      objectReference: {fileID: 0}
+    - target: {fileID: 2739360979628391035, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3257171471058965811, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
       propertyPath: m_Name
       value: Ingame-GUI Canvas
@@ -1817,13 +1861,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 495872978743232496, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
-    - {fileID: 4131735493689291159, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
-    - {fileID: 8247416950419090495, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
+--- !u!114 &2057427144335995174 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2739360979628391035, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
+  m_PrefabInstance: {fileID: 2057427144335995173}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2124045469942785390
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1869,11 +1921,27 @@ PrefabInstance:
       value: Round 2
       objectReference: {fileID: 0}
     - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnGameEnd.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnGameStart.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnRoundEnded.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
       propertyPath: rounds.Array.data[0].pointWallPositions.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
       propertyPath: rounds.Array.data[1].pointWallPositions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnRoundStarted.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
@@ -1916,6 +1984,90 @@ PrefabInstance:
       propertyPath: 'rounds.Array.data[1].neutralWallPositions.Array.data[1]'
       value: 
       objectReference: {fileID: 2075488}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnGameEnd.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8243870776174257223}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnGameStart.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnGameStart.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8243870776174257223}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnGameEnd.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnRoundEnded.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8243870776174257223}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnGameEnd.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GameEndedText
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnGameStart.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnRoundStarted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8243870776174257223}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnGameStart.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LevelStartText
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnRoundEnded.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnRoundEnded.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RoundEndedText
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnRoundStarted.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnRoundStarted.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RoundStartedText
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnGameEnd.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: IngameGUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnGameStart.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: IngameGUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnRoundEnded.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: IngameGUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnRoundStarted.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: IngameGUIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnGameEnd.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnGameStart.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnRoundEnded.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: OnRoundStarted.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3059810454532666425, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
       propertyPath: m_Name
       value: LevelManager
@@ -2140,8 +2292,8 @@ SceneRoots:
   - {fileID: 4897111380868258853}
   - {fileID: 769405838}
   - {fileID: 857700557}
-  - {fileID: 899939802}
   - {fileID: 207333243}
+  - {fileID: 899939802}
   - {fileID: 2057427144335995173}
   - {fileID: 2136787207}
   - {fileID: 1935014602}

@@ -14,7 +14,6 @@ public class PlayerVisuals : MonoBehaviour
     private Image chargeSprite;
     
     // Image component of the parry timer visuals.
-    private bool _canParry;
     private float _parryRadius;
     
     // Player's normal mesh material and color.
@@ -145,12 +144,10 @@ public class PlayerVisuals : MonoBehaviour
         if (playerScript.currentState != playerScript.GetComponent<KnockbackState>())
         {
             _playerMeshMaterial.color = canParryColor;
-            _canParry = true;
         }
     }
     public void OnParryUnavailable()
     {
-        _canParry = false;
     }
     
     public void OnParry()
@@ -158,7 +155,6 @@ public class PlayerVisuals : MonoBehaviour
         // Play the parry particle.
         parryParticle.Play();
         // Change the player's color to the original color.
-        _canParry = false;
     }
     
     public void OnDashEnter()

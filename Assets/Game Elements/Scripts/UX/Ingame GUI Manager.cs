@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
@@ -5,9 +6,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class IngameGUIManager : MonoBehaviour
 {
+    
+    // ---------- PUBLICS -----------
+    
     [Header("Game Objects Settings and Prefabs")]
     public GameObject ball;
     [Header("Player and Ball Debug Information")]
@@ -19,8 +25,13 @@ public class IngameGUIManager : MonoBehaviour
     public LevelManager levelManager;
     public GameObject startGameButtonObject;
     public GameObject resetPlayersObject;
+    public float roundInformationDuration = 1.5f;
+    
+    // --------- PRIVATES ----------
+    
     private List<GameObject> _playerList;
     [SerializeField] private TextMeshPro _globalPointsText;
+    [FormerlySerializedAs("_startGameText")] [SerializeField] private TextMeshProUGUI _RoundInformationAffichage;
 
     void Start()
     {
@@ -92,5 +103,36 @@ public class IngameGUIManager : MonoBehaviour
             GameManager.Instance.PauseGame();
             pauseMenu.SetActive(true);
         }
+    }
+
+    // ------------------------ ROUND INFORMATION FUNCTIONS
+    
+    public void LevelStartText()
+    {
+        _RoundInformationAffichage.text = "Game Start!";
+        StartCoroutine(TextDelay());
+    }
+
+    public void RoundStartedText(int currentRound)
+    {
+        _RoundInformationAffichage.text = "Round " + (currentRound + 1);
+        StartCoroutine(TextDelay());
+    }
+    
+    public void RoundEndedText(string roundWinner)
+    {
+        _RoundInformationAffichage.text = "Round Ended! Points go to " + roundWinner;
+        StartCoroutine(TextDelay());
+    }
+    
+    public void GameEndedText(string gameWinner)
+    {
+        _RoundInformationAffichage.text = "Game Ended! The winner : " + gameWinner;
+    }
+
+    IEnumerator TextDelay()
+    {
+        yield return new WaitForSeconds(roundInformationDuration);
+        _RoundInformationAffichage.text = "";
     }
 }

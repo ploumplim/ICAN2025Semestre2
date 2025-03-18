@@ -9,11 +9,12 @@ public class ExitLevelState : LevelState
     {
         base.Enter();
         LevelSM.OnLevelEnded?.Invoke();
-        LevelManager.gameIsRunning = false;
-        LevelManager.DestroyAllNeutralWalls();
-        LevelManager.DestroyAllPointWalls();
-        LevelManager.ResetAllPoints();
-        LevelManager.currentRound = 0;
+        LevelManagerScript.OnGameEnd?.Invoke("");
+        LevelManagerScript.gameIsRunning = false;
+        LevelManagerScript.DestroyAllNeutralWalls();
+        LevelManagerScript.DestroyAllPointWalls();
+        LevelManagerScript.ResetAllPoints();
+        LevelManagerScript.currentRound = 0;
         LevelSM.ChangeState(GetComponent<OutOfLevelState>());
 
 
