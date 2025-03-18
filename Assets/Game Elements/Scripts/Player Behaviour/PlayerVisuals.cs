@@ -26,20 +26,6 @@ public class PlayerVisuals : MonoBehaviour
     public GameObject playerMesh;
     [Tooltip("Color when knocked back.")]
     public Color knockbackColor;
-    [Tooltip("Color when parry is available.")]
-    public Color canParryColor;
-    [Tooltip("Game Object that holds the charge visuals.")]
-    public GameObject chargeVisuals;
-    [Tooltip("charge visual Offset X")]
-    public float chargeVisualOffsetX;
-    [Tooltip("charge visual Offset Y")]
-    public float chargeVisualOffsetY;
-    [FormerlySerializedAs("parryTimerVisuals")] [Tooltip("Game Object that holds the parry timer visuals.")]
-    public GameObject hitTimerVisuals;
-    [Tooltip("Parry timer visual Offset X")]
-    public float parryTimerVisualOffsetX;
-    [Tooltip("Parry timer visual Offset Y")]
-    public float parryTimerVisualOffsetY;
     [Tooltip("This particle is played when the player parries.")]
     public ParticleSystem parryParticle;
     [Tooltip("Trail that is left behind when player dashes")]
@@ -97,24 +83,7 @@ public class PlayerVisuals : MonoBehaviour
 
     }
 
-    private void ChargeBar(Vector3 chargeVisualScreenPosition)
-    {
-        chargePorcentage = playerScript.chargeValueIncrementor;
-        
-        // Convert the player's hand position to screen space
-
-        // Apply the offset
-        chargeVisualScreenPosition.x += chargeVisualOffsetX;
-        chargeVisualScreenPosition.y += chargeVisualOffsetY;
-
-        // Update the position of the charge visuals in the canvas
-        chargeVisuals.transform.position = chargeVisualScreenPosition;
-        
-        // Update the Image fill amount with the charge percentage.
-        chargeSprite.fillAmount = chargePorcentage;
-        
-        // Change the rotation of the player mesh to emulate them standing up.
-    }
+    
     public void RecoverAfterDash()
     {
         if (playerMesh.transform.rotation.x != 0)
@@ -126,35 +95,12 @@ public class PlayerVisuals : MonoBehaviour
                 playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
         }
     }    
-    private void ParryBar(Vector3 parryTimerVisualScreenPosition)
-    {
-        // Convert the player's hand position to screen space
-        // Vector3 parryTimerVisualScreenPosition = playerScript.playerCamera.WorldToScreenPoint(playerScript.playerHand.transform.position);
-        
-        // Apply the offset
-        parryTimerVisualScreenPosition.x += parryTimerVisualOffsetX;
-        parryTimerVisualScreenPosition.y += parryTimerVisualOffsetY;
-
-        // Update the position of the parry timer visuals in the canvas
-        hitTimerVisuals.transform.position = parryTimerVisualScreenPosition;
-    }
     
-    public void OnParryAvailable()
-    {
-        if (playerScript.currentState != playerScript.GetComponent<KnockbackState>())
-        {
-            _playerMeshMaterial.color = canParryColor;
-        }
-    }
-    public void OnParryUnavailable()
-    {
-    }
     
-    public void OnParry()
+    public void OnParry(float chargeValue)
     {
         // Play the parry particle.
         parryParticle.Play();
-        // Change the player's color to the original color.
     }
     
     public void OnDashEnter()

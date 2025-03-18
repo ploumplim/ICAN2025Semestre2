@@ -186,8 +186,6 @@ public class PlayerScript : MonoBehaviour
     {
         MultiplayerManager = GameObject.FindWithTag("MultiPlayerManager");
         playerCamera = MultiplayerManager.GetComponent<MultiplayerManager>().camera;
-        GetComponent<PlayerVisuals>().hitTimerVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().HitTimeVisual;
-        GetComponent<PlayerVisuals>().chargeVisuals = MultiplayerManager.GetComponent<MultiplayerManager>().ChargeVisualObject;
         
         
         

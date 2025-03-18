@@ -4196,7 +4196,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    minVertexDistance: 0.2
+    minVertexDistance: 0
     textureMode: 0
     textureScale: {x: 1, y: 1}
     ribbonCount: 1
@@ -10174,11 +10174,14 @@ MonoBehaviour:
   playerHand: {fileID: 0}
   OnHitButtonPressed:
     m_PersistentCalls:
+      m_Calls: []
+  OnPlayerHitReleased:
+    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2291177913900343150}
         m_TargetAssemblyTypeName: PlayerVisuals, Assembly-CSharp
         m_MethodName: OnParry
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -10187,9 +10190,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnPlayerHitReleased:
-    m_PersistentCalls:
-      m_Calls: []
   OnBallHitByPlayer:
     m_PersistentCalls:
       m_Calls: []
@@ -10298,13 +10298,6 @@ MonoBehaviour:
   chargePorcentage: 0
   playerMesh: {fileID: 8492407723993443446}
   knockbackColor: {r: 1, g: 0, b: 0, a: 1}
-  canParryColor: {r: 0, g: 0.08110881, b: 1, a: 1}
-  chargeVisuals: {fileID: 0}
-  chargeVisualOffsetX: 0
-  chargeVisualOffsetY: 0
-  hitTimerVisuals: {fileID: 0}
-  parryTimerVisualOffsetX: 0
-  parryTimerVisualOffsetY: 0
   parryParticle: {fileID: 5173066124080812186}
   dashTrail: {fileID: 6567929651033778354}
   deadParticle: {fileID: 49980424658525424}

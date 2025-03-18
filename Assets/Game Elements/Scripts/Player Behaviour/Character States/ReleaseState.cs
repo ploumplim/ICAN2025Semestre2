@@ -14,6 +14,7 @@ public class ReleaseState : PlayerState
     {
         base.Enter();
         Hit();
+        PlayerScript.OnPlayerHitReleased?.Invoke(PlayerScript.chargeValueIncrementor);
         ballHit = false;
         currentBallSpeed = 0f;
     }
@@ -21,7 +22,6 @@ public class ReleaseState : PlayerState
     public void Hit()
     {
         // Debug.Log("Parry!");
-        PlayerScript.OnPlayerHitReleased?.Invoke(PlayerScript.chargeValueIncrementor);
         PlayerScript.hitTimer = PlayerScript.releaseDuration;
         StartCoroutine(HitTime());
     }
@@ -48,15 +48,11 @@ public class ReleaseState : PlayerState
     {
         // create an overlap sphere that detects the ball. If it did, set the ball to parry to the ball that was detected.
         Collider[] hitColliders = Physics.OverlapSphere(parrySpherePosition, PlayerScript.hitDetectionRadius);
-        int i = 0;
-        while (i < hitColliders.Length)
+        if (hitColliders[0].gameObject.CompareTag("Ball"))
         {
-            if (hitColliders[i].gameObject.CompareTag("Ball"))
-            {
-                ballToHit = hitColliders[i].gameObject;
-            }
-            i++;
+            ballToHit = hitColliders[0].gameObject;
         }
+        hitColliders = null;
     }
 
     public void HitTheBall()
