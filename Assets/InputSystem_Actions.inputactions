@@ -24,18 +24,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Parry",
+                    "name": "Roll",
                     "type": "Button",
-                    "id": "540a4db2-f5c2-4bb8-856e-adda278faf19",
+                    "id": "5089c710-ac29-4e77-8450-ea020db1f5bf",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Roll",
+                    "name": "Bunt",
                     "type": "Button",
-                    "id": "5089c710-ac29-4e77-8450-ea020db1f5bf",
+                    "id": "f05effeb-87b3-4c34-9213-05678b61ec7b",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -67,23 +67,23 @@
                 },
                 {
                     "name": "",
-                    "id": "b1d4c491-7669-4e5a-8d80-5d0f6e40259d",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Parry",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "ba96c6a5-ca91-4519-a0ce-5e834b9f3b7f",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "Roll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "95824d72-398a-453c-8aa4-1f27df4b6d19",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Bunt",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -106,7 +106,7 @@
                     "name": "Submit",
                     "type": "Button",
                     "id": "7607c7b6-cd76-4816-beef-bd0341cfe950",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -115,7 +115,7 @@
                     "name": "Cancel",
                     "type": "Button",
                     "id": "15cef263-9014-4fd5-94d9-4e4a6234a6ef",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -179,6 +179,15 @@
                     "type": "PassThrough",
                     "id": "9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be",
                     "expectedControlType": "Quaternion",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PauseAccess",
+                    "type": "Button",
+                    "id": "1616552d-3108-49e2-bbd8-8caf3d723af0",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -600,6 +609,17 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b5789f19-09d9-4b5e-8436-9752e58386b2",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PauseAccess",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

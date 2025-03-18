@@ -5,14 +5,21 @@ public class DroppedState : BallState
     public override void Enter()
     {
         base.Enter();
-        // Set the balls gravity to true.
-        BallSm.rb.useGravity = true;
         BallSm.bounces = 0;
-        //Set the rigid body's linear damping.
-        BallSm.rb.linearDamping = BallSm.groundedLinearDamping;
+        BallSm.ResetBallSize();
+        SetParameters(BallSm.groundedMass, BallSm.groundedLinearDamping, true);
         
-        // The ball cannot be parried.
-        BallSm.canBeParried = false;
+        // Ball should not collide with any player when it is on the ground.
+        
+        
+        
     }
-    
+
+    public override void Tick()
+    {
+        base.Tick();
+        BallSm.SetMaxHeight(BallSm.groundedMaxHeight);
+        BallSm.FixVerticalSpeed(BallSm.groundedMaxHeight);
+
+    }
 }
