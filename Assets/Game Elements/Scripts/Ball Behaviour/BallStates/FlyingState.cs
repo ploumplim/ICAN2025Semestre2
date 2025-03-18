@@ -12,7 +12,11 @@ public class FlyingState : BallState
         SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
         
         // The ball's collider should not hit the player's collider.
-        Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
+        if (BallSm.ballOwnerPlayer)
+        {
+            Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
+        }
+
         BallSm.OnBallFlight?.Invoke(BallSm.rb.linearVelocity.magnitude);
     }
 
@@ -45,6 +49,9 @@ public class FlyingState : BallState
     public override void Exit()
     {
         base.Exit();
-        Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
+        if (BallSm.ballOwnerPlayer)
+        {
+            Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
+        }
     }
 }

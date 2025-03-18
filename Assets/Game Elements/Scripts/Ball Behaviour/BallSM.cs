@@ -83,6 +83,8 @@ public class BallSM : MonoBehaviour
     [HideInInspector]public GameObject ballOwnerPlayer;
     [HideInInspector]public SphereCollider col;
     [HideInInspector]public int pointWallPoints;
+    [HideInInspector]public int playerColliderLayer;
+    [HideInInspector]public int ballColliderLayer;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~EVENTS~~~~~~~~~~~~~~~~~~~~~~~~~~
     
@@ -97,12 +99,16 @@ public class BallSM : MonoBehaviour
     {
         col = GetComponent<SphereCollider>();
         rb = GetComponent<Rigidbody>();
+        playerColliderLayer = LayerMask.NameToLayer("Player");
+        ballColliderLayer = LayerMask.NameToLayer("Ball");
         BallState[] states = GetComponents<BallState>();
         foreach (BallState state in states)
         {
             state.Initialize(this);
         }
         currentState = GetComponent<DroppedState>();
+        Physics.IgnoreLayerCollision(ballColliderLayer, playerColliderLayer, true);
+
         
     }
     

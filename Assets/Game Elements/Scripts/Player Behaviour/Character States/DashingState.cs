@@ -33,6 +33,7 @@ public class DashingState : PlayerState
         //
         
         CheckPlayerCollisions();
+        CheckBallCollisions();
         
         
         if (timer >= PlayerScript.dashDuration)
@@ -86,8 +87,25 @@ public class DashingState : PlayerState
                 }
             }
         }
+        
     }
 
+    private void CheckBallCollisions()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(PlayerScript.transform.position, PlayerScript.rollDetectionRadius);
+        // If the collider is a ball, the ball is pushed towards the direction of the dash.
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.GetComponent<BallSM>())
+            {
+                BallSM ballDashedInto = hitCollider.GetComponent<BallSM>();
+                ballDashedInto.rb.AddForce(new Vector3(dashDirection.x * PlayerScript.dashSpeed, 0, dashDirection.y * PlayerScript.dashSpeed)
+                                           * PlayerScript.ballDashForce, ForceMode.Impulse);
+                ballDashedInto.ballOwnerPlayer = PlayerScript.gameObject;
+                ballDashedInto.ChangeState(ballDashedInto.GetComponent<FlyingState>());
+            }
+        }
+    }
 
     public override void Exit()
     {
@@ -97,6 +115,9 @@ public class DashingState : PlayerState
             // Re-enable collisions with the ledges layer.
             Physics.IgnoreLayerCollision(PlayerScript.playerLayer, PlayerScript.ledgeLayer, false);
         }
+        
+        
+        
     }
 
     

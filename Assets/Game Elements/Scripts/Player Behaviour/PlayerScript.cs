@@ -109,6 +109,8 @@ public class PlayerScript : MonoBehaviour
     public float rollDetectionRadius = 5f;
     [Tooltip("This boolean determines if when dashing the character can pass through ledges.")]
     public bool canPassThroughLedges = false;
+    [Tooltip("Force to apply to the ball when dashing into it.")]
+    public float ballDashForce = 10f;
 
     //---------------------------------------------------------------------------------------
     [HideInInspector] public GameObject MultiplayerManager;
@@ -252,11 +254,12 @@ public class PlayerScript : MonoBehaviour
 
     public void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.GetComponent<BallSM>())
+        BallSM ballSM = other.gameObject.GetComponent<BallSM>();
+        if (ballSM)
         {
             OnPlayerHitByBall?.Invoke();
             // Debug.Log(currentState);
-            if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<FlyingState>())
+            if (ballSM.currentState is FlyingState)
             {
                 // Debug.Log("Ball hit player");
                 if (currentState is not KnockbackState &&
@@ -279,7 +282,7 @@ public class PlayerScript : MonoBehaviour
                 }
                 
             }
-            else if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<LethalBallState>())
+            else if (ballSM.currentState is LethalBallState)
             {
                 // Debug.Log("Ball hit player");
                 if (currentState is not KnockbackState &&

@@ -10,6 +10,7 @@ public class DroppedState : BallState
         SetParameters(BallSm.groundedMass, BallSm.groundedLinearDamping, true);
         
         // Ball should not collide with any player when it is on the ground.
+        Physics.IgnoreLayerCollision(BallSm.ballColliderLayer, BallSm.playerColliderLayer, true);
         
         
         
@@ -21,5 +22,11 @@ public class DroppedState : BallState
         BallSm.SetMaxHeight(BallSm.groundedMaxHeight);
         BallSm.FixVerticalSpeed(BallSm.groundedMaxHeight);
 
+    }
+    
+    public override void Exit()
+    {
+        base.Exit();
+        Physics.IgnoreLayerCollision(BallSm.ballColliderLayer, BallSm.playerColliderLayer, false);
     }
 }
