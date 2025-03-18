@@ -36,8 +36,8 @@ public class PlayerVisuals : MonoBehaviour
     public float chargeVisualOffsetX;
     [Tooltip("charge visual Offset Y")]
     public float chargeVisualOffsetY;
-    [Tooltip("Game Object that holds the parry timer visuals.")]
-    public GameObject parryTimerVisuals;
+    [FormerlySerializedAs("parryTimerVisuals")] [Tooltip("Game Object that holds the parry timer visuals.")]
+    public GameObject hitTimerVisuals;
     [Tooltip("Parry timer visual Offset X")]
     public float parryTimerVisualOffsetX;
     [Tooltip("Parry timer visual Offset Y")]
@@ -46,6 +46,8 @@ public class PlayerVisuals : MonoBehaviour
     public ParticleSystem parryParticle;
     [Tooltip("Trail that is left behind when player dashes")]
     public TrailRenderer dashTrail;
+    [Tooltip("Particle that is played when the player dies.")]
+    public ParticleSystem deadParticle;
     
     void Start()
     {
@@ -55,11 +57,10 @@ public class PlayerVisuals : MonoBehaviour
         chargeSprite = chargeVisuals.GetComponentInChildren<Image>();
         // Recover the player's mesh material and color.
         _playerMeshMaterial = playerMesh.GetComponent<MeshRenderer>().material;
-        _originalPlayerMeshColor = _playerMeshMaterial.color;
-        _parryTimerSprite = parryTimerVisuals.GetComponentInChildren<Image>();
+        _parryTimerSprite = hitTimerVisuals.GetComponentInChildren<Image>();
         
 
-        _parryRadius = playerScript.parryDetectionRadius;
+        _parryRadius = playerScript.hitDetectionRadius;
         
     }
 
@@ -71,23 +72,34 @@ public class PlayerVisuals : MonoBehaviour
         ChargeBar(handScreenPosition);
         ParryBar(playerScreenPosition);
         
-        if (!_canParry)
-        {
-            switch (playerScript.currentState)
-            {
-                case MomentumState:
-                    _playerMeshMaterial.color = knockbackColor;
-                    break;
-                default:
-                    _playerMeshMaterial.color = _originalPlayerMeshColor;
-                    break;
-            }
+        
+        switch (playerScript.currentState) 
+        { 
+            case NeutralState:
+                _playerMeshMaterial.color = _originalPlayerMeshColor;
+                if (deadParticle.isPlaying)
+                {deadParticle.Stop();}
+                break;
+            case DeadState:
+                _playerMeshMaterial.color = Color.black; 
+                if (!deadParticle.isPlaying)
+                {deadParticle.Play();}
+                break;
+            case KnockbackState:
+                _playerMeshMaterial.color = knockbackColor;
+                break;
+            default:
+                break;
         }
 
-        _parryTimerSprite.fillAmount = playerScript.parryTimer / playerScript.parryCooldown;
+        _parryTimerSprite.fillAmount = playerScript.hitTimer / playerScript.releaseDuration;
         RecoverAfterDash();
         // Dash trail width is equal to the player's rollDetectionRadius.
-        dashTrail.widthMultiplier = playerScript.rollDetectionRadius;
+        dashTrail.widthMultiplier = playerScript.rollDetectionRadius * 2f;
+        
+        // Dash color is equal to the player's color.
+        dashTrail.startColor = _playerMeshMaterial.color;
+        dashTrail.endColor = _playerMeshMaterial.color;
         
         // Update the parry radius collider.
         var parryParticleShape = parryParticle.shape;
@@ -120,7 +132,7 @@ public class PlayerVisuals : MonoBehaviour
             // Rotate the player mesh on the X axis to emulate them standing up over time.
             
             playerMesh.transform.rotation = Quaternion.Euler
-            (Mathf.Lerp(playerMesh.transform.rotation.x, 0, Time.deltaTime * playerScript.rollDuration),
+            (Mathf.Lerp(playerMesh.transform.rotation.x, 0, Time.deltaTime * playerScript.dashDuration),
                 playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
         }
     }    
@@ -134,12 +146,12 @@ public class PlayerVisuals : MonoBehaviour
         parryTimerVisualScreenPosition.y += parryTimerVisualOffsetY;
 
         // Update the position of the parry timer visuals in the canvas
-        parryTimerVisuals.transform.position = parryTimerVisualScreenPosition;
+        hitTimerVisuals.transform.position = parryTimerVisualScreenPosition;
     }
     
     public void OnParryAvailable()
     {
-        if (playerScript.currentState != playerScript.GetComponent<MomentumState>())
+        if (playerScript.currentState != playerScript.GetComponent<KnockbackState>())
         {
             _playerMeshMaterial.color = canParryColor;
             _canParry = true;
@@ -147,7 +159,6 @@ public class PlayerVisuals : MonoBehaviour
     }
     public void OnParryUnavailable()
     {
-        _playerMeshMaterial.color = _originalPlayerMeshColor;
         _canParry = false;
     }
     
@@ -156,7 +167,6 @@ public class PlayerVisuals : MonoBehaviour
         // Play the parry particle.
         parryParticle.Play();
         // Change the player's color to the original color.
-        _playerMeshMaterial.color = _originalPlayerMeshColor;
         _canParry = false;
     }
     
@@ -178,11 +188,13 @@ public class PlayerVisuals : MonoBehaviour
         {
             // Debug.Log("Changing player color to " + color);
             _playerMeshMaterial.color = color;
+            _originalPlayerMeshColor = color;
         }
         else
         {
             _playerMeshMaterial = playerMesh.GetComponentInChildren<MeshRenderer>().material;
             _playerMeshMaterial.color = color;
+            _originalPlayerMeshColor = color;
             // Debug.Log("Changing player color to " + color);
         }
         

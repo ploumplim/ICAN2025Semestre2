@@ -6,11 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="c6229357-d157-4b3a-a2a3-9c49815cecc1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ICAN2025Semestre2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ICAN2025Semestre2/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Multiplayer and Controls/MultiplayerManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Multiplayer and Controls/MultiplayerManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallSM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallSM.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/FlyingState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/FlyingState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/BuntingPlayerState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/BuntingPlayerState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/DeadState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/DeadState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/ReleaseState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/ReleaseState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerVisuals.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/CameraScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/CameraScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Ivan's Paddle Room.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Ivan's Paddle Room.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,11 +35,14 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6aa588f9882420485fca490ded58a721dee00/df/4d914766/CursorLockMode.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/MomentumState.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6aa588f9882420485fca490ded58a721dee00/e3/1f458671/GameObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Game Elements/Scripts/Multiplayer and Controls/HandleGamePads.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/BuntingPlayerState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@89eb3bdcd743/Runtime/Debugging/DebugUpdater.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$USER_HOME$/PSGJ2025JAN/Assets/Scripts/Player Behaviour/Player Controller/CharacterController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/PSGJ2025JAN/Assets/Scripts/General Use/WaveManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/PSGJ2025JAN/Assets/Scripts/Player Behaviour/Player Controller/CharacterController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/PSGJ2025JAN/Assets/Scripts/Player Behaviour/Player Controller/PlayerState.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$USER_HOME$/PSGJ2025JAN/Assets/Scripts/Player Behaviour/Player Controller/PlayerVisualManager.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$USER_HOME$/PSGJ2025JAN/Assets/Scripts/Player Behaviour/Player Controller/PlayerVisualManager.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -53,7 +57,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;prototype-v6-IvanBranch1&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;prototype-v6-IvanBranch2&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -64,7 +68,7 @@
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$USER_HOME$/Desktop/Builds/BounceProject/v1\BallGameS2Proto.exe" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/../../Builds/BounceProject/v1\BallGameS2Proto.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ivan_\Desktop\Builds\BounceProject\v1" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -143,6 +147,27 @@
       <workItem from="1740299875904" duration="933000" />
       <workItem from="1740381100795" duration="11843000" />
       <workItem from="1740409252104" duration="2829000" />
+      <workItem from="1740924508059" duration="2943000" />
+      <workItem from="1740991434782" duration="1048000" />
+      <workItem from="1741007323731" duration="5525000" />
+      <workItem from="1741075857906" duration="4245000" />
+      <workItem from="1741080619693" duration="728000" />
+      <workItem from="1741081921220" duration="1839000" />
+      <workItem from="1741169188234" duration="1760000" />
+      <workItem from="1741182161926" duration="6248000" />
+      <workItem from="1741251337177" duration="2740000" />
+      <workItem from="1741361491006" duration="2507000" />
+      <workItem from="1741423611171" duration="8907000" />
+      <workItem from="1741593883615" duration="1989000" />
+      <workItem from="1741616701620" duration="2180000" />
+      <workItem from="1741679319740" duration="1971000" />
+      <workItem from="1741683010276" duration="18701000" />
+      <workItem from="1741727945188" duration="9211000" />
+      <workItem from="1741769319433" duration="19929000" />
+      <workItem from="1741806810253" duration="1713000" />
+      <workItem from="1741853442482" duration="9737000" />
+      <workItem from="1741940367333" duration="8410000" />
+      <workItem from="1742025920614" duration="8431000" />
     </task>
     <servers />
   </component>
