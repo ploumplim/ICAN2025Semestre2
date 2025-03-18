@@ -37,28 +37,44 @@ public class ReleaseState : PlayerState
     public override void Tick()
     {
         base.Tick();
+        
         parrySpherePosition = PlayerScript.transform.position + transform.forward * PlayerScript.hitDetectionOffset;
+        
         PlayerScript.Move(PlayerScript.speed * PlayerScript.releaseSpeedModifier,
             PlayerScript.chargeLerpTime);   
-        HitBox();
-        HitTheBall();
+        
+        if (!ballToHit)
+        {
+            HitBox();
+        }
+        if (ballToHit)
+        {
+            HitTheBall();
+        }
     }
 
     public void HitBox()
     {
         // create an overlap sphere that detects the ball. If it did, set the ball to parry to the ball that was detected.
         Collider[] hitColliders = Physics.OverlapSphere(parrySpherePosition, PlayerScript.hitDetectionRadius);
-        if (hitColliders[0].gameObject.CompareTag("Ball"))
+        
+        
+        foreach (var hitCollider in hitColliders)
         {
-            ballToHit = hitColliders[0].gameObject;
+            if (hitCollider.gameObject.CompareTag("Ball"))
+            {
+                ballToHit = hitCollider.gameObject;
+                Debug.Log("ball found : " + ballToHit.name);
+                break;
+            }
         }
-        hitColliders = null;
     }
 
     public void HitTheBall()
     {
-        if (ballToHit && !ballHit)
+        if (!ballHit)
         {
+            Debug.Log("Hit the ball!");
             PlayerScript.OnBallHitByPlayer?.Invoke(PlayerScript.chargeValueIncrementor);
             float verticalPercent;
             float minimumBallSpeed = ballToHit.GetComponent<BallSM>().minimumSpeedToGround;
