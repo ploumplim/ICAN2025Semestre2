@@ -7,11 +7,6 @@ public class PlayerVisuals : MonoBehaviour
     //-------------PRIVATE VARIABLES-------------
     // Player script.
     private PlayerScript playerScript;
-    // Charge porcentage from 0 to 1.
-   [SerializeField]private float chargePorcentage;
-
-    // Image component of the charging visuals.
-    private Image chargeSprite;
     
     // Image component of the parry timer visuals.
     private float _parryRadius;
@@ -32,6 +27,8 @@ public class PlayerVisuals : MonoBehaviour
     public TrailRenderer dashTrail;
     [Tooltip("Particle that is played when the player dies.")]
     public ParticleSystem deadParticle;
+    [Tooltip("The pointer showing the 8 directions the player can aim towards.")]
+    public GameObject aimPointer;
     
     void Start()
     {
@@ -67,8 +64,23 @@ public class PlayerVisuals : MonoBehaviour
                 break;
             default:
                 break;
+
+                
         }
 
+
+        if (playerScript.moveInputVector2 != Vector2.zero)
+        {
+            SetEightDirectionArrow();
+        }
+        else
+        {
+            aimPointer.transform.rotation = Quaternion.Euler(90, 0, 0);
+        }
+        
+        
+        
+        
         RecoverAfterDash();
         // Dash trail width is equal to the player's rollDetectionRadius.
         dashTrail.widthMultiplier = playerScript.rollDetectionRadius * 2f;
@@ -94,9 +106,18 @@ public class PlayerVisuals : MonoBehaviour
             (Mathf.Lerp(playerMesh.transform.rotation.x, 0, Time.deltaTime * playerScript.dashDuration),
                 playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
         }
-    }    
-    
-    
+    }
+
+    public void SetEightDirectionArrow()
+    {
+        // Using the player's eightDirection Vector3, recover a float that represents the rotation value of that direction
+        // in relation to the player's forward direction.
+        float angle = Vector3.SignedAngle(Vector3.forward, playerScript.EightDirVector3Direction(), Vector3.up);
+        Debug.Log(angle);
+        // Rotate the aimPointer to the angle.
+        aimPointer.transform.rotation = Quaternion.Euler(90, angle, 0);
+        
+    }
     public void OnParry(float chargeValue)
     {
         // Play the parry particle.

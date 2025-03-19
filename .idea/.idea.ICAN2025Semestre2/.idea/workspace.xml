@@ -172,7 +172,7 @@
       <workItem from="1742296110505" duration="1214000" />
       <workItem from="1742309295683" duration="988000" />
       <workItem from="1742318691649" duration="4588000" />
-      <workItem from="1742369020213" duration="2879000" />
+      <workItem from="1742369020213" duration="7446000" />
     </task>
     <servers />
   </component>
@@ -188,6 +188,25 @@
   <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerVisuals.cs</url>
+          <line>140</line>
+          <properties documentPath="C:\Users\ivan_\Documents\GitHub\ICAN2025Semestre2\Assets\Game Elements\Scripts\Player Behaviour\PlayerVisuals.cs" containingFunctionPresentation="Method 'ChangePlayerColor'">
+            <startOffsets>
+              <option value="4466" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4490" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

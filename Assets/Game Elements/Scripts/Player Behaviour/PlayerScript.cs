@@ -19,7 +19,8 @@ public class PlayerScript : MonoBehaviour
     public enum HitType
     {
         ForwardHit,
-        ReflectiveHit
+        ReflectiveHit,
+        EightDirHit,
     }
     
     [HideInInspector] public PlayerState currentState;
@@ -393,6 +394,38 @@ public class PlayerScript : MonoBehaviour
         }
     }
     
+    // ------------------------------ 8 DIRECTIONAL HIT ------------------------------
+
+    public Vector3 EightDirVector3Direction()
+    {
+        Vector2 inputDir = moveInputVector2.normalized;
+        float angle = Mathf.Atan2(inputDir.y, inputDir.x) * Mathf.Rad2Deg;
+        if (angle < 0)
+        {
+            angle += 360;
+        }
+        switch (angle)
+        {
+            case >337.5f or <22.5f:
+                return transform.forward; // 0 degrees
+            case >=22.5f and <67.5f:
+                return (Vector3.right + Vector3.forward).normalized;// 45 degrees
+            case >=67.5f and <112.5f:
+                return transform.right; // 90 degrees
+            case >=112.5f and <157.5f:
+                return (Vector3.right - Vector3.forward).normalized; // 135 degrees
+            case >=157.5f and <202.5f:
+                return Vector3.back; // 180 degrees
+            case >=202.5f and <247.5f:
+                return (-Vector3.right - Vector3.forward).normalized; // 225 degrees
+            case >=247.5f and <292.5f:
+                return Vector3.left; // 270 degrees
+            case >=292.5f and <337.5f:
+                return (-Vector3.right + Vector3.forward).normalized; // 315 degrees
+        }
+        return Vector3.forward;
+    }
+
     // ------------------------------ EVENTS ------------------------------
     public void OnBallHitEventMethod(GameObject ball)
     {
