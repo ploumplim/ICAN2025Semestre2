@@ -1,14 +1,18 @@
 using UnityEngine;
-    public class ChargingState : PlayerState
+using UnityEngine.Serialization;
+
+public class ChargingState : PlayerState
     {
         private GameObject _ballToSlow;
         private Vector3 _parrySpherePosition;
         private Vector3 _currentBallSpeedVec3;
+        public float chargeLimitTimer;
         
         public override void Enter()
         {
             base.Enter();
             PlayerScript.chargeValueIncrementor = 0f;
+            chargeLimitTimer = 0f;
         }
 
         public override void Tick()
@@ -26,6 +30,15 @@ using UnityEngine;
             if (_ballToSlow)
             {
                 SlowDownBall();
+            }
+            
+            if (chargeLimitTimer < PlayerScript.chargeTimeLimit)
+            {
+                chargeLimitTimer += Time.deltaTime;
+            }
+            else
+            {
+                PlayerScript.ChangeState(GetComponent<ReleaseState>());
             }
             
         }

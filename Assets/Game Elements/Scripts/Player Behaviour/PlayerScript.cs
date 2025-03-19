@@ -52,6 +52,22 @@ public class PlayerScript : MonoBehaviour
     public float chargeLerpTime = 0.1f;
     
     //---------------------------------------------------------------------------------------
+    [FormerlySerializedAs("rollSpeed")]
+    [Header("Dash Settings")]
+    [Tooltip("The dash speed.")]
+    public float dashSpeed = 10f;
+    [FormerlySerializedAs("rollDuration")] [Tooltip("The duration of the dash.")]
+    public float dashDuration = 1f;
+    [Tooltip("Cooldown between each dash.")]
+    public float dashCooldown = 0.5f;
+    [FormerlySerializedAs("dashFeedbackTrail")] [Tooltip("This is the radius of the sphere that will detect the ball when rolling.")]
+    public float rollDetectionRadius = 5f;
+    [Tooltip("This boolean determines if when dashing the character can pass through ledges.")]
+    public bool canPassThroughLedges = false;
+    [Tooltip("Force to apply to the ball when dashing into it.")]
+    public float ballDashForce = 10f;
+    
+    //---------------------------------------------------------------------------------------
     [Header("Knockback")]
     [Tooltip("Time where the player loses control after being struck by the ball.")]
     public float knockbackTime = 0.5f;
@@ -73,6 +89,8 @@ public class PlayerScript : MonoBehaviour
     public float chargeRate = 0.5f;
     [FormerlySerializedAs("parryCooldown")] [Tooltip("The duration that the hit has to apply force to the ball.")]
     public float releaseDuration = 0.5f;
+    [Tooltip("How long the player can hold the charge before releasing automatically.")]
+    public float chargeTimeLimit = 1f;
     [FormerlySerializedAs("parryForce")] [Tooltip("The speed multiplier on the ball when hit.")]
     public float hitForce = 10f;
     [Tooltip("This number is the minimum value that the charge reaches when tapped.")]
@@ -104,21 +122,7 @@ public class PlayerScript : MonoBehaviour
     public float buntSphereRadius;
     [Tooltip(("The position of the bunt sphere."))]
     public float buntSpherePositionOffset;
-    //---------------------------------------------------------------------------------------
-    [FormerlySerializedAs("rollSpeed")]
-    [Header("Dash Settings")]
-    [Tooltip("The dash speed.")]
-    public float dashSpeed = 10f;
-    [FormerlySerializedAs("rollDuration")] [Tooltip("The duration of the dash.")]
-    public float dashDuration = 1f;
-    [Tooltip("Cooldown between each dash.")]
-    public float dashCooldown = 0.5f;
-    [FormerlySerializedAs("dashFeedbackTrail")] [Tooltip("This is the radius of the sphere that will detect the ball when rolling.")]
-    public float rollDetectionRadius = 5f;
-    [Tooltip("This boolean determines if when dashing the character can pass through ledges.")]
-    public bool canPassThroughLedges = false;
-    [Tooltip("Force to apply to the ball when dashing into it.")]
-    public float ballDashForce = 10f;
+
 
     //---------------------------------------------------------------------------------------
     [HideInInspector] public GameObject MultiplayerManager;
