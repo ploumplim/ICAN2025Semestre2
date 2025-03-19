@@ -85,6 +85,14 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("The offset of the hit detection sphere.")]
     public float hitDetectionOffset = 0f;
     //---------------------------------------------------------------------------------------
+    [Header("Slowmo Settings")]
+    [Tooltip("The rate at which the ball slows down when it enters the player's is charging.")]
+    public float slowRate = 0.5f;
+    [Tooltip("The time the player has to wait between each hit.")]
+    public float minimumSpeedPercentage = 0.25f;
+    
+    
+    //---------------------------------------------------------------------------------------
     [Header("Bunt Settings")]
     [Tooltip("The force applied to the ball when bunting.")]
     public float buntForce = 10f;

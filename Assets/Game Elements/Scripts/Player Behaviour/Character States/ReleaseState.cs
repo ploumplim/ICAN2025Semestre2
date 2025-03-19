@@ -64,7 +64,6 @@ public class ReleaseState : PlayerState
             if (hitCollider.gameObject.CompareTag("Ball"))
             {
                 ballToHit = hitCollider.gameObject;
-                Debug.Log("ball found : " + ballToHit.name);
                 break;
             }
         }
@@ -74,7 +73,6 @@ public class ReleaseState : PlayerState
     {
         if (!ballHit)
         {
-            Debug.Log("Hit the ball!");
             PlayerScript.OnBallHitByPlayer?.Invoke(PlayerScript.chargeValueIncrementor);
             float verticalPercent;
             float minimumBallSpeed = ballToHit.GetComponent<BallSM>().minimumSpeedToGround;
