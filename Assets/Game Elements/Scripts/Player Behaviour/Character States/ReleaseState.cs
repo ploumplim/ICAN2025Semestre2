@@ -9,6 +9,7 @@ public class ReleaseState : PlayerState
     [HideInInspector]public Vector3 parrySpherePosition;
     [HideInInspector]public float currentBallSpeed;
     [HideInInspector] public bool ballHit;
+    private Vector3 _eightDirDirection;
     //---------------------------------------------------------------------------------
     public override void Enter()
     {
@@ -40,9 +41,14 @@ public class ReleaseState : PlayerState
         
         parrySpherePosition = PlayerScript.transform.position + transform.forward * PlayerScript.hitDetectionOffset;
         
-        PlayerScript.Move(PlayerScript.speed * PlayerScript.releaseSpeedModifier,
-            PlayerScript.chargeLerpTime);   
-        
+        PlayerScript.Move(PlayerScript.speed * PlayerScript.releaseSpeedModifier, PlayerScript.chargeLerpTime);
+
+        if (PlayerScript.moveInputVector2 != Vector2.zero)
+        {
+            //_eightDirDirection = x;
+        }
+
+
         if (!ballToHit)
         {
             HitBox();
@@ -120,6 +126,20 @@ public class ReleaseState : PlayerState
                         direction = new Vector3(direction.x, verticalPercent, direction.z).normalized;
                         ApplyForce(ballRigidbody, direction);
                         break;
+                    case PlayerScript.HitType.EightDirHit:
+                        
+                        direction = _eightDirDirection;
+                        
+                        if (direction == Vector3.zero)
+                        {
+                            
+                            //direction = EightDirVector3DirectionFromForward();
+                            Debug.Log("Direction is zero : new direction is " + direction);
+                        }
+                        
+                        direction = new Vector3(direction.x, verticalPercent, direction.z).normalized;
+                        ApplyForce(ballRigidbody, direction);
+                        break;
                 }
 
                 
@@ -145,12 +165,15 @@ public class ReleaseState : PlayerState
         ballRigidBody.linearVelocity = direction.normalized * newSpeed;
     }
     
+    
+   
     //---------------------------------------------------------------------------------
     public override void Exit()
     {
         base.Exit();
         PlayerScript.chargeValueIncrementor = 0f;
         ballToHit = null;
+        _eightDirDirection = Vector3.zero;
 
     }
 }

@@ -284,7 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
   maxSpeed: 80
-  lethalSpeed: 40
+  lethalSpeed: 75
   groundedMaxHeight: 1
   buntedMaxHeight: 7
   flyingMaxHeight: 1.5
@@ -308,7 +308,18 @@ MonoBehaviour:
   ballOwnerPlayer: {fileID: 0}
   col: {fileID: 0}
   pointWallPoints: 0
+  playerColliderLayer: 0
+  ballColliderLayer: 0
   pointWallHit:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointBounce:
+    m_PersistentCalls:
+      m_Calls: []
+  OnNeutralBounce:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBallFlight:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &3984054927209078919

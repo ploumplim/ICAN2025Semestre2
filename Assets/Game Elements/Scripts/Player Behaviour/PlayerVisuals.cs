@@ -68,19 +68,28 @@ public class PlayerVisuals : MonoBehaviour
                 
         }
 
+        switch (playerScript.hitType)
+        {
+            case PlayerScript.HitType.ForwardHit:
+                aimPointer.SetActive(true);
+                break;
+            case PlayerScript.HitType.ReflectiveHit:
+                aimPointer.SetActive(false);
+                break;
+            case PlayerScript.HitType.EightDirHit:
+                aimPointer.SetActive(true);
+                if (playerScript.moveInputVector2 != Vector2.zero)
+                {
+                    SetEightDirectionArrow();
+                }
+                break;
+        }
+        
 
-        if (playerScript.moveInputVector2 != Vector2.zero)
-        {
-            SetEightDirectionArrow();
-        }
-        else
-        {
-            aimPointer.transform.rotation = Quaternion.Euler(90, 0, 0);
-        }
-        
-        
-        
-        
+
+
+
+
         RecoverAfterDash();
         // Dash trail width is equal to the player's rollDetectionRadius.
         dashTrail.widthMultiplier = playerScript.rollDetectionRadius * 2f;
@@ -112,10 +121,10 @@ public class PlayerVisuals : MonoBehaviour
     {
         // Using the player's eightDirection Vector3, recover a float that represents the rotation value of that direction
         // in relation to the player's forward direction.
-        float angle = Vector3.SignedAngle(Vector3.forward, playerScript.EightDirVector3Direction(), Vector3.up);
-        Debug.Log(angle);
+        //float angle = x;
+        // Debug.Log(angle);
         // Rotate the aimPointer to the angle.
-        aimPointer.transform.rotation = Quaternion.Euler(90, angle, 0);
+        //aimPointer.transform.rotation = Quaternion.Euler(90, angle, 0);
         
     }
     public void OnParry(float chargeValue)
