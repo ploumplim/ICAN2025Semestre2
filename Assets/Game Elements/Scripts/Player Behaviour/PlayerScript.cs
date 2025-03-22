@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -145,6 +146,8 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ MENU ------------------------------
     public bool InMenu = true;
     public bool IsReady = false;
+    public GameObject canvas;
+    public GameObject handleGamePads;
     
     
     
@@ -174,6 +177,9 @@ public class PlayerScript : MonoBehaviour
         {
             playerCamera = Camera.main; // Assign the main camera if not assigned
         }
+        canvas = GameObject.FindWithTag("Canvas");
+        canvas.GetComponent<PlayerInput>().actions["SetReady"].performed += SetReady;
+        handleGamePads = GameObject.FindWithTag("handleGamePads");
     }
     
     public void SetPlayerParameters(GlobalVisual globalVisual)
@@ -309,20 +315,26 @@ public class PlayerScript : MonoBehaviour
             {
                 transform.forward = Vector3.Slerp(transform.forward, moveDirection, lerpMoveSpeed);
             }
-        
     }
-
-    public void SetReady()
+    public void SetReady(InputAction.CallbackContext context)
     {
-        Debug.Log(gameObject.name + " isReady =  "+ IsReady);
-        if (GameManager.Instance._gameManagerSM.currentState ==
-            GameManager.Instance._gameManagerSM.GetComponent<LevelChoiceState>())
+        if (!IsReady)
         {
-            this.IsReady = !IsReady;
-            Debug.Log(gameObject.name + " isReady =  "+ IsReady);
+            IsReady = true;
+            handleGamePads.gameObject.GetComponent<HandleGamePads>().playerReady.Add(this);
         }
+        else
+        {
+            IsReady = false;
+            if (handleGamePads.gameObject.GetComponent<HandleGamePads>().playerReady.Contains(this))
+            {
+                handleGamePads.gameObject.GetComponent<HandleGamePads>().playerReady.Remove(this);
+            }
+            
+        }
+        Debug.Log(IsReady);
+        handleGamePads.GetComponent<HandleGamePads>().VerifyIfAllPlayerAreReady();
     }
-
     
     
     // ------------------------------ CHARGE ATTACK ------------------------------

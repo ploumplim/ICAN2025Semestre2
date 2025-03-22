@@ -20,6 +20,7 @@ public class GameManagerSM : MonoBehaviour
                 }
                 ChangeState(GetComponent<MenuState>());
     }
+    
     // ~~~~~~~~~~~~~~~~~~~~~~ CHANGE STATE ~~~~~~~~~~~~~~~~~~~~~~
     public void ChangeState(GameState newState)
     {

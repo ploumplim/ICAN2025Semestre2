@@ -3,13 +3,25 @@ using UnityEngine;
 
 public class LevelChoiceState : GameState
 {
-    private GameManagerSM gameManager;
+    private GameManagerSM gameManagerSM;
+    
+    public HandleGamePads HandleGamePads;
+    
     public override void Enter()
     {
         Debug.Log("LevelChoice Enter");
-        gameManager = GetComponent<GameManagerSM>();
+        gameManagerSM = GetComponent<GameManagerSM>();
+    }
 
+    public override void Tick()
+    {
         
     }
-        
+
+    public void LaunchGame()
+    {
+        Debug.Log("LaunchGame");
+    }
+
+   
 }

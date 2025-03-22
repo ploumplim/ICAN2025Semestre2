@@ -8,9 +8,14 @@ using UnityEngine.UI;
 public class HandleGamePads : MonoBehaviour
 {
     public event Action<Gamepad> OnSouthButtonPressed;
+    public event Action<Gamepad> OnStartButtonPressed; 
     
     [SerializeField] public HashSet<Gamepad> PendingGamepads = new HashSet<Gamepad>();
     [SerializeField] public HashSet<Gamepad> AssignedGamepads = new HashSet<Gamepad>();
+
+    public List<PlayerScript> playerReady;
+    public GameObject canvas;
+    
 
     private void Awake()
     {
@@ -43,10 +48,22 @@ public class HandleGamePads : MonoBehaviour
                 PendingGamepads.Remove(gamepad);
                 return;
             }
+            
         }
     }
 
-    
+    public void VerifyIfAllPlayerAreReady()
+    {
+        if (AssignedGamepads.Count == playerReady.Count)
+        {
+            Debug.Log("All players are ready");
+            canvas.GetComponent<CanvasScript>().AllPlayerReady();
+        }
+        else
+        {
+            canvas.GetComponent<CanvasScript>().AllPlayerNotReady();
+        }
+    }
 
     public static void AssignControllerToPlayer(Gamepad gamepad, GameObject player)
     {
@@ -70,5 +87,7 @@ public class HandleGamePads : MonoBehaviour
         }
 
         Debug.Log($"Gamepad '{gamepad.displayName}' assigned to player '{player.name}'");
+        
+        
     }
 }

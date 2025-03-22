@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -61,13 +62,5 @@ public class GameManager : MonoBehaviour
         Debug.Log("ResumeGame");
         Time.timeScale = 1f;
     }
-
-    public void SetReady()
-    {
-        if (GameManager.Instance._gameManagerSM.currentState ==
-            GameManager.Instance._gameManagerSM.GetComponent<LevelChoiceState>())
-        {
-
-        }
-    }
+    
 }
