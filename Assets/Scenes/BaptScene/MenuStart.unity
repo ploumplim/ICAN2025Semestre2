@@ -300,6 +300,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc5246b4c4c7da24e924fd3fe463c48f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &865041443 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8460038362057950936, guid: 0463b135b0afaad4cb56a4a0dfa00ac1, type: 3}
+  m_PrefabInstance: {fileID: 3012119278848328988}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1129998533 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1277854159701883204, guid: 0463b135b0afaad4cb56a4a0dfa00ac1, type: 3}
@@ -507,6 +512,11 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &1736310292 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4690171119234609269, guid: 0463b135b0afaad4cb56a4a0dfa00ac1, type: 3}
+  m_PrefabInstance: {fileID: 3012119278848328988}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2094744919
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,10 +648,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6368377366565440269, guid: fa0e4cacb2bd22243a67d7a2b7e4f50e, type: 3}
+      propertyPath: levelSM
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6368377366565440269, guid: fa0e4cacb2bd22243a67d7a2b7e4f50e, type: 3}
+      propertyPath: canvasMenu
+      value: 
+      objectReference: {fileID: 865041443}
+    - target: {fileID: 6368377366565440269, guid: fa0e4cacb2bd22243a67d7a2b7e4f50e, type: 3}
+      propertyPath: handleGamePads
+      value: 
+      objectReference: {fileID: 589840912}
+    - target: {fileID: 6368377366565440269, guid: fa0e4cacb2bd22243a67d7a2b7e4f50e, type: 3}
+      propertyPath: canvasMenu.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6368377366565440269, guid: fa0e4cacb2bd22243a67d7a2b7e4f50e, type: 3}
+      propertyPath: 'canvasMenu.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1736310292}
+    - target: {fileID: 6368377366565440269, guid: fa0e4cacb2bd22243a67d7a2b7e4f50e, type: 3}
+      propertyPath: 'canvasMenu.Array.data[1]'
+      value: 
+      objectReference: {fileID: 865041443}
     - target: {fileID: 7294369280728698833, guid: fa0e4cacb2bd22243a67d7a2b7e4f50e, type: 3}
       propertyPath: HandleGamePads
       value: 
       objectReference: {fileID: 589840912}
+    - target: {fileID: 8822365260277212949, guid: fa0e4cacb2bd22243a67d7a2b7e4f50e, type: 3}
+      propertyPath: _gameManagerSM
+      value: 
+      objectReference: {fileID: 334139068}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

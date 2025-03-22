@@ -5,7 +5,7 @@ public class LevelChoiceState : GameState
 {
     private GameManagerSM gameManagerSM;
     
-    public HandleGamePads HandleGamePads;
+    [HideInInspector]protected HandleGamePads HandleGamePads;
     
     public override void Enter()
     {

@@ -173,10 +173,13 @@ public class PlayerScript : MonoBehaviour
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     void Start()
     {
-        if (playerCamera == null)
+        DontDestroyOnLoad(this);
+
+        if (GameManager.Instance._gameManagerSM.currentState == GameManager.Instance._gameManagerSM.GetComponent<PlayingState>())
         {
-            playerCamera = Camera.main; // Assign the main camera if not assigned
+            playerCamera = FindObjectOfType<Camera>();
         }
+
         canvas = GameObject.FindWithTag("Canvas");
         canvas.GetComponent<PlayerInput>().actions["SetReady"].performed += SetReady;
         handleGamePads = GameObject.FindWithTag("handleGamePads");
@@ -235,6 +238,7 @@ public class PlayerScript : MonoBehaviour
                 dashTimer = dashCooldown;
             }
         }
+        
     }
     
 

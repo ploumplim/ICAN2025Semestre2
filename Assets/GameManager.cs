@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public GameManagerSM _gameManagerSM;
 
     public MultiplayerManager mpManager;
-
+    
     public void OnEnable()
     {
         _gameManagerSM = GetComponent<GameManagerSM>();

@@ -27,7 +27,6 @@ public class LevelSM : MonoBehaviour
         {
             state.Initialize(this, levelManager);
         }
-        currentState = GetComponent<OutOfLevelState>();
     }
     
     

@@ -11,6 +11,7 @@ public class MenuState : GameState
         // {
         //     VARIABLE.GetComponent<PlayerScript>().InMenu = true;
         // }
+        GameManagerSM = GetComponent<GameManagerSM>();
         
     }
 

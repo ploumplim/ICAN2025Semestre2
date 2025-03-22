@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GameState : MonoBehaviour
 {
-    protected GameManagerSM GameManagerSM;
+    public GameManagerSM GameManagerSM;
     protected GameManager GameManager;
     //Called on FSM Start
     public void Initialize(GameManagerSM ballSm, GameManager gameManager)

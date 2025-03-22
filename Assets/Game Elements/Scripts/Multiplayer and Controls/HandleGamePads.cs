@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class HandleGamePads : MonoBehaviour
 {
     public event Action<Gamepad> OnSouthButtonPressed;
-    public event Action<Gamepad> OnStartButtonPressed; 
     
     [SerializeField] public HashSet<Gamepad> PendingGamepads = new HashSet<Gamepad>();
     [SerializeField] public HashSet<Gamepad> AssignedGamepads = new HashSet<Gamepad>();

@@ -13,12 +13,18 @@ public class GameManagerSM : MonoBehaviour
 
     public void InitGameSM(GameManager gameManager)
     {
-                GameState[] states = GetComponents<GameState>();
-                foreach (GameState state in states)
-                {
-                    state.Initialize(this, gameManager);
-                }
-                ChangeState(GetComponent<MenuState>());
+
+
+        GameState[] states = GetComponents<GameState>();
+        foreach (GameState state in states)
+        {
+            state.Initialize(this, gameManager);
+        }
+
+        if (currentState != null && currentState.GetComponent<LevelChoiceState>() != null)
+        {
+            ChangeState(GetComponent<PlayingState>());
+        }
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~ CHANGE STATE ~~~~~~~~~~~~~~~~~~~~~~

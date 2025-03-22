@@ -110,25 +110,12 @@ public class LevelManager : MonoBehaviour
         {
             _currentState = _levelSM.currentState;
         }
-
         
-
         // Add players to the scene if outside of level.
         if (multiplayerManager.handleGamePads && _currentState is OutOfLevelState
             && !gameIsRunning)
         {
             multiplayerManager.handleGamePads.CheckGamepadAssignments();
-        }
-        else if (!gameIsRunning)
-        {
-            if (!multiplayerManager.handleGamePads)
-            {
-                Debug.LogWarning("HandleGamePads not found in the scene.");
-            }
-            if (_currentState is not OutOfLevelState)
-            {
-                Debug.LogWarning("Current state is not OutOfLevelState.");
-            }
         }
         
         
