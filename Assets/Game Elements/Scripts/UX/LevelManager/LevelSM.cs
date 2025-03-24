@@ -51,9 +51,10 @@ public class LevelSM : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentState)
+        if (GameManager.Instance._gameManagerSM.currentState == GameManager.Instance._gameManagerSM.GetComponent<PlayingState>())
         {
-            currentState.Tick();
+            GameManager.Instance._gameManagerSM.GetComponent<PlayingState>().levelSM = this;
         }
+        
     }
 }

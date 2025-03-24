@@ -3,15 +3,18 @@ using UnityEngine.SceneManagement;
 
 public class PlayingState : GameState
 {
-    public GameObject levelSM;
+    public LevelSM levelSM;
     public GameObject[] canvasMenu;
     public HandleGamePads handleGamePads;
     public Camera mainCamera;
     public override void Enter()
     {
-        foreach (var VARIABLE in canvasMenu)
+        if (canvasMenu != null)
         {
-            VARIABLE.SetActive(false);
+            foreach (var VARIABLE in canvasMenu)
+            {
+                VARIABLE.SetActive(false);
+            }
         }
 
         // Unload all currently loaded scenes except the active one
@@ -28,14 +31,23 @@ public class PlayingState : GameState
         SceneManager.LoadScene(2);
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
 
-        Debug.Log(mainCamera.name);
-        // foreach (var VARIABLE in handleGamePads.playerReady)
-        // {
-        //     VARIABLE.GetComponent<PlayerScript>().playerCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-        // }
+        if (mainCamera != null)
+        {
+            Debug.Log(mainCamera.name);
+        }
+        else
+        {
+            Debug.LogError("MainCamera not found.");
+        }
 
-        // Ensure Init is called before ChangeState
-        // levelSM.GetComponent<LevelSM>().Init();
+        if (levelSM != null)
+        {
+            levelSM.Init();
+        }
+        else
+        {
+            Debug.LogError("levelSM is not initialized.");
+        }
     }
 
     public override void Tick()

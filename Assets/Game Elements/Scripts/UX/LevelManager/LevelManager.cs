@@ -83,6 +83,7 @@ public class LevelManager : MonoBehaviour
     {
         Initialize(); // Delete this when Game State machine is implemented.
         FillSpawnPoints();
+        
     }       
 
 

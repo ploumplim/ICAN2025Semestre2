@@ -27,11 +27,9 @@ public class MultiplayerManager : MonoBehaviour
     //[FormerlySerializedAs("spawnObject")] public GameObject spawnParent;
     //public new Camera camera;
 
-
-
     void Awake()
     { 
-        DontDestroyOnLoad(gameObject);    
+        
             // // Trouve tous les joueurs dans la scène avec le tag "Player"
             // availablePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
         levelManager = GetComponentInParent<LevelManager>();
