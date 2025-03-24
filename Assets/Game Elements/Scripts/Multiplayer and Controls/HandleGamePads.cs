@@ -28,7 +28,6 @@ public class HandleGamePads : MonoBehaviour
         {
             if (!AssignedGamepads.Contains(gamepad) && !PendingGamepads.Contains(gamepad))
             {
-                Debug.Log("Detected Gamepad : " + gamepad.displayName);
                 PendingGamepads.Add(gamepad);
             }
         }

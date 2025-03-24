@@ -31,12 +31,11 @@ public class IngameGUIManager : MonoBehaviour
     void Start()
     {
         _playerAndBallsText = playerAndBallsDebugObject.GetComponent<TextMeshProUGUI>();
-        
+        _playerList = GameManager.Instance.player;
     }
 
     void Update()
     {
-        _playerList = levelManager.players;
         TextUpdate();
     }
     

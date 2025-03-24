@@ -334,9 +334,7 @@ public class PlayerScript : MonoBehaviour
             {
                 handleGamePads.gameObject.GetComponent<HandleGamePads>().playerReady.Remove(this);
             }
-            
         }
-        Debug.Log(IsReady);
         handleGamePads.GetComponent<HandleGamePads>().VerifyIfAllPlayerAreReady();
     }
     

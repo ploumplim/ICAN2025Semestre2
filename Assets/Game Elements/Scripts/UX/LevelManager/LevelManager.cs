@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.PlayerLoop;
@@ -22,7 +23,7 @@ public class LevelManager : MonoBehaviour
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     private LevelSM _levelSM; // Reference to the Level State Machine
     private LevelState _currentState; // Reference to the current state of the level
-    [HideInInspector] public List<GameObject> players; // List of players in the level
+    public List<GameObject> players; // List of players in the level
     private List<Transform> _playerSpawnPoints; // List of player spawn points
     [HideInInspector] public int globalScore; // Global score of the level
     [HideInInspector] public GameObject gameBall; // Reference to the game ball
@@ -81,16 +82,23 @@ public class LevelManager : MonoBehaviour
 
     public void Start()
     {
+        DontDestroyOnLoad(this);
         Initialize(); // Delete this when Game State machine is implemented.
         FillSpawnPoints();
-        
-    }       
-
-
-
+        foreach (var VARIABLE in GameManager.Instance.player)
+        {
+            players.Add(VARIABLE.gameObject);
+        }
+    }
+    
     // Call initialize to set up the level manager.
     public void Initialize()
     {
+       
+        GameManager.Instance.levelManager = this.gameObject;
+       
+        GameManager.Instance.SendPlayerToGame();
+        
         _playerSpawnPoints = spawnPoints;
         
         _levelSM = GetComponent<LevelSM>();
@@ -119,7 +127,6 @@ public class LevelManager : MonoBehaviour
             multiplayerManager.handleGamePads.CheckGamepadAssignments();
         }
         
-        
         // Update the player list
         if (multiplayerManager)
         {
@@ -128,8 +135,6 @@ public class LevelManager : MonoBehaviour
                 players = multiplayerManager.connectedPlayers;
             }
         }
-
-
     }
     // ------------------------ MANAGE ROUNDS 🃦 🃧 🃨 🃩  ------------------------
     public void StartLevel()
@@ -148,9 +153,9 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            if (players.Count < 2)
+            if (GameManager.Instance.player.Count < 2)
             {
-                Debug.LogWarning("Not enough players to start the level.");
+                Debug.LogWarning(GameManager.Instance.player.Count + " players are out of range");
             }
             if (gameIsRunning)
             {

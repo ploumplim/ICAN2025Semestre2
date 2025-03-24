@@ -29,7 +29,8 @@ public class MultiplayerManager : MonoBehaviour
 
     void Awake()
     { 
-        
+        DontDestroyOnLoad(this);
+        GameManager.Instance.mpManager = this;
             // // Trouve tous les joueurs dans la scène avec le tag "Player"
             // availablePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
         levelManager = GetComponentInParent<LevelManager>();
@@ -60,8 +61,7 @@ public class MultiplayerManager : MonoBehaviour
                     SpawnNewPlayer(); // Spawn un joueur à la position correspondante.
                     connectedPlayers.Add(playerToConnect);
                     HandleGamePads.AssignControllerToPlayer(gamepad, playerToConnect); // Assign the gamepad to a player.
-                    //TODO : Assigner le joueur à la caméra 
-                    //camera.GetComponent<CameraScript>().AddPlayerToArray(playerToConnect.gameObject);
+                    GameManager.Instance.player.Add(playerToConnect);
                     AssignValuesToPlayer(playerToConnect);
                     playerToConnect = null;
         }

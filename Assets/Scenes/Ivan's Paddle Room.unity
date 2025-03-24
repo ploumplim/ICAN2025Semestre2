@@ -558,17 +558,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 495872978743232496, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
   m_PrefabInstance: {fileID: 2057427144335995173}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &635903036 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7046549965582419950, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
-  m_PrefabInstance: {fileID: 2124045469942785390}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63dbe794ea0b955448547be069b6586f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &654827140
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1617,26 +1606,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8243870776174257223}
     - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
-      propertyPath: pointWallHitScore
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
-      propertyPath: buntedBallHitScore
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
-      propertyPath: multiplayerManager
-      value: 
-      objectReference: {fileID: 635903036}
-    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
-      propertyPath: rounds.Array.data[0].pointWallPositions.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
-      propertyPath: rounds.Array.data[0].neutralWallPositions.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
       propertyPath: 'rounds.Array.data[0].pointWallPositions.Array.data[0]'
       value: 
       objectReference: {fileID: 1079387538}
@@ -1655,10 +1624,6 @@ PrefabInstance:
     - target: {fileID: 3059810454532666425, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
       propertyPath: m_Name
       value: LevelManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 3562043457676859311, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6504521702067660533, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1699,30 +1664,6 @@ PrefabInstance:
     - target: {fileID: 6504521702067660533, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7046549965582419950, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
-      propertyPath: camera
-      value: 
-      objectReference: {fileID: 330585545}
-    - target: {fileID: 7046549965582419950, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
-      propertyPath: spawnObject
-      value: 
-      objectReference: {fileID: 79125514}
-    - target: {fileID: 7046549965582419950, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
-      propertyPath: spawnParent
-      value: 
-      objectReference: {fileID: 79125514}
-    - target: {fileID: 7046549965582419950, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
-      propertyPath: HitTimeVisual
-      value: 
-      objectReference: {fileID: 450039675}
-    - target: {fileID: 7046549965582419950, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
-      propertyPath: ChargeVisualObject
-      value: 
-      objectReference: {fileID: 585536135}
-    - target: {fileID: 7683787567743412218, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
-      propertyPath: levelManager
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
