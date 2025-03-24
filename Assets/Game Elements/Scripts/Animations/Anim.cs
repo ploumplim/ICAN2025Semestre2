@@ -45,7 +45,7 @@ public class Anim : MonoBehaviour
         PlayerState[] states = GetComponents<PlayerState>();
         
 
-        currentState = GetComponent<IdleState>();
+        //currentState = GetComponent<IdleState>();
 
         myAnimator = GetComponent<Animator>();
     }
@@ -54,7 +54,7 @@ public class Anim : MonoBehaviour
 
     public void FixedUpdate()
     {
-        moveDirection = playerScript.moveInput;
+        //moveDirection = playerScript.moveInput;
     }
 
     public void Update()
