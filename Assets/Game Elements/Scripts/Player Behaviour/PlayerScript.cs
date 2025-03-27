@@ -420,7 +420,7 @@ public class PlayerScript : MonoBehaviour
                 OnHitButtonPressed?.Invoke();
                 ChangeState(GetComponent<ChargingState>());
             }
-            else if (currentState is not ChargingState)
+            else if (currentState is not ChargingState && currentState is not ReleaseState)
             {
                 BufferInput(context.action);
             }
@@ -432,7 +432,8 @@ public class PlayerScript : MonoBehaviour
 
         if (context.performed)
         {
-            if (currentState is not NeutralState && currentState is not ChargingState)
+            if (currentState is not NeutralState && currentState is not ChargingState
+                && currentState is not ReleaseState)
             {
                 BufferInput(context.action);
             }
