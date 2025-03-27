@@ -1050,12 +1050,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraHolderObject: {fileID: 330585543}
-  player: {fileID: 183635806390614014}
-  ball: {fileID: 3852979544680192327}
-  baseSize: 10
-  expansionMultiplier: 0.17
   followSpeed: 5
-  zoomSpeed: 10
+  zoomSpeed: 10.32
+  lockPoints: []
+  padding: 2
+  minDistance: 0
+  maxDistance: 10
 --- !u!114 &2068918338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1236,11 +1236,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
---- !u!1 &183635806390614014 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3328443934547631640, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
-  m_PrefabInstance: {fileID: 183635806390614013}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1876319433650037187
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1399,11 +1394,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
---- !u!1 &3852979544680192327 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3874236971623783123, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
-  m_PrefabInstance: {fileID: 3852979544680192326}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5121863478869852378
 PrefabInstance:
   m_ObjectHideFlags: 0
