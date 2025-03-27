@@ -10145,8 +10145,8 @@ MonoBehaviour:
   acceleration: 1
   neutralLerpTime: 1
   chargeLerpTime: 0.5
-  dashSpeed: 40
-  dashDuration: 0.28
+  dashSpeed: 65
+  dashDuration: 0.2
   dashCooldown: 0.5
   rollDetectionRadius: 2.5
   canPassThroughLedges: 1
@@ -10163,7 +10163,7 @@ MonoBehaviour:
   hitForce: 2.5
   chargeClamp: 0.5
   verticalPercent: 0.2
-  hitDetectionRadius: 3.4
+  hitDetectionRadius: 4.2
   hitDetectionOffset: 0
   slowRate: 2
   minimumSpeedPercentage: 0.1
@@ -10286,6 +10286,7 @@ MonoBehaviour:
   buntTimer: 0
   dashTimer: 0
   moveInputVector2: {x: 0, y: 0}
+  _bufferDuration: 0.2
 --- !u!114 &2291177913900343150
 MonoBehaviour:
   m_ObjectHideFlags: 0

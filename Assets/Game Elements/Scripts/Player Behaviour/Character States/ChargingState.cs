@@ -68,6 +68,7 @@ public class ChargingState : PlayerState
             
         }
         
+        
         public void SlowDownBall()
         {
             Rigidbody ballRb = _ballToSlow.GetComponent<Rigidbody>();
