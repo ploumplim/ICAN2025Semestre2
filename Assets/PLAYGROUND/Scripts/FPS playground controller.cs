@@ -24,7 +24,7 @@ public class FPSplaygroundcontroller : MonoBehaviour
         _rotateRight = playerInputs.actions["TurnRight"];
     }
     
-    public void Update()
+    public void FixedUpdate()
     {
         _moveInput = _moveAction.ReadValue<Vector2>();
         
