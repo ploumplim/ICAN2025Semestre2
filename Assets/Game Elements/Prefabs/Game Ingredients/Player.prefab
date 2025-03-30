@@ -10145,9 +10145,9 @@ MonoBehaviour:
   acceleration: 1
   neutralLerpTime: 1
   chargeLerpTime: 0.5
-  dashSpeed: 65
-  dashDuration: 0.2
-  dashCooldown: 0.5
+  dashSpeed: 100
+  dashDuration: 0.15
+  dashCooldown: 0.25
   rollDetectionRadius: 2.5
   canPassThroughLedges: 1
   ballDashForce: 1
@@ -10157,19 +10157,19 @@ MonoBehaviour:
   linearDrag: 0.5
   hitLinearDrag: 0
   hitType: 0
-  chargeRate: 1
-  releaseDuration: 0.5
+  chargeRate: 2
+  releaseDuration: 0.15
   chargeTimeLimit: 1
   hitForce: 2.5
   chargeClamp: 0.5
   verticalPercent: 0.2
   hitDetectionRadius: 4.2
   hitDetectionOffset: 0
-  slowRate: 2
+  slowRate: 5
   minimumSpeedPercentage: 0.1
   buntForce: 0.8
   buntCooldown: 0.9
-  buntDuration: 0.4
+  buntDuration: 0.1
   buntSphereRadius: 3
   buntSpherePositionOffset: 1.4
   MultiplayerManager: {fileID: 0}

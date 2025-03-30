@@ -356,6 +356,13 @@ public class PlayerScript : MonoBehaviour
                     PlayerEndedDash?.Invoke();
                     ChangeState(GetComponent<DeadState>());
                     // Debug.Log("Player died");
+                    // Set ball to dropped state
+                    other.gameObject.GetComponent<BallSM>().ChangeState(other.gameObject.GetComponent<DroppedState>());
+                    // Apply an opposite force to the ball
+                    Vector3 direction = transform.position - other.transform.position;
+                    other.gameObject.GetComponent<Rigidbody>().AddForce(
+                        -direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude * knockbackForce,
+                        ForceMode.Impulse);
                 }
             }
 
