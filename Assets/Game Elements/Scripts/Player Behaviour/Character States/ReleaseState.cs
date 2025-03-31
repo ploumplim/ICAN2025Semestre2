@@ -175,6 +175,5 @@ public class ReleaseState : PlayerState
         PlayerScript.chargeValueIncrementor = 0f;
         ballToHit = null;
         _eightDirDirection = Vector3.zero;
-
     }
 }

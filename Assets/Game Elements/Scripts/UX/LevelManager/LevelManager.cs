@@ -26,7 +26,7 @@ public class LevelManager : MonoBehaviour
     private LevelSM _levelSM; // Reference to the Level State Machine
     [FormerlySerializedAs("_currentState")] public LevelState currentState; // Reference to the current state of the level
     [HideInInspector] public List<GameObject> players; // List of players in the level
-    private List<Transform> _playerSpawnPoints; // List of player spawn points
+    [FormerlySerializedAs("_playerSpawnPoints")] public List<Transform> playerSpawnPoints; // List of player spawn points
     [FormerlySerializedAs("globalScore")] [HideInInspector] public int potScore; // Global score of the level
     [HideInInspector] public GameObject gameBall; // Reference to the game ball
     [HideInInspector] public List<GameObject> pointWalls; // List of point walls
@@ -96,11 +96,11 @@ public class LevelManager : MonoBehaviour
 
     // Call initialize to set up the level manager.
     public void Initialize()
-    {
-        if (multiplayerManager)
-        {
-            _playerSpawnPoints = multiplayerManager.spawnPoints;
-        }
+    {        if (multiplayerManager)
+             {
+                 playerSpawnPoints = multiplayerManager.spawnPoints;
+             }
+
         
         _levelSM = GetComponent<LevelSM>();
         _levelSM.Init();
@@ -253,7 +253,7 @@ public class LevelManager : MonoBehaviour
         // Put players in the correct spawn point.
         for (int i = 0; i < players.Count; i++)
         {
-            players[i].transform.position = _playerSpawnPoints[i].position;
+            players[i].transform.position = playerSpawnPoints[i].position;
         }
     }
     
