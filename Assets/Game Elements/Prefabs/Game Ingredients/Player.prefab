@@ -10139,7 +10139,7 @@ MonoBehaviour:
   currentState: {fileID: 0}
   movementType: 0
   speed: 25
-  chargeSpeedModifier: 0.1
+  chargeSpeedModifier: 0.05
   releaseSpeedModifier: 0.5
   buntSpeedModifier: 0.5
   acceleration: 1
@@ -10157,10 +10157,10 @@ MonoBehaviour:
   linearDrag: 0.5
   hitLinearDrag: 0
   hitType: 0
-  chargeRate: 2
+  chargeRate: 1.2
   releaseDuration: 0.15
   chargeTimeLimit: 1
-  hitForce: 2.5
+  hitForce: 1.5
   chargeClamp: 0.5
   verticalPercent: 0.2
   hitDetectionRadius: 4.2
