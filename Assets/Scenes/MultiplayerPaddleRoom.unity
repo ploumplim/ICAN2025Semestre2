@@ -4485,7 +4485,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ball: {fileID: 1651279641}
   playerAndBallsDebugObject: {fileID: 507760132}
-  inputActionAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   pauseAction:
     m_Name: Pause
     m_Type: 0
@@ -4496,12 +4495,12 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   pauseMenu: {fileID: 902607846}
-  PauseFonction:
-    m_PersistentCalls:
-      m_Calls: []
   levelManager: {fileID: 977163997}
   startGameButtonObject: {fileID: 0}
   resetPlayersObject: {fileID: 0}
+  roundInformationDuration: 1.5
+  _globalPointsText: {fileID: 0}
+  _RoundInformationAffichage: {fileID: 0}
 --- !u!114 &8243870776174257224
 MonoBehaviour:
   m_ObjectHideFlags: 0

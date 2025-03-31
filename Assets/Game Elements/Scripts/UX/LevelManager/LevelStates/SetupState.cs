@@ -21,10 +21,10 @@ public class SetupState : LevelState
     
     IEnumerator WaitForSetupTime()
     {
-        Debug.Log("Waiting for setup time.");
+        //Debug.Log("Waiting for setup time.");
         yield return new WaitForSeconds(LevelManagerScript.setupTime);
         LevelSM.ChangeState(LevelManagerScript.GetComponent<InRoundState>());
         LevelManagerScript.ReturnPlayerControl();
-        Debug.Log("Setup time passed. First round starting.");
+       //Debug.Log("Setup time passed. First round starting.");
     }
 }

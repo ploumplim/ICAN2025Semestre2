@@ -304,7 +304,7 @@ public class PlayerScript : MonoBehaviour
                     break;
             }
         }
-        Debug.Log("State changed to: " + newState);
+        //Debug.Log("State changed to: " + newState);
         
         currentState.Exit();
         currentState = newState;
