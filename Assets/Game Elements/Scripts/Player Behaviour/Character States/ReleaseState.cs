@@ -41,7 +41,7 @@ public class ReleaseState : PlayerState
         
         parrySpherePosition = PlayerScript.transform.position + transform.forward * PlayerScript.hitDetectionOffset;
         
-        PlayerScript.Move(PlayerScript.speed * PlayerScript.releaseSpeedModifier, PlayerScript.chargeLerpTime);
+        // PlayerScript.Move(PlayerScript.speed * PlayerScript.releaseSpeedModifier, PlayerScript.chargeLerpTime);
 
         if (PlayerScript.moveInputVector2 != Vector2.zero)
         {
@@ -88,7 +88,8 @@ public class ReleaseState : PlayerState
                 currentBallSpeed = ballToHit.GetComponent<Rigidbody>().linearVelocity.magnitude;
                 // Debug.Log("Ball Speed: " + currentBallSpeed);
                 
-                if (ballToHit.GetComponent<BallSM>().currentState != ballToHit.GetComponent<FlyingState>())
+                if (ballToHit.GetComponent<BallSM>().currentState != ballToHit.GetComponent<FlyingState>() &&
+                    ballToHit.GetComponent<BallSM>().currentState != ballToHit.GetComponent<LethalBallState>())
                 {
                     currentBallSpeed = minimumBallSpeed * 1.3f;
                     verticalPercent = 0f;

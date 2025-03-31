@@ -34,7 +34,7 @@ public class BuntingPlayerState : PlayerState
     {
         base.Tick();
         timer += Time.deltaTime;
-        PlayerScript.Move(PlayerScript.speed * PlayerScript.buntSpeedModifier, PlayerScript.chargeLerpTime);
+        // PlayerScript.Move(PlayerScript.speed * PlayerScript.buntSpeedModifier, PlayerScript.chargeLerpTime);
         BuntBox();
         BuntTheBall();
         

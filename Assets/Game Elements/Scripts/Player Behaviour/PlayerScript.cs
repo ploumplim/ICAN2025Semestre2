@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.Serialization;
 
 public class PlayerScript : MonoBehaviour
@@ -185,8 +186,10 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ MOVE ------------------------------
     [FormerlySerializedAs("moveInput")] [HideInInspector] public Vector2 moveInputVector2;
     
-    
-    
+    // ------------------------------ INPUT BUFFERING ------------------------------
+    private InputAction _bufferedAction;
+    private float _bufferedActionTime;
+    [SerializeField] [Tooltip("Time window for input buffering")]private float _bufferDuration = 0.1f;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void Start()
@@ -199,8 +202,6 @@ public class PlayerScript : MonoBehaviour
     {
         MultiplayerManager = GameObject.FindWithTag("MultiPlayerManager");
         playerCamera = MultiplayerManager.GetComponent<MultiplayerManager>().camera;
-        
-        
         
         rb = GetComponent<Rigidbody>(); 
         playerInput = GetComponent<PlayerInput>();
@@ -216,13 +217,14 @@ public class PlayerScript : MonoBehaviour
         PlayerState[] states = GetComponents<PlayerState>();
         foreach (PlayerState state in states)
         {
-            state.Initialize(this);
+            state.Initialize(this); 
         }
 
         currentState = GetComponent<NeutralState>();
         
         dashTimer = dashCooldown;
     }
+    
 
     // ------------------------------ FIXED UPDATE ------------------------------
     private void FixedUpdate()
@@ -248,6 +250,10 @@ public class PlayerScript : MonoBehaviour
             dashTimer = dashCooldown;
         }
         
+        // -- Input buffer timer --
+        
+        
+        
     }
     
 
@@ -255,10 +261,57 @@ public class PlayerScript : MonoBehaviour
 
     public void ChangeState(PlayerState newState)
     {
+        //buffering inputs
+        if (_bufferedAction != null && Time.time - _bufferedActionTime < _bufferDuration)
+        {
+            switch (_bufferedAction.name)
+            {
+                case "Attack":
+                    Debug.Log("Buffered attack");
+                    if (newState != GetComponent<ChargingState>() && newState != GetComponent<ReleaseState>())
+                    {
+                        if (throwAction.triggered)
+                        {
+                            newState = GetComponent<ChargingState>();
+                        }
+                        else
+                        {
+                            chargeValueIncrementor = chargeClamp;
+                            newState = GetComponent<ReleaseState>();
+                        }
+                    }
+                {
+
+                    if (throwAction.triggered)
+                    {
+                        newState = GetComponent<ChargingState>();
+                    }
+                    else
+                    {
+                        chargeValueIncrementor = chargeClamp;
+                        newState = GetComponent<ReleaseState>();
+                    }
+                }
+
+                    break;
+                case "Roll":
+                    Debug.Log("Buffered roll");
+                    newState = GetComponent<DashingState>();
+                    break;
+                case "Bunt":
+                    Debug.Log("Buffered bunt");
+                    newState = GetComponent<BuntingPlayerState>();
+                    break;
+            }
+        }
+        Debug.Log("State changed to: " + newState);
+        
         currentState.Exit();
         currentState = newState;
         currentState.Enter();
         // Debug.Log("State changed to: " + newState);
+        
+        
     }
 
     // ------------------------------ COLLISIONS ------------------------------
@@ -303,6 +356,13 @@ public class PlayerScript : MonoBehaviour
                     PlayerEndedDash?.Invoke();
                     ChangeState(GetComponent<DeadState>());
                     // Debug.Log("Player died");
+                    // Set ball to dropped state
+                    other.gameObject.GetComponent<BallSM>().ChangeState(other.gameObject.GetComponent<DroppedState>());
+                    // Apply an opposite force to the ball
+                    Vector3 direction = transform.position - other.transform.position;
+                    other.gameObject.GetComponent<Rigidbody>().AddForce(
+                        -direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude * knockbackForce,
+                        ForceMode.Impulse);
                 }
             }
 
@@ -310,6 +370,16 @@ public class PlayerScript : MonoBehaviour
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INPUTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+    // ------------------------------ INPUT BUFFERING ------------------------------
+
+    private void BufferInput(InputAction action)
+    {
+        _bufferedAction = action;
+        _bufferedActionTime = Time.time;
+    }
+
+
     // ------------------------------ MOVE ------------------------------
 
     public void Move(float moveSpeed, float lerpMoveSpeed)
@@ -350,30 +420,46 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ CHARGE ATTACK ------------------------------
     public void OnChargeAttack(InputAction.CallbackContext context)
     {
-        if (currentState is NeutralState && context.started)
+        if (context.started)
         {
-            OnHitButtonPressed?.Invoke();
-            ChangeState(GetComponent<ChargingState>());
+            if (currentState is NeutralState)
+            {
+                OnHitButtonPressed?.Invoke();
+                ChangeState(GetComponent<ChargingState>());
+            }
+            else if (currentState is not ChargingState && currentState is not ReleaseState)
+            {
+                BufferInput(context.action);
+            }
         }
-        
-        // if (currentState is ChargingState && context.performed)
-        // { 
-        //     // Debug.Log("charging! charge: " + chargeValueIncrementor);
-        // }
         else if (currentState is ChargingState && context.canceled) 
         { 
-            ChangeState(GetComponent<ReleaseState>());
-            // Debug.Log("released! charge: " + chargeValueIncrementor);
+            ChangeState(GetComponent<ReleaseState>()); 
         }
-        
+
+        if (context.performed)
+        {
+            if (currentState is not NeutralState && currentState is not ChargingState
+                && currentState is not ReleaseState)
+            {
+                BufferInput(context.action);
+            }
+        }
         
     }
     // ------------------------------ BUNT ------------------------------
     public void OnBunt(InputAction.CallbackContext context)
     {
-        if (currentState is NeutralState && context.started)
+        if (context.started)
         {
-            ChangeState(GetComponent<BuntingPlayerState>());
+            if (currentState is NeutralState)
+            {
+                ChangeState(GetComponent<BuntingPlayerState>());
+            }
+            else
+            {
+                BufferInput(context.action);
+            }
         }
     }
     
@@ -381,15 +467,21 @@ public class PlayerScript : MonoBehaviour
     
     public void OnDash(InputAction.CallbackContext context)
     {
-        if (currentState is NeutralState &&
-            context.started && dashTimer >= dashCooldown)
+        if (context.started)
         {
-            if (moveInputVector2 != Vector2.zero)
+            if (currentState is NeutralState && dashTimer >= dashCooldown)
             {
-                // Debug.Log("Dashing!");
-                dashTimer = 0;
-                OnPlayerDash?.Invoke();
-                ChangeState(GetComponent<DashingState>());
+                if (moveInputVector2 != Vector2.zero)
+                {
+                    // Debug.Log("Dashing!");
+                    dashTimer = 0;
+                    OnPlayerDash?.Invoke();
+                    ChangeState(GetComponent<DashingState>());
+                }
+            }
+            else
+            {
+                BufferInput(context.action);
             }
         }
     }
