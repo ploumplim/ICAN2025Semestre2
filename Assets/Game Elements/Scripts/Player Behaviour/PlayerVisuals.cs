@@ -27,8 +27,13 @@ public class PlayerVisuals : MonoBehaviour
     public TrailRenderer dashTrail;
     [Tooltip("Particle that is played when the player dies.")]
     public ParticleSystem deadParticle;
-    [Tooltip("The pointer showing the 8 directions the player can aim towards.")]
+    [Tooltip("The pointer showing the direction the player is aiming towards.")]
     public GameObject aimPointer;
+    [Tooltip("The game object holding the bar that is shown when a hit is being charged.")]
+    public GameObject chargeBar;
+    private SpriteRenderer _chargeBarSprite;
+    
+    
     
     void Start()
     {
@@ -45,7 +50,6 @@ public class PlayerVisuals : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {        
-        
         
         switch (playerScript.currentState) 
         { 
@@ -103,7 +107,7 @@ public class PlayerVisuals : MonoBehaviour
         parryParticleShape.radius = _parryRadius;
 
     }
-
+    
     
     public void RecoverAfterDash()
     {
