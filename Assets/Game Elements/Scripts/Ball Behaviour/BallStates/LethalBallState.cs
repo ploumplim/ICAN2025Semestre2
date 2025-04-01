@@ -4,9 +4,13 @@ public class LethalBallState : BallState
 {
     [HideInInspector] public float timer;
 
-    public void Start()
+    public override void Enter()
     {
         timer = 0;
+        if (BallSm.ballOwnerPlayer)
+        {
+            Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
+        }
     }
 
     public override void Tick()
@@ -31,6 +35,15 @@ public class LethalBallState : BallState
         if (BallSm.rb.linearVelocity.magnitude < BallSm.lethalSpeed)
         {
             BallSm.ChangeState(GetComponent<FlyingState>());
+        }
+    }
+    
+    public override void Exit()
+    {
+        base.Exit();
+        if (BallSm.ballOwnerPlayer)
+        {
+            Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
         }
     }
 }
