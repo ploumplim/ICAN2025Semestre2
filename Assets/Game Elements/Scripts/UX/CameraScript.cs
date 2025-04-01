@@ -38,6 +38,7 @@ public class CameraScript : MonoBehaviour
     {
         // Get the camera component of the camera object
         cameraObject = cameraHolderObject.GetComponentInChildren<Camera>().gameObject;
+        
     }
 
     public void FixedUpdate()

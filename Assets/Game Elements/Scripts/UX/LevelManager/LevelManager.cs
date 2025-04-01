@@ -21,19 +21,19 @@ public class LevelManager : MonoBehaviour
 
     }
     
-    
+    #region Variable
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     private LevelSM _levelSM; // Reference to the Level State Machine
     [FormerlySerializedAs("_currentState")] public LevelState currentState; // Reference to the current state of the level
-    [HideInInspector] public List<GameObject> players; // List of players in the level
-    private List<Transform> _playerSpawnPoints; // List of player spawn points
+    public List<GameObject> players; // List of players in the level
+    public List<Transform> _playerSpawnPoints; // List of player spawn points
     [FormerlySerializedAs("globalScore")] [HideInInspector] public int potScore; // Global score of the level
     [HideInInspector] public GameObject gameBall; // Reference to the game ball
     [HideInInspector] public List<GameObject> pointWalls; // List of point walls
     [HideInInspector] public List<GameObject> neutralWalls; // List of neutral walls
     [HideInInspector] public int currentRound; // Current round of the level
     [HideInInspector] public int totalRounds; // Total rounds of the level
-    [HideInInspector] public bool gameIsRunning; // Boolean to check if the game is running
+    public bool gameIsRunning; // Boolean to check if the game is running
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     [Header("Prefab settings")]
     [Tooltip("Insert the ball prefab here to spawn it when the level starts and on" +
@@ -75,8 +75,8 @@ public class LevelManager : MonoBehaviour
     [Header("UX Manager")]
     public IngameGUIManager ingameGUIManager;
     public CameraScript gameCameraScript;
-    [SerializeField]private MultiplayerManager multiplayerManager; // Reference to the Multiplayer Manager
-
+    //[SerializeField]public MultiplayerManager multiplayerManager; // Reference to the Multiplayer Manager
+    [FormerlySerializedAs("PlayerSpawnPoint")] public GameObject PlayerSpawnParent;
 
     
     
@@ -86,25 +86,22 @@ public class LevelManager : MonoBehaviour
     public UnityEvent<int> OnRoundStarted;
     public UnityEvent<string> OnRoundEnded;
 
-    
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #endregion
 
-    public void Start()
+    private void Awake()
     {
-        Initialize(); // Delete this when Game State machine is implemented.
+        GameManager.Instance.levelManager = this;
+        
     }
-
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
     // Call initialize to set up the level manager.
     public void Initialize()
     {
-        if (multiplayerManager)
-        {
-            _playerSpawnPoints = multiplayerManager.spawnPoints;
-        }
-        
         _levelSM = GetComponent<LevelSM>();
         _levelSM.Init();
         totalRounds = rounds.Count;
+        
     }
 
     public void Update()
@@ -116,34 +113,39 @@ public class LevelManager : MonoBehaviour
         }
 
         // Add players to the scene if outside of level.
-        if (multiplayerManager.handleGamePads && currentState is OutOfLevelState
-            && !gameIsRunning)
+        if (GameManager.Instance.handleGamePads)
         {
-            multiplayerManager.handleGamePads.CheckGamepadAssignments();
+            
+            if (currentState is OutOfLevelState && !gameIsRunning)
+            {
+                
+                GameManager.Instance.handleGamePads.CheckGamepadAssignments();
+            }
+            else if (!gameIsRunning)
+            {
+                if (!GameManager.Instance.handleGamePads)
+                {
+                    Debug.LogWarning("HandleGamePads not found in the scene.");
+                }
+                if (currentState is not OutOfLevelState)
+                {
+                    Debug.LogWarning("Current state is not OutOfLevelState.");
+                }
+            }
         }
-        else if (!gameIsRunning)
+        else
         {
-            if (!multiplayerManager.handleGamePads)
-            {
-                Debug.LogWarning("HandleGamePads not found in the scene.");
-            }
-            if (currentState is not OutOfLevelState)
-            {
-                Debug.LogWarning("Current state is not OutOfLevelState.");
-            }
+            Debug.LogWarning("MultiplayerManager or HandleGamePads is null.");
         }
-        
-        
+
         // Update the player list
-        if (multiplayerManager)
+        if (GameManager.Instance.multiplayerManager != null)
         {
-            if (players.Count != multiplayerManager.connectedPlayers.Count)
+            if (players.Count != GameManager.Instance.multiplayerManager.connectedPlayers.Count)
             {
-                players = multiplayerManager.connectedPlayers;
+                players = GameManager.Instance.multiplayerManager.connectedPlayers;
             }
         }
-
-
     }
     // ------------------------ MANAGE ROUNDS 🃦 🃧 🃨 🃩  ------------------------
     public void StartLevel() // CALL THIS METHOD TO START THE LEVEL

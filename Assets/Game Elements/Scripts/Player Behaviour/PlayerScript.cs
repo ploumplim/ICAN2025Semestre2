@@ -130,7 +130,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public GameObject MultiplayerManager;
     
     [Header("Scene References")]
-    public Camera playerCamera;
+    public CameraScript playerCamera;
 
     public GameObject playerHand;
     

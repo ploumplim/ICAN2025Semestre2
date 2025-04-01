@@ -70,7 +70,7 @@ public class IngameGUIManager : MonoBehaviour
             }
             if (_playerList.Count == 0)
             {
-                Debug.Log("PlayerList is empty");
+                // Debug.Log("PlayerList is empty");
             }
             
             return;
