@@ -284,7 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
   maxSpeed: 80
-  lethalSpeed: 75
+  lethalSpeed: 70
   groundedMaxHeight: 1
   buntedMaxHeight: 7
   flyingMaxHeight: 1.5
@@ -392,6 +392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8a0d6b6c9af4b1db872a72d45c9324b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: 0
 --- !u!1 &5224228065908999798
 GameObject:
   m_ObjectHideFlags: 0

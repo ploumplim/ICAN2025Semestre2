@@ -10177,8 +10177,8 @@ MonoBehaviour:
   acceleration: 1
   neutralLerpTime: 1
   chargeLerpTime: 0.5
-  dashSpeed: 100
-  dashDuration: 0.15
+  dashSpeed: 65
+  dashDuration: 0.1
   dashCooldown: 0.25
   rollDetectionRadius: 2.5
   canPassThroughLedges: 1
@@ -10195,14 +10195,15 @@ MonoBehaviour:
   hitForce: 1.5
   chargeClamp: 0.5
   verticalPercent: 0.2
-  hitDetectionRadius: 5
+  hitDetectionRadius: 3
   hitDetectionOffset: 0
   slowRate: 5
   minimumSpeedPercentage: 0.1
+  slowStopDistance: 3
   buntForce: 0.8
   buntCooldown: 0.9
   buntDuration: 0.1
-  buntSphereRadius: 3.6
+  buntSphereRadius: 3.34
   buntSpherePositionOffset: 1.36
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
@@ -10474,7 +10475,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -0.9, z: 0}
-  m_LocalScale: {x: 3.02, y: 3.02, z: 0}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 9195313607378371640}
