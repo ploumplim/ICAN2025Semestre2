@@ -1971,6 +1971,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ingame-GUI Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4199181106027239474, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4548124952479224888, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
       propertyPath: m_Navigation.m_Mode
       value: 0
@@ -2069,23 +2073,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7965872274624888913, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7965872274624888913, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7965872274624888913, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 414.4
       objectReference: {fileID: 0}
     - target: {fileID: 7965872274624888913, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 207.2
       objectReference: {fileID: 0}
     - target: {fileID: 7965872274624888913, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

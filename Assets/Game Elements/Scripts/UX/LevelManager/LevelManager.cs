@@ -125,11 +125,11 @@ public class LevelManager : MonoBehaviour
             {
                 if (!GameManager.Instance.handleGamePads)
                 {
-                    Debug.LogWarning("HandleGamePads not found in the scene.");
+                    //Debug.LogWarning("HandleGamePads not found in the scene.");
                 }
                 if (currentState is not OutOfLevelState)
                 {
-                    Debug.LogWarning("Current state is not OutOfLevelState.");
+                    //Debug.LogWarning("Current state is not OutOfLevelState.");
                 }
             }
         }
@@ -173,6 +173,11 @@ public class LevelManager : MonoBehaviour
             {
                 Debug.LogWarning("The game is already running.");
             }
+        }
+
+        foreach (var players in players)
+        {
+            players.GetComponent<PlayerScript>()._isReady = false;
         }
     }
     

@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class HandleGamePads : MonoBehaviour
 {
     public event Action<Gamepad> OnSouthButtonPressed;
+    public event Action<Gamepad> OnSelectButtonPressed; 
 
     public readonly HashSet<Gamepad> PendingGamepads = new HashSet<Gamepad>();
     public readonly HashSet<Gamepad> AssignedGamepads = new HashSet<Gamepad>();
@@ -46,6 +47,11 @@ public class HandleGamePads : MonoBehaviour
                 AssignedGamepads.Add(gamepad); // Ajoute la manette à la liste des manettes assignées.
                 PendingGamepads.Remove(gamepad); // Remove the gamepad from the list of pending gamepads.
                 return; // Évite de traiter plusieurs manettes en une frame.
+            }
+
+            if (gamepad.selectButton.wasReleasedThisFrame)
+            {
+                OnSelectButtonPressed?.Invoke(gamepad);
             }
         }
     }

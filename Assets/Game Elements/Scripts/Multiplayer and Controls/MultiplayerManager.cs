@@ -24,10 +24,6 @@ public class MultiplayerManager : MonoBehaviour
     void Awake()
     { 
     DontDestroyOnLoad(this);
-        // // Trouve tous les joueurs dans la scène avec le tag "Player"
-    // availablePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
-    
-     
     GameManager.Instance.multiplayerManager = this;
     }
 
@@ -35,14 +31,32 @@ public class MultiplayerManager : MonoBehaviour
     {
         camera = GameManager.Instance.levelManager.gameCameraScript;
     }
-    
+
     public void PlayerJoin()
     {
         FillSpawnPoints();
         if (GameManager.Instance.handleGamePads)
         {
-            //subscribe to the OnSouthButtonPressed event
+            // Subscribe to the OnSouthButtonPressed event
             GameManager.Instance.handleGamePads.OnSouthButtonPressed += AtoJoin;
+        }
+    }
+
+    public void WaitForPlayersReady()
+    {
+        int readyPlayers = 0;
+        
+        foreach (GameObject player in connectedPlayers)
+        {
+            if (player.GetComponent<PlayerScript>()._isReady)
+            {
+                readyPlayers++;  
+            }
+        }
+        
+        if(readyPlayers==connectedPlayers.Count)
+        {
+            GameManager.Instance.AllPlayersReady();
         }
     }
     
@@ -70,6 +84,21 @@ public class MultiplayerManager : MonoBehaviour
                     camera.GetComponent<CameraScript>().AddObjectToArray(playerToConnect.gameObject);
                     AssignValuesToPlayer(playerToConnect);
                     playerToConnect = null;
+        }
+    }
+    
+    private void OnSelectButtonPressed(Gamepad gamepad)
+    {
+        Debug.Log($"Gamepad {gamepad.displayName}: Select button pressed");
+       
+        foreach (var player in connectedPlayers)
+        {
+            var playerInput = player.GetComponent<PlayerInput>();
+            if (playerInput != null && playerInput.devices.Contains(gamepad))
+            {
+                Debug.Log($"Player associated with gamepad {gamepad.displayName}: {player.name}");
+                break;
+            }
         }
     }
 

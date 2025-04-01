@@ -10151,6 +10151,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 1616552d-3108-49e2-bbd8-8caf3d723af0
     m_ActionName: UI/PauseAccess
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4963522762754067053}
+        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+        m_MethodName: OnReady
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d211b4ee-eb0f-4766-b6cc-5a585d5d4fc3
+    m_ActionName: 'Player/SetReady[/XInputControllerWindows/select]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -10199,6 +10215,7 @@ MonoBehaviour:
   hitDetectionOffset: 0
   slowRate: 5
   minimumSpeedPercentage: 0.1
+  slowStopDistance: 3
   buntForce: 0.8
   buntCooldown: 0.9
   buntDuration: 0.1
@@ -10312,6 +10329,7 @@ MonoBehaviour:
   ledgeLayer: 0
   playerLayer: 0
   ballLayer: 0
+  _isReady: 0
   ballSM: {fileID: 0}
   chargeValueIncrementor: 0.5
   hitTimer: 0

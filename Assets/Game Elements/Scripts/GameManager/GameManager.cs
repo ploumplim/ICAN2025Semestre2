@@ -82,5 +82,12 @@ public class GameManager : MonoBehaviour
         GetComponent<GameManagerSM>().ChangeState(GetComponent<PlayingState>());
         levelManager.Initialize();
         multiplayerManager.SetGameParameters();
+        
+    }
+    
+    public void AllPlayersReady()
+    {
+        levelManager.StartLevel();
+        
     }
 }
