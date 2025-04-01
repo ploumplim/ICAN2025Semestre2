@@ -27,11 +27,14 @@ public class PlayerVisuals : MonoBehaviour
     public TrailRenderer dashTrail;
     [Tooltip("Particle that is played when the player dies.")]
     public ParticleSystem deadParticle;
+    [Tooltip("Particle that plays when the player's charge is about to end")]
+    public ParticleSystem chargeEndingParticle;
+    [Tooltip("The porcentage of the charge time that the particle will start playing.")]
+    public float chargeEndingParticleTime;
     [Tooltip("The pointer showing the direction the player is aiming towards.")]
     public GameObject aimPointer;
-    [Tooltip("The game object holding the bar that is shown when a hit is being charged.")]
-    public GameObject chargeBar;
-    private SpriteRenderer _chargeBarSprite;
+
+    public float aimPointerScale = 2.5f;
     
     
     
@@ -49,29 +52,39 @@ public class PlayerVisuals : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate()
-    {        
-        
+    { 
         switch (playerScript.currentState) 
         { 
             case NeutralState:
+                // Change the player's color back to the original color.
                 _playerMeshMaterial.color = _originalPlayerMeshColor;
+                
+                // Stop the dead particle if it is playing.
                 if (deadParticle.isPlaying)
                 {deadParticle.Stop();}
+                
+                // Set the aimPointer's scale.
+                aimPointer.transform.localScale = new Vector3(aimPointerScale, aimPointerScale, aimPointerScale);
                 break;
+            
+            case ChargingState:
+                // Function to signal the charging state of the player.
+                ChargeFeedback();
+                break;
+            
             case DeadState:
                 _playerMeshMaterial.color = Color.black; 
                 if (!deadParticle.isPlaying)
                 {deadParticle.Play();}
                 break;
+            
             case KnockbackState:
                 _playerMeshMaterial.color = knockbackColor;
                 break;
+            
             default:
                 break;
-
-                
         }
-
         switch (playerScript.hitType)
         {
             case PlayerScript.HitType.ForwardHit:
@@ -88,11 +101,8 @@ public class PlayerVisuals : MonoBehaviour
                 }
                 break;
         }
-        
 
-
-
-
+        WarnChargeAlmostOver();
 
         RecoverAfterDash();
         // Dash trail width is equal to the player's rollDetectionRadius.
@@ -107,7 +117,44 @@ public class PlayerVisuals : MonoBehaviour
         parryParticleShape.radius = _parryRadius;
 
     }
+
+    public void ChargeFeedback()
+    {
+        // Get the charging state of the player.
+        ChargingState chargingState = GetComponent<ChargingState>();
+        
+        // Calculate the percentage of time past using the chargeLimitTimer and the chargeTimeLimit.
+        float chargePercentage = chargingState.chargeLimitTimer / playerScript.chargeTimeLimit;
+        
+        // The bigger chargePercentage is, the smaller the AimPointer will be.
+        aimPointer.transform.localScale = new Vector3(aimPointerScale * (1 - chargePercentage), aimPointerScale * (1 - chargePercentage), aimPointerScale * (1 - chargePercentage));
+    }
     
+    public void WarnChargeAlmostOver()
+    {
+        // Get the charging state of the player.
+        ChargingState chargingState = GetComponent<ChargingState>();
+        
+        // Calculate the percentage of time past using the chargeLimitTimer and the chargeTimeLimit.
+        float chargePercentage = chargingState.chargeLimitTimer / playerScript.chargeTimeLimit;
+        
+        if (chargePercentage >= chargeEndingParticleTime)
+        {
+            if (!chargeEndingParticle.isPlaying)
+            {
+                chargeEndingParticle.Play();
+            }
+        }
+        else
+        {
+            if (chargeEndingParticle.isPlaying)
+            {
+                chargeEndingParticle.Stop();
+            }
+        }
+        
+        
+    }
     
     public void RecoverAfterDash()
     {

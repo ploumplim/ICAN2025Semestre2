@@ -108,8 +108,10 @@ public class PlayerScript : MonoBehaviour
     [Header("Slowmo Settings")]
     [Tooltip("The rate at which the ball slows down when it enters the player's is charging.")]
     public float slowRate = 0.5f;
-    [Tooltip("The time the player has to wait between each hit.")]
+    [Tooltip("The minimum speed (in %) that the ball gets to when slowed down.")]
     public float minimumSpeedPercentage = 0.25f;
+    [Tooltip("The minimal distance for the ball to stop when the player charges their shot.")]
+    public float slowStopDistance = 3f;
     
     
     //---------------------------------------------------------------------------------------
