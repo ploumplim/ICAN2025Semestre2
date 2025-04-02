@@ -139,7 +139,7 @@ public class LevelManager : MonoBehaviour
         }
 
         // Update the player list
-        if (GameManager.Instance.multiplayerManager != null)
+        if (GameManager.Instance.multiplayerManager)
         {
             if (players.Count != GameManager.Instance.multiplayerManager.connectedPlayers.Count)
             {
@@ -388,13 +388,12 @@ public class LevelManager : MonoBehaviour
         if (playerScores.Count > 0)
         {
             string highestScoringPlayer = playerScores[0].player.name;
-            ingameGUIManager.WinnerNameText(highestScoringPlayer);
         }
 
         for (int i = 0; i < playerScores.Count; i++)
         {
             var playerScore = playerScores[i];
-            Debug.Log($"Player: {playerScore.player.name}, Score: {playerScore.score}");
+            // Debug.Log($"Player: {playerScore.player.name}, Score: {playerScore.score}");
             GameObject playerScorePanelParent = null;
             foreach (Transform child in ingameGUIManager.transform)
             {
@@ -403,9 +402,9 @@ public class LevelManager : MonoBehaviour
                     playerScorePanelParent = child.gameObject;
                 }
             }
-            GameObject scorePanel = Instantiate(ingameGUIManager.PlayerScoreInformation, playerScorePanelParent.gameObject.transform);
+            GameObject scorePanel = Instantiate(ingameGUIManager.playerScoreInformation, playerScorePanelParent.gameObject.transform);
             scorePanel.SetActive(true);
-            ingameGUIManager.PlayerScorePanel(playerScore.player, scorePanel, i + 1);
+            ingameGUIManager.EndGameScoreBoardPlayerPanel(playerScore.player, scorePanel, i + 1);
         }
     }
     

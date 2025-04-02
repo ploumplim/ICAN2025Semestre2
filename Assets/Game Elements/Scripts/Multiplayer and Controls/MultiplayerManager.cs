@@ -20,6 +20,7 @@ public class MultiplayerManager : MonoBehaviour
     public int playerCount;
 
 
+    public event Action OnPlayerJoin;
 
     void Awake()
     { 
@@ -63,7 +64,7 @@ public class MultiplayerManager : MonoBehaviour
 
     void FillSpawnPoints()
     {
-        if (GameManager.Instance.levelManager != null)
+        if (GameManager.Instance.levelManager)
         {
             foreach (Transform child in GameManager.Instance.levelManager.PlayerSpawnParent.transform)
             {
@@ -84,23 +85,24 @@ public class MultiplayerManager : MonoBehaviour
                     camera.GetComponent<CameraScript>().AddObjectToArray(playerToConnect.gameObject);
                     AssignValuesToPlayer(playerToConnect);
                     playerToConnect = null;
+                    OnPlayerJoin?.Invoke();
         }
     }
     
-    private void OnSelectButtonPressed(Gamepad gamepad)
-    {
-        Debug.Log($"Gamepad {gamepad.displayName}: Select button pressed");
-       
-        foreach (var player in connectedPlayers)
-        {
-            var playerInput = player.GetComponent<PlayerInput>();
-            if (playerInput != null && playerInput.devices.Contains(gamepad))
-            {
-                Debug.Log($"Player associated with gamepad {gamepad.displayName}: {player.name}");
-                break;
-            }
-        }
-    }
+    // private void OnSelectButtonPressed(Gamepad gamepad)
+    // {
+    //     Debug.Log($"Gamepad {gamepad.displayName}: Select button pressed");
+    //    
+    //     foreach (var player in connectedPlayers)
+    //     {
+    //         var playerInput = player.GetComponent<PlayerInput>();
+    //         if (playerInput != null && playerInput.devices.Contains(gamepad))
+    //         {
+    //             Debug.Log($"Player associated with gamepad {gamepad.displayName}: {player.name}");
+    //             break;
+    //         }
+    //     }
+    // }
 
 
     private void SpawnNewPlayer(Transform spawnPosition)
@@ -111,11 +113,8 @@ public class MultiplayerManager : MonoBehaviour
         // Change the player's name to include the player's number
         newPlayer.name = $"Player {connectedPlayers.Count + 1}";
         
-        // Add the new player to the list of available players
-        // availablePlayers.Add(newPlayer);
         playerToConnect = newPlayer;
 
-        // Debug.Log($"New player spawned at position {spawnPosition}");
     }
     
     
