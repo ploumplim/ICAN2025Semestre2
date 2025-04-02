@@ -3,12 +3,12 @@ using UnityEngine;
 public class LevelState : MonoBehaviour
 {
     protected LevelSM LevelSM;
-    protected LevelManager LevelManager;
+    protected LevelManager LevelManagerScript;
     
     public void Initialize(LevelSM levelSm, LevelManager levelManager)
     {
         this.LevelSM = levelSm;
-        this.LevelManager = levelManager;
+        this.LevelManagerScript = levelManager;
     }
     
     public virtual void Enter(){}

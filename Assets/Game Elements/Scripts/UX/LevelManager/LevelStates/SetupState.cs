@@ -4,13 +4,15 @@ public class SetupState : LevelState
 {
     public override void Enter()
     {
-        LevelManager.gameIsRunning = true;
+        LevelManagerScript.gameIsRunning = true;
 
-        LevelManager.ResetAllPoints();
+        LevelManagerScript.ResetAllPoints();
         
-        LevelManager.StartRound();
+        LevelManagerScript.StartRound();
 
-        LevelManager.RemovePlayerControl();
+        LevelManagerScript.RemovePlayerControl();
+        
+        LevelManagerScript.OnGameStart?.Invoke();
         
         // Wait for the Setup time to pass before starting the round.
         StartCoroutine(WaitForSetupTime());
@@ -20,9 +22,9 @@ public class SetupState : LevelState
     IEnumerator WaitForSetupTime()
     {
         Debug.Log("Waiting for setup time.");
-        yield return new WaitForSeconds(LevelManager.setupTime);
-        LevelSM.ChangeState(LevelManager.GetComponent<InRoundState>());
-        LevelManager.ReturnPlayerControl();
+        yield return new WaitForSeconds(LevelManagerScript.setupTime);
+        LevelSM.ChangeState(LevelManagerScript.GetComponent<InRoundState>());
+        LevelManagerScript.ReturnPlayerControl();
         Debug.Log("Setup time passed. First round starting.");
     }
 }

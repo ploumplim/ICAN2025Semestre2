@@ -9,11 +9,13 @@ public class ReleaseState : PlayerState
     [HideInInspector]public Vector3 parrySpherePosition;
     [HideInInspector]public float currentBallSpeed;
     [HideInInspector] public bool ballHit;
+    private Vector3 _eightDirDirection;
     //---------------------------------------------------------------------------------
     public override void Enter()
     {
         base.Enter();
         Hit();
+        PlayerScript.OnPlayerHitReleased?.Invoke(PlayerScript.chargeValueIncrementor);
         ballHit = false;
         currentBallSpeed = 0f;
     }
@@ -21,7 +23,6 @@ public class ReleaseState : PlayerState
     public void Hit()
     {
         // Debug.Log("Parry!");
-        PlayerScript.OnPlayerHitReleased?.Invoke(PlayerScript.chargeValueIncrementor);
         PlayerScript.hitTimer = PlayerScript.releaseDuration;
         StartCoroutine(HitTime());
     }
@@ -37,31 +38,46 @@ public class ReleaseState : PlayerState
     public override void Tick()
     {
         base.Tick();
+        
         parrySpherePosition = PlayerScript.transform.position + transform.forward * PlayerScript.hitDetectionOffset;
-        PlayerScript.Move(PlayerScript.speed * PlayerScript.releaseSpeedModifier,
-            PlayerScript.chargeLerpTime);   
-        HitBox();
-        HitTheBall();
+        
+        // PlayerScript.Move(PlayerScript.speed * PlayerScript.releaseSpeedModifier, PlayerScript.chargeLerpTime);
+
+        if (PlayerScript.moveInputVector2 != Vector2.zero)
+        {
+            //_eightDirDirection = x;
+        }
+
+
+        if (!ballToHit)
+        {
+            HitBox();
+        }
+        if (ballToHit)
+        {
+            HitTheBall();
+        }
     }
 
     public void HitBox()
     {
         // create an overlap sphere that detects the ball. If it did, set the ball to parry to the ball that was detected.
         Collider[] hitColliders = Physics.OverlapSphere(parrySpherePosition, PlayerScript.hitDetectionRadius);
-        int i = 0;
-        while (i < hitColliders.Length)
+        
+        
+        foreach (var hitCollider in hitColliders)
         {
-            if (hitColliders[i].gameObject.CompareTag("Ball"))
+            if (hitCollider.gameObject.CompareTag("Ball"))
             {
-                ballToHit = hitColliders[i].gameObject;
+                ballToHit = hitCollider.gameObject;
+                break;
             }
-            i++;
         }
     }
 
     public void HitTheBall()
     {
-        if (ballToHit && !ballHit)
+        if (!ballHit)
         {
             PlayerScript.OnBallHitByPlayer?.Invoke(PlayerScript.chargeValueIncrementor);
             float verticalPercent;
@@ -72,7 +88,8 @@ public class ReleaseState : PlayerState
                 currentBallSpeed = ballToHit.GetComponent<Rigidbody>().linearVelocity.magnitude;
                 // Debug.Log("Ball Speed: " + currentBallSpeed);
                 
-                if (ballToHit.GetComponent<BallSM>().currentState != ballToHit.GetComponent<FlyingState>())
+                if (ballToHit.GetComponent<BallSM>().currentState != ballToHit.GetComponent<FlyingState>() &&
+                    ballToHit.GetComponent<BallSM>().currentState != ballToHit.GetComponent<LethalBallState>())
                 {
                     currentBallSpeed = minimumBallSpeed * 1.3f;
                     verticalPercent = 0f;
@@ -110,6 +127,20 @@ public class ReleaseState : PlayerState
                         direction = new Vector3(direction.x, verticalPercent, direction.z).normalized;
                         ApplyForce(ballRigidbody, direction);
                         break;
+                    case PlayerScript.HitType.EightDirHit:
+                        
+                        direction = _eightDirDirection;
+                        
+                        if (direction == Vector3.zero)
+                        {
+                            
+                            //direction = EightDirVector3DirectionFromForward();
+                            Debug.Log("Direction is zero : new direction is " + direction);
+                        }
+                        
+                        direction = new Vector3(direction.x, verticalPercent, direction.z).normalized;
+                        ApplyForce(ballRigidbody, direction);
+                        break;
                 }
 
                 
@@ -135,12 +166,14 @@ public class ReleaseState : PlayerState
         ballRigidBody.linearVelocity = direction.normalized * newSpeed;
     }
     
+    
+   
     //---------------------------------------------------------------------------------
     public override void Exit()
     {
         base.Exit();
         PlayerScript.chargeValueIncrementor = 0f;
         ballToHit = null;
-
+        _eightDirDirection = Vector3.zero;
     }
 }
