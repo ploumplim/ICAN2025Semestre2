@@ -10170,8 +10170,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
   movementType: 0
-  speed: 25
-  chargeSpeedModifier: 0
+  speed: 24
+  chargeSpeedModifier: 0.3
   releaseSpeedModifier: 0.5
   buntSpeedModifier: 0.5
   acceleration: 1
@@ -10189,21 +10189,21 @@ MonoBehaviour:
   linearDrag: 0.5
   hitLinearDrag: 0
   hitType: 0
-  chargeRate: 1.2
-  releaseDuration: 0.15
-  chargeTimeLimit: 1
+  chargeRate: 1.7
+  releaseDuration: 0.13
+  chargeTimeLimit: 0.8
   hitForce: 1.5
   chargeClamp: 0.5
   verticalPercent: 0.2
-  hitDetectionRadius: 3
-  hitDetectionOffset: 0
-  slowRate: 5
-  minimumSpeedPercentage: 0.1
-  slowStopDistance: 3
+  hitDetectionRadius: 1.5
+  hitDetectionOffset: 0.3
+  slowRate: 2.29
+  minimumSpeedPercentage: 0.9
+  slowStopDistance: 2
   buntForce: 0.8
   buntCooldown: 0.9
   buntDuration: 0.1
-  buntSphereRadius: 3.34
+  buntSphereRadius: 1.7
   buntSpherePositionOffset: 1.36
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
@@ -10340,7 +10340,7 @@ MonoBehaviour:
   chargeEndingParticle: {fileID: 3760563121181863863}
   chargeEndingParticleTime: 0.3
   aimPointer: {fileID: 4082388389795980892}
-  aimPointerScale: 2.5
+  aimPointerScale: 1.5
 --- !u!114 &2442788646745104249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10474,8 +10474,8 @@ Transform:
   m_GameObject: {fileID: 4082388389795980892}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.9, z: 0}
-  m_LocalScale: {x: 1.25, y: 1.25, z: 0}
+  m_LocalPosition: {x: 0, y: -0.9, z: 0.31}
+  m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 9195313607378371640}
