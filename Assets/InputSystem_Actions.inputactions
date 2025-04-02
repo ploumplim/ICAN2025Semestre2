@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SetReady",
+                    "type": "Button",
+                    "id": "d211b4ee-eb0f-4766-b6cc-5a585d5d4fc3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -84,6 +93,28 @@
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "Bunt",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "24716f0f-8afc-4a30-8f36-dfd9a1b37a76",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SetReady",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9cc5a6b9-5f78-4d91-bbdc-464fe66568ae",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "SetReady",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

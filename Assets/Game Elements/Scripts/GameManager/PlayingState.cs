@@ -9,20 +9,9 @@ public class PlayingState : GameState
 
     public override void Enter()
     {
-        Debug.Log("PlayingState Enter");
-
-        gameManager = GetComponent<GameManagerSM>();
-
-        levelSM = GameObject.FindWithTag("LevelManager").GetComponent<LevelSM>();
-        levelSM.Init(); // Ensure Init is called before ChangeState
-        InitGame();
+        GameManager.Instance.multiplayerManager.PlayerJoin();
     }
-
-    public void InitGame()
-    {
-        Debug.Log(levelSM.currentState);
-        levelSM.Init();
-    }
+    
 
     public override void Tick()
     {

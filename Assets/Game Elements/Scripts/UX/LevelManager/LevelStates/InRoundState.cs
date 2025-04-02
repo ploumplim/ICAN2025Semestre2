@@ -62,7 +62,7 @@ public class InRoundState : LevelState
     
     public override void Exit()
     {
-        Debug.Log("Exiting InRoundState.");
+        //Debug.Log("Exiting InRoundState.");
         LevelManagerScript.EndRound(winningPlayer);
         LevelManagerScript.OnRoundEnded?.Invoke(winningPlayer.name);
         // Reset the list of players that are alive.
