@@ -26,6 +26,8 @@ public class IngameGUIManager : MonoBehaviour
     public GameObject startGameButtonObject;
     public GameObject resetPlayersObject;
     public float roundInformationDuration = 1.5f;
+    public GameObject PlayerScoreInformation;
+    
     
     // --------- PRIVATES ----------
     
@@ -125,9 +127,36 @@ public class IngameGUIManager : MonoBehaviour
         StartCoroutine(TextDelay());
     }
     
-    public void GameEndedText(string gameWinner)
+    
+    public void WinnerNameText(string gameWinner)
     {
         _RoundInformationAffichage.text = "Game Ended! The winner : " + gameWinner;
+    }
+    public void PlayerScorePanel(GameObject player, GameObject scorePanel, int playerRank)
+    {
+        TextMeshProUGUI playerScoreText = null;
+        TextMeshProUGUI playerNameText = null;
+        TextMeshProUGUI playerNumberText = null;
+
+        foreach (Transform Text in scorePanel.transform)
+        {
+            if (Text.name == "PlayerName")
+            {
+                playerNameText = Text.GetComponent<TextMeshProUGUI>();
+            }
+            if (Text.name == "PlayerNumber")
+            {
+                playerNumberText = Text.GetComponent<TextMeshProUGUI>();
+            }
+            if (Text.name == "PlayerScore")
+            {
+                playerScoreText = Text.GetComponent<TextMeshProUGUI>();
+            }
+        }
+
+        playerNameText.text = player.name;
+        playerScoreText.text = player.GetComponent<PlayerPointTracker>().points.ToString();
+        playerNumberText.text = playerRank.ToString();
     }
 
     IEnumerator TextDelay()

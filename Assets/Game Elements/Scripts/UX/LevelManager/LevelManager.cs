@@ -372,6 +372,42 @@ public class LevelManager : MonoBehaviour
             }
         }
     }
+
+    public void EndGameScore()
+    {
+        List<(GameObject player, int score)> playerScores = new List<(GameObject player, int score)>();
+
+        foreach (var player in players)
+        {
+            int score = player.GetComponent<PlayerPointTracker>().points;
+            playerScores.Add((player, score));
+        }
+
+        playerScores.Sort((x, y) => y.score.CompareTo(x.score));
+
+        if (playerScores.Count > 0)
+        {
+            string highestScoringPlayer = playerScores[0].player.name;
+            ingameGUIManager.WinnerNameText(highestScoringPlayer);
+        }
+
+        for (int i = 0; i < playerScores.Count; i++)
+        {
+            var playerScore = playerScores[i];
+            Debug.Log($"Player: {playerScore.player.name}, Score: {playerScore.score}");
+            GameObject playerScorePanelParent = null;
+            foreach (Transform child in ingameGUIManager.transform)
+            {
+                if (child.CompareTag("ScorePlayerPanel"))
+                {
+                    playerScorePanelParent = child.gameObject;
+                }
+            }
+            GameObject scorePanel = Instantiate(ingameGUIManager.PlayerScoreInformation, playerScorePanelParent.gameObject.transform);
+            scorePanel.SetActive(true);
+            ingameGUIManager.PlayerScorePanel(playerScore.player, scorePanel, i + 1);
+        }
+    }
     
     public void ResetAllPoints()
     {
