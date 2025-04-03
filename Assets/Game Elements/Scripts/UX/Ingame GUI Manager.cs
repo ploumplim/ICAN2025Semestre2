@@ -38,7 +38,8 @@ public class IngameGUIManager : MonoBehaviour
     private int _playerCount;
     [SerializeField] private TextMeshPro _globalPointsText;
     [FormerlySerializedAs("_startGameText")] [SerializeField] private TextMeshProUGUI _RoundInformationAffichage;
-
+    public List<GameObject> _playerHud;
+    
     void Start()
     {
         // disable all scorepanels.
@@ -46,6 +47,12 @@ public class IngameGUIManager : MonoBehaviour
         playerTwoScorePanel.SetActive(false);
         playerThreeScorePanel.SetActive(false);
         playerFourScorePanel.SetActive(false);
+        GameObject[] PlayerPanelParent = GameObject.FindGameObjectsWithTag("PlayerInformationPanel");
+        // After
+        foreach (var VARIABLE in PlayerPanelParent[0].GetComponentsInChildren<Transform>())
+        {
+            _playerHud.Add(VARIABLE.gameObject);
+        }
         
         // Fill the playerScorePanelList with the player score panels.
         _playerScorePanelList = new List<GameObject>
@@ -152,7 +159,7 @@ public class IngameGUIManager : MonoBehaviour
 
     public void CountDownTimer()
     {
-        StartCoroutine(StartCountdown(5)); // Start a 5-second countdown
+        StartCoroutine(StartCountdown(3)); // Start a 5-second countdown
     }
 
     private IEnumerator StartCountdown(int duration)
