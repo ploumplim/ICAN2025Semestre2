@@ -149,4 +149,27 @@ public class IngameGUIManager : MonoBehaviour
         playerScoreText.text = player.GetComponent<PlayerPointTracker>().points.ToString();
         playerNumberText.text = playerRank.ToString();
     }
+
+    public void CountDownTimer()
+    {
+        StartCoroutine(StartCountdown(5)); // Start a 5-second countdown
+    }
+
+    private IEnumerator StartCountdown(int duration)
+    {
+        int remainingTime = duration;
+        while (remainingTime > 0)
+        {
+            // Update the UI text element with the remaining time
+            _RoundInformationAffichage.text = remainingTime.ToString();
+            Debug.Log(remainingTime);
+            yield return new WaitForSeconds(1);
+            
+            remainingTime--;
+        }
+        // When the countdown is finished, you can perform any additional actions here
+        _RoundInformationAffichage.text = "";
+        _RoundInformationAffichage.gameObject.SetActive(false);
+        GameManager.Instance.levelManager.StartLevel(); // Call StartLevel when the countdown finishes
+    }
 }

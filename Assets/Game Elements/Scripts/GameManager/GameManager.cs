@@ -87,7 +87,6 @@ public class GameManager : MonoBehaviour
     
     public void AllPlayersReady()
     {
-        levelManager.StartLevel();
-        
+        levelManager.ingameGUIManager.CountDownTimer();
     }
 }
