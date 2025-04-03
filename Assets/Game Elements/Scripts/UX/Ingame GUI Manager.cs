@@ -157,16 +157,37 @@ public class IngameGUIManager : MonoBehaviour
 
     private IEnumerator StartCountdown(int duration)
     {
+        _RoundInformationAffichage.gameObject.SetActive(true);
         int remainingTime = duration;
         while (remainingTime > 0)
         {
+            // Check if all players are still ready
+            bool allPlayersReady = true;
+            foreach (GameObject player in GameManager.Instance.multiplayerManager.connectedPlayers)
+            {
+                if (!player.GetComponent<PlayerScript>()._isReady)
+                {
+                    allPlayersReady = false;
+                    break;
+                }
+            }
+
+            if (!allPlayersReady)
+            {
+                _RoundInformationAffichage.text = "Queue Canceled";
+                yield return new WaitForSeconds(1);
+                _RoundInformationAffichage.text = "";
+                _RoundInformationAffichage.gameObject.SetActive(false);
+                yield break;
+            }
+
             // Update the UI text element with the remaining time
             _RoundInformationAffichage.text = remainingTime.ToString();
             Debug.Log(remainingTime);
             yield return new WaitForSeconds(1);
-            
             remainingTime--;
         }
+
         // When the countdown is finished, you can perform any additional actions here
         _RoundInformationAffichage.text = "";
         _RoundInformationAffichage.gameObject.SetActive(false);
