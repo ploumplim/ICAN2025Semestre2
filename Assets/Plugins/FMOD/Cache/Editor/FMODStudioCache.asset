@@ -1,5 +1,158 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9035936589714291910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/KnockOut_Sound
+  m_EditorClassIdentifier: 
+  Path: event:/KnockOut_Sound
+  Guid:
+    Data1: -990431923
+    Data2: 1290081871
+    Data3: -1517608576
+    Data4: 1262489600
+  Banks:
+  - {fileID: 4493024084185728991}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-6404998748512489461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ClassicBounce_Sound
+  m_EditorClassIdentifier: 
+  Path: event:/ClassicBounce_Sound
+  Guid:
+    Data1: 1472049780
+    Data2: 1255069309
+    Data3: -1412000087
+    Data4: -552584411
+  Banks:
+  - {fileID: 4493024084185728991}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: -2784458254123005427}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 900
+--- !u!114 &-5980353363988332239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PlayerSpawn_Sound
+  m_EditorClassIdentifier: 
+  Path: event:/PlayerSpawn_Sound
+  Guid:
+    Data1: 1739370797
+    Data2: 1221529921
+    Data3: -176775759
+    Data4: 552440938
+  Banks:
+  - {fileID: 4493024084185728991}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1380
+--- !u!114 &-5341216835840041122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD Banks/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638792747494553763
+  FileSizes:
+  - Name: 
+    Value: 1226
+  Exists: 1
+--- !u!114 &-2893531700499424551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Dash_Sound
+  m_EditorClassIdentifier: 
+  Path: event:/Dash_Sound
+  Guid:
+    Data1: 1674607654
+    Data2: 1318554317
+    Data3: 1697004959
+    Data4: 861932580
+  Banks:
+  - {fileID: 4493024084185728991}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3695
+--- !u!114 &-2784458254123005427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ClassicBounce_Sound/Parameter 1
+  m_EditorClassIdentifier: 
+  Name: Parameter 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 1575897434
+    data2: 3399083677
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12,10 +165,176 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
-  EditorBanks: []
-  EditorEvents: []
+  EditorBanks:
+  - {fileID: -5341216835840041122}
+  - {fileID: 4493024084185728991}
+  EditorEvents:
+  - {fileID: -2893531700499424551}
+  - {fileID: 8114914883401425880}
+  - {fileID: -5980353363988332239}
+  - {fileID: 2532187475978069990}
+  - {fileID: -9035936589714291910}
+  - {fileID: -6404998748512489461}
+  - {fileID: 4651044637631566692}
+  - {fileID: 2640346043468122375}
+  - {fileID: 5060192993907816688}
   EditorParameters: []
-  MasterBanks: []
-  StringsBanks: []
-  cacheTime: 0
-  cacheVersion: 131623
+  MasterBanks:
+  - {fileID: 4493024084185728991}
+  StringsBanks:
+  - {fileID: -5341216835840041122}
+  cacheTime: 638792747494553763
+  cacheVersion: 131846
+--- !u!114 &2532187475978069990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Hit_Sound
+  m_EditorClassIdentifier: 
+  Path: event:/Hit_Sound
+  Guid:
+    Data1: -863702723
+    Data2: 1115223737
+    Data3: 2029628289
+    Data4: 647576707
+  Banks:
+  - {fileID: 4493024084185728991}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2867
+--- !u!114 &2640346043468122375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BallBunt_Sound
+  m_EditorClassIdentifier: 
+  Path: event:/BallBunt_Sound
+  Guid:
+    Data1: 35840493
+    Data2: 1177428822
+    Data3: 1748450950
+    Data4: 1599790416
+  Banks:
+  - {fileID: 4493024084185728991}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1900
+--- !u!114 &4493024084185728991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD Banks/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 638792747494533617
+  FileSizes: []
+  Exists: 1
+--- !u!114 &4651044637631566692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/PressHit_Sound
+  m_EditorClassIdentifier: 
+  Path: event:/PressHit_Sound
+  Guid:
+    Data1: 1153977753
+    Data2: 1154821375
+    Data3: 202464399
+    Data4: -1975158522
+  Banks:
+  - {fileID: 4493024084185728991}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 6000
+--- !u!114 &5060192993907816688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/BallTouched_Sound
+  m_EditorClassIdentifier: 
+  Path: event:/BallTouched_Sound
+  Guid:
+    Data1: 1031726330
+    Data2: 1109180596
+    Data3: -431639140
+    Data4: 570286122
+  Banks:
+  - {fileID: 4493024084185728991}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1130
+--- !u!114 &8114914883401425880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ScoringBounce_Sound
+  m_EditorClassIdentifier: 
+  Path: event:/ScoringBounce_Sound
+  Guid:
+    Data1: -1527108595
+    Data2: 1177590632
+    Data3: -1206276480
+    Data4: 1106964834
+  Banks:
+  - {fileID: 4493024084185728991}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 900
