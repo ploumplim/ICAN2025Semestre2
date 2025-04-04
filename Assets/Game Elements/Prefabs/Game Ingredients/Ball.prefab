@@ -199,6 +199,7 @@ GameObject:
   - component: {fileID: 5365377086522546456}
   - component: {fileID: 2317312007862079952}
   - component: {fileID: 8323023954229853944}
+  - component: {fileID: 5705143989946738433}
   m_Layer: 7
   m_Name: Ball
   m_TagString: Ball
@@ -311,6 +312,15 @@ MonoBehaviour:
   pointWallHit:
     m_PersistentCalls:
       m_Calls: []
+  OnPointBounce:
+    m_PersistentCalls:
+      m_Calls: []
+  OnNeutralBounce:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBallFlight:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3984054927209078919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,6 +389,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f8a0d6b6c9af4b1db872a72d45c9324b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5705143989946738433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3874236971623783123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5de5ad836d2403848b61be51bdb61b41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5224228065908999798
