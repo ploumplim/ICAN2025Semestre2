@@ -148,6 +148,7 @@ public class LevelManager : MonoBehaviour
         }
     }
     // ------------------------ MANAGE ROUNDS 🃦 🃧 🃨 🃩  ------------------------
+    // ReSharper disable Unity.PerformanceAnalysis
     public void StartLevel() // CALL THIS METHOD TO START THE LEVEL
     {
         if (players.Count >= 2 && !gameIsRunning)
@@ -161,6 +162,21 @@ public class LevelManager : MonoBehaviour
             {
                 // subscribe to the OnBallHitEvent
                 player.GetComponent<PlayerScript>().OnBallHit += AddScoreToPlayer;
+                int playerScore = player.GetComponent<PlayerPointTracker>().points;
+    
+                for (int i = 0; i < ingameGUIManager._playerHud.Count; i++)
+                {
+                    if (i < players.Count)
+                    {
+                        var playerScript = players[i].transform.GetComponent<PlayerScript>();
+                        ingameGUIManager.UpdatePlayerHud(ingameGUIManager._playerHud[i], players[i].transform.name, 
+                            playerScore.ToString(), playerScript.currentState.ToString());
+                    }
+                    else
+                    {
+                        ingameGUIManager._playerHud[i].SetActive(false);
+                    }
+                }
             }
         }
         else
@@ -177,7 +193,7 @@ public class LevelManager : MonoBehaviour
 
         foreach (var players in players)
         {
-            players.GetComponent<PlayerScript>()._isReady = false;
+            players.GetComponent<PlayerScript>().isReady = false;
         }
     }
     
