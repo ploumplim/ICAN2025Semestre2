@@ -93,20 +93,14 @@ public class PlayerVisuals : MonoBehaviour
             case PlayerScript.HitType.ReflectiveHit:
                 aimPointer.SetActive(false);
                 break;
-            case PlayerScript.HitType.EightDirHit:
-                aimPointer.SetActive(true);
-                if (playerScript.moveInputVector2 != Vector2.zero)
-                {
-                    SetEightDirectionArrow();
-                }
-                break;
+
         }
 
         WarnChargeAlmostOver();
 
-        RecoverAfterDash();
-        // Dash trail width is equal to the player's rollDetectionRadius.
-        dashTrail.widthMultiplier = playerScript.rollDetectionRadius * 2f;
+        // RecoverAfterDash();
+        // // Dash trail width is equal to the player's rollDetectionRadius.
+        // dashTrail.widthMultiplier = playerScript.rollDetectionRadius * 2f;
         
         // Dash color is equal to the player's color.
         dashTrail.startColor = _playerMeshMaterial.color;
@@ -156,17 +150,17 @@ public class PlayerVisuals : MonoBehaviour
         
     }
     
-    public void RecoverAfterDash()
-    {
-        if (playerMesh.transform.rotation.x != 0)
-        {
-            // Rotate the player mesh on the X axis to emulate them standing up over time.
-            
-            playerMesh.transform.rotation = Quaternion.Euler
-            (Mathf.Lerp(playerMesh.transform.rotation.x, 0, Time.deltaTime * playerScript.dashDuration),
-                playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
-        }
-    }
+    // public void RecoverAfterDash()
+    // {
+    //     if (playerMesh.transform.rotation.x != 0)
+    //     {
+    //         // Rotate the player mesh on the X axis to emulate them standing up over time.
+    //         
+    //         playerMesh.transform.rotation = Quaternion.Euler
+    //         (Mathf.Lerp(playerMesh.transform.rotation.x, 0, Time.deltaTime * playerScript.dashDuration),
+    //             playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
+    //     }
+    // }
 
     public void SetEightDirectionArrow()
     {

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class NeutralState : PlayerState
 {
+    
+    
     public override void Tick()
     {
         base.Tick();

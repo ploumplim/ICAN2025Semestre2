@@ -365,9 +365,9 @@ public class LevelManager : MonoBehaviour
                 case FlyingState:
                     player.GetComponent<PlayerPointTracker>().AddPoints(ballHitScore);
                     break;
-                case BuntedBallState:
-                    player.GetComponent<PlayerPointTracker>().AddPoints(buntedBallHitScore);
-                    break;
+                // case BuntedBallState:
+                //     player.GetComponent<PlayerPointTracker>().AddPoints(buntedBallHitScore);
+                //     break;
                 
             }
         }

@@ -9922,9 +9922,7 @@ GameObject:
   - component: {fileID: 2442788646745104249}
   - component: {fileID: 8431329008806425069}
   - component: {fileID: 924477131349713796}
-  - component: {fileID: 2734832899062771135}
   - component: {fileID: 1951496036296628564}
-  - component: {fileID: 3974316326334170041}
   - component: {fileID: -6270888105009861134}
   - component: {fileID: -9058261084534589756}
   m_Layer: 8
@@ -10188,39 +10186,24 @@ MonoBehaviour:
   movementType: 0
   speed: 25
   chargeSpeedModifier: 0
-  releaseSpeedModifier: 0.5
-  buntSpeedModifier: 0.5
   acceleration: 1
   neutralLerpTime: 1
   chargeLerpTime: 0.5
-  dashSpeed: 100
-  dashDuration: 0.15
-  dashCooldown: 0.25
-  rollDetectionRadius: 2.5
-  canPassThroughLedges: 1
-  ballDashForce: 1
   knockbackTime: 0.25
   knockbackForce: 1
   dashKnockbackModifier: 0.5
   linearDrag: 0.5
   hitLinearDrag: 0
   hitType: 0
-  chargeRate: 2
+  chargeRate: 1
   releaseDuration: 0.15
-  chargeTimeLimit: 1
-  hitForce: 2.5
+  chargeTimeLimit: 0.35
+  hitForce: 3.5
   chargeClamp: 0.5
   verticalPercent: 0.2
   hitDetectionRadius: 5
   hitDetectionOffset: 0
-  slowRate: 5
-  minimumSpeedPercentage: 0.1
-  slowStopDistance: 3
-  buntForce: 0.8
-  buntCooldown: 0.9
-  buntDuration: 0.1
-  buntSphereRadius: 3.6
-  buntSpherePositionOffset: 1.36
+  slowTime: 150
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
   playerHand: {fileID: 2776262344594129282}
@@ -10398,21 +10381,6 @@ MonoBehaviour:
   parrySpherePosition: {x: 0, y: 0, z: 0}
   currentBallSpeed: 0
   ballHit: 0
---- !u!114 &2734832899062771135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3328443934547631640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99634c741eb0602468773a780d2a6177, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timer: 0
-  ballBunted: 0
-  ballToBunt: {fileID: 0}
 --- !u!114 &1951496036296628564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10426,20 +10394,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chargeLimitTimer: 0
---- !u!114 &3974316326334170041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3328443934547631640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d24d344422f6594a9016c6f3a57ab8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timer: 0
-  dashDirection: {x: 0, y: 0}
 --- !u!114 &-6270888105009861134
 MonoBehaviour:
   m_ObjectHideFlags: 0
