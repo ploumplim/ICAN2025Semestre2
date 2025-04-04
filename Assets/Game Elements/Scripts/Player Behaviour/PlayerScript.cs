@@ -155,7 +155,6 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent PlayerEndedDash;
     public UnityEvent OnPlayerDeath;
     
-    
     // action events
     public event Action<int,GameObject,BallState> OnBallHit;
     
@@ -172,7 +171,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public int ledgeLayer;
     [HideInInspector] public int playerLayer;
     [HideInInspector] public int ballLayer;
-    [SerializeField] public bool _isReady;
+    [SerializeField] public bool isReady;
     
     // ------------------------------ BALL ------------------------------
     [HideInInspector] public BallSM ballSM;
@@ -502,7 +501,7 @@ public class PlayerScript : MonoBehaviour
         {
             if (GameManager.Instance.levelManager.currentState == GameManager.Instance.levelManager.GetComponent<OutOfLevelState>())
             {
-                _isReady = !_isReady;
+                isReady = !isReady;
             }
             GameManager.Instance.multiplayerManager.WaitForPlayersReady();
         }
