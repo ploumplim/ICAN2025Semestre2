@@ -10,6 +10,8 @@ public class BallSM : MonoBehaviour
     {
         OnHit,
         OnBounce
+
+                
     }
     
     // ~~VARIABLES~~
@@ -222,6 +224,7 @@ public class BallSM : MonoBehaviour
                 if (other.gameObject.CompareTag("NeutralWall"))
                 {
                     OnNeutralBounce?.Invoke(bounces);
+
                 }
 
                 break;
@@ -247,6 +250,7 @@ public class BallSM : MonoBehaviour
                 if (other.gameObject.CompareTag("NeutralWall"))
                 {
                     OnNeutralBounce?.Invoke(bounces);
+
                 }
                 break;
             default:

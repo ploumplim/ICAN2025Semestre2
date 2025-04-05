@@ -146,6 +146,17 @@ public class PlayerScript : MonoBehaviour
     {
         SetPlayerParameters();
         col = GetComponent<CapsuleCollider>();
+
+        SetPlayerParameters();
+        col = GetComponent<CapsuleCollider>();
+
+        // Récupérer le PlayerSoundScript
+        PlayerSoundScript soundScript = GetComponent<PlayerSoundScript>();
+
+        // Lier les sons aux événements
+        OnHitButtonPressed.AddListener(soundScript.StartChargeSound);
+        OnPlayerHitReleased.AddListener((float chargeValue) => soundScript.StopChargeSound());
+        OnPlayerHitReleased.AddListener((float chargeValue) => soundScript.PlayHitSound());
     }
     
     public void SetPlayerParameters()
