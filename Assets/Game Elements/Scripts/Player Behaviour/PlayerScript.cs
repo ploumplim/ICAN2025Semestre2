@@ -335,6 +335,8 @@ public class PlayerScript : MonoBehaviour
                 transform.forward = Vector3.Slerp(transform.forward, moveDirection, lerpMoveSpeed);
             }
     }
+    // ------------------------------ SPRINT ------------------------------
+    
     
     // ------------------------------ CHARGE ATTACK ------------------------------
     public void OnChargeAttack(InputAction.CallbackContext context)
@@ -380,13 +382,6 @@ public class PlayerScript : MonoBehaviour
             }
             GameManager.Instance.multiplayerManager.WaitForPlayersReady();
         }
-    }
-    
-    // ------------------------------ 8 DIRECTIONAL HIT ------------------------------
-    
-    public Vector3 GetEightDirection()
-    {
-        return Vector3.forward;
     }
     
 
