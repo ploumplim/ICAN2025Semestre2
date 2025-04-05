@@ -9925,6 +9925,7 @@ GameObject:
   - component: {fileID: 1951496036296628564}
   - component: {fileID: -6270888105009861134}
   - component: {fileID: -9058261084534589756}
+  - component: {fileID: 3857658138353711811}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -10191,7 +10192,6 @@ MonoBehaviour:
   chargeLerpTime: 0.5
   knockbackTime: 0.25
   knockbackForce: 1
-  dashKnockbackModifier: 0.5
   linearDrag: 0.5
   hitLinearDrag: 0
   hitType: 0
@@ -10200,16 +10200,26 @@ MonoBehaviour:
   chargeTimeLimit: 0.35
   hitForce: 3.5
   chargeClamp: 0.5
-  verticalPercent: 0.2
   hitDetectionRadius: 5
   hitDetectionOffset: 0
-  slowTime: 150
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
   playerHand: {fileID: 2776262344594129282}
   OnHitButtonPressed:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3857658138353711811}
+        m_TargetAssemblyTypeName: PlayerSoundScript, Assembly-CSharp
+        m_MethodName: PlaySound3
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnPlayerHitReleased:
     m_PersistentCalls:
       m_Calls:
@@ -10225,28 +10235,43 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnBallHitByPlayer:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPlayerHitByBall:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPlayerPerformedBunt:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPlayerBuntBall:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPlayerDash:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2291177913900343150}
-        m_TargetAssemblyTypeName: PlayerVisuals, Assembly-CSharp
-        m_MethodName: OnDashEnter
+      - m_Target: {fileID: 3857658138353711811}
+        m_TargetAssemblyTypeName: PlayerSoundScript, Assembly-CSharp
+        m_MethodName: PlayHitSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnBallHitByPlayer:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3857658138353711811}
+        m_TargetAssemblyTypeName: PlayerSoundScript, Assembly-CSharp
+        m_MethodName: PlaySound5
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnPlayerHitByBall:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3857658138353711811}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -10254,22 +10279,22 @@ MonoBehaviour:
         m_CallState: 2
   PlayerEndedDash:
     m_PersistentCalls:
+      m_Calls: []
+  OnPlayerDeath:
+    m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2291177913900343150}
-        m_TargetAssemblyTypeName: PlayerVisuals, Assembly-CSharp
-        m_MethodName: OnDashExit
-        m_Mode: 1
+      - m_Target: {fileID: 3857658138353711811}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnPlayerDeath:
-    m_PersistentCalls:
-      m_Calls: []
   playerInput: {fileID: 0}
   moveAction:
     m_Name: Move
@@ -10312,7 +10337,7 @@ MonoBehaviour:
   ledgeLayer: 0
   playerLayer: 0
   ballLayer: 0
-  _isReady: 0
+  isReady: 0
   ballSM: {fileID: 0}
   chargeValueIncrementor: 0.5
   hitTimer: 0
@@ -10419,6 +10444,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 0
+--- !u!114 &3857658138353711811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3328443934547631640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2052fada49482d040a492527e2306633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4082388389795980892
 GameObject:
   m_ObjectHideFlags: 0

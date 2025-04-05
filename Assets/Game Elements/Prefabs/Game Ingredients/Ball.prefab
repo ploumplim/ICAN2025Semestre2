@@ -200,6 +200,7 @@ GameObject:
   - component: {fileID: 8323023954229853944}
   - component: {fileID: 6075959955161386088}
   - component: {fileID: 5137235708810773793}
+  - component: {fileID: 596491821321572552}
   m_Layer: 7
   m_Name: Ball
   m_TagString: Ball
@@ -313,16 +314,64 @@ MonoBehaviour:
   currentBallSpeedVec3: {x: 0, y: 0, z: 0}
   pointWallHit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 596491821321572552}
+        m_TargetAssemblyTypeName: BallSoundScript, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnPointBounce:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 596491821321572552}
+        m_TargetAssemblyTypeName: BallSoundScript, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnNeutralBounce:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 596491821321572552}
+        m_TargetAssemblyTypeName: BallSoundScript, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnBallFlight:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 596491821321572552}
+        m_TargetAssemblyTypeName: BallSoundScript, Assembly-CSharp
+        m_MethodName: PlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3984054927209078919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,6 +445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 0
+  caughtTimeout: 0.2
 --- !u!114 &5137235708810773793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,6 +461,18 @@ MonoBehaviour:
   hitDirection: {x: 0, y: 0, z: 0}
   timer: 0
   hitTimer: 0
+--- !u!114 &596491821321572552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3874236971623783123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5de5ad836d2403848b61be51bdb61b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5224228065908999798
 GameObject:
   m_ObjectHideFlags: 0

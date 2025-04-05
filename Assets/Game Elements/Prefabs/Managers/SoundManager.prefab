@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2901422536273526036
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3930897309523036616}
+  - component: {fileID: 89918050378752787}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3930897309523036616
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901422536273526036}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6771106435277868539}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &89918050378752787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901422536273526036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21b16691f94fe504993115a5951e894a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &6321795245917729534
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6771106435277868539}
+  - component: {fileID: 1770786668566098681}
+  m_Layer: 0
+  m_Name: FMODEvents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6771106435277868539
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6321795245917729534}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3930897309523036616}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1770786668566098681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6321795245917729534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85ff606b2d67e154b91679e3700f4f9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Hit_Sound>k__BackingField:
+    Guid:
+      Data1: -1581675492
+      Data2: 1133932732
+      Data3: 1529810583
+      Data4: 260366546
+    Path: event:/2D/Hit_FX_2D
+  <ClassicBounce_FX>k__BackingField:
+    Guid:
+      Data1: 1095823506
+      Data2: 1116586378
+      Data3: -1531903597
+      Data4: 1012681624
+    Path: event:/2D/ClassicBounce_FX_2D
+  <BallBunt_Sound>k__BackingField:
+    Guid:
+      Data1: 163804249
+      Data2: 1195028346
+      Data3: -1985330011
+      Data4: 262312931
+    Path: event:/2D/BallBunt_FX_2D
+  <Bunt_FX>k__BackingField:
+    Guid:
+      Data1: -2047862209
+      Data2: 1200786523
+      Data3: 1548496300
+      Data4: 1429099891
+    Path: event:/2D/Bunt_FX
+  <PressHit_FX>k__BackingField:
+    Guid:
+      Data1: -310640686
+      Data2: 1306983249
+      Data3: -833252709
+      Data4: -1615456537
+    Path: event:/2D/PressHit_FX_2D
+  <PlayerSpawn_FX>k__BackingField:
+    Guid:
+      Data1: 2082219525
+      Data2: 1307132634
+      Data3: 570282137
+      Data4: 1716463767
+    Path: event:/2D/PlayerSpawn_FX_2D
+  <BallTouched_FX>k__BackingField:
+    Guid:
+      Data1: -241673955
+      Data2: 1120687392
+      Data3: 454881700
+      Data4: 1153747475
+    Path: event:/2D/BallTouched_FX_2d
+  <Dash_FX>k__BackingField:
+    Guid:
+      Data1: -1433184197
+      Data2: 1315639111
+      Data3: 943313813
+      Data4: -1836711742
+    Path: event:/2D/Dash_FX_2D
