@@ -8,6 +8,5 @@ public class NeutralState : PlayerState
     {
         base.Tick();
         PlayerScript.Move(PlayerScript.speed, PlayerScript.chargeLerpTime);
-        
     }
 }

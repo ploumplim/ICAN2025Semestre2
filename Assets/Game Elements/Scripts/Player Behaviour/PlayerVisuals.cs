@@ -65,21 +65,31 @@ public class PlayerVisuals : MonoBehaviour
                 
                 // Set the aimPointer's scale.
                 aimPointer.transform.localScale = new Vector3(aimPointerScale, aimPointerScale, aimPointerScale);
+                
+                OnSprintEnd();
+                
                 break;
             
             case ChargingState:
                 // Function to signal the charging state of the player.
                 ChargeFeedback();
+                OnSprintEnd();
                 break;
             
             case DeadState:
                 _playerMeshMaterial.color = Color.black; 
                 if (!deadParticle.isPlaying)
                 {deadParticle.Play();}
+                OnSprintEnd();
                 break;
             
             case KnockbackState:
                 _playerMeshMaterial.color = knockbackColor;
+                OnSprintEnd();
+                break;
+            
+            case SprintState:
+                OnSprintStart();
                 break;
             
             default:
@@ -178,14 +188,12 @@ public class PlayerVisuals : MonoBehaviour
         parryParticle.Play();
     }
     
-    public void OnDashEnter()
+    public void OnSprintStart()
     {
         dashTrail.emitting = true;
-        // Rotate the player mesh to be completely horizontal
-        playerMesh.transform.rotation = Quaternion.Euler(90, playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
     }
     
-    public void OnDashExit()
+    public void OnSprintEnd()
     {
         dashTrail.emitting = false;
     }

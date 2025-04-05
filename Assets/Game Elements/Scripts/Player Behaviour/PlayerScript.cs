@@ -10,7 +10,7 @@ public class PlayerScript : MonoBehaviour
 {
 
     
-    // ------------------------------ PUBLIC VARIABLES ------------------------------
+   
     public enum MoveType
     {
         Velocity,
@@ -24,9 +24,8 @@ public class PlayerScript : MonoBehaviour
     }
 
     #region Variable Region
-
-     [HideInInspector] public PlayerState currentState;
-    
+    // ------------------------------ PUBLIC VARIABLES ------------------------------
+    [Header("Movement Settings")]
     [Header("MOVEMENT TYPES: \n " +
         "Velocity: The player's movement is controlled \n" +
         " by changing the velocity of the rigidbody.\n" +
@@ -36,13 +35,14 @@ public class PlayerScript : MonoBehaviour
         "should be decreased to avoid the player moving too fast.")]
     [Tooltip("Choose the player's movement type.")]
     public MoveType movementType = MoveType.Velocity;
-    [Header("Movement variables")]
-    [Tooltip("The player's speed when he has balls.")]
+    [Tooltip("The base player speed. The speed is dependant on the input.")]
     public float speed = 5f;
-    [Tooltip("The modifier when the hit is being charge.")]
+    [Tooltip("The speed modifier when the hit is being charged. If 0, the player doesn't move.")]
     public float chargeSpeedModifier = 0.5f;
     [Tooltip("The rate at which speed picks up when the input is being performed.")]
     public float acceleration = 0.1f;
+    [Tooltip("The speed modifier when sprinting.")]
+    public float sprintSpeedModifier = 2f;
     //---------------------------------------------------------------------------------------
     [Header("Rotation Lerps")]
     [Tooltip("Lerp time for the rotation while not aiming")]
@@ -91,6 +91,8 @@ public class PlayerScript : MonoBehaviour
     
     [Header("Events")]
     // ------------------------------ EVENTS ------------------------------
+    // unity events
+    
     public UnityEvent OnHitButtonPressed;
     public UnityEvent<float> OnPlayerHitReleased;
     public UnityEvent<float> OnBallHitByPlayer;
@@ -104,39 +106,27 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ PRIVATE VARIABLES ------------------------------
     
     private bool _isAiming;
+    [HideInInspector] public PlayerState currentState;
     [HideInInspector] public PlayerInput playerInput;
     [HideInInspector] public InputAction moveAction;
     [HideInInspector] public InputAction throwAction;
-    [HideInInspector] public InputAction rollAction;
-    [HideInInspector] public InputAction BuntAction;
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public CapsuleCollider col;
-    [HideInInspector] public int ledgeLayer;
     [HideInInspector] public int playerLayer;
     [HideInInspector] public int ballLayer;
     [SerializeField] public bool isReady;
-    
-    // ------------------------------ BALL ------------------------------
-    [HideInInspector] public BallSM ballSM;
-
     // ------------------------------ CHARGING ------------------------------
     [HideInInspector]public float chargeValueIncrementor = 0f;
     // ------------------------------ HIT ------------------------------
-    [FormerlySerializedAs("parryTimer")] [HideInInspector] public float hitTimer = 0f;
-    // ------------------------------ BUNT ------------------------------
-    [HideInInspector] public float buntTimer = 0f;
-    
-    // ------------------------------ DASH ------------------------------
-    // [HideInInspector]public bool ballCaughtWhileRolling;
-    [HideInInspector] public float dashTimer = 0f;
-    
+    [HideInInspector] public float hitTimer = 0f;
     // ------------------------------ MOVE ------------------------------
-    [FormerlySerializedAs("moveInput")] [HideInInspector] public Vector2 moveInputVector2;
+    [HideInInspector] public Vector2 moveInputVector2;
     
     // ------------------------------ INPUT BUFFERING ------------------------------
     private InputAction _bufferedAction;
     private float _bufferedActionTime;
-    [SerializeField] [Tooltip("Time window for input buffering")]private float _bufferDuration = 0.1f;
+    [SerializeField] [Tooltip("Time window for input buffering")]
+    private float bufferDuration = 0.1f;
     
 
     #endregion
@@ -150,10 +140,10 @@ public class PlayerScript : MonoBehaviour
         SetPlayerParameters();
         col = GetComponent<CapsuleCollider>();
 
-        // Récupérer le PlayerSoundScript
+        // Rï¿½cupï¿½rer le PlayerSoundScript
         PlayerSoundScript soundScript = GetComponent<PlayerSoundScript>();
 
-        // Lier les sons aux événements
+        // Lier les sons aux ï¿½vï¿½nements
         OnHitButtonPressed.AddListener(soundScript.StartChargeSound);
         OnPlayerHitReleased.AddListener((float chargeValue) => soundScript.StopChargeSound());
         OnPlayerHitReleased.AddListener((float chargeValue) => soundScript.PlayHitSound());
@@ -168,10 +158,7 @@ public class PlayerScript : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
         throwAction = playerInput.actions["Attack"];
-        rollAction = playerInput.actions["Roll"];
-        BuntAction = playerInput.actions["Bunt"];
         
-        ledgeLayer = LayerMask.NameToLayer("Ledge");
         playerLayer = gameObject.layer;
         ballLayer = LayerMask.NameToLayer("Ball");
         
@@ -210,12 +197,11 @@ public class PlayerScript : MonoBehaviour
     public void ChangeState(PlayerState newState)
     {
         //buffering inputs
-        if (_bufferedAction != null && Time.time - _bufferedActionTime < _bufferDuration)
+        if (_bufferedAction != null && Time.time - _bufferedActionTime < bufferDuration)
         {
             switch (_bufferedAction.name)
             {
                 case "Attack":
-                    Debug.Log("Buffered attack");
                     if (newState != GetComponent<ChargingState>() && newState != GetComponent<ReleaseState>())
                     {
                         if (throwAction.triggered)
@@ -240,7 +226,9 @@ public class PlayerScript : MonoBehaviour
                         newState = GetComponent<ReleaseState>();
                     }
                 }
-
+                    break;
+                case "Sprint":
+                        newState = GetComponent<SprintState>();
                     break;
             }
         }
@@ -267,7 +255,6 @@ public class PlayerScript : MonoBehaviour
                 if (currentState is not KnockbackState &&
                     currentState is not DeadState)
                 {
-                    PlayerEndedDash?.Invoke();
                     ChangeState(GetComponent<KnockbackState>());
                     // Push the player in the opposite direction of the ball
                     Vector3 direction = transform.position - other.transform.position;
@@ -286,7 +273,6 @@ public class PlayerScript : MonoBehaviour
                 if (currentState is not KnockbackState &&
                     currentState is not DeadState)
                 {
-                    PlayerEndedDash?.Invoke();
                     ChangeState(GetComponent<DeadState>());
                     // Apply an opposite force to the ball
                     Vector3 direction = transform.position - other.transform.position;
@@ -347,7 +333,32 @@ public class PlayerScript : MonoBehaviour
             }
     }
     // ------------------------------ SPRINT ------------------------------
-    
+    public void OnSprint(InputAction.CallbackContext context)
+    {
+        switch (currentState)
+        {
+            case NeutralState:
+                if (context.started || context.performed)
+                {
+                    // If the player is not moving, sprinting will not work
+                    if (moveInputVector2 != Vector2.zero)
+                    {
+                        ChangeState(GetComponent<SprintState>());
+                    }
+                }
+                break;
+            case SprintState:
+                if (context.canceled)
+                {
+                    ChangeState(GetComponent<NeutralState>());
+                }
+                break;
+            case ReleaseState:
+                if (context.started || context.performed)
+                    BufferInput(context.action);
+                break;
+        }
+    }
     
     // ------------------------------ CHARGE ATTACK ------------------------------
     public void OnChargeAttack(InputAction.CallbackContext context)

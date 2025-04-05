@@ -9923,6 +9923,7 @@ GameObject:
   - component: {fileID: 8431329008806425069}
   - component: {fileID: 924477131349713796}
   - component: {fileID: 1951496036296628564}
+  - component: {fileID: 1484139084516818113}
   - component: {fileID: -6270888105009861134}
   - component: {fileID: -9058261084534589756}
   - component: {fileID: 3857658138353711811}
@@ -10115,35 +10116,11 @@ MonoBehaviour:
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4963522762754067053}
-        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
-        m_MethodName: OnDash
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 5089c710-ac29-4e77-8450-ea020db1f5bf
     m_ActionName: 'Player/Roll[/XInputControllerWindows/buttonSouth]'
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4963522762754067053}
-        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
-        m_MethodName: OnBunt
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: f05effeb-87b3-4c34-9213-05678b61ec7b
     m_ActionName: 'Player/Bunt[/XInputControllerWindows/buttonEast]'
   - m_PersistentCalls:
@@ -10166,6 +10143,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d211b4ee-eb0f-4766-b6cc-5a585d5d4fc3
     m_ActionName: 'Player/SetReady[/XInputControllerWindows/select]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4963522762754067053}
+        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+        m_MethodName: OnSprint
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9ce6e8db-49d9-4d48-9a11-86906c6e544f
+    m_ActionName: 'Player/Sprint[/XInputControllerWindows/leftTrigger]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -10344,7 +10337,7 @@ MonoBehaviour:
   buntTimer: 0
   dashTimer: 0
   moveInputVector2: {x: 0, y: 0}
-  _bufferDuration: 0.2
+  bufferDuration: 0.2
 --- !u!114 &2291177913900343150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10419,6 +10412,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chargeLimitTimer: 0
+--- !u!114 &1484139084516818113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3328443934547631640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 363d09c718cbc3f4ebdf3ca5f3d0e034, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-6270888105009861134
 MonoBehaviour:
   m_ObjectHideFlags: 0
