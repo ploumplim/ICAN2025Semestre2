@@ -18,19 +18,19 @@ public class IngameGUIManager : MonoBehaviour
     [Header("Game Objects Settings and Prefabs")]
     public GameObject ball;
     [Header("Player and Ball Debug Information")]
-       public InputAction pauseAction;
+    public InputAction pauseAction;
     public GameObject pauseMenu;
     [Header("GUI")]
     public LevelManager levelManager;
     public GameObject startGameButtonObject;
     public GameObject resetPlayersObject;
     public float roundInformationDuration = 1.5f;
-    [FormerlySerializedAs("PlayerScoreInformation")] public GameObject playerScoreInformation;
+    public GameObject ScorePlayerUIEndGame;
     
     // --------- PRIVATES ----------
     
     private List<GameObject> _playerList;
-    public List<GameObject> _playerScorePanelList;
+    [FormerlySerializedAs("_playerScorePanelList")] public List<GameObject> playerScorePanelList;
     private int _playerCount;
     [SerializeField] private TextMeshPro _globalPointsText;
     [FormerlySerializedAs("_startGameText")] [SerializeField] private TextMeshProUGUI _RoundInformationAffichage;
@@ -44,8 +44,6 @@ public class IngameGUIManager : MonoBehaviour
         {
             _playerHud.Add(VARIABLE.gameObject);
         }
-        // Subscribe to the OnPlayerJoin event in the Multiplayer Manager.
-        //GameManager.Instance.multiplayerManager.OnPlayerJoin += DisplayPlayerPoints;
         
     }
 
@@ -120,31 +118,6 @@ public class IngameGUIManager : MonoBehaviour
             pauseMenu.SetActive(true);
         }
     }
-    // ------------------------ PLAYER POINT DISPLAY
-
-    // public void DisplayPlayerPoints()
-    // {
-    //     if (_playerCount == 1)
-    //     {
-    //         _playerScorePanelList[0].SetActive(true);
-    //
-    //     }
-    //     else
-    //     {
-    //         // For each player in the player list, display their points using the playerscorepanellist.
-    //         for (int i = 0; i < _playerCount; i++)
-    //         {
-    //             Debug.Log("Displaying player points for player " + _playerList[i].name);
-    //             _playerScorePanelList[i].SetActive(true);
-    //         }
-    //     }
-    // }
-    
-    // public void UpdateIndividualPlayerScorePanels()
-    // {
-    //     
-    // }
-    
     
     // ------------------------ ROUND INFORMATION FUNCTIONS
     
@@ -209,7 +182,7 @@ public class IngameGUIManager : MonoBehaviour
 
             // Update the UI text element with the remaining time
             _RoundInformationAffichage.text = remainingTime.ToString();
-            Debug.Log(remainingTime);
+            //Debug.Log(remainingTime);
             yield return new WaitForSeconds(1);
             remainingTime--;
         }
