@@ -10,6 +10,8 @@ public class BallSM : MonoBehaviour
     {
         OnHit,
         OnBounce
+
+                
     }
     
     // ~~VARIABLES~~
@@ -26,8 +28,6 @@ public class BallSM : MonoBehaviour
     [Header("Ball Height Settings")]
     [Tooltip("Maximum height the ball can achieve while grounded.")]
     public float groundedMaxHeight = 10f;
-    [Tooltip("Maximum height the ball can achieve while bunted.")]
-    public float buntedMaxHeight = 20f;
     [Tooltip("Maximum height the ball can achieve while midair.")]
     public float flyingMaxHeight = 30f;
     [Tooltip("Minimum height the ball can achieve.")]
@@ -65,9 +65,9 @@ public class BallSM : MonoBehaviour
     
     
     //-------------------------------------------------------------------------------------
-    [Header("Dropped Settings")]
-    [Tooltip("The ball will become dropped if it reaches this minimum speed if grounded by speed is true.")]
-    public float minimumSpeedToGround = 5f;
+    [Header("Hit State Settings")]
+    [Tooltip("How long the ball remains in the hit state.")]
+    public float hitStateDuration = 0.2f;
     
     // -------------------------------------------------------------------------------------
     [Header("Player contact Settings")]
@@ -78,13 +78,14 @@ public class BallSM : MonoBehaviour
     //----------------------------COMPONENTS----------------------------
     [HideInInspector]public Rigidbody rb;
     
-    //---------------------------PRIVATE VARIABLES---------------------------
+    //---------------------------PRIVATE or HIDDEN VARIABLES---------------------------
     [HideInInspector]public int bounces = 0;
     [HideInInspector]public GameObject ballOwnerPlayer;
     [HideInInspector]public SphereCollider col;
     [HideInInspector]public int pointWallPoints;
     [HideInInspector]public int playerColliderLayer;
     [HideInInspector]public int ballColliderLayer;
+    [HideInInspector]public Vector3 currentBallSpeedVec3;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~EVENTS~~~~~~~~~~~~~~~~~~~~~~~~~~
     
@@ -141,10 +142,10 @@ public class BallSM : MonoBehaviour
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
         }
     }
-    public void SetMaxHeight(float maxHeight)
+    public void SetMaxHeight(float miniHeight, float maxHeight)
     {
         transform.position = new Vector3(transform.position.x, 
-            Mathf.Clamp(transform.position.y, minHeight, maxHeight), transform.position.z);
+            Mathf.Clamp(transform.position.y, miniHeight, maxHeight), transform.position.z);
     }
     public void SetMaxSpeed()
     {
@@ -190,9 +191,9 @@ public class BallSM : MonoBehaviour
             case DroppedState:
                 Gizmos.color = Color.green;
                 break;
-            case BuntedBallState:
-                Gizmos.color = Color.magenta;
-                break;
+            // case BuntedBallState:
+            //     Gizmos.color = Color.magenta;
+            //     break;
             default:
                 break;
         }
@@ -220,7 +221,13 @@ public class BallSM : MonoBehaviour
                     OnPointBounce?.Invoke(bounces);
                 }
                 
-                if (other.gameObject.CompareTag("NeutralWall"))
+                if (other.gameObject.CompareTag("PointWall"))
+                {
+                    pointWallHit?.Invoke(pointWallPoints);
+                    OnPointBounce?.Invoke(bounces);
+                }
+                
+                if (other.gameObject.CompareTag("Bouncer"))
                 {
                     OnNeutralBounce?.Invoke(bounces);
                 }
@@ -228,13 +235,11 @@ public class BallSM : MonoBehaviour
                 break;
             case DroppedState:
                 break;
-            case BuntedBallState:
-                if (other.gameObject.CompareTag("Floor"))
-                {
-                    ChangeState(GetComponent<DroppedState>());
-                }
-
-                break;
+            // case BuntedBallState:
+            //     if (other.gameObject.CompareTag("Floor"))
+            //     {
+            //         ChangeState(GetComponent<DroppedState>());
+            //     }
             case LethalBallState:
                 bounces++;
                 if (growthType == GrowthType.OnBounce)
@@ -251,7 +256,13 @@ public class BallSM : MonoBehaviour
                 {
                     OnNeutralBounce?.Invoke(bounces);
                 }
+                
+                if (other.gameObject.CompareTag("Bouncer"))
+                {
+                    OnNeutralBounce?.Invoke(bounces);
+                }
                 break;
+            
             default:
                 break;
         }

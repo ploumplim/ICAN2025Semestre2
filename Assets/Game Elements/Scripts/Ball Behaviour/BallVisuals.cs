@@ -23,10 +23,12 @@ public class BallVisuals : MonoBehaviour
     public Color lethalTrailColor = new (0,0,0,0.5f);
     
     [Header("Ball color settings")]
-    public Color flyingBallColor = Color.red;
-    public Color lethalBallColor = Color.black;
-    public Color buntedBallColor = Color.magenta;
+    public Color flyingBallColor = Color.blue;
+    public Color lethalBallColor = Color.red;
+    public Color caughtBallColor = Color.magenta;
+    public Color HitBallColor = Color.yellow;
     public Color groundedBallColor = Color.green;
+    
     // ---------------PRIVATE---------------
     private BallSM ballSM;
     private Camera _mainCamera;
@@ -85,6 +87,16 @@ public class BallVisuals : MonoBehaviour
 
             switch (ballSM.currentState)
             {
+                case CaughtState:
+                    _ballMaterial.color = caughtBallColor;
+                    _ballMaterial.SetColor("_EmissionColor", caughtBallColor);
+                    ballLight.color = caughtBallColor;
+                    break;
+                case HitState:
+                    _ballMaterial.color = HitBallColor;
+                    _ballMaterial.SetColor("_EmissionColor", HitBallColor);
+                    ballLight.color = HitBallColor;
+                    break;
                 case FlyingState:
                     _ballMaterial.color = flyingBallColor;
                     _ballMaterial.SetColor("_EmissionColor", flyingBallColor);
@@ -95,11 +107,11 @@ public class BallVisuals : MonoBehaviour
                     _ballMaterial.SetColor("_EmissionColor", groundedBallColor);
                     ballLight.color = groundedBallColor;
                     break;
-                case BuntedBallState:
-                    _ballMaterial.color = buntedBallColor;
-                    _ballMaterial.SetColor("_EmissionColor", buntedBallColor);
-                    ballLight.color = buntedBallColor;
-                    break;
+                // case BuntedBallState:
+                //     _ballMaterial.color = buntedBallColor;
+                //     _ballMaterial.SetColor("_EmissionColor", buntedBallColor);
+                //     ballLight.color = buntedBallColor;
+                //     break;
                 case LethalBallState:
                     _ballMaterial.color = lethalBallColor;
                     _ballMaterial.SetColor("_EmissionColor", lethalBallColor);

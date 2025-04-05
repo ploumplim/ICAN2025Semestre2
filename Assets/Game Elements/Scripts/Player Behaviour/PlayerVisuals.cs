@@ -27,8 +27,16 @@ public class PlayerVisuals : MonoBehaviour
     public TrailRenderer dashTrail;
     [Tooltip("Particle that is played when the player dies.")]
     public ParticleSystem deadParticle;
-    [Tooltip("The pointer showing the 8 directions the player can aim towards.")]
+    [Tooltip("Particle that plays when the player's charge is about to end")]
+    public ParticleSystem chargeEndingParticle;
+    [Tooltip("The porcentage of the charge time that the particle will start playing.")]
+    public float chargeEndingParticleTime;
+    [Tooltip("The pointer showing the direction the player is aiming towards.")]
     public GameObject aimPointer;
+
+    public float aimPointerScale = 2.5f;
+    
+    
     
     void Start()
     {
@@ -44,30 +52,39 @@ public class PlayerVisuals : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate()
-    {        
-        
-        
+    { 
         switch (playerScript.currentState) 
         { 
             case NeutralState:
+                // Change the player's color back to the original color.
                 _playerMeshMaterial.color = _originalPlayerMeshColor;
+                
+                // Stop the dead particle if it is playing.
                 if (deadParticle.isPlaying)
                 {deadParticle.Stop();}
+                
+                // Set the aimPointer's scale.
+                aimPointer.transform.localScale = new Vector3(aimPointerScale, aimPointerScale, aimPointerScale);
                 break;
+            
+            case ChargingState:
+                // Function to signal the charging state of the player.
+                ChargeFeedback();
+                break;
+            
             case DeadState:
                 _playerMeshMaterial.color = Color.black; 
                 if (!deadParticle.isPlaying)
                 {deadParticle.Play();}
                 break;
+            
             case KnockbackState:
                 _playerMeshMaterial.color = knockbackColor;
                 break;
+            
             default:
                 break;
-
-                
         }
-
         switch (playerScript.hitType)
         {
             case PlayerScript.HitType.ForwardHit:
@@ -76,23 +93,14 @@ public class PlayerVisuals : MonoBehaviour
             case PlayerScript.HitType.ReflectiveHit:
                 aimPointer.SetActive(false);
                 break;
-            case PlayerScript.HitType.EightDirHit:
-                aimPointer.SetActive(true);
-                if (playerScript.moveInputVector2 != Vector2.zero)
-                {
-                    SetEightDirectionArrow();
-                }
-                break;
+
         }
-        
 
+        WarnChargeAlmostOver();
 
-
-
-
-        RecoverAfterDash();
-        // Dash trail width is equal to the player's rollDetectionRadius.
-        dashTrail.widthMultiplier = playerScript.rollDetectionRadius * 2f;
+        // RecoverAfterDash();
+        // // Dash trail width is equal to the player's rollDetectionRadius.
+        // dashTrail.widthMultiplier = playerScript.rollDetectionRadius * 2f;
         
         // Dash color is equal to the player's color.
         dashTrail.startColor = _playerMeshMaterial.color;
@@ -104,18 +112,55 @@ public class PlayerVisuals : MonoBehaviour
 
     }
 
-    
-    public void RecoverAfterDash()
+    public void ChargeFeedback()
     {
-        if (playerMesh.transform.rotation.x != 0)
-        {
-            // Rotate the player mesh on the X axis to emulate them standing up over time.
-            
-            playerMesh.transform.rotation = Quaternion.Euler
-            (Mathf.Lerp(playerMesh.transform.rotation.x, 0, Time.deltaTime * playerScript.dashDuration),
-                playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
-        }
+        // Get the charging state of the player.
+        ChargingState chargingState = GetComponent<ChargingState>();
+        
+        // Calculate the percentage of time past using the chargeLimitTimer and the chargeTimeLimit.
+        float chargePercentage = chargingState.chargeLimitTimer / playerScript.chargeTimeLimit;
+        
+        // The bigger chargePercentage is, the smaller the AimPointer will be.
+        aimPointer.transform.localScale = new Vector3(aimPointerScale * (1 - chargePercentage), aimPointerScale * (1 - chargePercentage), aimPointerScale * (1 - chargePercentage));
     }
+    
+    public void WarnChargeAlmostOver()
+    {
+        // Get the charging state of the player.
+        ChargingState chargingState = GetComponent<ChargingState>();
+        
+        // Calculate the percentage of time past using the chargeLimitTimer and the chargeTimeLimit.
+        float chargePercentage = chargingState.chargeLimitTimer / playerScript.chargeTimeLimit;
+        
+        if (chargePercentage >= chargeEndingParticleTime)
+        {
+            if (!chargeEndingParticle.isPlaying)
+            {
+                chargeEndingParticle.Play();
+            }
+        }
+        else
+        {
+            if (chargeEndingParticle.isPlaying)
+            {
+                chargeEndingParticle.Stop();
+            }
+        }
+        
+        
+    }
+    
+    // public void RecoverAfterDash()
+    // {
+    //     if (playerMesh.transform.rotation.x != 0)
+    //     {
+    //         // Rotate the player mesh on the X axis to emulate them standing up over time.
+    //         
+    //         playerMesh.transform.rotation = Quaternion.Euler
+    //         (Mathf.Lerp(playerMesh.transform.rotation.x, 0, Time.deltaTime * playerScript.dashDuration),
+    //             playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
+    //     }
+    // }
 
     public void SetEightDirectionArrow()
     {

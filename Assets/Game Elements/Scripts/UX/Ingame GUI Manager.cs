@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -17,8 +18,6 @@ public class IngameGUIManager : MonoBehaviour
     [Header("Game Objects Settings and Prefabs")]
     public GameObject ball;
     [Header("Player and Ball Debug Information")]
-    public GameObject playerAndBallsDebugObject;
-    private TextMeshProUGUI _playerAndBallsText;
     public InputAction pauseAction;
     public GameObject pauseMenu;
     [Header("GUI")]
@@ -26,24 +25,74 @@ public class IngameGUIManager : MonoBehaviour
     public GameObject startGameButtonObject;
     public GameObject resetPlayersObject;
     public float roundInformationDuration = 1.5f;
+    public GameObject ScorePlayerUIEndGame;
     
     // --------- PRIVATES ----------
     
     private List<GameObject> _playerList;
+    [FormerlySerializedAs("_playerScorePanelList")] public List<GameObject> playerScorePanelList;
+    private int _playerCount;
     [SerializeField] private TextMeshPro _globalPointsText;
     [FormerlySerializedAs("_startGameText")] [SerializeField] private TextMeshProUGUI _RoundInformationAffichage;
-
+    public List<GameObject> _playerHud;
+    
     void Start()
     {
-        _playerAndBallsText = playerAndBallsDebugObject.GetComponent<TextMeshProUGUI>();
+        GameObject PlayerPanelParent = GameObject.FindGameObjectWithTag("PlayerInformationPanel");
+        // After
+        foreach (var VARIABLE in PlayerPanelParent.GetComponentsInChildren<PlayerInfoGui>())
+        {
+            _playerHud.Add(VARIABLE.gameObject);
+        }
+        
     }
 
     void Update()
     {
         _playerList = levelManager.players;
-        TextUpdate();
         // Update the global point texts using the levelManager's global points.
         _globalPointsText.text = levelManager.potScore.ToString();
+        _playerCount = _playerList.Count;
+        //UpdateIndividualPlayerScorePanels();
+
+    }
+    
+    public void UpdatePlayerHud(GameObject playerInfoGui,string playerName , string playerScore, string playerState)
+    {
+            TextMeshProUGUI playerNameText = null;
+            TextMeshProUGUI playerScoreText = null;
+            TextMeshProUGUI playerStateText = null;
+
+            foreach (var textMesh in playerInfoGui.GetComponentsInChildren<TextMeshProUGUI>())
+            {
+                switch (textMesh.gameObject.name)
+                {
+                    case "PlayerName":
+                        playerNameText = textMesh;
+                        break;
+                    case "PlayerScore":
+                        playerScoreText = textMesh;
+                        break;
+                    case "PlayerState":
+                        playerStateText = textMesh;
+                        break;
+                }
+            }
+
+            if (playerNameText != null)
+            {
+                playerNameText.text = playerName;
+            }
+
+            if (playerScoreText != null)
+            {
+                playerScoreText.text = playerScore;
+            }
+
+            if (playerStateText != null)
+            {
+                playerStateText.text = playerState;
+            }
     }
     
     public void AssignBall(GameObject ballObject)
@@ -54,41 +103,6 @@ public class IngameGUIManager : MonoBehaviour
     void OnEnable()
     {
         pauseAction.Enable(); 
-    }
-    
-    public void TextUpdate()
-    {
-        if(!ball || !levelManager || _playerList.Count == 0)
-        {
-            if (!ball)
-            {
-                Debug.Log("Ball is null");
-            }
-            if (!levelManager)
-            {
-                Debug.Log("LevelManager is null");
-            }
-            if (_playerList.Count == 0)
-            {
-                Debug.Log("PlayerList is empty");
-            }
-            
-            return;
-        }
-        
-        _playerAndBallsText.text = "\n BALL \n State: " + ball.GetComponent<BallSM>().currentState +
-                                   "\n Speed: " + ball.GetComponent<Rigidbody>().linearVelocity.magnitude +
-                                   "\n Combo Bounces: " + ball.GetComponent<BallSM>().bounces +
-                                   "\n Owner: " + ball.GetComponent<BallSM>().ballOwnerPlayer +
-                                   
-                                   "\n Score pot: " + levelManager.potScore +
-                                   "\n Round: " + levelManager.currentRound + " / " + levelManager.totalRounds;
-        
-        foreach (GameObject player in _playerList)
-        {
-            _playerAndBallsText.text += "\n" + player.name + " Score: " + player.GetComponent<PlayerPointTracker>().points;
-        }
-        
     }
     
     public void OnPauseAction(InputAction.CallbackContext context)
@@ -104,35 +118,78 @@ public class IngameGUIManager : MonoBehaviour
             pauseMenu.SetActive(true);
         }
     }
-
+    
     // ------------------------ ROUND INFORMATION FUNCTIONS
     
-    public void LevelStartText()
+    
+    public void EndGameScoreBoardPlayerPanel(GameObject player, GameObject scorePanel, int playerRank)
     {
-        _RoundInformationAffichage.text = "Game Start!";
-        StartCoroutine(TextDelay());
+        TextMeshProUGUI playerScoreText = null;
+        TextMeshProUGUI playerNameText = null;
+        TextMeshProUGUI playerNumberText = null;
+
+        foreach (Transform Text in scorePanel.transform)
+        {
+            if (Text.name == "PlayerName")
+            {
+                playerNameText = Text.GetComponent<TextMeshProUGUI>();
+            }
+            if (Text.name == "PlayerNumber")
+            {
+                playerNumberText = Text.GetComponent<TextMeshProUGUI>();
+            }
+            if (Text.name == "PlayerScore")
+            {
+                playerScoreText = Text.GetComponent<TextMeshProUGUI>();
+            }
+        }
+
+        playerNameText.text = player.name;
+        playerScoreText.text = player.GetComponent<PlayerPointTracker>().points.ToString();
+        playerNumberText.text = playerRank.ToString();
     }
 
-    public void RoundStartedText(int currentRound)
+    public void CountDownTimer()
     {
-        _RoundInformationAffichage.text = "Round " + (currentRound + 1);
-        StartCoroutine(TextDelay());
-    }
-    
-    public void RoundEndedText(string roundWinner)
-    {
-        _RoundInformationAffichage.text = "Round Ended! Points go to " + roundWinner;
-        StartCoroutine(TextDelay());
-    }
-    
-    public void GameEndedText(string gameWinner)
-    {
-        _RoundInformationAffichage.text = "Game Ended! The winner : " + gameWinner;
+        StartCoroutine(StartCountdown(3)); // Start a 5-second countdown
     }
 
-    IEnumerator TextDelay()
+    private IEnumerator StartCountdown(int duration)
     {
-        yield return new WaitForSeconds(roundInformationDuration);
+        _RoundInformationAffichage.gameObject.SetActive(true);
+        int remainingTime = duration;
+        while (remainingTime > 0)
+        {
+            // Check if all players are still ready
+            bool allPlayersReady = true;
+            foreach (GameObject player in GameManager.Instance.multiplayerManager.connectedPlayers)
+            {
+                if (!player.GetComponent<PlayerScript>().isReady)
+                {
+                    allPlayersReady = false;
+                    break;
+                }
+            }
+
+            if (!allPlayersReady)
+            {
+                _RoundInformationAffichage.text = "Queue Canceled";
+                yield return new WaitForSeconds(1);
+                _RoundInformationAffichage.text = "";
+                _RoundInformationAffichage.gameObject.SetActive(false);
+                yield break;
+            }
+
+            // Update the UI text element with the remaining time
+            _RoundInformationAffichage.text = remainingTime.ToString();
+            //Debug.Log(remainingTime);
+            yield return new WaitForSeconds(1);
+            remainingTime--;
+        }
+
+        // When the countdown is finished, you can perform any additional actions here
         _RoundInformationAffichage.text = "";
+        _RoundInformationAffichage.gameObject.SetActive(false);
+        GameManager.Instance.levelManager.StartLevel(); // Call StartLevel when the countdown finishes
     }
 }

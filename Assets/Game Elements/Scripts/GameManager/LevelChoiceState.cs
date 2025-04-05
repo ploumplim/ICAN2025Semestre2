@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class LevelChoiceState : GameState
 {
-    private GameManagerSM gameManager;
+    private GameManagerSM gameManagerM;
     public override void Enter()
     {
         Debug.Log("LevelChoice Enter");
-        gameManager = GetComponent<GameManagerSM>();
+        gameManagerM = GetComponent<GameManagerSM>();
 
-        if (gameManager != null)
+        if (gameManagerM != null)
         {
-            gameManager.ChangeState(GetComponent<LoadingState>());
+            gameManagerM.ChangeState(GetComponent<LoadingState>());
         }
     }
 }
