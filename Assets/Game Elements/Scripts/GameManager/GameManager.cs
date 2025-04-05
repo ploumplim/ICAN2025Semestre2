@@ -83,10 +83,16 @@ public class GameManager : MonoBehaviour
         levelManager.Initialize();
         multiplayerManager.SetGameParameters();
         
+        
+        
     }
     
     public void AllPlayersReady()
     {
         levelManager.ingameGUIManager.CountDownTimer();
+        foreach (var VARIABLE in levelManager.ingameGUIManager.playerScorePanelList)
+        {
+            VARIABLE.SetActive(false);
+        }
     }
 }

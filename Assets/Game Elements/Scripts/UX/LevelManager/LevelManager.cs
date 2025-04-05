@@ -418,7 +418,8 @@ public class LevelManager : MonoBehaviour
                     playerScorePanelParent = child.gameObject;
                 }
             }
-            GameObject scorePanel = Instantiate(ingameGUIManager.playerScoreInformation, playerScorePanelParent.gameObject.transform);
+            GameObject scorePanel = Instantiate(ingameGUIManager.ScorePlayerUIEndGame, playerScorePanelParent.gameObject.transform);
+            ingameGUIManager.playerScorePanelList.Add(scorePanel);
             scorePanel.SetActive(true);
             ingameGUIManager.EndGameScoreBoardPlayerPanel(playerScore.player, scorePanel, i + 1);
         }
