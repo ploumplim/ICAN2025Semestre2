@@ -9945,7 +9945,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 9195313607378371640}
   - {fileID: 3652471148897030110}
@@ -10199,6 +10199,7 @@ MonoBehaviour:
   hitDetectionOffset: 0
   slowRate: 5
   minimumSpeedPercentage: 0.1
+  slowStopDistance: 3
   buntForce: 0.8
   buntCooldown: 0.9
   buntDuration: 0.1
