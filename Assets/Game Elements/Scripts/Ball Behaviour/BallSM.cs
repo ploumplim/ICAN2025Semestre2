@@ -221,10 +221,15 @@ public class BallSM : MonoBehaviour
                     OnPointBounce?.Invoke(bounces);
                 }
                 
-                if (other.gameObject.CompareTag("NeutralWall"))
+                if (other.gameObject.CompareTag("PointWall"))
+                {
+                    pointWallHit?.Invoke(pointWallPoints);
+                    OnPointBounce?.Invoke(bounces);
+                }
+                
+                if (other.gameObject.CompareTag("Bouncer"))
                 {
                     OnNeutralBounce?.Invoke(bounces);
-
                 }
 
                 break;
@@ -250,9 +255,14 @@ public class BallSM : MonoBehaviour
                 if (other.gameObject.CompareTag("NeutralWall"))
                 {
                     OnNeutralBounce?.Invoke(bounces);
-
+                }
+                
+                if (other.gameObject.CompareTag("Bouncer"))
+                {
+                    OnNeutralBounce?.Invoke(bounces);
                 }
                 break;
+            
             default:
                 break;
         }

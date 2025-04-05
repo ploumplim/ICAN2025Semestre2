@@ -7,7 +7,7 @@ public class PlayerSoundScript : MonoBehaviour
 
     void Start()
     {
-        // Créer l'instance du son de charge
+        // Crï¿½er l'instance du son de charge
         chargeInstance = FMODUnity.RuntimeManager.CreateInstance(FMODEvents.instance.PressHit_FX);
     }
 
@@ -30,13 +30,13 @@ public class PlayerSoundScript : MonoBehaviour
         if (isCharging)
         {
             isCharging = false;
-            chargeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT); // Arrêter proprement
+            chargeInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT); // Arrï¿½ter proprement
         }
     }
 
     void OnDestroy()
     {
-        chargeInstance.release(); // Libérer l'instance
+        chargeInstance.release(); // Libï¿½rer l'instance
     }
 
     public void PlaySound2()
@@ -44,7 +44,7 @@ public class PlayerSoundScript : MonoBehaviour
         AudioManager.instance.PlayOneShot(FMODEvents.instance.BallBunt_Sound, this.transform.position);
     }
 
-    public void PlaySound3()
+    public void PlayBuntSound()
     {
         AudioManager.instance.PlayOneShot(FMODEvents.instance.Bunt_FX, this.transform.position);
     }
