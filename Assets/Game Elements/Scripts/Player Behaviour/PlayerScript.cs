@@ -41,10 +41,6 @@ public class PlayerScript : MonoBehaviour
     public float speed = 5f;
     [Tooltip("The modifier when the hit is being charge.")]
     public float chargeSpeedModifier = 0.5f;
-    // [Tooltip("The modifier when the hit is released.")]
-    // public float releaseSpeedModifier = 1f;
-    // [Tooltip("The modifier when the player bunts.")]
-    // public float buntSpeedModifier = 0.5f;
     [Tooltip("The rate at which speed picks up when the input is being performed.")]
     public float acceleration = 0.1f;
     //---------------------------------------------------------------------------------------
@@ -55,29 +51,11 @@ public class PlayerScript : MonoBehaviour
     public float chargeLerpTime = 0.1f;
     
     //---------------------------------------------------------------------------------------
-    // [FormerlySerializedAs("rollSpeed")]
-    // [Header("Dash Settings")]
-    // [Tooltip("The dash speed.")]
-    // public float dashSpeed = 10f;
-    // [FormerlySerializedAs("rollDuration")] [Tooltip("The duration of the dash.")]
-    // public float dashDuration = 1f;
-    // [Tooltip("Cooldown between each dash.")]
-    // public float dashCooldown = 0.5f;
-    // [FormerlySerializedAs("dashFeedbackTrail")] [Tooltip("This is the radius of the sphere that will detect the ball when rolling.")]
-    // public float rollDetectionRadius = 5f;
-    // [Tooltip("This boolean determines if when dashing the character can pass through ledges.")]
-    // public bool canPassThroughLedges = false;
-    // [Tooltip("Force to apply to the ball when dashing into it.")]
-    // public float ballDashForce = 10f;
-    
-    //---------------------------------------------------------------------------------------
     [Header("Knockback")]
     [Tooltip("Time where the player loses control after being struck by the ball.")]
     public float knockbackTime = 0.5f;
     [Tooltip("This is the force multiplier applied to the player when hit by a ball.")]
     public float knockbackForce = 10f;
-    // [Tooltip("This modifier is applied only when the player is knock backed from another player's dash.")]
-    // public float dashKnockbackModifier = 0.5f;
     [Tooltip("The normal linear drag of the player.")]
     public float linearDrag = 3f;
     [Tooltip("The linear drag when the player is hit by a ball.")]
@@ -97,38 +75,10 @@ public class PlayerScript : MonoBehaviour
     public float hitForce = 10f;
     [Tooltip("This number is the minimum value that the charge reaches when tapped.")]
     public float chargeClamp = 0.5f;
-    // [Tooltip("This value (between 0 and 1) grants direction in the vertical axis to the player's hit. This is only" +
-    //          "applied when the ball is grounded.")]
-    // public float verticalPercent = 0.2f;
     [Tooltip("The radius of the sphere that will detect the ball when hitting.")]
     public float hitDetectionRadius = 3.5f;
     [Tooltip("The offset of the hit detection sphere.")]
     public float hitDetectionOffset = 0f;
-    //---------------------------------------------------------------------------------------
-    // [Header("Slowmo Settings")]
-    // // [Tooltip("The rate at which the ball slows down when it enters the player's is charging.")]
-    // // public float slowRate = 0.5f;
-    // // // [Tooltip("The minimum speed (in %) that the ball gets to when slowed down.")]
-    // // // public float minimumSpeedPercentage = 0.25f;
-    // // [Tooltip("The minimal distance for the ball to stop when the player charges their shot.")]
-    // // public float slowStopDistance = 3f;
-    //
-    // [Tooltip("The time tha ball takes to slow down when caught.")]
-    // public float slowTime = 0.5f;
-    
-    
-    //---------------------------------------------------------------------------------------
-    // [Header("Bunt Settings")]
-    // [Tooltip("The force applied to the ball when bunting.")]
-    // public float buntForce = 10f;
-    // [FormerlySerializedAs("buntTime")] [Tooltip("The time the player has to wait between each bunt.")]
-    // public float buntCooldown = 0.5f;
-    // [Tooltip("The opportunity window that the bunt has to apply its effect on the ball.")]
-    // public float buntDuration = 0.5f;
-    // [Tooltip("The radius of the sphere that will detect the ball when bunting.")]
-    // public float buntSphereRadius;
-    // [Tooltip(("The position of the bunt sphere."))]
-    // public float buntSpherePositionOffset;
 
 
     //---------------------------------------------------------------------------------------
@@ -145,9 +95,6 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent<float> OnPlayerHitReleased;
     public UnityEvent<float> OnBallHitByPlayer;
     public UnityEvent OnPlayerHitByBall;
-    // public UnityEvent OnPlayerPerformedBunt;
-    // public UnityEvent OnPlayerBuntBall;
-    // public UnityEvent OnPlayerDash;
     public UnityEvent PlayerEndedDash;
     public UnityEvent OnPlayerDeath;
     
@@ -225,7 +172,6 @@ public class PlayerScript : MonoBehaviour
 
         currentState = GetComponent<NeutralState>();
         
-        // dashTimer = dashCooldown;
     }
     
 
@@ -242,18 +188,6 @@ public class PlayerScript : MonoBehaviour
         {
             hitTimer -= Time.deltaTime;
         }
-        
-        
-        // if (dashTimer < dashCooldown)
-        // {
-        //     dashTimer += Time.deltaTime;
-        // }
-        // else if (dashTimer >= dashCooldown)
-        // {
-        //     dashTimer = dashCooldown;
-        // }
-        
-        // -- Input buffer timer --
         
         
         
@@ -297,22 +231,12 @@ public class PlayerScript : MonoBehaviour
                 }
 
                     break;
-                // case "Roll":
-                //     //Debug.Log("Buffered roll");
-                //     newState = GetComponent<DashingState>();
-                //     break;
-                // case "Bunt":
-                //     //Debug.Log("Buffered bunt");
-                //     newState = GetComponent<BuntingPlayerState>();
-                //     break;
             }
         }
-        //Debug.Log("State changed to: " + newState);
         
         currentState.Exit();
         currentState = newState;
         currentState.Enter();
-        // Debug.Log("State changed to: " + newState);
         
         
     }
@@ -348,13 +272,11 @@ public class PlayerScript : MonoBehaviour
             }
             else if (ballSM.currentState is LethalBallState)
             {
-                // Debug.Log("Ball hit player");
                 if (currentState is not KnockbackState &&
                     currentState is not DeadState)
                 {
                     PlayerEndedDash?.Invoke();
                     ChangeState(GetComponent<DeadState>());
-                    // Debug.Log("Player died");
                     // Apply an opposite force to the ball
                     Vector3 direction = transform.position - other.transform.position;
                     other.gameObject.GetComponent<Rigidbody>().AddForce(
@@ -444,44 +366,7 @@ public class PlayerScript : MonoBehaviour
         }
         
     }
-    // ------------------------------ BUNT ------------------------------
-    // public void OnBunt(InputAction.CallbackContext context)
-    // {
-    //     if (context.started)
-    //     {
-    //         if (currentState is NeutralState)
-    //         {
-    //             ChangeState(GetComponent<BuntingPlayerState>());
-    //         }
-    //         else
-    //         {
-    //             BufferInput(context.action);
-    //         }
-    //     }
-    // }
     
-    // ------------------------------ DASH ------------------------------
-    
-    // public void OnDash(InputAction.CallbackContext context)
-    // {
-    //     if (context.started)
-    //     {
-    //         if (currentState is NeutralState && dashTimer >= dashCooldown)
-    //         {
-    //             if (moveInputVector2 != Vector2.zero)
-    //             {
-    //                 // Debug.Log("Dashing!");
-    //                 dashTimer = 0;
-    //                 OnPlayerDash?.Invoke();
-    //                 ChangeState(GetComponent<DashingState>());
-    //             }
-    //         }
-    //         else
-    //         {
-    //             BufferInput(context.action);
-    //         }
-    //     }
-    // }
     
     // ------------------------------ ISREADY ------------------------------
     
@@ -518,16 +403,10 @@ public class PlayerScript : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position, transform.forward * 10);
-        // // Draw the dash sphere
-        // Gizmos.color = Color.blue;
-        // Gizmos.DrawWireSphere(transform.position, rollDetectionRadius);
         
         // Draw the hit sphere
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position + transform.forward * hitDetectionOffset, hitDetectionRadius);
         
-        // Draw the bunt sphere
-        // Gizmos.color = Color.magenta;
-        // Gizmos.DrawWireSphere(transform.position + transform.forward * buntSpherePositionOffset, buntSphereRadius);
     }
 }

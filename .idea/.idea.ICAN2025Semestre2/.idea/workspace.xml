@@ -77,7 +77,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.0.42f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.0.37f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\ivan_\Documents\GitHub\ICAN2025Semestre2 -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ivan_\Documents\GitHub\ICAN2025Semestre2" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -85,7 +85,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.0.42f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.0.37f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\ivan_\Documents\GitHub\ICAN2025Semestre2 -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ivan_\Documents\GitHub\ICAN2025Semestre2" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -202,6 +202,7 @@
       <workItem from="1743675624015" duration="88000" />
       <workItem from="1743677111720" duration="9323000" />
       <workItem from="1743758987670" duration="1168000" />
+      <workItem from="1743837488267" duration="464000" />
     </task>
     <servers />
   </component>
