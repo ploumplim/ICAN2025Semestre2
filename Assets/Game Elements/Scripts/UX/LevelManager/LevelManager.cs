@@ -162,15 +162,6 @@ public class LevelManager : MonoBehaviour
             {
                 // subscribe to the OnBallHitEvent
                 player.GetComponent<PlayerScript>().OnBallHit += AddScoreToPlayer;
-                int playerScore = player.GetComponent<PlayerPointTracker>().points;
-    
-                for (int i = 0; i < ingameGUIManager._playerHud.Count; i++)
-                {
-                    
-                        var playerScript = players[i].transform.GetComponent<PlayerScript>();
-                        ingameGUIManager.SetPlayerHud(ingameGUIManager._playerHud[i], players[i].transform.name, 
-                            playerScore.ToString(), playerScript.currentState.ToString());
-                }
             }
         }
         else
@@ -193,9 +184,6 @@ public class LevelManager : MonoBehaviour
     
     public bool RoundCheck()
     {
-        // Check if the current round is less than the total rounds.
-        // If it is, increment the current round and change the state to InRoundState.
-        // If it is not, change the state to OutOfLevelState.
         if (currentRound < totalRounds)
         {
             return false;
