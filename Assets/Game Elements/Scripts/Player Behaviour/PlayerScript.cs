@@ -172,6 +172,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public int playerLayer;
     [HideInInspector] public int ballLayer;
     [SerializeField] public bool isReady;
+    public GameObject playerScorePanel;
     
     // ------------------------------ BALL ------------------------------
     [HideInInspector] public BallSM ballSM;
@@ -502,6 +503,7 @@ public class PlayerScript : MonoBehaviour
             if (GameManager.Instance.levelManager.currentState == GameManager.Instance.levelManager.GetComponent<OutOfLevelState>())
             {
                 isReady = !isReady;
+                GameManager.Instance.levelManager.ingameGUIManager.UpdatePlayerState(playerScorePanel,isReady);
             }
             GameManager.Instance.multiplayerManager.WaitForPlayersReady();
         }

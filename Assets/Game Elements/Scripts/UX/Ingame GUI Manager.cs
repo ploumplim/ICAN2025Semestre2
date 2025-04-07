@@ -35,6 +35,9 @@ public class IngameGUIManager : MonoBehaviour
     [SerializeField] private TextMeshPro _globalPointsText;
     [FormerlySerializedAs("_startGameText")] [SerializeField] private TextMeshProUGUI _RoundInformationAffichage;
     public List<GameObject> _playerHud;
+    [SerializeField] private GameObject PlayerInformationGUI;
+    [SerializeField] private GameObject playerPrefabScore;
+    [SerializeField] private GameObject playerPanelSpawnPointParent;
     
     void Start()
     {
@@ -95,6 +98,25 @@ public class IngameGUIManager : MonoBehaviour
             }
     }
     
+    public void UpdatePlayerState(GameObject playerInfoGui, bool isReady)
+    {
+        TextMeshProUGUI playerStateText = null;
+
+        foreach (var textMesh in playerInfoGui.GetComponentsInChildren<TextMeshProUGUI>())
+        {
+            if (textMesh.gameObject.name == "PlayerState")
+            {
+                playerStateText = textMesh;
+                break;
+            }
+        }
+
+        if (playerStateText != null)
+        {
+            playerStateText.text = isReady ? "Ready" : "Not Ready";
+        }
+    }
+    
     public void AssignBall(GameObject ballObject)
     {
         ball = ballObject;
@@ -152,6 +174,28 @@ public class IngameGUIManager : MonoBehaviour
     public void CountDownTimer()
     {
         StartCoroutine(StartCountdown(3)); // Start a 5-second countdown
+    }
+    public GameObject SpawnPlayerScorePanel()
+    {
+        // Create a list of the children of playerPanelSpawnPointParent
+        List<Transform> spawnPoints = new List<Transform>();
+        foreach (Transform child in playerPanelSpawnPointParent.transform)
+        {
+            spawnPoints.Add(child);
+        }
+
+        // Determine the position for the new panel based on the number of panels already spawned
+        int panelIndex = playerScorePanelList.Count;
+        if (panelIndex >= spawnPoints.Count)
+        {
+            Debug.LogError("Not enough spawn points for player score panels.");
+            return null;
+        }
+
+        // Instantiate the new panel at the corresponding spawn point
+        GameObject playerScorePanel = Instantiate(playerPrefabScore, spawnPoints[panelIndex].position, Quaternion.identity, PlayerInformationGUI.transform);
+        playerScorePanelList.Add(playerScorePanel);
+        return playerScorePanel;
     }
 
     private IEnumerator StartCountdown(int duration)
