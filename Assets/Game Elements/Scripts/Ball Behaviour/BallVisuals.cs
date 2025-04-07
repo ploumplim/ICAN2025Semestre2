@@ -59,6 +59,7 @@ public class BallVisuals : MonoBehaviour
     {
         TrailEmitter();
         BallColorAndLight();
+        UpdateFace();
     }
     
     
