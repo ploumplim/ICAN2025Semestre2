@@ -27,7 +27,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0.91, z: -0.91}
-  m_LocalScale: {x: 0.14, y: 0.14, z: 0.14}
+  m_LocalScale: {x: 0.21000001, y: 0.21000001, z: 0.21000001}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8330626829919473925}
@@ -485,8 +485,8 @@ MonoBehaviour:
   HitBallColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   groundedBallColor: {r: 0, g: 1, b: 0, a: 1}
   neutralFace: {fileID: 1031548403092965096}
-  lethalFace: {fileID: 0}
-  hitFace: {fileID: 0}
+  lethalFace: {fileID: 463013486243147972}
+  hitFace: {fileID: 1728776151619127559}
 --- !u!114 &6323144974866670032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -593,7 +593,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0.9100001, z: -0.9100001}
-  m_LocalScale: {x: 0.14, y: 0.14, z: 0.14}
+  m_LocalScale: {x: 0.21000001, y: 0.21000001, z: 0.21000001}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8330626829919473925}
@@ -887,7 +887,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0.9100001, z: -0.9100001}
-  m_LocalScale: {x: 0.14, y: 0.14, z: 0.14}
+  m_LocalScale: {x: 0.21000001, y: 0.21000001, z: 0.21000001}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8330626829919473925}

@@ -90,7 +90,39 @@ public class BallVisuals : MonoBehaviour
         
         
     }
-    
+
+    private void UpdateFace()
+    {
+        switch (ballSM.currentState)
+        {
+            case FlyingState:
+                // Set the neutral face to active and the others to inactive.
+                neutralFace.gameObject.SetActive(true);
+                lethalFace.gameObject.SetActive(false);
+                hitFace.gameObject.SetActive(false);
+                break;
+            case DroppedState:
+                neutralFace.gameObject.SetActive(true);
+                lethalFace.gameObject.SetActive(false);
+                hitFace.gameObject.SetActive(false);
+                break;
+            case CaughtState:
+                neutralFace.gameObject.SetActive(false);
+                lethalFace.gameObject.SetActive(false);
+                hitFace.gameObject.SetActive(true);
+                break;    
+            case HitState:
+                neutralFace.gameObject.SetActive(false);
+                lethalFace.gameObject.SetActive(false);
+                hitFace.gameObject.SetActive(true);
+                break;
+            case LethalBallState:
+                neutralFace.gameObject.SetActive(false);
+                lethalFace.gameObject.SetActive(true);
+                hitFace.gameObject.SetActive(false);
+                break;
+        }
+    }
     
     private void BallColorAndLight()
     {
