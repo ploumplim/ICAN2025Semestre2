@@ -23,8 +23,10 @@ public class PlayerScript : MonoBehaviour
         ReflectiveHit,
         EightDirHit,
     }
-    
-    [HideInInspector] public PlayerState currentState;
+
+    #region Variable Region
+
+     [HideInInspector] public PlayerState currentState;
     
     [Header("MOVEMENT TYPES: \n " +
         "Velocity: The player's movement is controlled \n" +
@@ -132,7 +134,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public GameObject MultiplayerManager;
     
     [Header("Scene References")]
-    public Camera playerCamera;
+    public CameraScript playerCamera;
 
     public GameObject playerHand;
     
@@ -170,6 +172,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public int ledgeLayer;
     [HideInInspector] public int playerLayer;
     [HideInInspector] public int ballLayer;
+    [SerializeField] public bool _isReady;
     
     // ------------------------------ BALL ------------------------------
     [HideInInspector] public BallSM ballSM;
@@ -193,6 +196,9 @@ public class PlayerScript : MonoBehaviour
     private float _bufferedActionTime;
     [SerializeField] [Tooltip("Time window for input buffering")]private float _bufferDuration = 0.1f;
     
+
+    #endregion
+   
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void Start()
     {
@@ -297,16 +303,16 @@ public class PlayerScript : MonoBehaviour
 
                     break;
                 case "Roll":
-                    Debug.Log("Buffered roll");
+                    //Debug.Log("Buffered roll");
                     newState = GetComponent<DashingState>();
                     break;
                 case "Bunt":
-                    Debug.Log("Buffered bunt");
+                    //Debug.Log("Buffered bunt");
                     newState = GetComponent<BuntingPlayerState>();
                     break;
             }
         }
-        Debug.Log("State changed to: " + newState);
+        //Debug.Log("State changed to: " + newState);
         
         currentState.Exit();
         currentState = newState;
@@ -485,6 +491,20 @@ public class PlayerScript : MonoBehaviour
             {
                 BufferInput(context.action);
             }
+        }
+    }
+    
+    // ------------------------------ ISREADY ------------------------------
+    
+    public void OnReady(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (GameManager.Instance.levelManager.currentState == GameManager.Instance.levelManager.GetComponent<OutOfLevelState>())
+            {
+                _isReady = !_isReady;
+            }
+            GameManager.Instance.multiplayerManager.WaitForPlayersReady();
         }
     }
     

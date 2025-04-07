@@ -8,8 +8,6 @@ using UnityEngine.Serialization;
 
 public class MultiplayerManager : MonoBehaviour
 {
-    public HandleGamePads handleGamePads;
-    public List<Transform> spawnPoints = new List<Transform>();
     public LevelManager levelManager;
     public GameObject playerToConnect;
     // public List<GameObject> availablePlayers = new List<GameObject>();
@@ -18,47 +16,93 @@ public class MultiplayerManager : MonoBehaviour
     [FormerlySerializedAs("ParryTimeVisual")]
     public GameObject HitTimeVisual;
     public GameObject playerPrefab;
-    [FormerlySerializedAs("spawnObject")] public GameObject spawnParent;
-    public new Camera camera;
+    public new CameraScript camera;
+    public int playerCount;
 
 
+    public event Action OnPlayerJoin;
 
     void Awake()
     { 
-    // // Trouve tous les joueurs dans la scène avec le tag "Player"
-    // availablePlayers = GameObject.FindGameObjectsWithTag("Player").ToList();
-    levelManager = GetComponentInParent<LevelManager>();
-    FillSpawnPoints();
-    handleGamePads = FindFirstObjectByType<HandleGamePads>();
+    DontDestroyOnLoad(this);
+    GameManager.Instance.multiplayerManager = this;
+    }
 
-    if (handleGamePads)
+    public void SetGameParameters()
     {
-        //subscribe to the OnSouthButtonPressed event
-        handleGamePads.OnSouthButtonPressed += AtoJoin;
+        camera = GameManager.Instance.levelManager.gameCameraScript;
+    }
+
+    public void PlayerJoin()
+    {
+        FillSpawnPoints();
+        if (GameManager.Instance.handleGamePads)
+        {
+            // Subscribe to the OnSouthButtonPressed event
+            GameManager.Instance.handleGamePads.OnSouthButtonPressed += AtoJoin;
+        }
+    }
+
+    public void WaitForPlayersReady()
+    {
+        int readyPlayers = 0;
+        
+        foreach (GameObject player in connectedPlayers)
+        {
+            if (player.GetComponent<PlayerScript>()._isReady)
+            {
+                readyPlayers++;  
+            }
+        }
+        
+        if(readyPlayers==connectedPlayers.Count)
+        {
+            GameManager.Instance.AllPlayersReady();
+        }
     }
     
-    }
 
     void FillSpawnPoints()
     {
-        foreach (Transform child in spawnParent.transform)
+        if (GameManager.Instance.levelManager)
         {
-            spawnPoints.Add(child);
+            foreach (Transform child in GameManager.Instance.levelManager.PlayerSpawnParent.transform)
+            {
+                GameManager.Instance.levelManager._playerSpawnPoints.Add(child);
+                playerCount = GameManager.Instance.levelManager._playerSpawnPoints.Count;
+            }
         }
     }
 
     void AtoJoin(Gamepad gamepad)
     {
-        if (handleGamePads.AssignedGamepads.Count < spawnPoints.Count)
+       
+        if (GameManager.Instance.handleGamePads.AssignedGamepads.Count < playerCount)
         {
-                    SpawnNewPlayer(spawnPoints[handleGamePads.AssignedGamepads.Count]); // Spawn un joueur à la position correspondante.
+                    SpawnNewPlayer(GameManager.Instance.levelManager._playerSpawnPoints[GameManager.Instance.handleGamePads.AssignedGamepads.Count]); // Spawn un joueur à la position correspondante.
                     connectedPlayers.Add(playerToConnect);
                     HandleGamePads.AssignControllerToPlayer(gamepad, playerToConnect); // Assign the gamepad to a player.
                     camera.GetComponent<CameraScript>().AddObjectToArray(playerToConnect.gameObject);
                     AssignValuesToPlayer(playerToConnect);
                     playerToConnect = null;
+                    OnPlayerJoin?.Invoke();
         }
     }
+    
+    // private void OnSelectButtonPressed(Gamepad gamepad)
+    // {
+    //     Debug.Log($"Gamepad {gamepad.displayName}: Select button pressed");
+    //    
+    //     foreach (var player in connectedPlayers)
+    //     {
+    //         var playerInput = player.GetComponent<PlayerInput>();
+    //         if (playerInput != null && playerInput.devices.Contains(gamepad))
+    //         {
+    //             Debug.Log($"Player associated with gamepad {gamepad.displayName}: {player.name}");
+    //             break;
+    //         }
+    //     }
+    // }
 
 
     private void SpawnNewPlayer(Transform spawnPosition)
@@ -69,11 +113,8 @@ public class MultiplayerManager : MonoBehaviour
         // Change the player's name to include the player's number
         newPlayer.name = $"Player {connectedPlayers.Count + 1}";
         
-        // Add the new player to the list of available players
-        // availablePlayers.Add(newPlayer);
         playerToConnect = newPlayer;
 
-        // Debug.Log($"New player spawned at position {spawnPosition}");
     }
     
     
