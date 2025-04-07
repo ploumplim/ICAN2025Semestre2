@@ -24,7 +24,8 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: eda31f349c101344bafa535ebd3684aa, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _USE_SCREEN_SPACE_1
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -89,6 +90,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Triplanar_53b402bfda154576941efd1a442de44b_Texture_1_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -109,7 +114,7 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
-    - _Circle_density: 151.51
+    - _Circle_density: 14.11
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
@@ -119,22 +124,22 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _Falloff_threshold: 2.23
+    - _Falloff_threshold: 0.88
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Lit_threshold: 2.89
-    - _Max: -0.09
+    - _Lit_threshold: 3.37
+    - _Max: 13.3
     - _Metallic: 0
-    - _Min: -0.56
+    - _Min: 2.26
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Rotation: 2.14
-    - _Shades: 1.11
-    - _ShadingMultiplier: 5.8
+    - _Rotation: 3.68
+    - _Shades: 14.37
+    - _ShadingMultiplier: 3
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -142,15 +147,17 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _USE_SCREEN_SPACE: 0
-    - _USE_SCREEN_SPACE_1: 0
+    - _USE_SCREEN_SPACE_1: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _softness: 3.25
+    - _softness: 6.02
     m_Colors:
-    - _BaseColor: {r: 1, g: 0, b: 0, a: 1}
+    - _BaseColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SHADOWCOLOR: {r: 0.23584908, g: 0.15129942, b: 0.15129942, a: 0}
+    - _SURPRISE: {r: 0, g: 15.23, b: 0, a: 0}
+    - _SURPRISE_1: {r: 0, g: 9.2, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
