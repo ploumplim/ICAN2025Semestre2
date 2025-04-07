@@ -11,6 +11,7 @@ public class ChargingState : PlayerState
             base.Enter();
             PlayerScript.chargeValueIncrementor = 0f;
             chargeLimitTimer = 0f;
+            CatchZone();
         }
 
         public override void Tick()
@@ -19,10 +20,10 @@ public class ChargingState : PlayerState
             PlayerScript.Move(PlayerScript.speed * PlayerScript.chargeSpeedModifier, PlayerScript.neutralLerpTime);
             ChargingForce();
 
-            if (!_caughtBall)
-            {
-                CatchZone();
-            }
+            // if (!_caughtBall)
+            // {
+            //     CatchZone();
+            // }
             
             if (chargeLimitTimer < PlayerScript.chargeTimeLimit)
             {

@@ -43,8 +43,8 @@ public class CameraScript : MonoBehaviour
 
     public void FixedUpdate()
     {
-        UpdateCameraPosition();
-        UpdateCameraDistance();
+        // UpdateCameraPosition();
+        // UpdateCameraDistance();
     }
 
     private void UpdateCameraPosition()
