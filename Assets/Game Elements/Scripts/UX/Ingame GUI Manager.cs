@@ -62,10 +62,12 @@ public class IngameGUIManager : MonoBehaviour
     
     public void SetPlayerHud(GameObject playerInfoGui,string playerName , string playerScore, string playerState)
     {
+        Debug.Log(playerName);
             TextMeshProUGUI playerNameText = null;
             TextMeshProUGUI playerScoreText = null;
             TextMeshProUGUI playerStateText = null;
 
+            
             foreach (var textMesh in playerInfoGui.GetComponentsInChildren<TextMeshProUGUI>())
             {
                 switch (textMesh.gameObject.name)
@@ -189,7 +191,7 @@ public class IngameGUIManager : MonoBehaviour
         playerNumberText.text = playerRank.ToString();
     }
     
-    public GameObject SpawnPlayerScorePanel()
+    public GameObject SpawnPlayerScorePanel(PlayerScript player)
     {
         // Create a list of the children of playerPanelSpawnPointParent
         List<Transform> spawnPoints = new List<Transform>();
@@ -208,6 +210,16 @@ public class IngameGUIManager : MonoBehaviour
 
         // Instantiate the new panel at the corresponding spawn point
         GameObject playerScorePanel = Instantiate(playerPrefabScore, spawnPoints[panelIndex].position, Quaternion.identity, PlayerInformationGUI.transform);
+        TextMeshProUGUI playerNameText = null;
+        foreach (Transform Text in (playerScorePanel.transform))
+        {
+            if (Text.name == "PlayerName")
+            {
+                playerNameText = Text.GetComponent<TextMeshProUGUI>();
+            }
+            playerNameText.text = player.name;
+        }
+        
         playerScorePanelList.Add(playerScorePanel);
         return playerScorePanel;
     }

@@ -158,7 +158,7 @@ public class LevelManager : MonoBehaviour
             ingameGUIManager.startGameButtonObject.SetActive(false);
             ingameGUIManager.resetPlayersObject.SetActive(false);
             
-            foreach (GameObject player in players)
+            foreach (PlayerScript player in GameManager.Instance.PlayerScriptList)
             {
                 // subscribe to the OnBallHitEvent
                 player.GetComponent<PlayerScript>().OnBallHit += AddScoreToPlayer;
@@ -166,16 +166,10 @@ public class LevelManager : MonoBehaviour
     
                 for (int i = 0; i < ingameGUIManager._playerHud.Count; i++)
                 {
-                    if (i < players.Count)
-                    {
+                    
                         var playerScript = players[i].transform.GetComponent<PlayerScript>();
                         ingameGUIManager.SetPlayerHud(ingameGUIManager._playerHud[i], players[i].transform.name, 
                             playerScore.ToString(), playerScript.currentState.ToString());
-                    }
-                    else
-                    {
-                        ingameGUIManager._playerHud[i].SetActive(false);
-                    }
                 }
             }
         }

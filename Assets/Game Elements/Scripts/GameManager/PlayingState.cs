@@ -9,7 +9,6 @@ public class PlayingState : GameState
 
     public override void Enter()
     {
-        Debug.Log("Passage playingState");
         GameManager.Instance.multiplayerManager.PlayerJoin();
     }
     

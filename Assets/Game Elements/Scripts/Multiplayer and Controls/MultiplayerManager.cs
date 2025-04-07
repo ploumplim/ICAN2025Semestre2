@@ -82,7 +82,6 @@ public class MultiplayerManager : MonoBehaviour
 
     void AtoJoin(Gamepad gamepad)
     {
-        Debug.Log("Player " + gamepad.name + " has joined");
         int currentPlayerCount = gm.handleGamePads.AssignedGamepads.Count;
         if (currentPlayerCount < maxPlayerCount)
         {
@@ -113,7 +112,8 @@ public class MultiplayerManager : MonoBehaviour
         newPlayer.name = $"Player {connectedPlayers.Count + 1}";
 
         playerToConnect = newPlayer;
-        newPlayer.GetComponent<PlayerScript>().playerScorePanel = gm.levelManager.ingameGUIManager.SpawnPlayerScorePanel();
+        newPlayer.GetComponent<PlayerScript>().playerScorePanel =
+            gm.levelManager.ingameGUIManager.SpawnPlayerScorePanel(newPlayer.GetComponent<PlayerScript>());
         GameManager.Instance.PlayerScriptList.Add(newPlayer.GetComponent<PlayerScript>());
     }
 
