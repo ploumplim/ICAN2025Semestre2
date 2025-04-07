@@ -60,7 +60,7 @@ public class IngameGUIManager : MonoBehaviour
 
     }
     
-    public void UpdatePlayerHud(GameObject playerInfoGui,string playerName , string playerScore, string playerState)
+    public void SetPlayerHud(GameObject playerInfoGui,string playerName , string playerScore, string playerState)
     {
             TextMeshProUGUI playerNameText = null;
             TextMeshProUGUI playerScoreText = null;
@@ -114,6 +114,24 @@ public class IngameGUIManager : MonoBehaviour
         if (playerStateText != null)
         {
             playerStateText.text = isReady ? "Ready" : "Not Ready";
+        }
+    }
+    public void UpdatePlayerScore(GameObject playerInfoGui, int score)
+    {
+        TextMeshProUGUI playerScoreText = null;
+
+        foreach (var textMesh in playerInfoGui.GetComponentsInChildren<TextMeshProUGUI>())
+        {
+            if (textMesh.gameObject.name == "PlayerScore")
+            {
+                playerScoreText = textMesh;
+                break;
+            }
+        }
+
+        if (playerScoreText != null)
+        {
+            playerScoreText.text = score.ToString();
         }
     }
     
@@ -170,11 +188,7 @@ public class IngameGUIManager : MonoBehaviour
         playerScoreText.text = player.GetComponent<PlayerPointTracker>().points.ToString();
         playerNumberText.text = playerRank.ToString();
     }
-
-    public void CountDownTimer()
-    {
-        StartCoroutine(StartCountdown(3)); // Start a 5-second countdown
-    }
+    
     public GameObject SpawnPlayerScorePanel()
     {
         // Create a list of the children of playerPanelSpawnPointParent
@@ -197,7 +211,11 @@ public class IngameGUIManager : MonoBehaviour
         playerScorePanelList.Add(playerScorePanel);
         return playerScorePanel;
     }
-
+    public void CountDownTimer()
+    {
+        StartCoroutine(StartCountdown(3)); // Start a 5-second countdown
+    }
+    
     private IEnumerator StartCountdown(int duration)
     {
         _RoundInformationAffichage.gameObject.SetActive(true);

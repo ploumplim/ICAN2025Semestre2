@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public MultiplayerManager multiplayerManager;
     public LevelManager levelManager;
     public HandleGamePads handleGamePads;
-    public PlayerScript[] playerScriptList;
+    public List<PlayerScript> PlayerScriptList;
     public GameObject maxPlayer;
     
 

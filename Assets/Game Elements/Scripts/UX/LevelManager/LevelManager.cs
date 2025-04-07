@@ -169,7 +169,7 @@ public class LevelManager : MonoBehaviour
                     if (i < players.Count)
                     {
                         var playerScript = players[i].transform.GetComponent<PlayerScript>();
-                        ingameGUIManager.UpdatePlayerHud(ingameGUIManager._playerHud[i], players[i].transform.name, 
+                        ingameGUIManager.SetPlayerHud(ingameGUIManager._playerHud[i], players[i].transform.name, 
                             playerScore.ToString(), playerScript.currentState.ToString());
                     }
                     else

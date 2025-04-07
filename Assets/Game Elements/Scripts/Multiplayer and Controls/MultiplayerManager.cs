@@ -114,6 +114,7 @@ public class MultiplayerManager : MonoBehaviour
 
         playerToConnect = newPlayer;
         newPlayer.GetComponent<PlayerScript>().playerScorePanel = gm.levelManager.ingameGUIManager.SpawnPlayerScorePanel();
+        GameManager.Instance.PlayerScriptList.Add(newPlayer.GetComponent<PlayerScript>());
     }
 
 
