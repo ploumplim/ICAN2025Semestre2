@@ -28,6 +28,11 @@ public class BallVisuals : MonoBehaviour
     public Color caughtBallColor = Color.magenta;
     public Color HitBallColor = Color.yellow;
     public Color groundedBallColor = Color.green;
+
+    [Header("Ball Faces settings")]
+    public SpriteRenderer neutralFace;
+    public SpriteRenderer lethalFace;
+    public SpriteRenderer hitFace;
     
     // ---------------PRIVATE---------------
     private BallSM ballSM;
@@ -41,6 +46,11 @@ public class BallVisuals : MonoBehaviour
         _mainCamera = Camera.main;
         _trailRenderer = trailVisuals.GetComponent<TrailRenderer>();
         _ballMaterial = ballVisuals.GetComponent<MeshRenderer>().material;
+        
+        // Set all faces to inactive at the start.
+        neutralFace.gameObject.SetActive(false);
+        lethalFace.gameObject.SetActive(false);
+        hitFace.gameObject.SetActive(false);
         
     }
     
@@ -80,6 +90,7 @@ public class BallVisuals : MonoBehaviour
         
         
     }
+    
     
     private void BallColorAndLight()
     {
