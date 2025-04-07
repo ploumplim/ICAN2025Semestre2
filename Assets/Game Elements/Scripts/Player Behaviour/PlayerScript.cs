@@ -115,6 +115,8 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public int playerLayer;
     [HideInInspector] public int ballLayer;
     [SerializeField] public bool isReady;
+    public GameObject playerScorePanel;
+
     // ------------------------------ CHARGING ------------------------------
     [HideInInspector]public float chargeValueIncrementor = 0f;
     // ------------------------------ HIT ------------------------------
@@ -136,17 +138,6 @@ public class PlayerScript : MonoBehaviour
     {
         SetPlayerParameters();
         col = GetComponent<CapsuleCollider>();
-
-        SetPlayerParameters();
-        col = GetComponent<CapsuleCollider>();
-
-        // R�cup�rer le PlayerSoundScript
-        PlayerSoundScript soundScript = GetComponent<PlayerSoundScript>();
-
-        // Lier les sons aux �v�nements
-        OnHitButtonPressed.AddListener(soundScript.StartChargeSound);
-        OnPlayerHitReleased.AddListener((float chargeValue) => soundScript.StopChargeSound());
-        OnPlayerHitReleased.AddListener((float chargeValue) => soundScript.PlayHitSound());
     }
     
     public void SetPlayerParameters()
