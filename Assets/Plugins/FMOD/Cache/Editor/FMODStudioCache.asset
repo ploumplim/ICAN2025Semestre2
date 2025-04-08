@@ -162,6 +162,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 6000
+--- !u!114 &-5950520048799983368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MUSIC/Music_1
+  m_EditorClassIdentifier: 
+  Path: event:/MUSIC/Music_1
+  Guid:
+    Data1: 475055735
+    Data2: 1337835547
+    Data3: 1796397483
+    Data4: 248767256
+  Banks:
+  - {fileID: 6624957822741629289}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 29596
 --- !u!114 &-5594351192650178852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,6 +356,7 @@ MonoBehaviour:
   EditorBanks:
   - {fileID: -3230815617287640978}
   - {fileID: 9013900838437733036}
+  - {fileID: 6624957822741629289}
   EditorEvents:
   - {fileID: 819409485737512172}
   - {fileID: -5594351192650178852}
@@ -347,12 +375,13 @@ MonoBehaviour:
   - {fileID: -5540887089956256109}
   - {fileID: 26972932658406186}
   - {fileID: 2909261916930966171}
+  - {fileID: -5950520048799983368}
   EditorParameters: []
   MasterBanks:
   - {fileID: 9013900838437733036}
   StringsBanks:
   - {fileID: -3230815617287640978}
-  cacheTime: 638797058040006632
+  cacheTime: 638797058040061922
   cacheVersion: 131846
 --- !u!114 &26972932658406186
 MonoBehaviour:
@@ -544,6 +573,24 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 900
+--- !u!114 &6624957822741629289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Music.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMOD Banks/Desktop_PC/Desktop/Music.bank
+  Name: Music
+  StudioPath: bank:/Music
+  lastModified: 638797058040061922
+  FileSizes: []
+  Exists: 1
 --- !u!114 &9013900838437733036
 MonoBehaviour:
   m_ObjectHideFlags: 0
