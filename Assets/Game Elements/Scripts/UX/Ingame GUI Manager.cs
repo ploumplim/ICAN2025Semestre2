@@ -223,6 +223,14 @@ public class IngameGUIManager : MonoBehaviour
         playerScorePanelList.Add(playerScorePanel);
         return playerScorePanel;
     }
+    public void ChangeColorOfPlayerScorePanel(GameObject playerScorePanel, Color color)
+    {
+        Image image = playerScorePanel.GetComponent<Image>();
+        if (image != null)
+        {
+            image.color = color;
+        }
+    }
     public void CountDownTimer()
     {
         StartCoroutine(StartCountdown(3)); // Start a 5-second countdown

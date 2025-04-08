@@ -97,8 +97,11 @@ public class MultiplayerManager : MonoBehaviour
         HandleGamePads.AssignControllerToPlayer(gamepad, playerToConnect); // Assign the gamepad to a player.
         camera.GetComponent<CameraScript>().AddObjectToArray(playerToConnect.gameObject);
         AssignValuesToPlayer(playerToConnect);
-        playerToConnect = null;
         
+        GameManager.Instance.levelManager.ingameGUIManager.ChangeColorOfPlayerScorePanel(
+            playerToConnect.GetComponent<PlayerScript>().playerScorePanel,
+            playerToConnect.GetComponent<PlayerVisuals>().playerMeshMaterial.color);
+        playerToConnect = null;
         
         OnPlayerJoin?.Invoke();
     }
