@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -11,7 +12,13 @@ public class ChargingState : PlayerState
             base.Enter();
             PlayerScript.chargeValueIncrementor = 0f;
             chargeLimitTimer = 0f;
+            StartCoroutine(CatchWindowCoroutine());
+        }
+        
+        private IEnumerator CatchWindowCoroutine()
+        {
             CatchZone();
+            yield return new WaitForSeconds(PlayerScript.catchWindow);
         }
 
         public override void Tick()

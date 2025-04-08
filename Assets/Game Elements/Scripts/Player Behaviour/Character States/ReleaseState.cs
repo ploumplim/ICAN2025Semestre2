@@ -24,13 +24,19 @@ public class ReleaseState : PlayerState
     {
         // Debug.Log("Parry!");
         PlayerScript.hitTimer = PlayerScript.releaseDuration;
+        parrySpherePosition = PlayerScript.transform.position + transform.forward * PlayerScript.hitDetectionOffset;
         StartCoroutine(HitTime());
     }
     
     IEnumerator HitTime()
     {
+        if (!ballToHit)
+        {
+            HitBox();
+        }
         yield return new WaitForSeconds(PlayerScript.releaseDuration);
         PlayerScript.ChangeState(GetComponent<NeutralState>());
+
     }
     
     //---------------------------------------------------------------------------------
@@ -38,15 +44,11 @@ public class ReleaseState : PlayerState
     {
         base.Tick();
         
-        parrySpherePosition = PlayerScript.transform.position + transform.forward * PlayerScript.hitDetectionOffset;
         
         // PlayerScript.Move(PlayerScript.speed * PlayerScript.releaseSpeedModifier, PlayerScript.chargeLerpTime);
 
 
-        if (!ballToHit)
-        {
-            HitBox();
-        }
+
     }
 
     public void HitBox()
