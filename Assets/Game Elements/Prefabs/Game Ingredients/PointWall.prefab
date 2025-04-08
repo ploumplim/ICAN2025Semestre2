@@ -40,7 +40,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5305762320520598933}
-  - component: {fileID: 6439792006465580217}
   m_Layer: 3
   m_Name: PointWall
   m_TagString: PointWall
@@ -57,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 4644919870295857136}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.5, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 3, y: 2, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -65,27 +64,6 @@ Transform:
   - {fileID: 878583915483549241}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6439792006465580217
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4644919870295857136}
-  m_Material: {fileID: 13400000, guid: 4b1c0d1b552d63f4bb425dc5413d9fb1, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &845517947592616402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -157,6 +135,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 698ba8de147f0ee41b0360417239b28e, type: 3}
       propertyPath: m_Name
       value: HEXAfbx
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 698ba8de147f0ee41b0360417239b28e, type: 3}
+      propertyPath: m_TagString
+      value: PointWall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

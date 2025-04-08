@@ -251,10 +251,6 @@ public class PlayerScript : MonoBehaviour
                     rb.AddForce(
                         direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude * knockbackForce,
                         ForceMode.Impulse);
-                    // Apply an opposite force to the ball
-                    other.gameObject.GetComponent<Rigidbody>().AddForce(
-                        -direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude * knockbackForce,
-                        ForceMode.Impulse);
                 }
                 
             }
@@ -264,11 +260,6 @@ public class PlayerScript : MonoBehaviour
                     currentState is not DeadState)
                 {
                     ChangeState(GetComponent<DeadState>());
-                    // Apply an opposite force to the ball
-                    Vector3 direction = transform.position - other.transform.position;
-                    other.gameObject.GetComponent<Rigidbody>().AddForce(
-                        -direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude * knockbackForce,
-                        ForceMode.Impulse);
                 }
             }
 
