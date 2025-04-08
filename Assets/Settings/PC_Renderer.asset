@@ -40,8 +40,8 @@ MonoBehaviour:
     m_Bits: 4294967295
   m_DefaultStencilState:
     overrideStencilState: 0
-    stencilReference: 1
-    stencilCompareFunction: 3
+    stencilReference: 9
+    stencilCompareFunction: 5
     passOperation: 2
     failOperation: 0
     zFailOperation: 0
@@ -66,9 +66,9 @@ MonoBehaviour:
   m_Name: outline
   m_EditorClassIdentifier: 
   m_Active: 1
-  injectionPoint: 600
+  injectionPoint: 450
   fetchColorBuffer: 1
-  requirements: 6
+  requirements: -1
   passMaterial: {fileID: 2100000, guid: ca829266a2e24ee4180904632904ed86, type: 2}
   passIndex: 0
   bindDepthStencilAttachment: 1
@@ -92,8 +92,8 @@ MonoBehaviour:
     AfterOpaque: 0
     Source: 1
     NormalSamples: 1
-    Intensity: 0.4
-    DirectLightingStrength: 0.25
+    Intensity: 0.75
+    DirectLightingStrength: 0.53
     Radius: 0.3
     Samples: 1
     BlurQuality: 0
