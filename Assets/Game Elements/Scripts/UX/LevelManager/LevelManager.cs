@@ -21,7 +21,7 @@ public class LevelManager : MonoBehaviour
 
     }
     
-    #region Variable
+    #region Variables
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     private LevelSM _levelSM; // Reference to the Level State Machine
     [FormerlySerializedAs("_currentState")] public LevelState currentState; // Reference to the current state of the level

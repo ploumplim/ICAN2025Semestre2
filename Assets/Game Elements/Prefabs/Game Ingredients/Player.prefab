@@ -10176,11 +10176,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee539be1d07544447b075075c5059835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: {fileID: 0}
   movementType: 0
   speed: 25
   chargeSpeedModifier: 0
   acceleration: 1
-  sprintSpeedModifier: 2
   neutralLerpTime: 1
   chargeLerpTime: 0.5
   knockbackTime: 0.25
@@ -10190,9 +10190,9 @@ MonoBehaviour:
   hitType: 0
   chargeRate: 1
   releaseDuration: 0.15
-  chargeTimeLimit: 0.3
-  hitForce: 2.1
-  chargeClamp: 0.83
+  chargeTimeLimit: 0.35
+  hitForce: 3.5
+  chargeClamp: 0.5
   hitDetectionRadius: 5
   hitDetectionOffset: 0
   MultiplayerManager: {fileID: 0}
@@ -10288,7 +10288,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  currentState: {fileID: 0}
   playerInput: {fileID: 0}
   moveAction:
     m_Name: Move
@@ -10308,14 +10307,35 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  rollAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: a0c837f3-f49b-4623-8dd4-14bfe78d9dbf
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  BuntAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 7b9de470-a353-44a1-a3e0-8bb5b67bb853
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   rb: {fileID: 0}
   col: {fileID: 0}
+  ledgeLayer: 0
   playerLayer: 0
   ballLayer: 0
   isReady: 0
-  playerScorePanel: {fileID: 0}
+  ballSM: {fileID: 0}
   chargeValueIncrementor: 0.5
   hitTimer: 0
+  buntTimer: 0
+  dashTimer: 0
   moveInputVector2: {x: 0, y: 0}
   bufferDuration: 0.2
 --- !u!114 &2291177913900343150
@@ -10338,7 +10358,7 @@ MonoBehaviour:
   chargeEndingParticle: {fileID: 3760563121181863863}
   chargeEndingParticleTime: 0.3
   aimPointer: {fileID: 4082388389795980892}
-  aimPointerScale: 1.5
+  aimPointerScale: 2.5
 --- !u!114 &2442788646745104249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10467,8 +10487,8 @@ Transform:
   m_GameObject: {fileID: 4082388389795980892}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.9, z: 0.31}
-  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: -0.9, z: 0}
+  m_LocalScale: {x: 3.02, y: 3.02, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 9195313607378371640}

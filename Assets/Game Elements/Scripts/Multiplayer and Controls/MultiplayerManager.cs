@@ -88,21 +88,6 @@ public class MultiplayerManager : MonoBehaviour
             SpawnPlayer(gamepad, currentPlayerCount);
         }
     }
-    
-    // private void OnSelectButtonPressed(Gamepad gamepad)
-    // {
-    //     Debug.Log($"Gamepad {gamepad.displayName}: Select button pressed");
-    //    
-    //     foreach (var player in connectedPlayers)
-    //     {
-    //         var playerInput = player.GetComponent<PlayerInput>();
-    //         if (playerInput != null && playerInput.devices.Contains(gamepad))
-    //         {
-    //             Debug.Log($"Player associated with gamepad {gamepad.displayName}: {player.name}");
-    //             break;
-    //         }
-    //     }
-    // }
 
     private void SpawnPlayer(Gamepad gamepad, int currentPlayerCount)
     {
@@ -112,8 +97,11 @@ public class MultiplayerManager : MonoBehaviour
         HandleGamePads.AssignControllerToPlayer(gamepad, playerToConnect); // Assign the gamepad to a player.
         camera.GetComponent<CameraScript>().AddObjectToArray(playerToConnect.gameObject);
         AssignValuesToPlayer(playerToConnect);
-        playerToConnect = null;
         
+        GameManager.Instance.levelManager.ingameGUIManager.ChangeColorOfPlayerScorePanel(
+            playerToConnect.GetComponent<PlayerScript>().playerScorePanel,
+            playerToConnect.GetComponent<PlayerVisuals>().playerMeshMaterial.color);
+        playerToConnect = null;
         
         OnPlayerJoin?.Invoke();
     }

@@ -162,39 +162,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 6000
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
---- !u!114 &-5950520048799983368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/MUSIC/Music_1
-  m_EditorClassIdentifier: 
-  Path: event:/MUSIC/Music_1
-  Guid:
-    Data1: 475055735
-    Data2: 1337835547
-    Data3: 1796397483
-    Data4: 248767256
-  Banks:
-  - {fileID: 6624957822741629289}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 29596
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 --- !u!114 &-5594351192650178852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,15 +258,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  lastModified: 638797058040006632
-=======
-  lastModified: 638797022393700591
->>>>>>> Stashed changes
-=======
-  lastModified: 638797022393700591
->>>>>>> Stashed changes
+  lastModified: 638794494334377774
   FileSizes:
   - Name: 
     Value: 1732
@@ -331,11 +290,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3695
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> Stashed changes
 --- !u!114 &-1279955497749796651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,7 +305,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638797022393720545
+  lastModified: 638794494334619935
   FileSizes: []
   Exists: 1
 --- !u!114 &-615239212644355870
@@ -381,10 +335,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 29596
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 --- !u!114 &-256919439445080153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,15 +374,7 @@ MonoBehaviour:
   EditorBanks:
   - {fileID: -3230815617287640978}
   - {fileID: 9013900838437733036}
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  - {fileID: 6624957822741629289}
-=======
   - {fileID: -1279955497749796651}
->>>>>>> Stashed changes
-=======
-  - {fileID: -1279955497749796651}
->>>>>>> Stashed changes
   EditorEvents:
   - {fileID: 819409485737512172}
   - {fileID: -5594351192650178852}
@@ -451,29 +393,13 @@ MonoBehaviour:
   - {fileID: -5540887089956256109}
   - {fileID: 26972932658406186}
   - {fileID: 2909261916930966171}
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  - {fileID: -5950520048799983368}
-=======
   - {fileID: -615239212644355870}
->>>>>>> Stashed changes
-=======
-  - {fileID: -615239212644355870}
->>>>>>> Stashed changes
   EditorParameters: []
   MasterBanks:
   - {fileID: 9013900838437733036}
   StringsBanks:
   - {fileID: -3230815617287640978}
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  cacheTime: 638797058040061922
-=======
-  cacheTime: 638797022393720545
->>>>>>> Stashed changes
-=======
-  cacheTime: 638797022393720545
->>>>>>> Stashed changes
+  cacheTime: 638796253614178702
   cacheVersion: 131846
 --- !u!114 &26972932658406186
 MonoBehaviour:
@@ -665,30 +591,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 900
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
---- !u!114 &6624957822741629289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Music.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/FMOD Banks/Desktop_PC/Desktop/Music.bank
-  Name: Music
-  StudioPath: bank:/Music
-  lastModified: 638797058040061922
-  FileSizes: []
-  Exists: 1
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 --- !u!114 &9013900838437733036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -704,14 +606,6 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  lastModified: 638797058040006632
-=======
-  lastModified: 638797022393690574
->>>>>>> Stashed changes
-=======
-  lastModified: 638797022393690574
->>>>>>> Stashed changes
+  lastModified: 638796253614178702
   FileSizes: []
   Exists: 1

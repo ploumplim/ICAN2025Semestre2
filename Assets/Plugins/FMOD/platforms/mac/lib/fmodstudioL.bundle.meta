@@ -12,6 +12,15 @@ PluginImporter:
   validateReferences: 1
   platformData:
     Any:
+      enabled: 0
+      settings: {}
+    Editor:
+      enabled: 1
+      settings:
+        CPU: AnyCPU
+        DefaultValueInitialized: true
+        OS: OSX
+    OSXUniversal:
       enabled: 1
       settings: {}
   userData: 
