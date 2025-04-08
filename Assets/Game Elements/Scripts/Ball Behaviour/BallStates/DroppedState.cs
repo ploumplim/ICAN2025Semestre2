@@ -19,7 +19,7 @@ public class DroppedState : BallState
     public override void Tick()
     {
         base.Tick();
-        BallSm.SetMaxHeight(BallSm.groundedMaxHeight);
+        BallSm.SetMaxHeight(BallSm.minHeight, BallSm.groundedMaxHeight);
         BallSm.FixVerticalSpeed(BallSm.groundedMaxHeight);
 
     }

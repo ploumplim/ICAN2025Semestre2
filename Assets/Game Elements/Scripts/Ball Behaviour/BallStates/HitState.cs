@@ -1,62 +1,60 @@
-// using UnityEngine;
-//
-// public class HitState : BallState
-// {
-//     private Collider[] _targetColliders = new Collider[10]; // Pre-allocated array for potential targets
-//     public override void Enter()
-//     {
-//         BallSm.bounces += 1;
-//         base.Enter();
-//
-//         // // Detect potential targets within the detection radius
-//         // int size = Physics.OverlapSphereNonAlloc(BallSm.transform.position, BallSm.speedModifiedDetectionRadius,
-//         //     _targetColliders);
-//         //
-//         // // Filter targets to include only those with the "Target" tag
-//         // Collider[] validTargets = System.Array.FindAll(_targetColliders,
-//         //     collider => collider != null && collider.CompareTag("Target"));
-//         //
-//         // if (validTargets.Length > 0)
-//         // {
-//         //     
-//         //     
-//         //     // Sort the colliders by distance to the ball, so the closest one is the first one in the array
-//         //     System.Array.Sort(validTargets, (x, y) =>
-//         //         Vector3.Distance(x.transform.position, BallSm.transform.position)
-//         //             .CompareTo(Vector3.Distance(y.transform.position, BallSm.transform.position)));
-//         //
-//         //     // Calculate the direction to the target
-//         //     Vector3 directionToTarget = (validTargets[0].transform.position - BallSm.transform.position).normalized;
-//         //
-//         //     // Set the ball facing the target using Quaternion.LookRotation
-//         //     BallSm.transform.rotation = Quaternion.LookRotation(directionToTarget);
-//         //
-//         //     // Push the ball towards the target
-//         //     BallSm.Bounce();
-//         //     
-//         //     // Debug all data from the current bounce
-//         //     Debug.Log("Target found: "+ validTargets[0].name + " Distance: " + Vector3.Distance(validTargets[0].transform.position, BallSm.transform.position));
-//         //     
-//         //     // Change state to "MidAir"
-//         //     BallSm.ChangeState(BallSm.GetComponent<MidAirState>());
-//         // }
-//         // else
-//         // {
-//         //     // If no targets are found, change state to "MidAir"
-//         //     BallSm.ChangeState(BallSm.GetComponent<MidAirState>());
-//         // }
-//         
-//         BallSm.ChangeState(BallSm.GetComponent<MidAirState>());
-//
-//     }
-//     
-//     public override void Exit()
-//     {
-//         base.Exit();
-//         // reset the target colliders array
-//         _targetColliders = new Collider[10];
-//     }
-//
-// }
-//
-//
+using UnityEngine;
+
+public class HitState : BallState
+{
+    [HideInInspector] public Vector3 hitDirection;
+    [HideInInspector] public float timer;
+    [HideInInspector] public float hitTimer;
+    
+    public override void Enter()
+    {
+        GameObject ballOwnerPlayer = BallSm.ballOwnerPlayer;
+        PlayerScript ballOwnerPlayerScript = BallSm.ballOwnerPlayer.GetComponent<PlayerScript>();
+        
+        timer = 0;
+        hitTimer = 0;
+        if (ballOwnerPlayer)
+        {
+            Physics.IgnoreCollision(BallSm.col, ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
+        }
+        base.Enter();
+
+        float chargeValue = Mathf.Clamp(ballOwnerPlayerScript.chargeValueIncrementor, ballOwnerPlayerScript.chargeClamp, 1f);
+        
+        
+        // The ball should now be launched using the hitDirection and the chargeValueIncrementor of the owner player.
+        BallSm.rb.AddForce(hitDirection * 
+                           (BallSm.currentBallSpeedVec3.magnitude +
+                            (chargeValue * BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().hitForce)),
+            ForceMode.Impulse);
+        
+        
+    }
+
+    public override void Tick()
+    {
+        hitTimer += Time.deltaTime;
+        timer += Time.deltaTime;
+        if (timer >= BallSm.playerImmunityTime)
+        {
+            Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
+            // Debug.Log("Player is no longer immune to the ball.");
+        }
+        if (hitTimer >= BallSm.hitStateDuration)
+        {
+            BallSm.ChangeState(GetComponent<FlyingState>());
+        }
+    }
+    
+    public override void Exit()
+    {
+        if (BallSm.ballOwnerPlayer)
+        {
+            Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
+        }
+        base.Exit();
+    }
+
+}
+
+

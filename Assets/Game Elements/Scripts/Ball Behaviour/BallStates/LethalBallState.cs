@@ -17,7 +17,7 @@ public class LethalBallState : BallState
     {
         base.Tick();
         
-        BallSm.SetMaxHeight(BallSm.flyingMaxHeight);
+        BallSm.SetMaxHeight(BallSm.minHeight, BallSm.flyingMaxHeight);
         BallSm.FixVerticalSpeed(BallSm.flyingMaxHeight);
         
         if (timer >= BallSm.playerImmunityTime)

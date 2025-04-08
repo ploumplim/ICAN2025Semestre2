@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="c6229357-d157-4b3a-a2a3-9c49815cecc1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ICAN2025Semestre2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ICAN2025Semestre2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/UX/ingame-GUI Canvas.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/UX/ingame-GUI Canvas.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/Ingame GUI Manager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/Ingame GUI Manager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/LevelManager/LevelManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/LevelManager/LevelManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Ivan's Paddle Room.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Ivan's Paddle Room.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +40,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/BuntingPlayerState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerScript.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/PLAYGROUND/Scripts/FPS playground controller.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@9496653a3df6/Runtime/UGUI/EventSystem/EventSystem.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@603b5c2e4e5a/Runtime/UGUI/EventSystem/EventSystem.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -48,21 +52,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Attach to Unity Editor.Attach to Unity Editor.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;BaptisteMenuBranchTest&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Attach to Unity Editor.Attach to Unity Editor.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "<unknown>",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="$PROJECT_DIR$/../../Build Folder/BallGame/Playground v2\BallGameVisualsPlayground.exe" />
@@ -73,7 +77,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.0.42f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.0.37f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\ivan_\Documents\GitHub\ICAN2025Semestre2 -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ivan_\Documents\GitHub\ICAN2025Semestre2" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -81,7 +85,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.0.42f1\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.0.37f1\Editor\Unity.exe" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\ivan_\Documents\GitHub\ICAN2025Semestre2 -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ivan_\Documents\GitHub\ICAN2025Semestre2" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -194,6 +198,17 @@
       <workItem from="1743497329793" duration="13000" />
       <workItem from="1743497420791" duration="7983000" />
       <workItem from="1743586444132" duration="4469000" />
+      <workItem from="1743675493650" duration="114000" />
+      <workItem from="1743675624015" duration="88000" />
+      <workItem from="1743677111720" duration="9323000" />
+      <workItem from="1743758987670" duration="1168000" />
+      <workItem from="1743837488267" duration="464000" />
+      <workItem from="1743839075836" duration="1794000" />
+      <workItem from="1743844717621" duration="314000" />
+      <workItem from="1743846834690" duration="8058000" />
+      <workItem from="1744011046979" duration="3987000" />
+      <workItem from="1744026902225" duration="2572000" />
+      <workItem from="1744098927497" duration="3000" />
     </task>
     <servers />
   </component>

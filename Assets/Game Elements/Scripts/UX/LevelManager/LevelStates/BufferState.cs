@@ -19,6 +19,17 @@ public class BufferState : LevelState
             LevelManagerScript.StartRound();
             StartCoroutine(WaitForBufferTime());
         }
+        Debug.Log("Entre deux round");
+        foreach (var player in GameManager.Instance.PlayerScriptList)
+        {
+            Debug.Log(player.name);
+            GameObject playerScorePanel = player.GetComponent<PlayerScript>().playerScorePanel;
+            int points = player.GetComponent<PlayerPointTracker>().points;
+            
+            GameManager.Instance.levelManager.ingameGUIManager.UpdatePlayerScore(playerScorePanel, points);
+        }
+        
+
     }
     
     IEnumerator WaitForBufferTime()

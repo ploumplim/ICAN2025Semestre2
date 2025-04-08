@@ -148,6 +148,7 @@ public class LevelManager : MonoBehaviour
         }
     }
     // ------------------------ MANAGE ROUNDS 🃦 🃧 🃨 🃩  ------------------------
+    // ReSharper disable Unity.PerformanceAnalysis
     public void StartLevel() // CALL THIS METHOD TO START THE LEVEL
     {
         if (players.Count >= 2 && !gameIsRunning)
@@ -157,7 +158,7 @@ public class LevelManager : MonoBehaviour
             ingameGUIManager.startGameButtonObject.SetActive(false);
             ingameGUIManager.resetPlayersObject.SetActive(false);
             
-            foreach (GameObject player in players)
+            foreach (PlayerScript player in GameManager.Instance.PlayerScriptList)
             {
                 // subscribe to the OnBallHitEvent
                 player.GetComponent<PlayerScript>().OnBallHit += AddScoreToPlayer;
@@ -177,15 +178,12 @@ public class LevelManager : MonoBehaviour
 
         foreach (var players in players)
         {
-            players.GetComponent<PlayerScript>()._isReady = false;
+            players.GetComponent<PlayerScript>().isReady = false;
         }
     }
     
     public bool RoundCheck()
     {
-        // Check if the current round is less than the total rounds.
-        // If it is, increment the current round and change the state to InRoundState.
-        // If it is not, change the state to OutOfLevelState.
         if (currentRound < totalRounds)
         {
             return false;
@@ -365,9 +363,9 @@ public class LevelManager : MonoBehaviour
                 case FlyingState:
                     player.GetComponent<PlayerPointTracker>().AddPoints(ballHitScore);
                     break;
-                case BuntedBallState:
-                    player.GetComponent<PlayerPointTracker>().AddPoints(buntedBallHitScore);
-                    break;
+                // case BuntedBallState:
+                //     player.GetComponent<PlayerPointTracker>().AddPoints(buntedBallHitScore);
+                //     break;
                 
             }
         }
@@ -402,7 +400,8 @@ public class LevelManager : MonoBehaviour
                     playerScorePanelParent = child.gameObject;
                 }
             }
-            GameObject scorePanel = Instantiate(ingameGUIManager.playerScoreInformation, playerScorePanelParent.gameObject.transform);
+            GameObject scorePanel = Instantiate(ingameGUIManager.ScorePlayerUIEndGame, playerScorePanelParent.gameObject.transform);
+            ingameGUIManager.playerScorePanelList.Add(scorePanel);
             scorePanel.SetActive(true);
             ingameGUIManager.EndGameScoreBoardPlayerPanel(playerScore.player, scorePanel, i + 1);
         }

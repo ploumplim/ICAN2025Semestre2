@@ -65,21 +65,31 @@ public class PlayerVisuals : MonoBehaviour
                 
                 // Set the aimPointer's scale.
                 aimPointer.transform.localScale = new Vector3(aimPointerScale, aimPointerScale, aimPointerScale);
+                
+                OnSprintEnd();
+                
                 break;
             
             case ChargingState:
                 // Function to signal the charging state of the player.
                 ChargeFeedback();
+                OnSprintEnd();
                 break;
             
             case DeadState:
                 _playerMeshMaterial.color = Color.black; 
                 if (!deadParticle.isPlaying)
                 {deadParticle.Play();}
+                OnSprintEnd();
                 break;
             
             case KnockbackState:
                 _playerMeshMaterial.color = knockbackColor;
+                OnSprintEnd();
+                break;
+            
+            case SprintState:
+                OnSprintStart();
                 break;
             
             default:
@@ -93,20 +103,14 @@ public class PlayerVisuals : MonoBehaviour
             case PlayerScript.HitType.ReflectiveHit:
                 aimPointer.SetActive(false);
                 break;
-            case PlayerScript.HitType.EightDirHit:
-                aimPointer.SetActive(true);
-                if (playerScript.moveInputVector2 != Vector2.zero)
-                {
-                    SetEightDirectionArrow();
-                }
-                break;
+
         }
 
         WarnChargeAlmostOver();
 
-        RecoverAfterDash();
-        // Dash trail width is equal to the player's rollDetectionRadius.
-        dashTrail.widthMultiplier = playerScript.rollDetectionRadius * 2f;
+        // RecoverAfterDash();
+        // // Dash trail width is equal to the player's rollDetectionRadius.
+        // dashTrail.widthMultiplier = playerScript.rollDetectionRadius * 2f;
         
         // Dash color is equal to the player's color.
         dashTrail.startColor = _playerMeshMaterial.color;
@@ -156,17 +160,17 @@ public class PlayerVisuals : MonoBehaviour
         
     }
     
-    public void RecoverAfterDash()
-    {
-        if (playerMesh.transform.rotation.x != 0)
-        {
-            // Rotate the player mesh on the X axis to emulate them standing up over time.
-            
-            playerMesh.transform.rotation = Quaternion.Euler
-            (Mathf.Lerp(playerMesh.transform.rotation.x, 0, Time.deltaTime * playerScript.dashDuration),
-                playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
-        }
-    }
+    // public void RecoverAfterDash()
+    // {
+    //     if (playerMesh.transform.rotation.x != 0)
+    //     {
+    //         // Rotate the player mesh on the X axis to emulate them standing up over time.
+    //         
+    //         playerMesh.transform.rotation = Quaternion.Euler
+    //         (Mathf.Lerp(playerMesh.transform.rotation.x, 0, Time.deltaTime * playerScript.dashDuration),
+    //             playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
+    //     }
+    // }
 
     public void SetEightDirectionArrow()
     {
@@ -184,14 +188,12 @@ public class PlayerVisuals : MonoBehaviour
         parryParticle.Play();
     }
     
-    public void OnDashEnter()
+    public void OnSprintStart()
     {
         dashTrail.emitting = true;
-        // Rotate the player mesh to be completely horizontal
-        playerMesh.transform.rotation = Quaternion.Euler(90, playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
     }
     
-    public void OnDashExit()
+    public void OnSprintEnd()
     {
         dashTrail.emitting = false;
     }

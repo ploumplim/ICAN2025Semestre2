@@ -9922,11 +9922,11 @@ GameObject:
   - component: {fileID: 2442788646745104249}
   - component: {fileID: 8431329008806425069}
   - component: {fileID: 924477131349713796}
-  - component: {fileID: 2734832899062771135}
   - component: {fileID: 1951496036296628564}
-  - component: {fileID: 3974316326334170041}
+  - component: {fileID: 1484139084516818113}
   - component: {fileID: -6270888105009861134}
   - component: {fileID: -9058261084534589756}
+  - component: {fileID: 3857658138353711811}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -10116,35 +10116,11 @@ MonoBehaviour:
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4963522762754067053}
-        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
-        m_MethodName: OnDash
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 5089c710-ac29-4e77-8450-ea020db1f5bf
     m_ActionName: 'Player/Roll[/XInputControllerWindows/buttonSouth]'
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4963522762754067053}
-        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
-        m_MethodName: OnBunt
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: f05effeb-87b3-4c34-9213-05678b61ec7b
     m_ActionName: 'Player/Bunt[/XInputControllerWindows/buttonEast]'
   - m_PersistentCalls:
@@ -10167,6 +10143,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d211b4ee-eb0f-4766-b6cc-5a585d5d4fc3
     m_ActionName: 'Player/SetReady[/XInputControllerWindows/select]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4963522762754067053}
+        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+        m_MethodName: OnSprint
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9ce6e8db-49d9-4d48-9a11-86906c6e544f
+    m_ActionName: 'Player/Sprint[/XInputControllerWindows/leftTrigger]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -10184,48 +10176,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee539be1d07544447b075075c5059835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: {fileID: 0}
   movementType: 0
-  speed: 24
-  chargeSpeedModifier: 0.3
-  releaseSpeedModifier: 0.5
-  buntSpeedModifier: 0.5
+  speed: 25
+  chargeSpeedModifier: 0
   acceleration: 1
+  sprintSpeedModifier: 2
   neutralLerpTime: 1
   chargeLerpTime: 0.5
-  dashSpeed: 65
-  dashDuration: 0.1
-  dashCooldown: 0.25
-  rollDetectionRadius: 2.5
-  canPassThroughLedges: 1
-  ballDashForce: 1
   knockbackTime: 0.25
   knockbackForce: 1
-  dashKnockbackModifier: 0.5
   linearDrag: 0.5
   hitLinearDrag: 0
   hitType: 0
-  chargeRate: 1.7
-  releaseDuration: 0.13
-  chargeTimeLimit: 0.8
-  hitForce: 1.5
-  chargeClamp: 0.5
-  verticalPercent: 0.2
+  chargeRate: 1
+  releaseDuration: 0.15
+  chargeTimeLimit: 0.3
+  hitForce: 2.1
+  chargeClamp: 0.83
   hitDetectionRadius: 5
   hitDetectionOffset: 0
-  slowRate: 5
-  minimumSpeedPercentage: 0.1
-  buntForce: 0.8
-  buntCooldown: 0.9
-  buntDuration: 0.1
-  buntSphereRadius: 1.7
-  buntSpherePositionOffset: 1.36
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
   playerHand: {fileID: 2776262344594129282}
   OnHitButtonPressed:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3857658138353711811}
+        m_TargetAssemblyTypeName: PlayerSoundScript, Assembly-CSharp
+        m_MethodName: PlayBuntSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnPlayerHitReleased:
     m_PersistentCalls:
       m_Calls:
@@ -10241,28 +10228,43 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnBallHitByPlayer:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPlayerHitByBall:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPlayerPerformedBunt:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPlayerBuntBall:
-    m_PersistentCalls:
-      m_Calls: []
-  OnPlayerDash:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2291177913900343150}
-        m_TargetAssemblyTypeName: PlayerVisuals, Assembly-CSharp
-        m_MethodName: OnDashEnter
+      - m_Target: {fileID: 3857658138353711811}
+        m_TargetAssemblyTypeName: PlayerSoundScript, Assembly-CSharp
+        m_MethodName: PlayHitSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnBallHitByPlayer:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3857658138353711811}
+        m_TargetAssemblyTypeName: PlayerSoundScript, Assembly-CSharp
+        m_MethodName: PlaySound5
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnPlayerHitByBall:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3857658138353711811}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -10270,22 +10272,23 @@ MonoBehaviour:
         m_CallState: 2
   PlayerEndedDash:
     m_PersistentCalls:
+      m_Calls: []
+  OnPlayerDeath:
+    m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2291177913900343150}
-        m_TargetAssemblyTypeName: PlayerVisuals, Assembly-CSharp
-        m_MethodName: OnDashExit
-        m_Mode: 1
+      - m_Target: {fileID: 3857658138353711811}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnPlayerDeath:
-    m_PersistentCalls:
-      m_Calls: []
+  currentState: {fileID: 0}
   playerInput: {fileID: 0}
   moveAction:
     m_Name: Move
@@ -10305,37 +10308,16 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
-  rollAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: a0c837f3-f49b-4623-8dd4-14bfe78d9dbf
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  BuntAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 7b9de470-a353-44a1-a3e0-8bb5b67bb853
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
   rb: {fileID: 0}
   col: {fileID: 0}
-  ledgeLayer: 0
   playerLayer: 0
   ballLayer: 0
-  _isReady: 0
-  ballSM: {fileID: 0}
+  isReady: 0
+  playerScorePanel: {fileID: 0}
   chargeValueIncrementor: 0.5
   hitTimer: 0
-  buntTimer: 0
-  dashTimer: 0
   moveInputVector2: {x: 0, y: 0}
-  _bufferDuration: 0.2
+  bufferDuration: 0.2
 --- !u!114 &2291177913900343150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10397,21 +10379,6 @@ MonoBehaviour:
   parrySpherePosition: {x: 0, y: 0, z: 0}
   currentBallSpeed: 0
   ballHit: 0
---- !u!114 &2734832899062771135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3328443934547631640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99634c741eb0602468773a780d2a6177, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timer: 0
-  ballBunted: 0
-  ballToBunt: {fileID: 0}
 --- !u!114 &1951496036296628564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10425,7 +10392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chargeLimitTimer: 0
---- !u!114 &3974316326334170041
+--- !u!114 &1484139084516818113
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10434,11 +10401,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3328443934547631640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d24d344422f6594a9016c6f3a57ab8d, type: 3}
+  m_Script: {fileID: 11500000, guid: 363d09c718cbc3f4ebdf3ca5f3d0e034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
-  dashDirection: {x: 0, y: 0}
 --- !u!114 &-6270888105009861134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10464,6 +10429,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 0
+--- !u!114 &3857658138353711811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3328443934547631640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2052fada49482d040a492527e2306633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4082388389795980892
 GameObject:
   m_ObjectHideFlags: 0

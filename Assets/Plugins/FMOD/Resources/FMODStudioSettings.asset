@@ -404,7 +404,12 @@ MonoBehaviour:
   Plugins: []
   MasterBanks:
   - Master
+<<<<<<< Updated upstream
   Banks: []
+=======
+  Banks:
+  - Music
+>>>>>>> Stashed changes
   BanksToLoad: []
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0

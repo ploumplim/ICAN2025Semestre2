@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public MultiplayerManager multiplayerManager;
     public LevelManager levelManager;
     public HandleGamePads handleGamePads;
-    public PlayerScript[] playerScriptList;
+    public List<PlayerScript> PlayerScriptList;
     public GameObject maxPlayer;
     
 
@@ -83,10 +83,17 @@ public class GameManager : MonoBehaviour
         levelManager.Initialize();
         multiplayerManager.SetGameParameters();
         
+        
+        
     }
     
     public void AllPlayersReady()
     {
         levelManager.ingameGUIManager.CountDownTimer();
+        
+        // foreach (var panelPlayer in levelManager.ingameGUIManager.playerScorePanelList)
+        // {
+        //     panelPlayer.SetActive(false);
+        // }
     }
 }

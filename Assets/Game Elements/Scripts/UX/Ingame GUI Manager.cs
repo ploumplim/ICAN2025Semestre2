@@ -18,46 +18,35 @@ public class IngameGUIManager : MonoBehaviour
     [Header("Game Objects Settings and Prefabs")]
     public GameObject ball;
     [Header("Player and Ball Debug Information")]
-       public InputAction pauseAction;
+    public InputAction pauseAction;
     public GameObject pauseMenu;
     [Header("GUI")]
     public LevelManager levelManager;
     public GameObject startGameButtonObject;
     public GameObject resetPlayersObject;
     public float roundInformationDuration = 1.5f;
-    [FormerlySerializedAs("PlayerScoreInformation")] public GameObject playerScoreInformation;
-    public GameObject playerOneScorePanel;
-    public GameObject playerTwoScorePanel;
-    public GameObject playerThreeScorePanel;
-    public GameObject playerFourScorePanel;
+    public GameObject ScorePlayerUIEndGame;
     
     // --------- PRIVATES ----------
     
     private List<GameObject> _playerList;
-    private List<GameObject> _playerScorePanelList;
+    [FormerlySerializedAs("_playerScorePanelList")] public List<GameObject> playerScorePanelList;
     private int _playerCount;
     [SerializeField] private TextMeshPro _globalPointsText;
     [FormerlySerializedAs("_startGameText")] [SerializeField] private TextMeshProUGUI _RoundInformationAffichage;
-
+    public List<GameObject> _playerHud;
+    [SerializeField] private GameObject PlayerInformationGUI;
+    [SerializeField] private GameObject playerPrefabScore;
+    [SerializeField] private GameObject playerPanelSpawnPointParent;
+    
     void Start()
     {
-        // disable all scorepanels.
-        playerOneScorePanel.SetActive(false);
-        playerTwoScorePanel.SetActive(false);
-        playerThreeScorePanel.SetActive(false);
-        playerFourScorePanel.SetActive(false);
-        
-        // Fill the playerScorePanelList with the player score panels.
-        _playerScorePanelList = new List<GameObject>
+        GameObject PlayerPanelParent = GameObject.FindGameObjectWithTag("PlayerInformationPanel");
+        // After
+        foreach (var VARIABLE in PlayerPanelParent.GetComponentsInChildren<PlayerInfoGui>())
         {
-            playerOneScorePanel,
-            playerTwoScorePanel,
-            playerThreeScorePanel,
-            playerFourScorePanel
-        };
-        
-        // Subscribe to the OnPlayerJoin event in the Multiplayer Manager.
-        GameManager.Instance.multiplayerManager.OnPlayerJoin += DisplayPlayerPoints;
+            _playerHud.Add(VARIABLE.gameObject);
+        }
         
     }
 
@@ -67,8 +56,85 @@ public class IngameGUIManager : MonoBehaviour
         // Update the global point texts using the levelManager's global points.
         _globalPointsText.text = levelManager.potScore.ToString();
         _playerCount = _playerList.Count;
-        UpdateIndividualPlayerScorePanels();
+        //UpdateIndividualPlayerScorePanels();
 
+    }
+    
+    public void SetPlayerHud(GameObject playerInfoGui,string playerName , string playerScore, string playerState)
+    {
+        Debug.Log(playerName);
+            TextMeshProUGUI playerNameText = null;
+            TextMeshProUGUI playerScoreText = null;
+            TextMeshProUGUI playerStateText = null;
+
+            
+            foreach (var textMesh in playerInfoGui.GetComponentsInChildren<TextMeshProUGUI>())
+            {
+                switch (textMesh.gameObject.name)
+                {
+                    case "PlayerName":
+                        playerNameText = textMesh;
+                        break;
+                    case "PlayerScore":
+                        playerScoreText = textMesh;
+                        break;
+                    case "PlayerState":
+                        playerStateText = textMesh;
+                        break;
+                }
+            }
+
+            if (playerNameText != null)
+            {
+                playerNameText.text = playerName;
+            }
+
+            if (playerScoreText != null)
+            {
+                playerScoreText.text = playerScore;
+            }
+
+            if (playerStateText != null)
+            {
+                playerStateText.text = playerState;
+            }
+    }
+    
+    public void UpdatePlayerState(GameObject playerInfoGui, bool isReady)
+    {
+        TextMeshProUGUI playerStateText = null;
+
+        foreach (var textMesh in playerInfoGui.GetComponentsInChildren<TextMeshProUGUI>())
+        {
+            if (textMesh.gameObject.name == "PlayerState")
+            {
+                playerStateText = textMesh;
+                break;
+            }
+        }
+
+        if (playerStateText != null)
+        {
+            playerStateText.text = isReady ? "Ready" : "Not Ready";
+        }
+    }
+    public void UpdatePlayerScore(GameObject playerInfoGui, int score)
+    {
+        TextMeshProUGUI playerScoreText = null;
+
+        foreach (var textMesh in playerInfoGui.GetComponentsInChildren<TextMeshProUGUI>())
+        {
+            if (textMesh.gameObject.name == "PlayerScore")
+            {
+                playerScoreText = textMesh;
+                break;
+            }
+        }
+
+        if (playerScoreText != null)
+        {
+            playerScoreText.text = score.ToString();
+        }
     }
     
     public void AssignBall(GameObject ballObject)
@@ -94,31 +160,6 @@ public class IngameGUIManager : MonoBehaviour
             pauseMenu.SetActive(true);
         }
     }
-    // ------------------------ PLAYER POINT DISPLAY
-
-    public void DisplayPlayerPoints()
-    {
-        if (_playerCount == 1)
-        {
-            _playerScorePanelList[0].SetActive(true);
-
-        }
-        else
-        {
-            // For each player in the player list, display their points using the playerscorepanellist.
-            for (int i = 0; i < _playerCount; i++)
-            {
-                Debug.Log("Displaying player points for player " + _playerList[i].name);
-                _playerScorePanelList[i].SetActive(true);
-            }
-        }
-    }
-    
-    public void UpdateIndividualPlayerScorePanels()
-    {
-        
-    }
-    
     
     // ------------------------ ROUND INFORMATION FUNCTIONS
     
@@ -149,12 +190,44 @@ public class IngameGUIManager : MonoBehaviour
         playerScoreText.text = player.GetComponent<PlayerPointTracker>().points.ToString();
         playerNumberText.text = playerRank.ToString();
     }
+    
+    public GameObject SpawnPlayerScorePanel(PlayerScript player)
+    {
+        // Create a list of the children of playerPanelSpawnPointParent
+        List<Transform> spawnPoints = new List<Transform>();
+        foreach (Transform child in playerPanelSpawnPointParent.transform)
+        {
+            spawnPoints.Add(child);
+        }
 
+        // Determine the position for the new panel based on the number of panels already spawned
+        int panelIndex = playerScorePanelList.Count;
+        if (panelIndex >= spawnPoints.Count)
+        {
+            Debug.LogError("Not enough spawn points for player score panels.");
+            return null;
+        }
+
+        // Instantiate the new panel at the corresponding spawn point
+        GameObject playerScorePanel = Instantiate(playerPrefabScore, spawnPoints[panelIndex].position, Quaternion.identity, PlayerInformationGUI.transform);
+        TextMeshProUGUI playerNameText = null;
+        foreach (Transform Text in (playerScorePanel.transform))
+        {
+            if (Text.name == "PlayerName")
+            {
+                playerNameText = Text.GetComponent<TextMeshProUGUI>();
+            }
+            playerNameText.text = player.name;
+        }
+        
+        playerScorePanelList.Add(playerScorePanel);
+        return playerScorePanel;
+    }
     public void CountDownTimer()
     {
-        StartCoroutine(StartCountdown(5)); // Start a 5-second countdown
+        StartCoroutine(StartCountdown(3)); // Start a 5-second countdown
     }
-
+    
     private IEnumerator StartCountdown(int duration)
     {
         _RoundInformationAffichage.gameObject.SetActive(true);
@@ -165,7 +238,7 @@ public class IngameGUIManager : MonoBehaviour
             bool allPlayersReady = true;
             foreach (GameObject player in GameManager.Instance.multiplayerManager.connectedPlayers)
             {
-                if (!player.GetComponent<PlayerScript>()._isReady)
+                if (!player.GetComponent<PlayerScript>().isReady)
                 {
                     allPlayersReady = false;
                     break;
@@ -183,7 +256,7 @@ public class IngameGUIManager : MonoBehaviour
 
             // Update the UI text element with the remaining time
             _RoundInformationAffichage.text = remainingTime.ToString();
-            Debug.Log(remainingTime);
+            //Debug.Log(remainingTime);
             yield return new WaitForSeconds(1);
             remainingTime--;
         }
