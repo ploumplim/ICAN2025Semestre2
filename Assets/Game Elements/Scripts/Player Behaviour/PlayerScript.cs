@@ -23,7 +23,7 @@ public class PlayerScript : MonoBehaviour
         ReflectiveHit
     }
 
-    #region Variable Region
+    #region Variables
     // ------------------------------ PUBLIC VARIABLES ------------------------------
     [Header("Movement Settings")]
     [Header("MOVEMENT TYPES: \n " +
@@ -79,6 +79,8 @@ public class PlayerScript : MonoBehaviour
     public float hitDetectionRadius = 3.5f;
     [Tooltip("The offset of the hit detection sphere.")]
     public float hitDetectionOffset = 0f;
+    [Tooltip("The window of opportunity to catch the ball at the start of the charge.")]
+    public float catchWindow = 0.2f;
 
 
     //---------------------------------------------------------------------------------------
@@ -86,8 +88,6 @@ public class PlayerScript : MonoBehaviour
     
     [Header("Scene References")]
     public CameraScript playerCamera;
-
-    public GameObject playerHand;
     
     [Header("Events")]
     // ------------------------------ EVENTS ------------------------------
@@ -96,8 +96,7 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent OnHitButtonPressed;
     public UnityEvent<float> OnPlayerHitReleased;
     public UnityEvent<float> OnBallHitByPlayer;
-    public UnityEvent OnPlayerHitByBall;
-    public UnityEvent PlayerEndedDash;
+    public UnityEvent OnPlayerHitByBall; 
     public UnityEvent OnPlayerDeath;
     
     // action events
