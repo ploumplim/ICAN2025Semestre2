@@ -1554,17 +1554,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4203c357c8eeff4597b8b02d79c8693, type: 3}
---- !u!114 &635903036 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7046549965582419950, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
-  m_PrefabInstance: {fileID: 2124045469942785390}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63dbe794ea0b955448547be069b6586f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &654827140
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4051,7 +4040,7 @@ PrefabInstance:
     - target: {fileID: 1684366950800916125, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
       propertyPath: _startGameText
       value: 
-      objectReference: {fileID: 2057427144335995174}
+      objectReference: {fileID: 0}
     - target: {fileID: 1684366950800916125, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
       propertyPath: _globalPointsText
       value: 
@@ -4059,7 +4048,7 @@ PrefabInstance:
     - target: {fileID: 1684366950800916125, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
       propertyPath: _RoundInformationAffichage
       value: 
-      objectReference: {fileID: 2057427144335995174}
+      objectReference: {fileID: 0}
     - target: {fileID: 2739360979628391035, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
       propertyPath: m_text
       value: 
@@ -4235,17 +4224,6 @@ PrefabInstance:
       addedObject: {fileID: 2030916152}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
---- !u!114 &2057427144335995174 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2739360979628391035, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
-  m_PrefabInstance: {fileID: 2057427144335995173}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!33 &2116768449649363399
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4275,6 +4253,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8243870776174257223}
     - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: PlayerSpawnParent
+      value: 
+      objectReference: {fileID: 79125514}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
       propertyPath: pointWallHitScore
       value: 3
       objectReference: {fileID: 0}
@@ -4289,7 +4271,7 @@ PrefabInstance:
     - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
       propertyPath: multiplayerManager
       value: 
-      objectReference: {fileID: 635903036}
+      objectReference: {fileID: 0}
     - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
       propertyPath: rounds.Array.data[0].roundName
       value: Round 1
