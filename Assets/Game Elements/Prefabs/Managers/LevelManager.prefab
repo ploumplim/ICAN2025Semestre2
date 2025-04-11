@@ -1,0 +1,213 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1265014703807786726
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4872211941869060550}
+  m_Layer: 7
+  m_Name: BallSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4872211941869060550
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1265014703807786726}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6504521702067660533}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3059810454532666425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6504521702067660533}
+  - component: {fileID: 1327721485598010912}
+  - component: {fileID: 7683787567743412218}
+  - component: {fileID: 7125423641452772702}
+  - component: {fileID: 5101536526576575525}
+  - component: {fileID: 7884196244828706504}
+  - component: {fileID: 4967665493931135493}
+  - component: {fileID: 6321886603128638455}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6504521702067660533
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3059810454532666425}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.5713816, y: 4.2490206, z: 6.314224}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4872211941869060550}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1327721485598010912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3059810454532666425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59501da154a527242a24d9625e366b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentState: {fileID: 0}
+  players: []
+  potScore: 0
+  gameBall: {fileID: 0}
+  pointWalls: []
+  neutralWalls: []
+  currentRound: 0
+  totalRounds: 0
+  gameIsRunning: 0
+  ballPrefab: {fileID: 3874236971623783123, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
+  ballSpawnPosition: {fileID: 4872211941869060550}
+  pointWallPrefab: {fileID: 4644919870295857136, guid: fffa66def8c7c2c40ae60cb32e65d617, type: 3}
+  neutralWallPrefab: {fileID: 4644919870295857136, guid: 4978d0f94522b694eaa2779fd7141ef9, type: 3}
+  setupTime: 1.5
+  roundBufferTime: 1.5
+  roundVictoryDelay: 2
+  rounds:
+  - roundName: 
+    pointWallPositions:
+    - {fileID: 0}
+    neutralWallPositions:
+    - {fileID: 0}
+  - roundName: 
+    pointWallPositions:
+    - {fileID: 0}
+    neutralWallPositions:
+    - {fileID: 0}
+  - roundName: 
+    pointWallPositions:
+    - {fileID: 0}
+    neutralWallPositions:
+    - {fileID: 0}
+  ballHitScore: 1
+  buntedBallHitScore: 2
+  pointWallHitScore: 3
+  ingameGUIManager: {fileID: 0}
+  gameCameraScript: {fileID: 0}
+  multiplayerManager: {fileID: 0}
+  PlayerSpawnPoint: {fileID: 0}
+  OnGameStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGameEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRoundStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRoundEnded:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &7683787567743412218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3059810454532666425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab8d0339f6c1ea340ad0163b55ccb989, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelManager: {fileID: 0}
+  currentState: {fileID: 0}
+  OnLevelEnded:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &7125423641452772702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3059810454532666425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eccb22045e635a8419cddd8ae4329642, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5101536526576575525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3059810454532666425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d0bf331340828141860ffb2d702ae9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7884196244828706504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3059810454532666425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df18dccec6f15f540a2da10b41073b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  winningPlayer: {fileID: 0}
+--- !u!114 &4967665493931135493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3059810454532666425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 549c86f45e59d4047927c499b4d16a91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6321886603128638455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3059810454532666425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff2a455bae77b1145b54090684ffa445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

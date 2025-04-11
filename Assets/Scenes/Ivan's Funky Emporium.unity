@@ -658,11 +658,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8257710722661929340, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnRoll
+      value: OnDash
       objectReference: {fileID: 0}
     - target: {fileID: 8257710722661929340, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnRoll
+      value: OnDash
       objectReference: {fileID: 0}
     - target: {fileID: 8257710722661929340, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
       propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -1582,12 +1582,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraHolderObject: {fileID: 207333242}
-  player: {fileID: 535769156}
-  ball: {fileID: 1651279641}
-  baseSize: 8
-  expansionMultiplier: 0.17
   followSpeed: 1
   zoomSpeed: 5
+  lockPoints: []
+  padding: 2
+  minDistance: 0
+  maxDistance: 10
 --- !u!1001 &330995247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2336,17 +2336,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f71a0782fa0501142a5a8c04717a653a, type: 3}
---- !u!1 &535769156 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3328443934547631640, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
-  m_PrefabInstance: {fileID: 103656040}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &535769162 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2291177913900343150, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
   m_PrefabInstance: {fileID: 103656040}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 535769156}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c9b53faab58b594a8665a092b162745, type: 3}
@@ -2357,7 +2352,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4963522762754067053, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
   m_PrefabInstance: {fileID: 103656040}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 535769156}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee539be1d07544447b075075c5059835, type: 3}
@@ -6400,9 +6395,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c2e3902cc2c6245aa99acca0439ab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 535769156}
   ball: {fileID: 1651279641}
   playerAndBallsDebugObject: {fileID: 507760132}
+  pauseAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 69de50f4-31d3-4166-b64a-cfa57a78c1a9
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  pauseMenu: {fileID: 0}
+  levelManager: {fileID: 0}
+  startGameButtonObject: {fileID: 0}
+  resetPlayersObject: {fileID: 0}
+  roundInformationDuration: 1.5
+  _globalPointsText: {fileID: 0}
+  _RoundInformationAffichage: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

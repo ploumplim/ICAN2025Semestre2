@@ -7,19 +7,12 @@ public class PlayerVisuals : MonoBehaviour
     //-------------PRIVATE VARIABLES-------------
     // Player script.
     private PlayerScript playerScript;
-    // Charge porcentage from 0 to 1.
-   [SerializeField]private float chargePorcentage;
-
-    // Image component of the charging visuals.
-    private Image chargeSprite;
     
     // Image component of the parry timer visuals.
-    private Image _parryTimerSprite;
-    private bool _canParry;
     private float _parryRadius;
     
     // Player's normal mesh material and color.
-    private Material _playerMeshMaterial;
+    [FormerlySerializedAs("_playerMeshMaterial")] public Material playerMeshMaterial;
     private Color _originalPlayerMeshColor;
     
     //-------------PUBLIC VARIABLES-------------
@@ -28,66 +21,100 @@ public class PlayerVisuals : MonoBehaviour
     public GameObject playerMesh;
     [Tooltip("Color when knocked back.")]
     public Color knockbackColor;
-    [Tooltip("Color when parry is available.")]
-    public Color canParryColor;
-    [Tooltip("Game Object that holds the charge visuals.")]
-    public GameObject chargeVisuals;
-    [Tooltip("charge visual Offset X")]
-    public float chargeVisualOffsetX;
-    [Tooltip("charge visual Offset Y")]
-    public float chargeVisualOffsetY;
-    [Tooltip("Game Object that holds the parry timer visuals.")]
-    public GameObject parryTimerVisuals;
-    [Tooltip("Parry timer visual Offset X")]
-    public float parryTimerVisualOffsetX;
-    [Tooltip("Parry timer visual Offset Y")]
-    public float parryTimerVisualOffsetY;
     [Tooltip("This particle is played when the player parries.")]
     public ParticleSystem parryParticle;
     [Tooltip("Trail that is left behind when player dashes")]
     public TrailRenderer dashTrail;
+    [Tooltip("Particle that is played when the player dies.")]
+    public ParticleSystem deadParticle;
+    [Tooltip("Particle that plays when the player's charge is about to end")]
+    public ParticleSystem chargeEndingParticle;
+    [Tooltip("The porcentage of the charge time that the particle will start playing.")]
+    public float chargeEndingParticleTime;
+    [Tooltip("The pointer showing the direction the player is aiming towards.")]
+    public GameObject aimPointer;
+
+    public float aimPointerScale = 2.5f;
+    
+    
     
     void Start()
     {
         // Recover the PlayerScript from the player.
         playerScript = GetComponent<PlayerScript>();
-        // Recover the Image from the charge visuals.
-        chargeSprite = chargeVisuals.GetComponentInChildren<Image>();
         // Recover the player's mesh material and color.
-        _playerMeshMaterial = playerMesh.GetComponent<MeshRenderer>().material;
-        _originalPlayerMeshColor = _playerMeshMaterial.color;
-        _parryTimerSprite = parryTimerVisuals.GetComponentInChildren<Image>();
+        playerMeshMaterial = playerMesh.GetComponent<MeshRenderer>().material;
         
 
-        _parryRadius = playerScript.parryDetectionRadius;
+        _parryRadius = playerScript.hitDetectionRadius;
         
     }
 
     // Update is called once per frame
     void FixedUpdate()
-    {        
-        Vector3 handScreenPosition = playerScript.playerCamera.WorldToScreenPoint(playerScript.playerHand.transform.position);
-        Vector3 playerScreenPosition = playerScript.playerCamera.WorldToScreenPoint(playerScript.transform.position);
-        ChargeBar(handScreenPosition);
-        ParryBar(playerScreenPosition);
-        
-        if (!_canParry)
+    { 
+        switch (playerScript.currentState) 
+        { 
+            case NeutralState:
+                // Change the player's color back to the original color.
+                playerMeshMaterial.color = _originalPlayerMeshColor;
+                
+                // Stop the dead particle if it is playing.
+                if (deadParticle.isPlaying)
+                {deadParticle.Stop();}
+                
+                // Set the aimPointer's scale.
+                aimPointer.transform.localScale = new Vector3(aimPointerScale, aimPointerScale, aimPointerScale);
+                
+                OnSprintEnd();
+                
+                break;
+            
+            case ChargingState:
+                // Function to signal the charging state of the player.
+                ChargeFeedback();
+                OnSprintEnd();
+                break;
+            
+            case DeadState:
+                playerMeshMaterial.color = Color.black; 
+                if (!deadParticle.isPlaying)
+                {deadParticle.Play();}
+                OnSprintEnd();
+                break;
+            
+            case KnockbackState:
+                playerMeshMaterial.color = knockbackColor;
+                OnSprintEnd();
+                break;
+            
+            case SprintState:
+                OnSprintStart();
+                break;
+            
+            default:
+                break;
+        }
+        switch (playerScript.hitType)
         {
-            switch (playerScript.currentState)
-            {
-                case MomentumState:
-                    _playerMeshMaterial.color = knockbackColor;
-                    break;
-                default:
-                    _playerMeshMaterial.color = _originalPlayerMeshColor;
-                    break;
-            }
+            case PlayerScript.HitType.ForwardHit:
+                aimPointer.SetActive(true);
+                break;
+            case PlayerScript.HitType.ReflectiveHit:
+                aimPointer.SetActive(false);
+                break;
+
         }
 
-        _parryTimerSprite.fillAmount = playerScript.parryTimer / playerScript.parryCooldown;
-        RecoverAfterDash();
-        // Dash trail width is equal to the player's rollDetectionRadius.
-        dashTrail.widthMultiplier = playerScript.rollDetectionRadius;
+        WarnChargeAlmostOver();
+
+        // RecoverAfterDash();
+        // // Dash trail width is equal to the player's rollDetectionRadius.
+        // dashTrail.widthMultiplier = playerScript.rollDetectionRadius * 2f;
+        
+        // Dash color is equal to the player's color.
+        dashTrail.startColor = playerMeshMaterial.color;
+        dashTrail.endColor = playerMeshMaterial.color;
         
         // Update the parry radius collider.
         var parryParticleShape = parryParticle.shape;
@@ -95,80 +122,98 @@ public class PlayerVisuals : MonoBehaviour
 
     }
 
-    private void ChargeBar(Vector3 chargeVisualScreenPosition)
+    public void ChargeFeedback()
     {
-        chargePorcentage = playerScript.chargeValueIncrementor;
+        // Get the charging state of the player.
+        ChargingState chargingState = GetComponent<ChargingState>();
         
-        // Convert the player's hand position to screen space
-
-        // Apply the offset
-        chargeVisualScreenPosition.x += chargeVisualOffsetX;
-        chargeVisualScreenPosition.y += chargeVisualOffsetY;
-
-        // Update the position of the charge visuals in the canvas
-        chargeVisuals.transform.position = chargeVisualScreenPosition;
+        // Calculate the percentage of time past using the chargeLimitTimer and the chargeTimeLimit.
+        float chargePercentage = chargingState.chargeLimitTimer / playerScript.chargeTimeLimit;
         
-        // Update the Image fill amount with the charge percentage.
-        chargeSprite.fillAmount = chargePorcentage;
-        
-        // Change the rotation of the player mesh to emulate them standing up.
-    }
-    public void RecoverAfterDash()
-    {
-        if (playerMesh.transform.rotation.x != 0)
-        {
-            // Rotate the player mesh on the X axis to emulate them standing up over time.
-            
-            playerMesh.transform.rotation = Quaternion.Euler
-            (Mathf.Lerp(playerMesh.transform.rotation.x, 0, Time.deltaTime * playerScript.rollDuration),
-                playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
-        }
-    }    
-    private void ParryBar(Vector3 parryTimerVisualScreenPosition)
-    {
-        // Convert the player's hand position to screen space
-        // Vector3 parryTimerVisualScreenPosition = playerScript.playerCamera.WorldToScreenPoint(playerScript.playerHand.transform.position);
-        
-        // Apply the offset
-        parryTimerVisualScreenPosition.x += parryTimerVisualOffsetX;
-        parryTimerVisualScreenPosition.y += parryTimerVisualOffsetY;
-
-        // Update the position of the parry timer visuals in the canvas
-        parryTimerVisuals.transform.position = parryTimerVisualScreenPosition;
+        // The bigger chargePercentage is, the smaller the AimPointer will be.
+        aimPointer.transform.localScale = new Vector3(aimPointerScale * (1 - chargePercentage), aimPointerScale * (1 - chargePercentage), aimPointerScale * (1 - chargePercentage));
     }
     
-    public void OnParryAvailable()
+    public void WarnChargeAlmostOver()
     {
-        if (playerScript.currentState != playerScript.GetComponent<MomentumState>())
+        // Get the charging state of the player.
+        ChargingState chargingState = GetComponent<ChargingState>();
+        
+        // Calculate the percentage of time past using the chargeLimitTimer and the chargeTimeLimit.
+        float chargePercentage = chargingState.chargeLimitTimer / playerScript.chargeTimeLimit;
+        
+        if (chargePercentage >= chargeEndingParticleTime)
         {
-            _playerMeshMaterial.color = canParryColor;
-            _canParry = true;
+            if (!chargeEndingParticle.isPlaying)
+            {
+                chargeEndingParticle.Play();
+            }
         }
-    }
-    public void OnParryUnavailable()
-    {
-        _playerMeshMaterial.color = _originalPlayerMeshColor;
-        _canParry = false;
+        else
+        {
+            if (chargeEndingParticle.isPlaying)
+            {
+                chargeEndingParticle.Stop();
+            }
+        }
+        
+        
     }
     
-    public void OnParry()
+    // public void RecoverAfterDash()
+    // {
+    //     if (playerMesh.transform.rotation.x != 0)
+    //     {
+    //         // Rotate the player mesh on the X axis to emulate them standing up over time.
+    //         
+    //         playerMesh.transform.rotation = Quaternion.Euler
+    //         (Mathf.Lerp(playerMesh.transform.rotation.x, 0, Time.deltaTime * playerScript.dashDuration),
+    //             playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
+    //     }
+    // }
+
+    public void SetEightDirectionArrow()
+    {
+        // Using the player's eightDirection Vector3, recover a float that represents the rotation value of that direction
+        // in relation to the player's forward direction.
+        //float angle = x;
+        // Debug.Log(angle);
+        // Rotate the aimPointer to the angle.
+        //aimPointer.transform.rotation = Quaternion.Euler(90, angle, 0);
+        
+    }
+    public void OnParry(float chargeValue)
     {
         // Play the parry particle.
         parryParticle.Play();
-        // Change the player's color to the original color.
-        _playerMeshMaterial.color = _originalPlayerMeshColor;
-        _canParry = false;
     }
     
-    public void OnDashEnter()
+    public void OnSprintStart()
     {
         dashTrail.emitting = true;
-        // Rotate the player mesh to be completely horizontal
-        playerMesh.transform.rotation = Quaternion.Euler(90, playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
     }
     
-    public void OnDashExit()
+    public void OnSprintEnd()
     {
         dashTrail.emitting = false;
+    }
+
+    public void ChangePlayerColor(Color color)
+    {
+        if (playerMeshMaterial)
+        {
+            // Debug.Log("Changing player color to " + color);
+            playerMeshMaterial.color = color;
+            _originalPlayerMeshColor = color;
+        }
+        else
+        {
+            playerMeshMaterial = playerMesh.GetComponentInChildren<MeshRenderer>().material;
+            playerMeshMaterial.color = color;
+            _originalPlayerMeshColor = color;
+            // Debug.Log("Changing player color to " + color);
+        }
+        
+        
     }
 }

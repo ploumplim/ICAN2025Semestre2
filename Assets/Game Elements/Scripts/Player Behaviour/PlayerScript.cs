@@ -3,21 +3,29 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.Serialization;
 
 public class PlayerScript : MonoBehaviour
 {
 
     
-    // ------------------------------ PUBLIC VARIABLES ------------------------------
-    public enum moveType
+   
+    public enum MoveType
     {
         Velocity,
         Force
     };
-    
-    [HideInInspector] public PlayerState currentState;
-    
+
+    public enum HitType
+    {
+        ForwardHit,
+        ReflectiveHit
+    }
+
+    #region Variables
+    // ------------------------------ PUBLIC VARIABLES ------------------------------
+    [Header("Movement Settings")]
     [Header("MOVEMENT TYPES: \n " +
         "Velocity: The player's movement is controlled \n" +
         " by changing the velocity of the rigidbody.\n" +
@@ -26,426 +34,364 @@ public class PlayerScript : MonoBehaviour
         " This means that all movement variables \n " +
         "should be decreased to avoid the player moving too fast.")]
     [Tooltip("Choose the player's movement type.")]
-    public moveType movementType = moveType.Velocity;
-    [Header("Movement variables")]
-    [Tooltip("The player's speed when he has balls.")]
+    public MoveType movementType = MoveType.Velocity;
+    [Tooltip("The base player speed. The speed is dependant on the input.")]
     public float speed = 5f;
+    [Tooltip("The speed modifier when the hit is being charged. If 0, the player doesn't move.")]
+    public float chargeSpeedModifier = 0.5f;
+    [Tooltip("The rate at which speed picks up when the input is being performed.")]
+    public float acceleration = 0.1f;
+    [Tooltip("The speed modifier when sprinting.")]
+    public float sprintSpeedModifier = 2f;
+    //---------------------------------------------------------------------------------------
+    [Header("Rotation Lerps")]
+    [Tooltip("Lerp time for the rotation while not aiming")]
+    public float neutralLerpTime = 0.1f;
+    [Tooltip("Lerp time for the rotation while charging a hit")]
+    public float chargeLerpTime = 0.1f;
     
-    [Tooltip("Multiplies the speed of the player when he has no balls.")]
-    public float speedWithoutBallsModifier = 1f;
-    
-    [Tooltip("The speed at which the player moves when aiming.")]
-    public float aimSpeedMod = 0f;
-    
+    //---------------------------------------------------------------------------------------
     [Header("Knockback")]
     [Tooltip("Time where the player loses control after being struck by the ball.")]
     public float knockbackTime = 0.5f;
-    
+    [Tooltip("This is the force multiplier applied to the player when hit by a ball.")]
+    public float knockbackForce = 10f;
     [Tooltip("The normal linear drag of the player.")]
     public float linearDrag = 3f;
     [Tooltip("The linear drag when the player is hit by a ball.")]
     public float hitLinearDrag = 0f;
-    [Header("Rotation Lerps")]
-    [Tooltip("Lerp time for the rotation while not aiming")]
-    public float rotationLerpTime = 0.1f;
     
-    [FormerlySerializedAs("rotationLerpTime")]
-    [Tooltip("Lerp time for the rotation while aiming")]
-    public float rotationWhileAimingLerpTime = 0.1f;
-    
-    [Tooltip("Lerp time for the rotation while rolling")]
-    public float rollLerpTime = 0.1f;
-    
-    [Header("Charge shot")]
-    public float chargeRate = 0.5f; // Rate at which the charge value increases
-    
-    [Header("Parry")]
-    [Tooltip("The time the player has to wait between each parry.")]
-    public float parryCooldown = 0.5f;
-    [Tooltip("The force applied to the ball when parrying.")]
-    public float parryForce = 10f;
-    [Tooltip("The window of opportunity that the parry will hit the ball.")]
-    public float parryWindow = 0.4f;
-    [Tooltip("The radius of the sphere that will detect the ball when parrying.")]
-    public float parryDetectionRadius = 3.5f;
-    
-    [Header("Roll")]
-    [Tooltip("The initial speed of the roll.")]
-    public float rollSpeed = 10f;
-    [Tooltip("The duration of the roll. This number HAS to be bigger than the catch window.")]
-    public float rollDuration = 1f;
-    [Tooltip("The window of opportunity where the player can catch the ball whilst midair.")]
-    public float catchWindow = 0.6f;
-    [Tooltip("This is the radius of the sphere that will detect the ball when rolling.")]
-    public float rollDetectionRadius = 5f;
-    [Tooltip("This boolean determines if when dashing the character can pass through ledges.")]
-    public bool canPassThroughLedges = false;
-    
-    
-    // [Tooltip("The time the player has to wait between each roll.")]
-    // public float rollCooldown = 0.5f;
-    // [Tooltip("The speed that the player has to have at the end of the roll, if they dont catch" +
-    //          "the ball while rolling.")]
-    // public float rollEndSpeed = 5f;
+    //---------------------------------------------------------------------------------------
+    [Header("Hit parameters")]
+    [Tooltip("Select the type of hit.")]
+    public HitType hitType = HitType.ForwardHit;
+    [Tooltip("The rate at which the charge value increases for a hit.")]
+    public float chargeRate = 0.5f;
+    [Tooltip("The duration that the hit has to apply force to the ball.")]
+    public float releaseDuration = 0.5f;
+    [Tooltip("How long the player can hold the charge before releasing automatically.")]
+    public float chargeTimeLimit = 1f;
+    [Tooltip("The speed multiplier on the ball when hit.")]
+    public float hitForce = 10f;
+    [Tooltip("This number is the minimum value that the charge reaches when tapped.")]
+    public float chargeClamp = 0.5f;
+    [Tooltip("The radius of the sphere that will detect the ball when hitting.")]
+    public float hitDetectionRadius = 3.5f;
+    [Tooltip("The offset of the hit detection sphere.")]
+    public float hitDetectionOffset = 0f;
+    [Tooltip("The window of opportunity to catch the ball at the start of the charge.")]
+    public float catchWindow = 0.2f;
+
+
+    //---------------------------------------------------------------------------------------
+    [HideInInspector] public GameObject MultiplayerManager;
     
     [Header("Scene References")]
-    public Camera playerCamera;
-
-    public GameObject playerHand;
+    public CameraScript playerCamera;
     
     [Header("Events")]
     // ------------------------------ EVENTS ------------------------------
-    public UnityEvent CanParryTheBallEvent;
-    public UnityEvent CannotParryTheBallEvent;
-    [FormerlySerializedAs("BallParried")] public UnityEvent PlayerParried;
-    public UnityEvent PlayerDashed;
-    public UnityEvent PlayerEndedDash;
+    // unity events
+    
+    public UnityEvent OnHitButtonPressed;
+    public UnityEvent<float> OnPlayerHitReleased;
+    public UnityEvent<float> OnBallHitByPlayer;
+    public UnityEvent OnPlayerHitByBall; 
+    public UnityEvent OnPlayerDeath;
+    
+    // action events
+    public event Action<int,GameObject,BallState> OnBallHit;
     
     // ------------------------------ PRIVATE VARIABLES ------------------------------
     
     private bool _isAiming;
+    [HideInInspector] public PlayerState currentState;
     [HideInInspector] public PlayerInput playerInput;
     [HideInInspector] public InputAction moveAction;
     [HideInInspector] public InputAction throwAction;
-    [HideInInspector] public InputAction rollAction;
     [HideInInspector] public Rigidbody rb;
-    [HideInInspector] public int ledgeLayer;
+    [HideInInspector] public CapsuleCollider col;
     [HideInInspector] public int playerLayer;
-    
-    // ------------------------------ BALL ------------------------------
-    [HideInInspector] public GameObject heldBall;
-    [HideInInspector] public BallSM ballSM;
+    [HideInInspector] public int ballLayer;
+    [SerializeField] public bool isReady;
+    public GameObject playerScorePanel;
 
     // ------------------------------ CHARGING ------------------------------
-    [HideInInspector]public float chargeValueIncrementor = 0.5f;
-    private float fixedChargedValue;
-    private bool isCharging = false;
-    
-    // ------------------------------ PARRY ------------------------------
-    private ParryPlayer _parryPlayer;
-    [FormerlySerializedAs("_canParry")] [HideInInspector] public bool canParry = true;
-    [HideInInspector] public float parryTimer = 0f;
-    // ------------------------------ ROLL ------------------------------
-    // [HideInInspector]public bool ballCaughtWhileRolling;
-    
+    [HideInInspector]public float chargeValueIncrementor = 0f;
+    // ------------------------------ HIT ------------------------------
+    [HideInInspector] public float hitTimer = 0f;
     // ------------------------------ MOVE ------------------------------
-    [HideInInspector] public Vector2 moveInput;
+    [HideInInspector] public Vector2 moveInputVector2;
     
+    // ------------------------------ INPUT BUFFERING ------------------------------
+    private InputAction _bufferedAction;
+    private float _bufferedActionTime;
+    [SerializeField] [Tooltip("Time window for input buffering")]
+    private float bufferDuration = 0.1f;
     
+
+    #endregion
+   
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        _parryPlayer = GetComponentInChildren<ParryPlayer>();
+        SetPlayerParameters();
+        col = GetComponent<CapsuleCollider>();
+    }
+    
+    public void SetPlayerParameters()
+    {
+        MultiplayerManager = GameObject.FindWithTag("MultiPlayerManager");
+        playerCamera = MultiplayerManager.GetComponent<MultiplayerManager>().camera;
+        
+        rb = GetComponent<Rigidbody>(); 
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
         throwAction = playerInput.actions["Attack"];
-        rollAction = playerInput.actions["Roll"];
         
-        ledgeLayer = LayerMask.NameToLayer("Ledge");
         playerLayer = gameObject.layer;
+        ballLayer = LayerMask.NameToLayer("Ball");
         
         PlayerState[] states = GetComponents<PlayerState>();
         foreach (PlayerState state in states)
         {
-            state.Initialize(this);
+            state.Initialize(this); 
         }
 
-        currentState = GetComponent<IdleState>();
+        currentState = GetComponent<NeutralState>();
+        
     }
+    
 
+    // ------------------------------ FIXED UPDATE ------------------------------
     private void FixedUpdate()
     {
         currentState.Tick();
-        moveInput = moveAction.ReadValue<Vector2>();
-        ChargingForce();
+        moveInputVector2 = moveAction.ReadValue<Vector2>();
 
         // If the player is holding a ball, set the ball's position to the player's hand
-        if (heldBall)
+        
+        
+        if (hitTimer > 0)
         {
-            heldBall.transform.position = playerHand.transform.position;
+            hitTimer -= Time.deltaTime;
         }
         
         
-        if (parryTimer > 0)
-        {
-            parryTimer -= Time.deltaTime;
-        }
         
     }
-    public void ChargingForce()
-    {
-        if (isCharging)
-        {
-            chargeValueIncrementor += chargeRate * Time.deltaTime;
-            chargeValueIncrementor = Mathf.Clamp(chargeValueIncrementor, 0f, 1f);
-            // Debug.Log(chargeValueIncrementor);
-            
-        }
-        else
-        {
-            chargeValueIncrementor = 0f;
-        }
-    }
+    
 
     // ------------------------------ STATE MANAGEMENT ------------------------------
 
     public void ChangeState(PlayerState newState)
     {
+        //buffering inputs
+        if (_bufferedAction != null && Time.time - _bufferedActionTime < bufferDuration)
+        {
+            switch (_bufferedAction.name)
+            {
+                case "Attack":
+                    if (newState != GetComponent<ChargingState>() && newState != GetComponent<ReleaseState>())
+                    {
+                        if (throwAction.triggered)
+                        {
+                            newState = GetComponent<ChargingState>();
+                        }
+                        else
+                        {
+                            chargeValueIncrementor = chargeClamp;
+                            newState = GetComponent<ReleaseState>();
+                        }
+                    }
+                {
+
+                    if (throwAction.triggered)
+                    {
+                        newState = GetComponent<ChargingState>();
+                    }
+                    else
+                    {
+                        chargeValueIncrementor = chargeClamp;
+                        newState = GetComponent<ReleaseState>();
+                    }
+                }
+                    break;
+                case "Sprint":
+                        newState = GetComponent<SprintState>();
+                    break;
+            }
+        }
+        
         currentState.Exit();
         currentState = newState;
         currentState.Enter();
-        // Debug.Log("State changed to: " + newState);
+        
+        
     }
 
     // ------------------------------ COLLISIONS ------------------------------
 
     public void OnCollisionEnter(Collision other)
     {
-        // if other is a gameobject with the BallSM component, then assign it to the heldBall variable
-        // if (other.gameObject.GetComponent<BallSM>() && // if the other object has a BallSM component
-        //     (other.gameObject.GetComponent<BallSM>().currentState == other.gameObject.GetComponent<DroppedState>() ||
-        //      other.gameObject.GetComponent<BallSM>().currentState == other.gameObject.GetComponent<MidAirState>()) && // if the other object is NOT in the DroppedState
-        //     heldBall == null) // if the player is not already holding a ball
-        
-        
-        if (other.gameObject.GetComponent<BallSM>() && // if the other object has a BallSM component
-            (other.gameObject.GetComponent<BallSM>().currentState == other.gameObject.GetComponent<DroppedState>()))
+        BallSM ballSM = other.gameObject.GetComponent<BallSM>();
+        if (ballSM)
         {
-            heldBall = other.gameObject;
-            ballSM = heldBall.GetComponent<BallSM>();
-            ballSM.player = gameObject;
-            // The ball is set to the InHandState.
-            ballSM.ChangeState(heldBall.GetComponent<InHandState>());
-        }
-        if (other.gameObject.GetComponent<BallSM>())
-        {
+            OnPlayerHitByBall?.Invoke();
             // Debug.Log(currentState);
-            if (other.gameObject.GetComponent<BallSM>().currentState==other.gameObject.GetComponent<MidAirState>())
+            if (ballSM.currentState is FlyingState)
             {
-                if (GetComponent<RollingState>().timer > catchWindow || currentState is not MomentumState)
+                // Debug.Log("Ball hit player");
+                if (currentState is not KnockbackState &&
+                    currentState is not DeadState)
                 {
-                    PlayerEndedDash?.Invoke();
-                    ChangeState(GetComponent<MomentumState>());
-                    _parryPlayer.parryTimer = 0;
+                    ChangeState(GetComponent<KnockbackState>());
                     // Push the player in the opposite direction of the ball
                     Vector3 direction = transform.position - other.transform.position;
                     rb.AddForce(
-                        direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude,
+                        direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude * knockbackForce,
                         ForceMode.Impulse);
-                    // Set ball to dropped state
-                    other.gameObject.GetComponent<BallSM>().ChangeState(other.gameObject.GetComponent<DroppedState>());
                 }
                 
             }
-            // if (currentState is RollingState)
-            // {
-            //     // ballCaughtWhileRolling = true;
-            //     Debug.Log("Ball touched while rolling");
-            //     GetComponent<RollingState>().CheckCatch(other.gameObject);
-            // }
+            else if (ballSM.currentState is LethalBallState)
+            {
+                if (currentState is not KnockbackState &&
+                    currentState is not DeadState)
+                {
+                    ChangeState(GetComponent<DeadState>());
+                }
+            }
+
         }
     }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INPUTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    // ------------------------------ MOVE ------------------------------
-    public void OnMove(InputAction.CallbackContext context)
+    
+    // ------------------------------ INPUT BUFFERING ------------------------------
+
+    private void BufferInput(InputAction action)
     {
-        if (currentState is not MomentumState &&
-            currentState is not RollingState &&
-            currentState is not AimingState)
-        {
-            ChangeState(GetComponent<MovingState>());
-        }
+        _bufferedAction = action;
+        _bufferedActionTime = Time.time;
     }
 
-    public void Move(bool isAiming)
+
+    // ------------------------------ MOVE ------------------------------
+
+    public void Move(float moveSpeed, float lerpMoveSpeed)
     {
         // Apply movement
-        if (moveInput != Vector2.zero)
-        {
             // Get the camera's forward and right vectors
             Vector3 cameraForward = playerCamera.transform.forward;
             Vector3 cameraRight = playerCamera.transform.right;
 
-            // Flatten the vectors to the ground plane
+            // Flatten the vectors to the ground plane and normalize
             cameraForward.y = 0;
             cameraRight.y = 0;
-
-            // Normalize the vectors
             cameraForward.Normalize();
             cameraRight.Normalize();
 
             // Calculate the movement direction
-            Vector3 moveDirection = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
+            Vector3 moveDirection = (cameraForward * moveInputVector2.y + cameraRight * moveInputVector2.x);
 
-            // Move the player. 
-            if (!isAiming)
+            // Apply movement and set the player's direction
+            switch (movementType)
             {
-                if (heldBall)
-                {
-                    ApplyMovement(moveDirection, speed);
-                    //Set the player's direction to the direction of the movement using a lerp
-                    transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationLerpTime);
-                }
-                else
-                {
-                    ApplyMovement(moveDirection, speed * speedWithoutBallsModifier);
-                    //Set the player's direction to the direction of the movement using a lerp
-                    transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationLerpTime);
-                }
+                case MoveType.Force:
+                    rb.AddForce(moveDirection * Mathf.Lerp(0, moveSpeed,acceleration), ForceMode.VelocityChange);
+                    break;
+                case MoveType.Velocity:
+                    rb.linearVelocity = new Vector3(moveDirection.x * Mathf.Lerp(0, moveSpeed,acceleration),
+                        rb.linearVelocity.y,
+                        moveDirection.z * Mathf.Lerp(0, moveSpeed,acceleration));
+                    break;
             }
-            else
+
+            if (moveDirection != Vector3.zero)
             {
-                ApplyMovement(moveDirection, speed * aimSpeedMod);
-                //Set the player's direction to the direction of the movement using a lerp
-                transform.forward = Vector3.Slerp(transform.forward, moveDirection, rotationWhileAimingLerpTime);
+                transform.forward = Vector3.Slerp(transform.forward, moveDirection, lerpMoveSpeed);
             }
-        }
-        
-        
-        if (moveAction.ReadValue<Vector2>() == Vector2.zero && !isAiming)
-        {
-            ChangeState(GetComponent<IdleState>());
-        }
     }
-
-    public void SteerRoll()
+    // ------------------------------ SPRINT ------------------------------
+    public void OnSprint(InputAction.CallbackContext context)
     {
-        // Get the camera's forward and right vectors
-        Vector3 cameraForward = playerCamera.transform.forward;
-        Vector3 cameraRight = playerCamera.transform.right;
-
-        // Flatten the vectors to the ground plane
-        cameraForward.y = 0;
-        cameraRight.y = 0;
-
-        // Normalize the vectors
-        cameraForward.Normalize();
-        cameraRight.Normalize();
-
-        // Calculate the movement direction lerping using the rollLerpTime
-        Vector3 moveDirection = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
-        
-        // change the player's forward direction to the direction of the movement
-        transform.forward = Vector3.Slerp(transform.forward, moveDirection, rollLerpTime);
-        
-        //Apply the movement, decreasing the speed of the player over time.
-        float decreasingSpeed = Mathf.Lerp(rollSpeed, 0, GetComponent<RollingState>().timer / rollDuration);
-        ApplyMovement(moveDirection, decreasingSpeed);
-        
-    }
-    
-    private void ApplyMovement(Vector3 moveDirection, float finalSpeed)
-    {
-
-        switch (movementType)
+        switch (currentState)
         {
-            case moveType.Force:
-                rb.AddForce(moveDirection * finalSpeed, ForceMode.VelocityChange);
+            case NeutralState:
+                if (context.started || context.performed)
+                {
+                    // If the player is not moving, sprinting will not work
+                    if (moveInputVector2 != Vector2.zero)
+                    {
+                        ChangeState(GetComponent<SprintState>());
+                    }
+                }
                 break;
-            case moveType.Velocity:
-                rb.linearVelocity = new Vector3(moveDirection.x * finalSpeed,
-                rb.linearVelocity.y,
-                moveDirection.z * finalSpeed);
-            break;
-            
-                
-        }
-        
-    }
-    
-    // ------------------------------ THROW & PARRY ------------------------------
-    
-    // ------------------------------ THROW ------------------------------
-    public void OnThrow(InputAction.CallbackContext context)
-    {
-        if (heldBall && currentState is not MomentumState && currentState is not RollingState)
-        {
-            ChangeState(GetComponent<AimingState>());
-            if (context.performed)
-            {
-                isCharging = true;
-                chargeValueIncrementor = 0f;
-                // Debug.Log(chargeValueIncrementor);
-            }
-            else if (context.canceled)
-            {
-                isCharging = false;
-                if (chargeValueIncrementor > fixedChargedValue)
+            case SprintState:
+                if (context.canceled)
                 {
-                    fixedChargedValue = chargeValueIncrementor;
-                    ballSM.ChangeState(heldBall.GetComponent<TargetingState>());
-                    ballSM.Throw(fixedChargedValue);
-                    heldBall = null;
-                    // Reset après avoir utilisé la charge
-                    fixedChargedValue = 0f;
-                    ChangeState(GetComponent<IdleState>());
-
+                    ChangeState(GetComponent<NeutralState>());
                 }
-
+                break;
+            case ReleaseState:
+                if (context.started || context.performed)
+                    BufferInput(context.action);
+                break;
+        }
+    }
+    
+    // ------------------------------ CHARGE ATTACK ------------------------------
+    public void OnChargeAttack(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (currentState is NeutralState)
+            {
+                OnHitButtonPressed?.Invoke();
+                ChangeState(GetComponent<ChargingState>());
+            }
+            else if (currentState is not ChargingState && currentState is not ReleaseState)
+            {
+                BufferInput(context.action);
             }
         }
-        if (!heldBall && context.performed &&
-            currentState is not MomentumState &&
-            currentState is not RollingState)
-        {
-            Parry();
+        else if (currentState is ChargingState && context.canceled) 
+        { 
+            ChangeState(GetComponent<ReleaseState>()); 
         }
 
-    }
-    // ------------------------------ PARRY ------------------------------
-    public void Parry()
-    {
-        if (canParry)
-        {
-            // Debug.Log("Parry!");
-            PlayerParried?.Invoke();
-            canParry = false;
-            parryTimer = parryCooldown;
-            StartCoroutine(ParryTime());
-        }
-    }
-
-    IEnumerator ParryTime()
-    {
-        _parryPlayer.playerHasParried = true;
-        yield return new WaitForSeconds(parryCooldown);
-        _parryPlayer.playerHasParried = false;
-        canParry = true;
-    }
-    
-    // ------------------------------ ROLL ------------------------------
-    
-    public void OnRoll(InputAction.CallbackContext context)
-    {
         if (context.performed)
         {
-            if (currentState is MovingState && !heldBall && canParry)
+            if (currentState is not NeutralState && currentState is not ChargingState
+                && currentState is not ReleaseState)
             {
-                PlayerDashed?.Invoke();
-                ChangeState(GetComponent<RollingState>());
+                BufferInput(context.action);
             }
+        }
+        
+    }
+    
+    
+    // ------------------------------ ISREADY ------------------------------
+    
+    public void OnReady(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (GameManager.Instance.levelManager.currentState == GameManager.Instance.levelManager.GetComponent<OutOfLevelState>())
+            {
+                isReady = !isReady;
+            }
+            GameManager.Instance.multiplayerManager.WaitForPlayersReady();
         }
     }
     
-    public Vector3 RollPush()
+
+    // ------------------------------ EVENTS ------------------------------
+    public void OnBallHitEventMethod(GameObject ball)
     {
-// Get the camera's forward and right vectors
-        Vector3 cameraForward = playerCamera.transform.forward;
-        Vector3 cameraRight = playerCamera.transform.right;
-
-        // Flatten the vectors to the ground plane
-        cameraForward.y = 0;
-        cameraRight.y = 0;
-
-        // Normalize the vectors
-        cameraForward.Normalize();
-        cameraRight.Normalize();
-
-        // Calculate the movement direction
-        Vector3 moveDirection = (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
-        return moveDirection;
+        OnBallHit?.Invoke(0,gameObject,ball.GetComponent<BallSM>().currentState);
     }
 
     // ------------------------------ PLAYER GIZMOS ------------------------------
@@ -453,63 +399,12 @@ public class PlayerScript : MonoBehaviour
     // Create a gizmo to show the direction the player is looking at
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.blue;
+        Gizmos.color = Color.green;
         Gizmos.DrawRay(transform.position, transform.forward * 10);
+        
+        // Draw the hit sphere
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + transform.forward * hitDetectionOffset, hitDetectionRadius);
+        
     }
-    
-    
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEPRECATED CODE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        // ------------------------------ LOOK ------------------------------
-    // public void OnLook(InputAction.CallbackContext context)
-    // {
-    //     // unlock the rigidbody rotation on Y
-    //     rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-    //
-    //     Vector2 input = context.ReadValue<Vector2>();
-    //
-    //     // Get the camera's forward and right vectors
-    //     Vector3 cameraForward = playerCamera.transform.forward;
-    //     Vector3 cameraRight = playerCamera.transform.right;
-    //
-    //     // Flatten the vectors to the ground plane
-    //     cameraForward.y = 0;
-    //     cameraRight.y = 0;
-    //
-    //     // Normalize the vectors
-    //     cameraForward.Normalize();
-    //     cameraRight.Normalize();
-    //
-    //     if (playerInput.currentControlScheme == "Gamepad")
-    //     {
-    //         Cursor.visible = true;
-    //         if (Cursor.lockState != CursorLockMode.None)
-    //         {
-    //             Cursor.lockState = CursorLockMode.None;
-    //         }
-    //         // set the player's look direction equal to my input value, so that I always look towards the direction I'm aiming, taking into account the camera angle
-    //         Vector3 lookDirection = cameraForward * input.y + cameraRight * input.x;
-    //         if (lookDirection != Vector3.zero)
-    //         {
-    //             transform.forward = lookDirection;
-    //         }
-    //     }
-    //     // if I'm using the keyboard and mouse, lock it.
-    //     if (playerInput.currentControlScheme == "Keyboard&Mouse")
-    //     {
-    //         Cursor.visible = false;
-    //         if (Cursor.lockState == CursorLockMode.None)
-    //         {
-    //             Cursor.lockState = CursorLockMode.Locked;
-    //         }
-    //         // set the player's look direction equal to my input value, so that I always look towards the direction I'm aiming, taking into account the camera angle
-    //         Vector3 lookDirection = cameraForward * input.y + cameraRight * input.x;
-    //         if (lookDirection != Vector3.zero)
-    //         {
-    //             transform.forward = Vector3.Slerp(transform.forward, lookDirection, mouseRotationSmoothSpeed * Time.deltaTime);
-    //         }
-    //     }
-    //
-    //     // lock the rigidbody rotation on Y
-    //     rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-    // }
 }

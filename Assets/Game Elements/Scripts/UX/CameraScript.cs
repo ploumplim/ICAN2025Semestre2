@@ -7,58 +7,57 @@ public class CameraScript : MonoBehaviour
     // ---------------PRIVATE---------------
     private float _trueCameraSize; // The actual size of the camera, calculated from the size modifier.
     private float _sizeModifier; // The size modifier of the camera, based on the distance between the player and the ball.
-    // private Vector3 _playerPosition; // The position of the player.
-    // private Vector3 _ballPosition; // The position of the ball.
-    // private Vector3 _middlePoint; // The middle point between the player and the ball.
     private Vector3[] _lockPoints; // The array of points that the camera can lock itself to.
+    private GameObject cameraObject; // The camera component of the camera object.
+    private Vector3 _targetPoint; // The point that the camera should lock itself to.
+
     // ---------------PUBLIC---------------
-    [Tooltip("The gameobject holding the camera. The code will move THIS object, while the camera is fixed to it as its" +
+    [Tooltip("The gameobject holding the camera. The code will move THIS object, while the camera is fixed to it as " +
              "a child of it.")]
     public GameObject cameraHolderObject;
-    // [Tooltip("The player object that the camera will follow.")]
-    // public GameObject player;
-    // [Tooltip("The ball object that the camera has to keep in sight.")]
-    // public GameObject ball;
-    // [Tooltip("The game object at the center of the scene.")]
-    // public GameObject center;
-    // [Tooltip("The base size of the camera.")]
-    // public float baseSize = 5f;
-    // [Tooltip("The camera's expansion multipler : How much the camera will expand based on the distance between the player and the ball.")]
-    // public float expansionMultiplier = 0.5f;
+
     [Tooltip("The camera's follow speed.")]
     public float followSpeed = 5f;
-    // [Tooltip("The camera's zoom speed.")]
-    // public float zoomSpeed = 5f;
-    
+
+    [Tooltip("The camera's speed when moving away from the scene.")]
+    public float zoomSpeed = 5f;
+
     [Tooltip("This list contains all objects that the camera should use as points to lock itself.")]
     public GameObject[] lockPoints;
+
+    [Tooltip("This is the padding that the camera will have from the lock points.")]
+    public float padding = 2f;
+
+    [Tooltip("The minimum distance the camera can go when moving towards the lockpoint.")]
+    public float minDistance = 0f;
     
-    
-    
+    [Tooltip("The maximum distance the camera can go when moving towards the lockpoint.")]
+    public float maxDistance = 10f;
+
+    public void Start()
+    {
+        // Get the camera component of the camera object
+        cameraObject = cameraHolderObject.GetComponentInChildren<Camera>().gameObject;
+        
+    }
+
     public void FixedUpdate()
     {
-        UpdateCameraPosition();
-        // UpdateCameraSize();
+        // UpdateCameraPosition();
+        // UpdateCameraDistance();
     }
-    
+
     private void UpdateCameraPosition()
     {
-        // // Get the player's position
-        // _playerPosition = player.transform.position;
-        // // Get the ball's position
-        // _ballPosition = ball.transform.position;
-        // // Get the center's position
-        // _middlePoint = center.transform.position;
-        
         // Get the length of the lockPoints array
         int lockPointsLength = lockPoints.Length;
-        
+
         // If the lockPoints array is not empty
         if (lockPointsLength > 0)
         {
             // Create a new Vector3 array with the same length as the lockPoints array
             _lockPoints = new Vector3[lockPointsLength];
-            
+
             // Loop through the lockPoints array
             for (int i = 0; i < lockPointsLength; i++)
             {
@@ -66,22 +65,28 @@ public class CameraScript : MonoBehaviour
                 _lockPoints[i] = lockPoints[i].transform.position;
             }
         }
-        
+        else
+        {
+            // If the lockPoints array is empty, return
+            return;
+        }
+
         // Calculate the average point between the lock points
-        Vector3 averagePoint = CalculateAveragePoint(_lockPoints);
+        _targetPoint = CalculateAveragePoint(_lockPoints);
         
         
+
         // Move the camera holder object to the middle point
-        cameraHolderObject.transform.position = Vector3.Lerp(cameraHolderObject.transform.position,
-            averagePoint,followSpeed * Time.deltaTime);
-        
-        // // Make the camera rise in the Y axis to keep the ball in sight
-        // cameraHolderObject.transform.position = new Vector3(cameraHolderObject.transform.position.x,
-        //     Mathf.Lerp(cameraHolderObject.transform.position.y, _ballPosition.y, followSpeed * Time.deltaTime),
-        //     cameraHolderObject.transform.position.z);
+        Vector3 newPosition = Vector3.Lerp(cameraHolderObject.transform.position, _targetPoint, followSpeed * Time.deltaTime);
+
+
+        var newPositionXvalue = cameraHolderObject.transform.position;
+        newPositionXvalue.x = newPosition.x;
+        var cameraHolderObjectVec3 = cameraHolderObject.transform.position;
+        cameraHolderObjectVec3.x = Mathf.Lerp(cameraHolderObject.transform.position.x, newPositionXvalue.x, followSpeed * Time.deltaTime);
+        cameraHolderObject.transform.position = cameraHolderObjectVec3;
     }
-    
-    
+
     public static Vector3 CalculateAveragePoint(Vector3[] points)
     {
         if (points == null || points.Length == 0)
@@ -97,21 +102,69 @@ public class CameraScript : MonoBehaviour
 
         return sum / points.Length;
     }
-    
-}
 
-    // private void UpdateCameraSize()
-    // {
-    //     // Calculate the distance between the player and the ball
-    //     float distance = Vector3.Distance(_playerPosition, _ballPosition);
-    //     
-    //     // Calculate the size modifier based on the distance
-    //     _sizeModifier = distance * expansionMultiplier;
-    //     
-    //     // Calculate the true camera size
-    //     _trueCameraSize = baseSize + _sizeModifier;
-    //     
-    //     // Set the camera size
-    //     GetComponent<Camera>().orthographicSize = Mathf.Lerp(GetComponent<Camera>().orthographicSize,
-    //         _trueCameraSize, zoomSpeed * Time.deltaTime);
-    // }
+    public void AddObjectToArray(GameObject @object)
+    {
+        Array.Resize(ref lockPoints, lockPoints.Length + 1);
+        lockPoints[^1] = @object;
+    }
+    
+    public void RemoveObjectFromArray(GameObject @object)
+    {
+        for (int i = 0; i < lockPoints.Length; i++)
+        {
+            if (lockPoints[i] == @object)
+            {
+                lockPoints[i] = null;
+                // Remove the null element from the array
+                lockPoints = Array.FindAll(lockPoints, x => x != null);
+            }
+        }
+    }
+
+    private void UpdateCameraDistance()
+    {
+        // Recover the vector distance between the camera holder object and the camera object
+        Vector3 tPointAndCamVec3 = _targetPoint - cameraHolderObject.transform.position;
+        
+        // Clamp the distance between the min and max distance
+        float distance = tPointAndCamVec3.magnitude;
+        
+        // Check if all objects within the lockPoints array are visible
+        if (!AreAllLockPointsVisible())
+        {
+            // If they are, move the camera holder object away from the camera object
+            cameraHolderObject.transform.position = Vector3.Lerp(cameraHolderObject.transform.position,
+                cameraHolderObject.transform.position + tPointAndCamVec3, zoomSpeed * Time.deltaTime);
+        }
+    }
+
+    private bool AreAllLockPointsVisible()
+    {
+        Camera gameCamera = cameraObject.GetComponent<Camera>();
+        
+        if (_lockPoints == null || _lockPoints.Length == 0)
+        {
+            return false;
+        }
+        else
+        {
+            foreach (Vector3 point in _lockPoints)
+            {
+                Vector3 viewportPoint = gameCamera.WorldToViewportPoint(point);
+                if (viewportPoint.x < 0 || viewportPoint.x > 1 || viewportPoint.y < 0 || viewportPoint.y > 1)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(_targetPoint, 0.5f);
+    }
+}

@@ -8,6 +8,13 @@ TagManager:
   - Bouncer
   - Target
   - Ball
+  - MultiPlayerManager
+  - GameManager
+  - LevelManager
+  - NeutralWall
+  - PointWall
+  - ScorePlayerPanel
+  - PlayerInformationPanel
   layers:
   - Default
   - TransparentFX
@@ -16,8 +23,8 @@ TagManager:
   - Water
   - UI
   - Ledge
-  - 
-  - 
+  - Ball
+  - Player
   - 
   - 
   - 
