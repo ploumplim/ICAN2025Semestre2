@@ -30,25 +30,16 @@ public class IngameGUIManager : MonoBehaviour
     // --------- PRIVATES ----------
     
     private List<GameObject> _playerList;
-    [FormerlySerializedAs("_playerScorePanelList")] public List<GameObject> playerScorePanelList;
+    
     private int _playerCount;
     [SerializeField] private TextMeshPro _globalPointsText;
     [FormerlySerializedAs("_startGameText")] [SerializeField] private TextMeshProUGUI _RoundInformationAffichage;
-    public List<GameObject> _playerHud;
     [SerializeField] private GameObject PlayerInformationGUI;
-    [SerializeField] private GameObject playerPrefabScore;
+    [FormerlySerializedAs("playerPrefabScore")] [SerializeField] private GameObject UI_PlayerHud;
     [SerializeField] private GameObject playerPanelSpawnPointParent;
     
-    void Start()
-    {
-        GameObject PlayerPanelParent = GameObject.FindGameObjectWithTag("PlayerInformationPanel");
-        // After
-        foreach (var VARIABLE in PlayerPanelParent.GetComponentsInChildren<PlayerInfoGui>())
-        {
-            _playerHud.Add(VARIABLE.gameObject);
-        }
-        
-    }
+    public List<GameObject> UI_PlayerHUD;
+    public List<GameObject> UI_PlayerScore;
 
     void Update()
     {
@@ -201,7 +192,7 @@ public class IngameGUIManager : MonoBehaviour
         }
 
         // Determine the position for the new panel based on the number of panels already spawned
-        int panelIndex = playerScorePanelList.Count;
+        int panelIndex = UI_PlayerHUD.Count;
         if (panelIndex >= spawnPoints.Count)
         {
             Debug.LogError("Not enough spawn points for player score panels.");
@@ -209,7 +200,7 @@ public class IngameGUIManager : MonoBehaviour
         }
 
         // Instantiate the new panel at the corresponding spawn point
-        GameObject playerScorePanel = Instantiate(playerPrefabScore, spawnPoints[panelIndex].position, Quaternion.identity, PlayerInformationGUI.transform);
+        GameObject playerScorePanel = Instantiate(UI_PlayerHud, spawnPoints[panelIndex].position, Quaternion.identity, PlayerInformationGUI.transform);
         TextMeshProUGUI playerNameText = null;
         foreach (Transform Text in (playerScorePanel.transform))
         {
@@ -220,7 +211,7 @@ public class IngameGUIManager : MonoBehaviour
             playerNameText.text = player.name;
         }
         
-        playerScorePanelList.Add(playerScorePanel);
+        UI_PlayerHUD.Add(playerScorePanel);
         return playerScorePanel;
     }
     public void ChangeColorOfPlayerScorePanel(GameObject playerScorePanel, Color color)

@@ -163,6 +163,11 @@ public class LevelManager : MonoBehaviour
                 // subscribe to the OnBallHitEvent
                 player.GetComponent<PlayerScript>().OnBallHit += AddScoreToPlayer;
             }
+            foreach (var panel in ingameGUIManager.UI_PlayerScore)
+            {
+                Destroy(panel.gameObject); // Détruit chaque enfant
+            }
+            ingameGUIManager.UI_PlayerScore.Clear();
         }
         else
         {
@@ -401,7 +406,7 @@ public class LevelManager : MonoBehaviour
                 }
             }
             GameObject scorePanel = Instantiate(ingameGUIManager.ScorePlayerUIEndGame, playerScorePanelParent.gameObject.transform);
-            ingameGUIManager.playerScorePanelList.Add(scorePanel);
+            ingameGUIManager.UI_PlayerScore.Add(scorePanel);
             scorePanel.SetActive(true);
             ingameGUIManager.EndGameScoreBoardPlayerPanel(playerScore.player, scorePanel, i + 1);
         }
