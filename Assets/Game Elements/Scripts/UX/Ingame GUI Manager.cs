@@ -28,6 +28,7 @@ public class IngameGUIManager : MonoBehaviour
     public float roundInformationDuration = 1.5f;
     public GameObject ScorePlayerUIEndGame;
     public UI_PauseMenu UI_PauseMenu;
+    public float blinkInterval = 0.5f;
     
     // --------- PRIVATES ----------
     
@@ -42,6 +43,9 @@ public class IngameGUIManager : MonoBehaviour
     
     public List<GameObject> UI_PlayerHUD;
     public List<GameObject> UI_PlayerScore;
+    
+    [FormerlySerializedAs("UI_SetReadyInformationText")] public GameObject UI_PressStartTutorialtext;
+    public GameObject UI_SetReadyInformationText;
 
     private void Start()
     {
@@ -58,65 +62,71 @@ public class IngameGUIManager : MonoBehaviour
         //UpdateIndividualPlayerScorePanels();
 
     }
+
+    //TODO Ajouter l'update des panel de points des joueurs
+    #region PlayerHUDUpdate
+
+    // public void SetPlayerHud(GameObject playerInfoGui,string playerName , string playerScore, string playerState)
+    // {
+    //     Debug.Log(playerName);
+    //         TextMeshProUGUI playerNameText = null;
+    //         TextMeshProUGUI playerScoreText = null;
+    //         TextMeshProUGUI playerStateText = null;
+    //
+    //         
+    //         foreach (var textMesh in playerInfoGui.GetComponentsInChildren<TextMeshProUGUI>())
+    //         {
+    //             switch (textMesh.gameObject.name)
+    //             {
+    //                 case "PlayerName":
+    //                     playerNameText = textMesh;
+    //                     break;
+    //                 case "PlayerScore":
+    //                     playerScoreText = textMesh;
+    //                     break;
+    //                 case "PlayerState":
+    //                     playerStateText = textMesh;
+    //                     break;
+    //             }
+    //         }
+    //
+    //         if (playerNameText != null)
+    //         {
+    //             playerNameText.text = playerName;
+    //         }
+    //
+    //         if (playerScoreText != null)
+    //         {
+    //             playerScoreText.text = playerScore;
+    //         }
+    //
+    //         if (playerStateText != null)
+    //         {
+    //             playerStateText.text = playerState;
+    //         }
+    // }
+    //
+    // public void UpdatePlayerState(GameObject playerInfoGui, bool isReady)
+    // {
+    //     TextMeshProUGUI playerStateText = null;
+    //
+    //     foreach (var textMesh in playerInfoGui.GetComponentsInChildren<TextMeshProUGUI>())
+    //     {
+    //         if (textMesh.gameObject.name == "PlayerState")
+    //         {
+    //             playerStateText = textMesh;
+    //             break;
+    //         }
+    //     }
+    //
+    //     if (playerStateText != null)
+    //     {
+    //         playerStateText.text = isReady ? "Ready" : "Not Ready";
+    //     }
+    // }
+
+    #endregion
     
-    public void SetPlayerHud(GameObject playerInfoGui,string playerName , string playerScore, string playerState)
-    {
-        Debug.Log(playerName);
-            TextMeshProUGUI playerNameText = null;
-            TextMeshProUGUI playerScoreText = null;
-            TextMeshProUGUI playerStateText = null;
-
-            
-            foreach (var textMesh in playerInfoGui.GetComponentsInChildren<TextMeshProUGUI>())
-            {
-                switch (textMesh.gameObject.name)
-                {
-                    case "PlayerName":
-                        playerNameText = textMesh;
-                        break;
-                    case "PlayerScore":
-                        playerScoreText = textMesh;
-                        break;
-                    case "PlayerState":
-                        playerStateText = textMesh;
-                        break;
-                }
-            }
-
-            if (playerNameText != null)
-            {
-                playerNameText.text = playerName;
-            }
-
-            if (playerScoreText != null)
-            {
-                playerScoreText.text = playerScore;
-            }
-
-            if (playerStateText != null)
-            {
-                playerStateText.text = playerState;
-            }
-    }
-    
-    public void UpdatePlayerState(GameObject playerInfoGui, bool isReady)
-    {
-        TextMeshProUGUI playerStateText = null;
-
-        foreach (var textMesh in playerInfoGui.GetComponentsInChildren<TextMeshProUGUI>())
-        {
-            if (textMesh.gameObject.name == "PlayerState")
-            {
-                playerStateText = textMesh;
-                break;
-            }
-        }
-
-        if (playerStateText != null)
-        {
-            playerStateText.text = isReady ? "Ready" : "Not Ready";
-        }
-    }
     public void UpdatePlayerScore(GameObject playerInfoGui, int score)
     {
         TextMeshProUGUI playerScoreText = null;
@@ -206,7 +216,39 @@ public class IngameGUIManager : MonoBehaviour
         }
         
         UI_PlayerHUD.Add(playerScorePanel);
+
+        if (!UI_SetReadyInformationText.gameObject.activeSelf)
+        {
+            UI_SetReadyInformationText.gameObject.SetActive(true);
+            
+            StartBlinking(UI_SetReadyInformationText, blinkInterval);
+        }
+       
+        
         return playerScorePanel;
+    }
+    
+    //TODO Rajoute moi une fonction qui servirais a clignoter UI_SetReadyInformationText et UI_PressStartTutorialtext
+    // Function to start blinking a UI element
+    public void StartBlinking(GameObject uiElement, float blinkInterval)
+    {
+        StartCoroutine(BlinkUIElement(uiElement, blinkInterval));
+    }
+
+// Coroutine to toggle the active state of the UI element
+    private IEnumerator BlinkUIElement(GameObject uiElement, float blinkInterval)
+    {
+        while (true)
+        {
+            uiElement.SetActive(!uiElement.activeSelf);
+            yield return new WaitForSeconds(blinkInterval);
+        }
+    }
+    
+    
+    public void SpawnReadyPanel()
+    {
+        UI_SetReadyInformationText.gameObject.SetActive(true);
     }
     public void ChangeColorOfPlayerScorePanel(GameObject playerScorePanel, Color color)
     {
@@ -258,5 +300,7 @@ public class IngameGUIManager : MonoBehaviour
         _RoundInformationAffichage.text = "";
         _RoundInformationAffichage.gameObject.SetActive(false);
         GameManager.Instance.levelManager.StartLevel(); // Call StartLevel when the countdown finishes
+        UI_SetReadyInformationText.SetActive(false);
+        UI_PressStartTutorialtext.SetActive(false);
     }
 }
