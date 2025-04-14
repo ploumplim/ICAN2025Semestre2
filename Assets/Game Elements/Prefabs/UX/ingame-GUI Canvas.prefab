@@ -573,13 +573,14 @@ MonoBehaviour:
   resetPlayersObject: {fileID: 2040459016307848593}
   roundInformationDuration: 1.5
   ScorePlayerUIEndGame: {fileID: 7046694280828125761, guid: bd2dd111f584558409847e9c76b43953, type: 3}
-  playerScorePanelList: []
+  UI_PauseMenu: {fileID: 0}
   _globalPointsText: {fileID: 0}
   _RoundInformationAffichage: {fileID: 707790751982861911}
-  _playerHud: []
   PlayerInformationGUI: {fileID: 2485724112963675803}
-  playerPrefabScore: {fileID: 3639925001930571908, guid: c9c8a4487a1ee764ab5914b10e6fc4d6, type: 3}
+  UI_PlayerHud: {fileID: 3639925001930571908, guid: c9c8a4487a1ee764ab5914b10e6fc4d6, type: 3}
   playerPanelSpawnPointParent: {fileID: 8520582421764788485}
+  UI_PlayerHUD: []
+  UI_PlayerScore: []
 --- !u!1 &4199181106027239474
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,7 +761,7 @@ GameObject:
   - component: {fileID: 2937563457764305694}
   - component: {fileID: 707790751982861911}
   m_Layer: 5
-  m_Name: RoundCounterInformation
+  m_Name: RoundStartingCountDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

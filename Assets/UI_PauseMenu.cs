@@ -18,7 +18,7 @@ public class UI_PauseMenu : MonoBehaviour
         // Check if the current state is PlayingState
         if (gameManager.GetComponent<GameManagerSM>().currentState is PlayingState)
         {
-            Debug.Log("PausePressed");
+            gameManager.PausingGame();
         }
     }
 }

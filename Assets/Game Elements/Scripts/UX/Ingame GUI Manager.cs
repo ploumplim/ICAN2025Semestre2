@@ -35,7 +35,7 @@ public class IngameGUIManager : MonoBehaviour
     
     private int _playerCount;
     [SerializeField] private TextMeshPro _globalPointsText;
-    [FormerlySerializedAs("_startGameText")] [SerializeField] private TextMeshProUGUI _RoundInformationAffichage;
+    public TextMeshProUGUI _RoundInformationAffichage;
     [SerializeField] private GameObject PlayerInformationGUI;
     [FormerlySerializedAs("playerPrefabScore")] [SerializeField] private GameObject UI_PlayerHud;
     [SerializeField] private GameObject playerPanelSpawnPointParent;
@@ -144,20 +144,6 @@ public class IngameGUIManager : MonoBehaviour
     void OnEnable()
     {
         pauseAction.Enable(); 
-    }
-    
-    public void OnPauseAction(InputAction.CallbackContext context)
-    {
-        if (pauseMenu.activeSelf)
-        {
-            GameManager.Instance.ResumeGame();
-            pauseMenu.SetActive(false);
-        }
-        else
-        {
-            GameManager.Instance.PauseGame();
-            pauseMenu.SetActive(true);
-        }
     }
     
     // ------------------------ ROUND INFORMATION FUNCTIONS
