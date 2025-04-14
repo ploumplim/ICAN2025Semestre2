@@ -137,6 +137,10 @@ public class PlayerScript : MonoBehaviour
     {
         SetPlayerParameters();
         col = GetComponent<CapsuleCollider>();
+    
+        // Subscribe to the "Pause" action with a lambda to pass the context to OnPause
+        playerInput.actions["SetPause"].performed += context => 
+            GameManager.Instance.levelManager.ingameGUIManager.UI_PauseMenu.OnPause(context);
     }
     
     public void SetPlayerParameters()

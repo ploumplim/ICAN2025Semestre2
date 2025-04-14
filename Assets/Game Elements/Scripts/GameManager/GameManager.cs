@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public LevelManager levelManager;
     public HandleGamePads handleGamePads;
     public List<PlayerScript> PlayerScriptList;
-    public GameObject maxPlayer;
+    public bool isPaused;
     
 
     public static GameManager Instance
@@ -90,10 +90,7 @@ public class GameManager : MonoBehaviour
     public void AllPlayersReady()
     {
         levelManager.ingameGUIManager.CountDownTimer();
-        
-        // foreach (var panelPlayer in levelManager.ingameGUIManager.playerScorePanelList)
-        // {
-        //     panelPlayer.SetActive(false);
-        // }
     }
+    
+    
 }

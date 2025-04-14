@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -26,6 +27,7 @@ public class IngameGUIManager : MonoBehaviour
     public GameObject resetPlayersObject;
     public float roundInformationDuration = 1.5f;
     public GameObject ScorePlayerUIEndGame;
+    public UI_PauseMenu UI_PauseMenu;
     
     // --------- PRIVATES ----------
     
@@ -40,6 +42,12 @@ public class IngameGUIManager : MonoBehaviour
     
     public List<GameObject> UI_PlayerHUD;
     public List<GameObject> UI_PlayerScore;
+
+    private void Start()
+    {
+        UI_PauseMenu = GetComponent<UI_PauseMenu>();
+        
+    }
 
     void Update()
     {
