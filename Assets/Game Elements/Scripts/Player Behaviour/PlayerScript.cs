@@ -240,18 +240,26 @@ public class PlayerScript : MonoBehaviour
             OnPlayerHitByBall?.Invoke();
             // Debug.Log(currentState);
             if (ballSM.currentState is FlyingState)
-            {
+            { 
+                // If the ball is not lethal, push the player in the opposite direction of the ball
+                Vector3 direction = transform.position - other.transform.position;
                 // Debug.Log("Ball hit player");
                 if (currentState is not KnockbackState &&
                     currentState is not DeadState)
                 {
                     ChangeState(GetComponent<KnockbackState>());
                     // Push the player in the opposite direction of the ball
-                    Vector3 direction = transform.position - other.transform.position;
+                    
                     rb.AddForce(
                         direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude * knockbackForce,
                         ForceMode.Impulse);
                 }
+                
+                // Set the ball's speed to currentBallSpeedVec3.
+                ballSM.rb.linearVelocity = ballSM.currentBallSpeedVec3.magnitude * -direction.normalized;
+                
+                
+                
                 
             }
             else if (ballSM.currentState is LethalBallState)

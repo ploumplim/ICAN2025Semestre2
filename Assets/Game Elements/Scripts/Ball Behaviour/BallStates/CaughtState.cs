@@ -8,13 +8,18 @@ public class CaughtState : BallState
 
 
     public override void Enter()
-    {
+    {        
+        base.Enter();
         _caughtTimeoutTimer = 0;
         timer = 0;
         SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
-        base.Enter();
+
         BallSm.currentBallSpeedVec3 = BallSm.rb.linearVelocity;
-        BallSm.rb.linearVelocity = Vector3.zero;
+
+        
+        BallSm.rb.linearVelocity /= 8f;
+        
+        
         if (BallSm.ballOwnerPlayer)
         {
             Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
@@ -42,15 +47,16 @@ public class CaughtState : BallState
         if (_caughtTimeoutTimer >= BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().chargeTimeLimit + caughtTimeout)
         {
             BallSm.rb.linearVelocity = BallSm.currentBallSpeedVec3;
+            SetBallSpeedMinimum(BallSm.currentBallSpeedVec3.magnitude, BallSm.currentBallSpeedVec3.normalized);
             BallSm.ChangeState(GetComponent<FlyingState>());
         }
     }
 
     public override void Exit()
     {
+        base.Exit();
         _caughtTimeoutTimer = 0;
         timer = 0;
-        base.Exit();
         if (BallSm.ballOwnerPlayer)
         {
             Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);

@@ -86,6 +86,7 @@ public class BallSM : MonoBehaviour
     [HideInInspector]public int playerColliderLayer;
     [HideInInspector]public int ballColliderLayer;
     [HideInInspector]public Vector3 currentBallSpeedVec3;
+    [HideInInspector] public float ballSpeedFloor;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~EVENTS~~~~~~~~~~~~~~~~~~~~~~~~~~
     
@@ -134,9 +135,9 @@ public class BallSM : MonoBehaviour
         SetMaxSpeed();
     }
 
-    public void FixVerticalSpeed(float maxHeight)
+    public void FixVerticalSpeed()
     {
-        if (transform.position.y >= maxHeight)
+        if (rb.linearVelocity.y > 0)
         {
             // When the ball reaches the maxHeight, set the vertical speed to 0.
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);

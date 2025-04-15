@@ -460,8 +460,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
-  maxSpeed: 80
-  lethalSpeed: 75
+  maxSpeed: 100
+  lethalSpeed: 80
   groundedMaxHeight: 1
   flyingMaxHeight: 1.5
   minHeight: 0
@@ -475,7 +475,7 @@ MonoBehaviour:
   growthRate: 0.1
   shrinkRate: 0.1
   minimumScale: 0.75
-  maximumScale: 3.5
+  maximumScale: 2.5
   growthType: 1
   hitStateDuration: 0.2
   playerImmunityTime: 0.2
@@ -487,6 +487,7 @@ MonoBehaviour:
   playerColliderLayer: 0
   ballColliderLayer: 0
   currentBallSpeedVec3: {x: 0, y: 0, z: 0}
+  ballSpeedFloor: 0
   pointWallHit:
     m_PersistentCalls:
       m_Calls:
@@ -563,10 +564,10 @@ MonoBehaviour:
   ballLight: {fileID: 2671433560985040521}
   flyingTrailColor: {r: 0.6117647, g: 0, b: 1, a: 0.4862745}
   lethalTrailColor: {r: 1, g: 0, b: 0, a: 0.5}
-  flyingBallColor: {r: 0.60989, g: 0, b: 1, a: 1}
-  lethalBallColor: {r: 1, g: 0, b: 0, a: 1}
-  caughtBallColor: {r: 1, g: 0, b: 1, a: 1}
-  HitBallColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  flyingBallColor: {r: 0.056402206, g: 0, b: 1, a: 1}
+  lethalBallColor: {r: 1, g: 0, b: 0.19018412, a: 1}
+  caughtBallColor: {r: 1, g: 0, b: 0.79249954, a: 1}
+  HitBallColor: {r: 1, g: 0.53236574, b: 0.015686274, a: 1}
   groundedBallColor: {r: 0, g: 1, b: 0, a: 1}
   facesGameObject: {fileID: 5212817360931501258}
   neutralFace: {fileID: 1031548403092965096}
@@ -598,7 +599,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0775bb70a4daac94d8ae53b941d36c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
 --- !u!114 &8323023954229853944
 MonoBehaviour:
   m_ObjectHideFlags: 0

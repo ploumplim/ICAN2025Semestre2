@@ -20,7 +20,7 @@ public class DroppedState : BallState
     {
         base.Tick();
         BallSm.SetMaxHeight(BallSm.minHeight, BallSm.groundedMaxHeight);
-        BallSm.FixVerticalSpeed(BallSm.groundedMaxHeight);
+        BallSm.FixVerticalSpeed();
 
     }
     
