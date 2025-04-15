@@ -10159,6 +10159,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9ce6e8db-49d9-4d48-9a11-86906c6e544f
     m_ActionName: 'Player/Sprint[/XInputControllerWindows/leftTrigger]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3f8afffc-fa7d-4753-9ecb-cd405a9575a6
+    m_ActionName: 'Player/SetPause[/XInputControllerWindows/start]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
