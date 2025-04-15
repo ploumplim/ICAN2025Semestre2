@@ -11,8 +11,6 @@ public class BallVisuals : MonoBehaviour
     [Header("game objects and component settings")]
     [Tooltip("Game Object that holds the trail visuals.")]
     public GameObject trailVisuals;
-    [Tooltip("Game Object that holds the ball visuals.")]
-    public GameObject ballVisuals;
     [Tooltip("This is the ball's light.")]
     public Light ballLight;
     
@@ -28,19 +26,36 @@ public class BallVisuals : MonoBehaviour
     public Color caughtBallColor = Color.magenta;
     public Color HitBallColor = Color.yellow;
     public Color groundedBallColor = Color.green;
+
+    [Header("Ball Faces settings")]
+    public GameObject facesGameObject;
+    public SpriteRenderer neutralFace;
+    public SpriteRenderer lethalFace;
+    public SpriteRenderer hitFace;
+    
+    [Header("Ball shape settings")]
+    public GameObject neutralBall;
+    public GameObject lethalBall;
     
     // ---------------PRIVATE---------------
     private BallSM ballSM;
     private Camera _mainCamera;
     private TrailRenderer _trailRenderer;
-    private Material _ballMaterial;
+    private Material _neutralBallMaterial;
+    private Material _lethalBallMaterial;
 
     public void OnEnable()
     {
         ballSM = GetComponent<BallSM>();
         _mainCamera = Camera.main;
         _trailRenderer = trailVisuals.GetComponent<TrailRenderer>();
-        _ballMaterial = ballVisuals.GetComponent<MeshRenderer>().material;
+        _neutralBallMaterial = neutralBall.GetComponent<MeshRenderer>().material;
+        _lethalBallMaterial = lethalBall.GetComponent<MeshRenderer>().material;
+        
+        // Set all faces to inactive at the start.
+        neutralFace.gameObject.SetActive(false);
+        lethalFace.gameObject.SetActive(false);
+        hitFace.gameObject.SetActive(false);
         
     }
     
@@ -49,6 +64,7 @@ public class BallVisuals : MonoBehaviour
     {
         TrailEmitter();
         BallColorAndLight();
+        UpdateFace();
     }
     
     
@@ -80,6 +96,64 @@ public class BallVisuals : MonoBehaviour
         
         
     }
+
+    private void UpdateFace()
+    {
+        switch (ballSM.currentState)
+        {
+            case FlyingState:
+                // Set the ball shape to neutral.
+                neutralBall.SetActive(true);
+                lethalBall.SetActive(false);
+                
+                // Set the neutral face to active and the others to inactive.
+                neutralFace.gameObject.SetActive(true);
+                lethalFace.gameObject.SetActive(false);
+                hitFace.gameObject.SetActive(false);
+                break;
+            case DroppedState:
+                neutralBall.SetActive(true);
+                lethalBall.SetActive(false);
+                
+                neutralFace.gameObject.SetActive(true);
+                lethalFace.gameObject.SetActive(false);
+                hitFace.gameObject.SetActive(false);
+                break;
+            case CaughtState:
+                neutralBall.SetActive(true);
+                lethalBall.SetActive(false);
+                
+                neutralFace.gameObject.SetActive(false);
+                lethalFace.gameObject.SetActive(false);
+                hitFace.gameObject.SetActive(true);
+                break;    
+            case HitState:
+                neutralBall.SetActive(true);
+                lethalBall.SetActive(false);
+                
+                neutralFace.gameObject.SetActive(false);
+                lethalFace.gameObject.SetActive(false);
+                hitFace.gameObject.SetActive(true);
+                break;
+            case LethalBallState:
+                neutralBall.SetActive(false);
+                lethalBall.SetActive(true);
+                
+                neutralFace.gameObject.SetActive(false);
+                lethalFace.gameObject.SetActive(true);
+                hitFace.gameObject.SetActive(false);
+                break;
+        }
+        
+        //Make the face always look towards the main camera using the facesGameObject on the X axis.
+        Vector3 lookDirection = _mainCamera.transform.position - facesGameObject.transform.position;
+        lookDirection.x = 0;
+        lookDirection.Normalize();
+        Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
+        facesGameObject.transform.rotation = Quaternion.Slerp(facesGameObject.transform.rotation, lookRotation, Time.deltaTime * 5f);
+        
+        
+    }
     
     private void BallColorAndLight()
     {
@@ -88,23 +162,23 @@ public class BallVisuals : MonoBehaviour
             switch (ballSM.currentState)
             {
                 case CaughtState:
-                    _ballMaterial.color = caughtBallColor;
-                    _ballMaterial.SetColor("_EmissionColor", caughtBallColor);
+                    _neutralBallMaterial.color = caughtBallColor;
+                    _neutralBallMaterial.SetColor("_EmissionColor", caughtBallColor);
                     ballLight.color = caughtBallColor;
                     break;
                 case HitState:
-                    _ballMaterial.color = HitBallColor;
-                    _ballMaterial.SetColor("_EmissionColor", HitBallColor);
+                    _neutralBallMaterial.color = HitBallColor;
+                    _neutralBallMaterial.SetColor("_EmissionColor", HitBallColor);
                     ballLight.color = HitBallColor;
                     break;
                 case FlyingState:
-                    _ballMaterial.color = flyingBallColor;
-                    _ballMaterial.SetColor("_EmissionColor", flyingBallColor);
+                    _neutralBallMaterial.color = flyingBallColor;
+                    _neutralBallMaterial.SetColor("_EmissionColor", flyingBallColor);
                     ballLight.color = flyingBallColor;
                     break;
                 case DroppedState:
-                    _ballMaterial.color = groundedBallColor;
-                    _ballMaterial.SetColor("_EmissionColor", groundedBallColor);
+                    _neutralBallMaterial.color = groundedBallColor;
+                    _neutralBallMaterial.SetColor("_EmissionColor", groundedBallColor);
                     ballLight.color = groundedBallColor;
                     break;
                 // case BuntedBallState:
@@ -113,8 +187,10 @@ public class BallVisuals : MonoBehaviour
                 //     ballLight.color = buntedBallColor;
                 //     break;
                 case LethalBallState:
-                    _ballMaterial.color = lethalBallColor;
-                    _ballMaterial.SetColor("_EmissionColor", lethalBallColor);
+                    _lethalBallMaterial.color = lethalBallColor;
+                    _lethalBallMaterial.SetColor("_EmissionColor", lethalBallColor);
+                    _neutralBallMaterial.color = lethalBallColor;
+                    _neutralBallMaterial.SetColor("_EmissionColor", lethalBallColor);
                     ballLight.color = lethalBallColor;
                     break;
             }

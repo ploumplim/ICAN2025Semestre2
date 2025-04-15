@@ -8,7 +8,6 @@ using UnityEngine.Serialization;
 
 public class MultiplayerManager : MonoBehaviour
 {
-    public LevelManager levelManager;
 
     public GameObject playerToConnect;
 
@@ -83,7 +82,6 @@ public class MultiplayerManager : MonoBehaviour
 
     void AtoJoin(Gamepad gamepad)
     {
-        Debug.Log("Player " + gamepad.name + " has joined");
         int currentPlayerCount = gm.handleGamePads.AssignedGamepads.Count;
         if (currentPlayerCount < maxPlayerCount)
         {
@@ -99,26 +97,15 @@ public class MultiplayerManager : MonoBehaviour
         HandleGamePads.AssignControllerToPlayer(gamepad, playerToConnect); // Assign the gamepad to a player.
         camera.GetComponent<CameraScript>().AddObjectToArray(playerToConnect.gameObject);
         AssignValuesToPlayer(playerToConnect);
+        
+        GameManager.Instance.levelManager.ingameGUIManager.ChangeColorOfPlayerScorePanel(
+            playerToConnect.GetComponent<PlayerScript>().playerScorePanel,
+            playerToConnect.GetComponent<PlayerVisuals>().playerMeshMaterial.color);
         playerToConnect = null;
+        
         OnPlayerJoin?.Invoke();
     }
-
-    // private void OnSelectButtonPressed(Gamepad gamepad)
-    // {
-    //     Debug.Log($"Gamepad {gamepad.displayName}: Select button pressed");
-    //    
-    //     foreach (var player in connectedPlayers)
-    //     {
-    //         var playerInput = player.GetComponent<PlayerInput>();
-    //         if (playerInput != null && playerInput.devices.Contains(gamepad))
-    //         {
-    //             Debug.Log($"Player associated with gamepad {gamepad.displayName}: {player.name}");
-    //             break;
-    //         }
-    //     }
-    // }
-
-
+    
     private void SpawnNewPlayerAtPos(Transform spawnPosition)
     {
         // Instantiate a new player object at a specified position and rotation
@@ -128,6 +115,9 @@ public class MultiplayerManager : MonoBehaviour
         newPlayer.name = $"Player {connectedPlayers.Count + 1}";
 
         playerToConnect = newPlayer;
+        newPlayer.GetComponent<PlayerScript>().playerScorePanel =
+            gm.levelManager.ingameGUIManager.SpawnPlayerScorePanel(newPlayer.GetComponent<PlayerScript>());
+        GameManager.Instance.PlayerScriptList.Add(newPlayer.GetComponent<PlayerScript>());
     }
 
 

@@ -21,7 +21,7 @@ public class LevelManager : MonoBehaviour
 
     }
     
-    #region Variable
+    #region Variables
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     private LevelSM _levelSM; // Reference to the Level State Machine
     [FormerlySerializedAs("_currentState")] public LevelState currentState; // Reference to the current state of the level
@@ -158,26 +158,16 @@ public class LevelManager : MonoBehaviour
             ingameGUIManager.startGameButtonObject.SetActive(false);
             ingameGUIManager.resetPlayersObject.SetActive(false);
             
-            foreach (GameObject player in players)
+            foreach (PlayerScript player in GameManager.Instance.PlayerScriptList)
             {
                 // subscribe to the OnBallHitEvent
                 player.GetComponent<PlayerScript>().OnBallHit += AddScoreToPlayer;
-                int playerScore = player.GetComponent<PlayerPointTracker>().points;
-    
-                for (int i = 0; i < ingameGUIManager._playerHud.Count; i++)
-                {
-                    if (i < players.Count)
-                    {
-                        var playerScript = players[i].transform.GetComponent<PlayerScript>();
-                        ingameGUIManager.UpdatePlayerHud(ingameGUIManager._playerHud[i], players[i].transform.name, 
-                            playerScore.ToString(), playerScript.currentState.ToString());
-                    }
-                    else
-                    {
-                        ingameGUIManager._playerHud[i].SetActive(false);
-                    }
-                }
             }
+            foreach (var panel in ingameGUIManager.UI_PlayerScore)
+            {
+                Destroy(panel.gameObject); // Détruit chaque enfant
+            }
+            ingameGUIManager.UI_PlayerScore.Clear();
         }
         else
         {
@@ -199,9 +189,6 @@ public class LevelManager : MonoBehaviour
     
     public bool RoundCheck()
     {
-        // Check if the current round is less than the total rounds.
-        // If it is, increment the current round and change the state to InRoundState.
-        // If it is not, change the state to OutOfLevelState.
         if (currentRound < totalRounds)
         {
             return false;
@@ -419,7 +406,7 @@ public class LevelManager : MonoBehaviour
                 }
             }
             GameObject scorePanel = Instantiate(ingameGUIManager.ScorePlayerUIEndGame, playerScorePanelParent.gameObject.transform);
-            ingameGUIManager.playerScorePanelList.Add(scorePanel);
+            ingameGUIManager.UI_PlayerScore.Add(scorePanel);
             scorePanel.SetActive(true);
             ingameGUIManager.EndGameScoreBoardPlayerPanel(playerScore.player, scorePanel, i + 1);
         }
