@@ -10181,25 +10181,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementType: 1
-  speed: 6
-  chargeSpeedModifier: 0.3
-  acceleration: 1
+  speed: 8
+  chargeSpeedModifier: 0.2
+  acceleration: 2
   sprintSpeedModifier: 2
   neutralLerpTime: 1
   chargeLerpTime: 0.5
-  knockbackTime: 0.25
+  knockbackTime: 0.75
   knockbackForce: 2
   linearDrag: 10
   hitLinearDrag: 5
   hitType: 0
   chargeRate: 1
   releaseDuration: 0.15
-  chargeTimeLimit: 0.35
-  hitForce: 6
+  chargeTimeLimit: 0.8
+  hitForce: 8
   chargeClamp: 0.5
-  hitDetectionRadius: 5
+  hitDetectionRadius: 6
   hitDetectionOffset: 0
-  catchWindow: 0.2
+  catchWindow: 0.4
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
   OnHitButtonPressed:
@@ -10340,7 +10340,7 @@ MonoBehaviour:
   chargeEndingParticle: {fileID: 3760563121181863863}
   chargeEndingParticleTime: 0.3
   aimPointer: {fileID: 4082388389795980892}
-  aimPointerScale: 2.5
+  aimPointerScale: 3.5
 --- !u!114 &2442788646745104249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10470,7 +10470,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -0.9, z: 0}
-  m_LocalScale: {x: 3.02, y: 3.02, z: 0}
+  m_LocalScale: {x: 3.5, y: 3.5, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 9195313607378371640}

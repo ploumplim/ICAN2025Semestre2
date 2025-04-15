@@ -27,12 +27,10 @@ public class BallState : MonoBehaviour
         {
             case > 0f when currentSpeed < BallSm.ballSpeedFloor:
                 BallSm.rb.linearVelocity = ballDirection * BallSm.ballSpeedFloor;
-                Debug.Log("Updated lin velocity: " + BallSm.rb.linearVelocity.magnitude);
                 break;
             
             case > 0f when currentSpeed > BallSm.ballSpeedFloor:
                 BallSm.ballSpeedFloor = currentSpeed;
-                Debug.Log("Updated min speed: " + BallSm.ballSpeedFloor);
                 break;
         }
         
