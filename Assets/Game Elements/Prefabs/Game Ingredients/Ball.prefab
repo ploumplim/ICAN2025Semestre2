@@ -460,7 +460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
-  maxSpeed: 100
+  maxSpeed: 120
   lethalSpeed: 80
   groundedMaxHeight: 1
   flyingMaxHeight: 1.5
@@ -471,11 +471,11 @@ MonoBehaviour:
   groundedMass: 1
   buntedMass: 0.1
   flyingMass: 0.5
-  neutralScale: 0.75
+  neutralScale: 0.5
   growthRate: 0.1
   shrinkRate: 0.1
   minimumScale: 0.75
-  maximumScale: 2.5
+  maximumScale: 2
   growthType: 1
   hitStateDuration: 0.2
   playerImmunityTime: 0.2
