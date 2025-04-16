@@ -25,15 +25,6 @@ public class CameraScript : MonoBehaviour
     [Tooltip("This list contains all objects that the camera should use as points to lock itself.")]
     public GameObject[] lockPoints;
 
-    [Tooltip("This is the padding that the camera will have from the lock points.")]
-    public float padding = 2f;
-
-    [Tooltip("The minimum distance the camera can go when moving towards the lockpoint.")]
-    public float minDistance = 0f;
-    
-    [Tooltip("The maximum distance the camera can go when moving towards the lockpoint.")]
-    public float maxDistance = 10f;
-
     public void Start()
     {
         // Get the camera component of the camera object
@@ -43,7 +34,7 @@ public class CameraScript : MonoBehaviour
 
     public void FixedUpdate()
     {
-        // UpdateCameraPosition();
+        UpdateCameraPosition();
         // UpdateCameraDistance();
     }
 
