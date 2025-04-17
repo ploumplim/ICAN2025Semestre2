@@ -69,13 +69,19 @@ public class CameraScript : MonoBehaviour
 
         // Move the camera holder object to the middle point
         Vector3 newPosition = Vector3.Lerp(cameraHolderObject.transform.position, _targetPoint, followSpeed * Time.deltaTime);
+        
+        // Set the camera holder object to the new position
+        cameraHolderObject.transform.position = newPosition;
 
 
-        var newPositionXvalue = cameraHolderObject.transform.position;
-        newPositionXvalue.x = newPosition.x;
-        var cameraHolderObjectVec3 = cameraHolderObject.transform.position;
-        cameraHolderObjectVec3.x = Mathf.Lerp(cameraHolderObject.transform.position.x, newPositionXvalue.x, followSpeed * Time.deltaTime);
-        cameraHolderObject.transform.position = cameraHolderObjectVec3;
+        // var newPositionXvalue = cameraHolderObject.transform.position;
+        // newPositionXvalue.x = newPosition.x;
+        // var cameraHolderObjectVec3 = cameraHolderObject.transform.position;
+        // cameraHolderObjectVec3.x = Mathf.Lerp(cameraHolderObject.transform.position.x, newPositionXvalue.x, followSpeed * Time.deltaTime);
+        // cameraHolderObject.transform.position = cameraHolderObjectVec3;
+        
+        
+        
     }
 
     public static Vector3 CalculateAveragePoint(Vector3[] points)

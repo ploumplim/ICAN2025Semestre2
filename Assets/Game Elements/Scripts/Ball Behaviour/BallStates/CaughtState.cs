@@ -47,7 +47,7 @@ public class CaughtState : BallState
         if (_caughtTimeoutTimer >= BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().chargeTimeLimit + caughtTimeout)
         {
             BallSm.rb.linearVelocity = BallSm.currentBallSpeedVec3;
-            SetBallSpeedMinimum(BallSm.currentBallSpeedVec3.magnitude, BallSm.currentBallSpeedVec3.normalized);
+            BallSm.SetBallSpeedMinimum(BallSm.currentBallSpeedVec3.magnitude, BallSm.currentBallSpeedVec3.normalized);
             BallSm.ChangeState(GetComponent<FlyingState>());
         }
     }

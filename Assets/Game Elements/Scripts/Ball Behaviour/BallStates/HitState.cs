@@ -33,7 +33,7 @@ public class HitState : BallState
         float hitForce = BallSm.currentBallSpeedVec3.magnitude + 
                          chargeValue * ballOwnerPlayerScript.hitForce;
         BallSm.rb.linearVelocity = hitDirection * hitForce;
-        SetBallSpeedMinimum(BallSm.rb.linearVelocity.magnitude, hitDirection);
+        BallSm.SetBallSpeedMinimum(BallSm.rb.linearVelocity.magnitude, hitDirection);
         
     }
 

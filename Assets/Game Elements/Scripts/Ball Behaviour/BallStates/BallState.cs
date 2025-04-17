@@ -20,20 +20,5 @@ public class BallState : MonoBehaviour
         BallSm.rb.linearDamping = ballDamp;
         BallSm.rb.useGravity = gravityBool;
     }
-
-    protected void SetBallSpeedMinimum(float currentSpeed, Vector3 ballDirection)
-    {
-        switch (currentSpeed)
-        {
-            case > 0f when currentSpeed < BallSm.ballSpeedFloor:
-                BallSm.rb.linearVelocity = ballDirection * BallSm.ballSpeedFloor;
-                break;
-            
-            case > 0f when currentSpeed > BallSm.ballSpeedFloor:
-                BallSm.ballSpeedFloor = currentSpeed;
-                break;
-        }
-        
-        
-    }
+    
 }
