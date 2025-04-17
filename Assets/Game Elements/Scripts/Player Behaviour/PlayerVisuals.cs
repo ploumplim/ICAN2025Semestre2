@@ -34,7 +34,7 @@ public class PlayerVisuals : MonoBehaviour
     [Tooltip("The pointer showing the direction the player is aiming towards.")]
     public GameObject aimPointer;
 
-    public float aimPointerScale = 2.5f;
+    private float _aimPointerScale = 2.5f;
     
     
     
@@ -44,7 +44,7 @@ public class PlayerVisuals : MonoBehaviour
         playerScript = GetComponent<PlayerScript>();
         // Recover the player's mesh material and color.
         playerMeshMaterial = playerMesh.GetComponent<MeshRenderer>().material;
-        
+        _aimPointerScale = aimPointer.transform.localScale.x;
 
         _parryRadius = playerScript.hitDetectionRadius;
         
@@ -64,7 +64,7 @@ public class PlayerVisuals : MonoBehaviour
                 {deadParticle.Stop();}
                 
                 // Set the aimPointer's scale.
-                aimPointer.transform.localScale = new Vector3(aimPointerScale, aimPointerScale, aimPointerScale);
+                aimPointer.transform.localScale = new Vector3(_aimPointerScale, _aimPointerScale, _aimPointerScale);
                 
                 OnSprintEnd();
                 
@@ -131,7 +131,7 @@ public class PlayerVisuals : MonoBehaviour
         float chargePercentage = chargingState.chargeLimitTimer / playerScript.chargeTimeLimit;
         
         // The bigger chargePercentage is, the smaller the AimPointer will be.
-        aimPointer.transform.localScale = new Vector3(aimPointerScale * (1 - chargePercentage), aimPointerScale * (1 - chargePercentage), aimPointerScale * (1 - chargePercentage));
+        aimPointer.transform.localScale = new Vector3(_aimPointerScale * (1 - chargePercentage), _aimPointerScale * (1 - chargePercentage), _aimPointerScale * (1 - chargePercentage));
     }
     
     public void WarnChargeAlmostOver()

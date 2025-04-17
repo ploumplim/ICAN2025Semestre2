@@ -94,6 +94,7 @@ public class BallSM : MonoBehaviour
     public UnityEvent<int> OnPointBounce;
     public UnityEvent<int> OnNeutralBounce;
     public UnityEvent<float> OnBallFlight;
+    public UnityEvent OnPerfectCatch;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created

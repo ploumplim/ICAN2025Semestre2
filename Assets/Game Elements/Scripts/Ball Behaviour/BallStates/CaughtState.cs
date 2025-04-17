@@ -16,9 +16,12 @@ public class CaughtState : BallState
 
         BallSm.currentBallSpeedVec3 = BallSm.rb.linearVelocity;
 
-        
-        BallSm.rb.linearVelocity /= 8f;
-        
+        if (BallSm.rb.linearVelocity.magnitude > 0f)
+        {
+            BallSm.rb.linearVelocity /= BallSm.rb.linearVelocity.magnitude;
+        }
+
+        BallSm.OnPerfectCatch?.Invoke();
         
         if (BallSm.ballOwnerPlayer)
         {
