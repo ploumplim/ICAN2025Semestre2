@@ -9923,8 +9923,8 @@ GameObject:
   - component: {fileID: 8431329008806425069}
   - component: {fileID: 924477131349713796}
   - component: {fileID: 1951496036296628564}
-  - component: {fileID: 1484139084516818113}
   - component: {fileID: -6270888105009861134}
+  - component: {fileID: 455819523336466626}
   - component: {fileID: -9058261084534589756}
   - component: {fileID: 3857658138353711811}
   m_Layer: 8
@@ -10184,9 +10184,10 @@ MonoBehaviour:
   speed: 8
   chargeSpeedModifier: 0.1
   acceleration: 2
-  sprintSpeedModifier: 1.5
   neutralLerpTime: 1
   chargeLerpTime: 0.5
+  dashBurst: 32
+  dashDuration: 0.5
   knockbackTime: 0.75
   knockbackForce: 2
   linearDrag: 10
@@ -10289,6 +10290,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnPlayerDash:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPlayerEndDash:
+    m_PersistentCalls:
+      m_Calls: []
   currentState: {fileID: 0}
   playerInput: {fileID: 0}
   moveAction:
@@ -10340,7 +10347,6 @@ MonoBehaviour:
   chargeEndingParticle: {fileID: 3760563121181863863}
   chargeEndingParticleTime: 0.3
   aimPointer: {fileID: 3357307110571246704}
-  aimPointerScale: 4.63
 --- !u!114 &2442788646745104249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10394,18 +10400,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chargeLimitTimer: 0
---- !u!114 &1484139084516818113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3328443934547631640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 363d09c718cbc3f4ebdf3ca5f3d0e034, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-6270888105009861134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10418,6 +10412,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec9b3f61f508a594f8768f02d3eff6ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &455819523336466626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3328443934547631640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d24d344422f6594a9016c6f3a57ab8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 0
 --- !u!114 &-9058261084534589756
 MonoBehaviour:
   m_ObjectHideFlags: 0

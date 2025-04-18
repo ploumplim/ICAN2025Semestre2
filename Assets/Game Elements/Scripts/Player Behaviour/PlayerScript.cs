@@ -8,9 +8,6 @@ using UnityEngine.Serialization;
 
 public class PlayerScript : MonoBehaviour
 {
-
-    
-   
     public enum MoveType
     {
         Velocity,
@@ -26,13 +23,6 @@ public class PlayerScript : MonoBehaviour
     #region Variables
     // ------------------------------ PUBLIC VARIABLES ------------------------------
     [Header("Movement Settings")]
-    [Header("MOVEMENT TYPES: \n " +
-        "Velocity: The player's movement is controlled \n" +
-        " by changing the velocity of the rigidbody.\n" +
-        "Force: The player's movement is controlled \n" +
-        " by applying a force to the rigidbody. \n" +
-        " This means that all movement variables \n " +
-        "should be decreased to avoid the player moving too fast.")]
     [Tooltip("Choose the player's movement type.")]
     public MoveType movementType = MoveType.Velocity;
     [Tooltip("The base player speed. The speed is dependant on the input.")]
@@ -41,14 +31,16 @@ public class PlayerScript : MonoBehaviour
     public float chargeSpeedModifier = 0.5f;
     [Tooltip("The rate at which speed picks up when the input is being performed.")]
     public float acceleration = 0.1f;
-    [Tooltip("The speed modifier when sprinting.")]
-    public float sprintSpeedModifier = 2f;
     //---------------------------------------------------------------------------------------
     [Header("Rotation Lerps")]
     [Tooltip("Lerp time for the rotation while not aiming")]
     public float neutralLerpTime = 0.1f;
     [Tooltip("Lerp time for the rotation while charging a hit")]
     public float chargeLerpTime = 0.1f;
+    //---------
+    [Header("Dash Settings")]
+    public float dashBurst;
+    public float dashDuration;
     
     //---------------------------------------------------------------------------------------
     [Header("Knockback")]
@@ -98,6 +90,8 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent<float> OnBallHitByPlayer;
     public UnityEvent OnPlayerHitByBall; 
     public UnityEvent OnPlayerDeath;
+    public UnityEvent OnPlayerDash;
+    public UnityEvent OnPlayerEndDash;
     
     // action events
     public event Action<int,GameObject,BallState> OnBallHit;
@@ -222,7 +216,7 @@ public class PlayerScript : MonoBehaviour
                 }
                     break;
                 case "Sprint":
-                        newState = GetComponent<SprintState>();
+                        newState = GetComponent<DashingState>();
                     break;
             }
         }
@@ -336,11 +330,11 @@ public class PlayerScript : MonoBehaviour
                     // If the player is not moving, sprinting will not work
                     if (moveInputVector2 != Vector2.zero)
                     {
-                        ChangeState(GetComponent<SprintState>());
+                        ChangeState(GetComponent<DashingState>());
                     }
                 }
                 break;
-            case SprintState:
+            case DashingState:
                 if (context.canceled)
                 {
                     ChangeState(GetComponent<NeutralState>());
