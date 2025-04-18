@@ -10182,9 +10182,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementType: 1
   speed: 8
-  chargeSpeedModifier: 0.2
+  chargeSpeedModifier: 0.1
   acceleration: 2
-  sprintSpeedModifier: 2
+  sprintSpeedModifier: 1.5
   neutralLerpTime: 1
   chargeLerpTime: 0.5
   knockbackTime: 0.75
@@ -10194,7 +10194,7 @@ MonoBehaviour:
   hitType: 0
   chargeRate: 1
   releaseDuration: 0.15
-  chargeTimeLimit: 0.8
+  chargeTimeLimit: 0.6
   hitForce: 8
   chargeClamp: 0.5
   hitDetectionRadius: 6
