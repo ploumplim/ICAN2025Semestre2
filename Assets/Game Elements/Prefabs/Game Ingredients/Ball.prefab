@@ -461,7 +461,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
   maxSpeed: 200
-  lethalSpeed: 141
+  lethalSpeed: 140
   groundedMaxHeight: 1
   flyingMaxHeight: 1.5
   minHeight: 0
@@ -548,6 +548,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnPerfectCatch:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &3984054927209078919
 MonoBehaviour:
   m_ObjectHideFlags: 0

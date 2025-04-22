@@ -11,7 +11,12 @@ public class BallState : MonoBehaviour
     }
 
     public virtual void Enter() {}
-    public virtual void Tick(){}
+
+    public virtual void Tick()
+    {
+        BallSm.SetMaxHeight(BallSm.minHeight, BallSm.flyingMaxHeight);
+        BallSm.FixVerticalSpeed();
+    }
     public virtual void Exit() {}
 
     protected void SetParameters(float ballMass, float ballDamp, bool gravityBool)

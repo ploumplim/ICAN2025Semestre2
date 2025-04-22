@@ -221,6 +221,7 @@ public class BallSM : MonoBehaviour
  
     private void OnCollisionEnter(Collision other)
     {
+        
         SetBallSpeedMinimum(rb.linearVelocity.magnitude, rb.linearVelocity.normalized);
 
         switch (currentState)

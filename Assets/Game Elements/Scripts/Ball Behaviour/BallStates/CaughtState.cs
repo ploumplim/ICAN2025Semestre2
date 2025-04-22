@@ -10,6 +10,7 @@ public class CaughtState : BallState
     public override void Enter()
     {        
         base.Enter();
+        
         _caughtTimeoutTimer = 0;
         timer = 0;
         SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
@@ -28,18 +29,17 @@ public class CaughtState : BallState
             Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
         }
         
-        //Set the ball's current Y value to it's maximum.
-        BallSm.SetMaxHeight(BallSm.flyingMaxHeight,BallSm.flyingMaxHeight);
-        
+       
+       
     }
 
     public override void Tick()
-    {            
+    {
+        base.Tick();
+        
         _caughtTimeoutTimer += Time.deltaTime;
         timer += Time.deltaTime;
         // Over time, the ball should slow down and stop. Use the slowTime of the ballOwnerPlayer to determine how fast the ball should slow down.
-        
-        
         
         if (timer >= BallSm.playerImmunityTime)
         {

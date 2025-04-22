@@ -18,9 +18,6 @@ public class LethalBallState : BallState
     {
         base.Tick();
         
-        BallSm.SetMaxHeight(BallSm.minHeight, BallSm.flyingMaxHeight);
-        BallSm.FixVerticalSpeed();
-        
         if (timer >= BallSm.playerImmunityTime)
         {
             Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);

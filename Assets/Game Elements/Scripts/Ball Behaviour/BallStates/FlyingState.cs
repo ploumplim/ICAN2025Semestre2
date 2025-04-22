@@ -17,10 +17,6 @@ public class FlyingState : BallState
     public override void Tick()
     {
         base.Tick();
-
-        // Set the ball's vertical speed to 0.
-        BallSm.SetMaxHeight(BallSm.minHeight,BallSm.flyingMaxHeight);
-        BallSm.FixVerticalSpeed();
         
         // if the ball is going above the lethal speed, set the ball to the LethalBallState.
         if (BallSm.rb.linearVelocity.magnitude >= BallSm.lethalSpeed)
