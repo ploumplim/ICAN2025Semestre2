@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1602965163530131245
+--- !u!114 &-1501096340733764581
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: dot comics test 2
+  m_Name: ShieldDot
   m_Shader: {fileID: -6465566751694194690, guid: dfff427e81ce08d4cb588edb66391ab9, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -63,11 +63,11 @@ Material:
     - _SPREAD_TOP_1: 0.79
     - _TOP_DOT_PROPAGATION: 1.179
     - _USE_SCREEN_SPACE: 1
-    - _dot_scale: 13
+    - _dot_scale: 15.75
     - _rotation_dot: 0.84
     m_Colors:
-    - _HIGHLIGHT: {r: 0.93207544, g: 0.8266955, b: 0.16003552, a: 0.45490196}
-    - _MIDTONES: {r: 0.86415094, g: 0.065104626, b: 0.06358835, a: 0.5294118}
-    - _SHADOWS: {r: 1, g: 0, b: 0.047058783, a: 0.7490196}
+    - _HIGHLIGHT: {r: 0, g: 0.12102597, b: 1, a: 0}
+    - _MIDTONES: {r: 0.9575471, g: 0.7681622, b: 0.0271004, a: 0}
+    - _SHADOWS: {r: 0.094852574, g: 0.051686525, b: 0.47641504, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
