@@ -5,6 +5,7 @@ public class CaughtState : BallState
     [HideInInspector] public float timer;
     private float _caughtTimeoutTimer;
     [SerializeField] private float caughtTimeout = 0.2f;
+    [SerializeField] private Transform playerHandTransform;
 
 
     public override void Enter()
@@ -38,9 +39,19 @@ public class CaughtState : BallState
     public override void Tick()
     {
         base.Tick();
-        
+
+        if (BallSm.ballOwnerPlayer)
+        {
+            playerHandTransform = BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().playerHand.transform;
+            
+            // Make the ball move towards the player's hand, reducing the speed of the ball over time to 0.
+            Vector3 targetPosition = playerHandTransform.position;
+            
+        }
+
         _caughtTimeoutTimer += Time.deltaTime;
         timer += Time.deltaTime;
+        
         // Over time, the ball should slow down and stop. Use the slowTime of the ballOwnerPlayer to determine how fast the ball should slow down.
         
         if (timer >= BallSm.playerImmunityTime)

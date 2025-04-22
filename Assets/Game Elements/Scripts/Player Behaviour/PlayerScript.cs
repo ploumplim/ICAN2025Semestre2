@@ -75,6 +75,8 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("The window of opportunity to catch the ball at the start of the charge.")]
     public float catchWindow = 0.2f;
 
+    // ----------------------------------------------------------------------------------------
+    [Header("Game Objects")] public GameObject playerHand;
 
     //---------------------------------------------------------------------------------------
     [HideInInspector] public GameObject MultiplayerManager;
