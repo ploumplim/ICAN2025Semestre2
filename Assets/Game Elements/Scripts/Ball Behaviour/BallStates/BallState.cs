@@ -11,7 +11,12 @@ public class BallState : MonoBehaviour
     }
 
     public virtual void Enter() {}
-    public virtual void Tick(){}
+
+    public virtual void Tick()
+    {
+        BallSm.SetMaxHeight(BallSm.minHeight, BallSm.flyingMaxHeight);
+        BallSm.FixVerticalSpeed();
+    }
     public virtual void Exit() {}
 
     protected void SetParameters(float ballMass, float ballDamp, bool gravityBool)
@@ -20,20 +25,5 @@ public class BallState : MonoBehaviour
         BallSm.rb.linearDamping = ballDamp;
         BallSm.rb.useGravity = gravityBool;
     }
-
-    protected void SetBallSpeedMinimum(float currentSpeed, Vector3 ballDirection)
-    {
-        switch (currentSpeed)
-        {
-            case > 0f when currentSpeed < BallSm.ballSpeedFloor:
-                BallSm.rb.linearVelocity = ballDirection * BallSm.ballSpeedFloor;
-                break;
-            
-            case > 0f when currentSpeed > BallSm.ballSpeedFloor:
-                BallSm.ballSpeedFloor = currentSpeed;
-                break;
-        }
-        
-        
-    }
+    
 }

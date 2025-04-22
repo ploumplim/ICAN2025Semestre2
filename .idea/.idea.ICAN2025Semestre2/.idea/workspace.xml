@@ -7,22 +7,13 @@
     <list default="true" id="c6229357-d157-4b3a-a2a3-9c49815cecc1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ICAN2025Semestre2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ICAN2025Semestre2/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/Game Ingredients/Ball.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/Game Ingredients/Ball.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/FMOD/platforms/mac/lib/fmodstudio.bundle/Contents/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/FMOD/platforms/mac/lib/fmodstudio.bundle/Contents/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/FMOD/platforms/mac/lib/fmodstudioL.bundle/Contents/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/FMOD/platforms/mac/lib/fmodstudioL.bundle/Contents/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/FMOD/platforms/mac/lib/resonanceaudio.bundle/Contents/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/FMOD/platforms/mac/lib/resonanceaudio.bundle/Contents/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BaptScene/BaptTestDeca.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BaptScene/BaptTestDeca.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Settings/Build Profiles/PlaygroundBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Build Profiles/PlaygroundBuildSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TestDecagone 1.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TestDecagone 1.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TestDecagone.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TestDecagone.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TestDecagoneOvale.fbx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TestDecagoneOvale.fbx.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fmod_editor.log" beforeDir="false" afterPath="$PROJECT_DIR$/fmod_editor.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallSM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallSM.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/BallState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/BallState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/CaughtState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/CaughtState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/DroppedState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/DroppedState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/FlyingState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/FlyingState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/HitState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/HitState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/LethalBallState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/LethalBallState.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +62,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;ToolWindow.GitHub Copilot Chat.ShowToolbar&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;BaptisteLD&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;prototype-v6-IvanBranch2&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -83,7 +74,7 @@
 }</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$PROJECT_DIR$/../../builds/Dodgeball Build v1\BallGameS2Proto.exe" />
+      <option name="EXE_PATH" value="$USER_HOME$/Desktop/builds/Dodgeball Build v1\BallGameS2Proto.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\ivan_\Desktop\Builds\BounceProject\v1" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -231,9 +222,14 @@
       <workItem from="1744645313782" duration="299000" />
       <workItem from="1744702467416" duration="8247000" />
       <workItem from="1744719156995" duration="1274000" />
-      <workItem from="1744795203470" duration="2567000" />
-      <workItem from="1745241860440" duration="920000" />
-      <workItem from="1745308705808" duration="433000" />
+      <workItem from="1744795203470" duration="5283000" />
+      <workItem from="1744875727573" duration="5942000" />
+      <workItem from="1744896510900" duration="2654000" />
+      <workItem from="1744964258698" duration="5756000" />
+      <workItem from="1745048714961" duration="2248000" />
+      <workItem from="1745217105897" duration="756000" />
+      <workItem from="1745238369784" duration="735000" />
+      <workItem from="1745306814508" duration="2022000" />
     </task>
     <servers />
   </component>

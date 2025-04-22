@@ -94,6 +94,7 @@ public class BallSM : MonoBehaviour
     public UnityEvent<int> OnPointBounce;
     public UnityEvent<int> OnNeutralBounce;
     public UnityEvent<float> OnBallFlight;
+    public UnityEvent OnPerfectCatch;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -155,6 +156,21 @@ public class BallSM : MonoBehaviour
             rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
         }
     }
+    //~~~~~~~~~~~~~~~~~~~~~~ BALL SPEED MANAGERS ~~~~~~~~~~~~~~~~~~~~~~
+    public void SetBallSpeedMinimum(float currentSpeed, Vector3 ballDirection)
+    {
+        switch (currentSpeed)
+        {
+            case > 0f when currentSpeed < ballSpeedFloor:
+                rb.linearVelocity = ballDirection * ballSpeedFloor;
+                break;
+            
+            case > 0f when currentSpeed > ballSpeedFloor:
+                ballSpeedFloor = currentSpeed;
+                break;
+        }
+    }
+    
     //~~~~~~~~~~~~~~~~~~~~~~ GROWTH ~~~~~~~~~~~~~~~~~~~~~~
 
     public void GrowBall()
@@ -205,13 +221,15 @@ public class BallSM : MonoBehaviour
  
     private void OnCollisionEnter(Collision other)
     {
+        
+        SetBallSpeedMinimum(rb.linearVelocity.magnitude, rb.linearVelocity.normalized);
 
         switch (currentState)
         {
             case FlyingState:
                 bounces++;
                 // Check the ball GrowthType. If it's OnBounce, grow the ball.
-                if (growthType == GrowthType.OnBounce)
+                if (growthType == GrowthType.OnBounce && !other.gameObject.CompareTag("Player"))
                 {
                     GrowBall();
                 }
@@ -243,7 +261,8 @@ public class BallSM : MonoBehaviour
             //     }
             case LethalBallState:
                 bounces++;
-                if (growthType == GrowthType.OnBounce)
+                if (growthType == GrowthType.OnBounce && !other.gameObject.CompareTag("Player")
+                    && !other.gameObject.CompareTag("NonGrowerSurface"))
                 {
                     GrowBall();
                 }

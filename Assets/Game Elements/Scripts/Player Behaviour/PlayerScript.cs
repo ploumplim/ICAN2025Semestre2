@@ -8,9 +8,6 @@ using UnityEngine.Serialization;
 
 public class PlayerScript : MonoBehaviour
 {
-
-    
-   
     public enum MoveType
     {
         Velocity,
@@ -26,13 +23,6 @@ public class PlayerScript : MonoBehaviour
     #region Variables
     // ------------------------------ PUBLIC VARIABLES ------------------------------
     [Header("Movement Settings")]
-    [Header("MOVEMENT TYPES: \n " +
-        "Velocity: The player's movement is controlled \n" +
-        " by changing the velocity of the rigidbody.\n" +
-        "Force: The player's movement is controlled \n" +
-        " by applying a force to the rigidbody. \n" +
-        " This means that all movement variables \n " +
-        "should be decreased to avoid the player moving too fast.")]
     [Tooltip("Choose the player's movement type.")]
     public MoveType movementType = MoveType.Velocity;
     [Tooltip("The base player speed. The speed is dependant on the input.")]
@@ -41,14 +31,17 @@ public class PlayerScript : MonoBehaviour
     public float chargeSpeedModifier = 0.5f;
     [Tooltip("The rate at which speed picks up when the input is being performed.")]
     public float acceleration = 0.1f;
-    [Tooltip("The speed modifier when sprinting.")]
-    public float sprintSpeedModifier = 2f;
     //---------------------------------------------------------------------------------------
     [Header("Rotation Lerps")]
     [Tooltip("Lerp time for the rotation while not aiming")]
     public float neutralLerpTime = 0.1f;
     [Tooltip("Lerp time for the rotation while charging a hit")]
     public float chargeLerpTime = 0.1f;
+    //---------
+    [Header("Dash Settings")]
+    public float dashBurst;
+    public float dashDuration;
+    public float dashCooldown;
     
     //---------------------------------------------------------------------------------------
     [Header("Knockback")]
@@ -56,10 +49,10 @@ public class PlayerScript : MonoBehaviour
     public float knockbackTime = 0.5f;
     [Tooltip("This is the force multiplier applied to the player when hit by a ball.")]
     public float knockbackForce = 10f;
-    [Tooltip("The normal linear drag of the player.")]
-    public float linearDrag = 3f;
-    [Tooltip("The linear drag when the player is hit by a ball.")]
-    public float hitLinearDrag = 0f;
+    [FormerlySerializedAs("linearDrag")] [Tooltip("The normal linear drag of the player.")]
+    public float baseLinearDamping = 3f;
+    [FormerlySerializedAs("hitLinearDrag")] [Tooltip("The linear drag when the player is hit by a ball.")]
+    public float knockedBackLinearDamping = 0f;
     
     //---------------------------------------------------------------------------------------
     [Header("Hit parameters")]
@@ -98,6 +91,8 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent<float> OnBallHitByPlayer;
     public UnityEvent OnPlayerHitByBall; 
     public UnityEvent OnPlayerDeath;
+    public UnityEvent OnPlayerDash;
+    public UnityEvent OnPlayerEndDash;
     
     // action events
     public event Action<int,GameObject,BallState> OnBallHit;
@@ -109,12 +104,14 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public PlayerInput playerInput;
     [HideInInspector] public InputAction moveAction;
     [HideInInspector] public InputAction throwAction;
+    [HideInInspector] public InputAction reviveDebug;
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public CapsuleCollider col;
     [HideInInspector] public int playerLayer;
     [HideInInspector] public int ballLayer;
-    [SerializeField] public bool isReady;
-    public GameObject playerScorePanel;
+    [HideInInspector] public int hazardLayer;
+    [HideInInspector] public bool isReady;
+    [HideInInspector] public GameObject playerScorePanel;
 
     // ------------------------------ CHARGING ------------------------------
     [HideInInspector]public float chargeValueIncrementor = 0f;
@@ -122,6 +119,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public float hitTimer = 0f;
     // ------------------------------ MOVE ------------------------------
     [HideInInspector] public Vector2 moveInputVector2;
+    private float _dashTimer;
     
     // ------------------------------ INPUT BUFFERING ------------------------------
     private InputAction _bufferedAction;
@@ -129,7 +127,6 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] [Tooltip("Time window for input buffering")]
     private float bufferDuration = 0.1f;
     
-
     #endregion
    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -152,9 +149,11 @@ public class PlayerScript : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
         throwAction = playerInput.actions["Attack"];
+        reviveDebug = playerInput.actions["DebugRevive"];
         
         playerLayer = gameObject.layer;
         ballLayer = LayerMask.NameToLayer("Ball");
+        hazardLayer = LayerMask.NameToLayer("LevelHazard");
         
         PlayerState[] states = GetComponents<PlayerState>();
         foreach (PlayerState state in states)
@@ -173,15 +172,16 @@ public class PlayerScript : MonoBehaviour
         currentState.Tick();
         moveInputVector2 = moveAction.ReadValue<Vector2>();
 
-        // If the player is holding a ball, set the ball's position to the player's hand
-        
-        
+        // Timers
         if (hitTimer > 0)
         {
             hitTimer -= Time.deltaTime;
         }
         
-        
+        if (_dashTimer > 0)
+        {
+            _dashTimer -= Time.deltaTime;
+        }
         
     }
     
@@ -222,7 +222,7 @@ public class PlayerScript : MonoBehaviour
                 }
                     break;
                 case "Sprint":
-                        newState = GetComponent<SprintState>();
+                        newState = GetComponent<DashingState>();
                     break;
             }
         }
@@ -255,16 +255,12 @@ public class PlayerScript : MonoBehaviour
                     // Push the player in the opposite direction of the ball
                     
                     rb.AddForce(
-                        direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude * knockbackForce,
+                        direction.normalized * knockbackForce,
                         ForceMode.Impulse);
                 }
                 
                 // Set the ball's speed to currentBallSpeedVec3.
                 ballSM.rb.linearVelocity = ballSM.currentBallSpeedVec3.magnitude * -direction.normalized;
-                
-                
-                
-                
             }
             else if (ballSM.currentState is LethalBallState)
             {
@@ -274,7 +270,12 @@ public class PlayerScript : MonoBehaviour
                     ChangeState(GetComponent<DeadState>());
                 }
             }
-
+        }
+        
+        // If the object is on the collision layer "LevelHazard", change state to "deadstate"
+        if (other.gameObject.layer == hazardLayer)
+        {
+            ChangeState(GetComponent<DeadState>());
         }
     }
 
@@ -326,29 +327,36 @@ public class PlayerScript : MonoBehaviour
             }
     }
     // ------------------------------ SPRINT ------------------------------
-    public void OnSprint(InputAction.CallbackContext context)
+    public void OnDash(InputAction.CallbackContext context)
     {
         switch (currentState)
         {
             case NeutralState:
-                if (context.started || context.performed)
+                if ((context.started || context.performed) &&
+                    _dashTimer <= 0)
                 {
                     // If the player is not moving, sprinting will not work
                     if (moveInputVector2 != Vector2.zero)
                     {
-                        ChangeState(GetComponent<SprintState>());
+                        _dashTimer = dashCooldown;
+                        ChangeState(GetComponent<DashingState>());
                     }
                 }
                 break;
-            case SprintState:
-                if (context.canceled)
-                {
-                    ChangeState(GetComponent<NeutralState>());
-                }
-                break;
+            // case DashingState:
+            //     if (context.canceled)
+            //     {
+            //         ChangeState(GetComponent<NeutralState>());
+            //     }
+            //     break;
             case ReleaseState:
-                if (context.started || context.performed)
+                if ((context.started || context.performed) &&
+                    _dashTimer <= 0)
+                {
+                    _dashTimer = dashCooldown;
                     BufferInput(context.action);
+                }
+
                 break;
         }
     }
@@ -398,7 +406,12 @@ public class PlayerScript : MonoBehaviour
             GameManager.Instance.multiplayerManager.WaitForPlayersReady();
         }
     }
-    
+    // ------------------------------ DEBUG ------------------------------
+
+    public void OnDebugRevive(InputAction.CallbackContext context)
+    {
+        ChangeState(GetComponent<NeutralState>());
+    }
 
     // ------------------------------ EVENTS ------------------------------
     public void OnBallHitEventMethod(GameObject ball)

@@ -7,7 +7,7 @@ public class KnockbackState : PlayerState
     {
         base.Enter();
         _timer = 0;
-        PlayerScript.rb.linearDamping = PlayerScript.hitLinearDrag;
+        PlayerScript.rb.linearDamping = PlayerScript.knockedBackLinearDamping;
     }
 
     public override void Tick()
@@ -23,6 +23,6 @@ public class KnockbackState : PlayerState
     public override void Exit()
     {
         base.Exit();
-        PlayerScript.rb.linearDamping = PlayerScript.linearDrag;
+        PlayerScript.rb.linearDamping = PlayerScript.baseLinearDamping;
     }
 }
