@@ -270,87 +270,6 @@ Transform:
   - {fileID: 330585546}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &298832146
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6892946332043369285, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_Name
-      value: BounceWall Ledge (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 6892946332043369285, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7012636253897111667, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7012636253897111667, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 26
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -25
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
 --- !u!1 &324070237
 GameObject:
   m_ObjectHideFlags: 0
@@ -585,7 +504,6 @@ MonoBehaviour:
   zoomSpeed: 5
   lockPoints:
   - {fileID: 1651279641}
-  padding: 1
 --- !u!1001 &361093722
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -939,87 +857,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &599293931
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6892946332043369285, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_Name
-      value: BounceWall Ledge (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 6892946332043369285, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7012636253897111667, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7012636253897111667, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 26
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548657761966988819, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0db90745d851d684db44bc2021d80be6, type: 3}
 --- !u!1001 &654827140
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2963,7 +2800,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ball: {fileID: 1651279641}
-  playerAndBallsDebugObject: {fileID: 507760132}
+  pauseAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 0fb7d474-0d3f-433e-82e6-cd683fce0faa
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  pauseMenu: {fileID: 0}
+  levelManager: {fileID: 0}
+  startGameButtonObject: {fileID: 0}
+  resetPlayersObject: {fileID: 0}
+  roundInformationDuration: 1.5
+  ScorePlayerUIEndGame: {fileID: 0}
+  UI_PauseMenu: {fileID: 0}
+  blinkInterval: 0.5
+  _globalPointsText: {fileID: 0}
+  _RoundInformationAffichage: {fileID: 0}
+  PlayerInformationGUI: {fileID: 0}
+  UI_PlayerHud: {fileID: 0}
+  playerPanelSpawnPointParent: {fileID: 0}
+  UI_PlayerHUD: []
+  UI_PlayerScore: []
+  UI_PressStartTutorialtext: {fileID: 0}
+  UI_SetReadyInformationText: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2979,8 +2841,6 @@ SceneRoots:
   - {fileID: 2136787207}
   - {fileID: 3852979544680192326}
   - {fileID: 1050611115}
-  - {fileID: 298832146}
-  - {fileID: 599293931}
   - {fileID: 654827140}
   - {fileID: 1168291571}
   - {fileID: 2026709087}
