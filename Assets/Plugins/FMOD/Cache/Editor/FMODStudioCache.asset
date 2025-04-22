@@ -53,7 +53,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 1130
+  Length: 1010
 --- !u!114 &-7793626723157969631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,10 +258,10 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638793947276373005
+  lastModified: 638809389493585765
   FileSizes:
   - Name: 
-    Value: 1732
+    Value: 1784
   Exists: 1
 --- !u!114 &-1725376805612779310
 MonoBehaviour:
@@ -305,7 +305,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638793947276420683
+  lastModified: 638796267610902573
   FileSizes: []
   Exists: 1
 --- !u!114 &-615239212644355870
@@ -399,7 +399,7 @@ MonoBehaviour:
   - {fileID: 9013900838437733036}
   StringsBanks:
   - {fileID: -3230815617287640978}
-  cacheTime: 638793947276420683
+  cacheTime: 638809389493585765
   cacheVersion: 131846
 --- !u!114 &26972932658406186
 MonoBehaviour:
@@ -454,7 +454,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 1280
+  Length: 2230
 --- !u!114 &1234793348716647507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -478,10 +478,11 @@ MonoBehaviour:
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
-  Parameters: []
+  Parameters:
+  - {fileID: 4133360541090451349}
   MinDistance: 1
   MaxDistance: 20
-  Length: 900
+  Length: 500
 --- !u!114 &2317204528238341290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,13 +503,13 @@ MonoBehaviour:
     Data4: -1615456537
   Banks:
   - {fileID: 9013900838437733036}
-  IsStream: 1
+  IsStream: 0
   Is3D: 0
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 6000
+  Length: 680
 --- !u!114 &2909261916930966171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -535,7 +536,31 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 1900
+  Length: 700
+--- !u!114 &4133360541090451349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ClassicBounce_FX_2D/BallSpeed
+  m_EditorClassIdentifier: 
+  Name: BallSpeed
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3575178192
+    data2: 3163938300
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &4449506895102391971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -562,7 +587,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 2867
+  Length: 1610
 --- !u!114 &5124599100432088925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -606,6 +631,6 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638793947276352820
+  lastModified: 638809389493555352
   FileSizes: []
   Exists: 1

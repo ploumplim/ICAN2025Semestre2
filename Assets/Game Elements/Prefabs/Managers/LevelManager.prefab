@@ -83,7 +83,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
-  players: []
+  players:
+  - {fileID: 0}
+  _playerSpawnPoints: []
   potScore: 0
   gameBall: {fileID: 0}
   pointWalls: []
@@ -119,8 +121,7 @@ MonoBehaviour:
   pointWallHitScore: 3
   ingameGUIManager: {fileID: 0}
   gameCameraScript: {fileID: 0}
-  multiplayerManager: {fileID: 0}
-  PlayerSpawnPoint: {fileID: 0}
+  PlayerSpawnParent: {fileID: 0}
   OnGameStart:
     m_PersistentCalls:
       m_Calls: []
