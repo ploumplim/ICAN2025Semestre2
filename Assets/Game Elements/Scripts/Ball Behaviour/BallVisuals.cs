@@ -48,6 +48,9 @@ public class BallVisuals : MonoBehaviour
     [Header("Ball Impact settings")]
     public ParticleSystem impactParticle;
     
+    [Header("Ball catch settings")]
+    public ParticleSystem catchParticle;
+    
     // ---------------PRIVATE---------------
     private BallSM ballSM;
     private Camera _mainCamera;
@@ -212,6 +215,14 @@ public class BallVisuals : MonoBehaviour
             
     }
 
+    public void OnBallCaught()
+    {
+        // play the catch particle system.
+        catchParticle.Play();
+        
+    }
+    
+    
     private void OnCollisionEnter(Collision other)
     {
         foreach (ContactPoint contact in other.contacts)
@@ -232,11 +243,17 @@ public class BallVisuals : MonoBehaviour
             float speed = ballSM.GetComponent<Rigidbody>().linearVelocity.magnitude;
             float size = ballSize * speed * 0.1f;
             ParticleSystem.MainModule mainModule = impactParticleInstance.main;
-            mainModule.startSize = size;
+            mainModule.startSize = size * 0.5f;
             
+            
+            // Set the scale of the particle game object depending on the size and speed of the ball.
+            impactParticleInstance.transform.localScale = new Vector3(size, size, size);
             
             // Play the impact particle system.
             impactParticleInstance.Play();
+            
+            // Destroy the impact particle system after 1 second.
+            Destroy(impactParticleInstance.gameObject, 1f);
         }
     } 
 }

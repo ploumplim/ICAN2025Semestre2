@@ -11,6 +11,8 @@ public class CaughtState : BallState
     {        
         base.Enter();
         
+        BallSm.OnBallCaught?.Invoke();
+        
         _caughtTimeoutTimer = 0;
         timer = 0;
         SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
