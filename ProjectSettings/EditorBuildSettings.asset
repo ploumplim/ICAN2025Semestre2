@@ -18,11 +18,23 @@ EditorBuildSettings:
     path: Assets/Scenes/NATHAN's Paddle Room 1.unity
     guid: b1a1dac10de3a1a46a610025efaa8e8a
   - enabled: 0
-    path: Assets/Scenes/BaptScene/BaptTestDeca.unity
-    guid: 163b6d49bd6dc16468823b2c49c4cc7c
-  - enabled: 1
     path: Assets/Scenes/IvanScene/Ivan's Deca Room.unity
     guid: 762885a413ba76747b9806693b968a81
+  - enabled: 1
+    path: Assets/Scenes/BaptScene/BaptBaseDeca.unity
+    guid: 163b6d49bd6dc16468823b2c49c4cc7c
+  - enabled: 0
+    path: Assets/Scenes/LevelPrototype/voidCenter/voidLV.unity
+    guid: 21979e4a276a0294da2d61bbb968a588
+  - enabled: 0
+    path: Assets/Scenes/LevelPrototype/DecaTraps/DecaTraps.unity
+    guid: b24d29fbece180b499102a6dc7dbb3be
+  - enabled: 0
+    path: Assets/Scenes/LevelPrototype/RotatingWall/LVRotatingWall.unity
+    guid: 3e2110cd0afd1824c800ae8a7b86b816
+  - enabled: 0
+    path: Assets/Scenes/LevelPrototype/ScalingArena/ScalingArena.unity
+    guid: 2873b97479f5c3e46bc765b17be68dd0
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: faedd64316153784e871a659db823dd6, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
