@@ -5,7 +5,6 @@ using UnityEngine;
 public class DashingState : PlayerState
 {
     [HideInInspector] public float timer;
-    private bool _ballWasHit;
     private float dashSpeed;
     
     public override void Enter()
@@ -13,13 +12,12 @@ public class DashingState : PlayerState
         base.Enter();
         timer = 0;
         
-        // Disable the player's collider.
-        PlayerScript.col.enabled = false;
+        Physics.IgnoreLayerCollision(PlayerScript.playerLayer, PlayerScript.hazardLayer, true);
+        Physics.IgnoreLayerCollision(PlayerScript.playerLayer, PlayerScript.ballLayer, true);
         
         // Set the player's velocity to the dash speed.
         dashSpeed = PlayerScript.dashBurst;
 
-        // StartCoroutine(DashSpeedDecrease());
 
     }
 
@@ -39,17 +37,13 @@ public class DashingState : PlayerState
             PlayerScript.ChangeState(PlayerScript.GetComponent<NeutralState>());
         }
     }
-
-    public IEnumerator DashSpeedDecrease()
-    {
-        yield return null;
-    }
+    
 
     public override void Exit()
     {
         base.Exit();
-        PlayerScript.col.enabled = false;
-        _ballWasHit = false;
+        Physics.IgnoreLayerCollision(PlayerScript.playerLayer, PlayerScript.hazardLayer, false);
+        Physics.IgnoreLayerCollision(PlayerScript.playerLayer, PlayerScript.ballLayer, false);
         
         
     }

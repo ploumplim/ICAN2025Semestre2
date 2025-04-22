@@ -10147,7 +10147,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4963522762754067053}
         m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
-        m_MethodName: OnSprint
+        m_MethodName: OnDash
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10163,6 +10163,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 3f8afffc-fa7d-4753-9ecb-cd405a9575a6
     m_ActionName: 'Player/SetPause[/XInputControllerWindows/start]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4963522762754067053}
+        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+        m_MethodName: OnDebugRevive
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 736f64af-952a-4c13-83d1-f9ddf28624cc
+    m_ActionName: 'Player/DebugRevive[/XInputControllerWindows/leftShoulder]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -10181,22 +10197,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementType: 1
-  speed: 8
-  chargeSpeedModifier: 0.1
-  acceleration: 2
+  speed: 12
+  chargeSpeedModifier: 0.05
+  acceleration: 1
   neutralLerpTime: 1
   chargeLerpTime: 0.5
-  dashBurst: 32
-  dashDuration: 0.5
-  knockbackTime: 0.75
-  knockbackForce: 2
-  linearDrag: 10
-  hitLinearDrag: 5
+  dashBurst: 75
+  dashDuration: 0.24
+  dashCooldown: 0.75
+  knockbackTime: 0.5
+  knockbackForce: 20
+  baseLinearDamping: 10
+  knockedBackLinearDamping: 5
   hitType: 0
   chargeRate: 2
   releaseDuration: 0.15
   chargeTimeLimit: 0.8
-  hitForce: 6
+  hitForce: 10
   chargeClamp: 0.5
   hitDetectionRadius: 8
   hitDetectionOffset: 0
@@ -10316,10 +10333,20 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  reviveDebug:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 075f6dcf-6c35-45c0-9186-81eeeeff03d5
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   rb: {fileID: 0}
   col: {fileID: 0}
   playerLayer: 0
   ballLayer: 0
+  hazardLayer: 0
   isReady: 0
   playerScorePanel: {fileID: 0}
   chargeValueIncrementor: 0.5
