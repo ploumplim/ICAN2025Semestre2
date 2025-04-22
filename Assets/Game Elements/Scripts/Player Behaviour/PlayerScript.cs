@@ -95,7 +95,7 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent OnPlayerEndDash;
     
     // action events
-    public event Action<int,GameObject,BallState> OnBallHit;
+    public event Action<int,GameObject> OnBallHit;
     
     // ------------------------------ PRIVATE VARIABLES ------------------------------
     
@@ -413,11 +413,7 @@ public class PlayerScript : MonoBehaviour
         ChangeState(GetComponent<NeutralState>());
     }
 
-    // ------------------------------ EVENTS ------------------------------
-    public void OnBallHitEventMethod(GameObject ball)
-    {
-        OnBallHit?.Invoke(0,gameObject,ball.GetComponent<BallSM>().currentState);
-    }
+    // ------------------------------ EVENT METHODS ------------------------------
 
     // ------------------------------ PLAYER GIZMOS ------------------------------
 
