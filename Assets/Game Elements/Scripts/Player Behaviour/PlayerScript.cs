@@ -210,8 +210,8 @@ public class PlayerScript : MonoBehaviour
                             newState = GetComponent<ReleaseState>();
                         }
                     }
-                {
-
+                    
+                    
                     if (throwAction.triggered)
                     {
                         newState = GetComponent<ChargingState>();
@@ -221,7 +221,7 @@ public class PlayerScript : MonoBehaviour
                         chargeValueIncrementor = chargeClamp;
                         newState = GetComponent<ReleaseState>();
                     }
-                }
+                    
                     break;
                 case "Sprint":
                         newState = GetComponent<DashingState>();
