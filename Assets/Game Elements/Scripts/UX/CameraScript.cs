@@ -25,25 +25,17 @@ public class CameraScript : MonoBehaviour
     [Tooltip("This list contains all objects that the camera should use as points to lock itself.")]
     public GameObject[] lockPoints;
 
-    [Tooltip("This is the padding that the camera will have from the lock points.")]
-    public float padding = 2f;
-
-    [Tooltip("The minimum distance the camera can go when moving towards the lockpoint.")]
-    public float minDistance = 0f;
-    
-    [Tooltip("The maximum distance the camera can go when moving towards the lockpoint.")]
-    public float maxDistance = 10f;
-
     public void Start()
     {
         // Get the camera component of the camera object
         cameraObject = cameraHolderObject.GetComponentInChildren<Camera>().gameObject;
+        
     }
 
     public void FixedUpdate()
     {
         UpdateCameraPosition();
-        UpdateCameraDistance();
+        // UpdateCameraDistance();
     }
 
     private void UpdateCameraPosition()
@@ -77,13 +69,19 @@ public class CameraScript : MonoBehaviour
 
         // Move the camera holder object to the middle point
         Vector3 newPosition = Vector3.Lerp(cameraHolderObject.transform.position, _targetPoint, followSpeed * Time.deltaTime);
+        
+        // Set the camera holder object to the new position
+        cameraHolderObject.transform.position = newPosition;
 
 
-        var newPositionXvalue = cameraHolderObject.transform.position;
-        newPositionXvalue.x = newPosition.x;
-        var cameraHolderObjectVec3 = cameraHolderObject.transform.position;
-        cameraHolderObjectVec3.x = Mathf.Lerp(cameraHolderObject.transform.position.x, newPositionXvalue.x, followSpeed * Time.deltaTime);
-        cameraHolderObject.transform.position = cameraHolderObjectVec3;
+        // var newPositionXvalue = cameraHolderObject.transform.position;
+        // newPositionXvalue.x = newPosition.x;
+        // var cameraHolderObjectVec3 = cameraHolderObject.transform.position;
+        // cameraHolderObjectVec3.x = Mathf.Lerp(cameraHolderObject.transform.position.x, newPositionXvalue.x, followSpeed * Time.deltaTime);
+        // cameraHolderObject.transform.position = cameraHolderObjectVec3;
+        
+        
+        
     }
 
     public static Vector3 CalculateAveragePoint(Vector3[] points)

@@ -21,19 +21,19 @@ public class LevelManager : MonoBehaviour
 
     }
     
-    
+    #region Variables
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     private LevelSM _levelSM; // Reference to the Level State Machine
     [FormerlySerializedAs("_currentState")] public LevelState currentState; // Reference to the current state of the level
-    [HideInInspector] public List<GameObject> players; // List of players in the level
-    [FormerlySerializedAs("_playerSpawnPoints")] public List<Transform> playerSpawnPoints; // List of player spawn points
+    public List<GameObject> players; // List of players in the level
+    public List<Transform> _playerSpawnPoints; // List of player spawn points
     [FormerlySerializedAs("globalScore")] [HideInInspector] public int potScore; // Global score of the level
     [HideInInspector] public GameObject gameBall; // Reference to the game ball
     [HideInInspector] public List<GameObject> pointWalls; // List of point walls
     [HideInInspector] public List<GameObject> neutralWalls; // List of neutral walls
     [HideInInspector] public int currentRound; // Current round of the level
     [HideInInspector] public int totalRounds; // Total rounds of the level
-    [HideInInspector] public bool gameIsRunning; // Boolean to check if the game is running
+    public bool gameIsRunning; // Boolean to check if the game is running
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     [Header("Prefab settings")]
     [Tooltip("Insert the ball prefab here to spawn it when the level starts and on" +
@@ -75,8 +75,8 @@ public class LevelManager : MonoBehaviour
     [Header("UX Manager")]
     public IngameGUIManager ingameGUIManager;
     public CameraScript gameCameraScript;
-    [SerializeField]private MultiplayerManager multiplayerManager; // Reference to the Multiplayer Manager
-
+    //[SerializeField]public MultiplayerManager multiplayerManager; // Reference to the Multiplayer Manager
+    [FormerlySerializedAs("PlayerSpawnPoint")] public GameObject PlayerSpawnParent;
 
     
     
@@ -86,25 +86,22 @@ public class LevelManager : MonoBehaviour
     public UnityEvent<int> OnRoundStarted;
     public UnityEvent<string> OnRoundEnded;
 
-    
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    #endregion
 
-    public void Start()
+    private void Awake()
     {
-        Initialize(); // Delete this when Game State machine is implemented.
+        GameManager.Instance.levelManager = this;
+        
     }
-
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
     // Call initialize to set up the level manager.
     public void Initialize()
-    {        if (multiplayerManager)
-             {
-                 playerSpawnPoints = multiplayerManager.spawnPoints;
-             }
-
-        
+    {
         _levelSM = GetComponent<LevelSM>();
         _levelSM.Init();
         totalRounds = rounds.Count;
+        
     }
 
     public void Update()
@@ -116,36 +113,42 @@ public class LevelManager : MonoBehaviour
         }
 
         // Add players to the scene if outside of level.
-        if (multiplayerManager.handleGamePads && currentState is OutOfLevelState
-            && !gameIsRunning)
+        if (GameManager.Instance.handleGamePads)
         {
-            multiplayerManager.handleGamePads.CheckGamepadAssignments();
+            
+            if (currentState is OutOfLevelState && !gameIsRunning)
+            {
+                
+                GameManager.Instance.handleGamePads.CheckGamepadAssignments();
+            }
+            else if (!gameIsRunning)
+            {
+                if (!GameManager.Instance.handleGamePads)
+                {
+                    //Debug.LogWarning("HandleGamePads not found in the scene.");
+                }
+                if (currentState is not OutOfLevelState)
+                {
+                    //Debug.LogWarning("Current state is not OutOfLevelState.");
+                }
+            }
         }
-        else if (!gameIsRunning)
+        else
         {
-            if (!multiplayerManager.handleGamePads)
-            {
-                Debug.LogWarning("HandleGamePads not found in the scene.");
-            }
-            if (currentState is not OutOfLevelState)
-            {
-                Debug.LogWarning("Current state is not OutOfLevelState.");
-            }
+            Debug.LogWarning("MultiplayerManager or HandleGamePads is null.");
         }
-        
-        
+
         // Update the player list
-        if (multiplayerManager)
+        if (GameManager.Instance.multiplayerManager)
         {
-            if (players.Count != multiplayerManager.connectedPlayers.Count)
+            if (players.Count != GameManager.Instance.multiplayerManager.connectedPlayers.Count)
             {
-                players = multiplayerManager.connectedPlayers;
+                players = GameManager.Instance.multiplayerManager.connectedPlayers;
             }
         }
-
-
     }
     // ------------------------ MANAGE ROUNDS 🃦 🃧 🃨 🃩  ------------------------
+    // ReSharper disable Unity.PerformanceAnalysis
     public void StartLevel() // CALL THIS METHOD TO START THE LEVEL
     {
         if (players.Count >= 2 && !gameIsRunning)
@@ -155,11 +158,16 @@ public class LevelManager : MonoBehaviour
             ingameGUIManager.startGameButtonObject.SetActive(false);
             ingameGUIManager.resetPlayersObject.SetActive(false);
             
-            foreach (GameObject player in players)
+            foreach (PlayerScript player in GameManager.Instance.PlayerScriptList)
             {
                 // subscribe to the OnBallHitEvent
                 player.GetComponent<PlayerScript>().OnBallHit += AddScoreToPlayer;
             }
+            foreach (var panel in ingameGUIManager.UI_PlayerScore)
+            {
+                Destroy(panel.gameObject); // Détruit chaque enfant
+            }
+            ingameGUIManager.UI_PlayerScore.Clear();
         }
         else
         {
@@ -172,13 +180,15 @@ public class LevelManager : MonoBehaviour
                 Debug.LogWarning("The game is already running.");
             }
         }
+
+        foreach (var players in players)
+        {
+            players.GetComponent<PlayerScript>().isReady = false;
+        }
     }
     
     public bool RoundCheck()
     {
-        // Check if the current round is less than the total rounds.
-        // If it is, increment the current round and change the state to InRoundState.
-        // If it is not, change the state to OutOfLevelState.
         if (currentRound < totalRounds)
         {
             return false;
@@ -253,7 +263,7 @@ public class LevelManager : MonoBehaviour
         // Put players in the correct spawn point.
         for (int i = 0; i < players.Count; i++)
         {
-            players[i].transform.position = playerSpawnPoints[i].position;
+            players[i].transform.position = _playerSpawnPoints[i].position;
         }
     }
     
@@ -358,11 +368,47 @@ public class LevelManager : MonoBehaviour
                 case FlyingState:
                     player.GetComponent<PlayerPointTracker>().AddPoints(ballHitScore);
                     break;
-                case BuntedBallState:
-                    player.GetComponent<PlayerPointTracker>().AddPoints(buntedBallHitScore);
-                    break;
+                // case BuntedBallState:
+                //     player.GetComponent<PlayerPointTracker>().AddPoints(buntedBallHitScore);
+                //     break;
                 
             }
+        }
+    }
+
+    public void EndGameScore()
+    {
+        List<(GameObject player, int score)> playerScores = new List<(GameObject player, int score)>();
+
+        foreach (var player in players)
+        {
+            int score = player.GetComponent<PlayerPointTracker>().points;
+            playerScores.Add((player, score));
+        }
+
+        playerScores.Sort((x, y) => y.score.CompareTo(x.score));
+
+        if (playerScores.Count > 0)
+        {
+            string highestScoringPlayer = playerScores[0].player.name;
+        }
+
+        for (int i = 0; i < playerScores.Count; i++)
+        {
+            var playerScore = playerScores[i];
+            // Debug.Log($"Player: {playerScore.player.name}, Score: {playerScore.score}");
+            GameObject playerScorePanelParent = null;
+            foreach (Transform child in ingameGUIManager.transform)
+            {
+                if (child.CompareTag("ScorePlayerPanel"))
+                {
+                    playerScorePanelParent = child.gameObject;
+                }
+            }
+            GameObject scorePanel = Instantiate(ingameGUIManager.ScorePlayerUIEndGame, playerScorePanelParent.gameObject.transform);
+            ingameGUIManager.UI_PlayerScore.Add(scorePanel);
+            scorePanel.SetActive(true);
+            ingameGUIManager.EndGameScoreBoardPlayerPanel(playerScore.player, scorePanel, i + 1);
         }
     }
     

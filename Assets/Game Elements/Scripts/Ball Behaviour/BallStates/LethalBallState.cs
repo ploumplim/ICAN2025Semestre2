@@ -6,6 +6,7 @@ public class LethalBallState : BallState
 
     public override void Enter()
     {
+        base.Enter();
         timer = 0;
         if (BallSm.ballOwnerPlayer)
         {
@@ -16,9 +17,6 @@ public class LethalBallState : BallState
     public override void Tick()
     {
         base.Tick();
-        
-        BallSm.SetMaxHeight(BallSm.flyingMaxHeight);
-        BallSm.FixVerticalSpeed(BallSm.flyingMaxHeight);
         
         if (timer >= BallSm.playerImmunityTime)
         {

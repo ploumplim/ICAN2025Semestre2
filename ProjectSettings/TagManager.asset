@@ -13,6 +13,10 @@ TagManager:
   - LevelManager
   - NeutralWall
   - PointWall
+  - ScorePlayerPanel
+  - PlayerInformationPanel
+  - NonGrowerSurface
+  - LevelLimitWall
   layers:
   - Default
   - TransparentFX
@@ -23,7 +27,7 @@ TagManager:
   - Ledge
   - Ball
   - Player
-  - 
+  - LevelHazard
   - 
   - 
   - 

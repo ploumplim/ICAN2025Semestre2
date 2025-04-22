@@ -19,6 +19,15 @@ public class BufferState : LevelState
             LevelManagerScript.StartRound();
             StartCoroutine(WaitForBufferTime());
         }
+        foreach (var player in GameManager.Instance.PlayerScriptList)
+        {
+            GameObject playerScorePanel = player.GetComponent<PlayerScript>().playerScorePanel;
+            int points = player.GetComponent<PlayerPointTracker>().points;
+            
+            GameManager.Instance.levelManager.ingameGUIManager.UpdatePlayerScore(playerScorePanel, points);
+        }
+        
+
     }
     
     IEnumerator WaitForBufferTime()
