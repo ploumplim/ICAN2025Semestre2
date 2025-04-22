@@ -78,7 +78,7 @@ public class LevelManager : MonoBehaviour
     //[SerializeField]public MultiplayerManager multiplayerManager; // Reference to the Multiplayer Manager
     [FormerlySerializedAs("PlayerSpawnPoint")] public GameObject PlayerSpawnParent;
 
-    
+    public GameObject ScreenShakeButton;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ EVENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public UnityEvent OnGameStart;
@@ -87,6 +87,8 @@ public class LevelManager : MonoBehaviour
     public UnityEvent<string> OnRoundEnded;
 
     #endregion
+    
+   
 
     private void Awake()
     {
@@ -101,7 +103,6 @@ public class LevelManager : MonoBehaviour
         _levelSM = GetComponent<LevelSM>();
         _levelSM.Init();
         totalRounds = rounds.Count;
-        
     }
 
     public void Update()
@@ -185,6 +186,7 @@ public class LevelManager : MonoBehaviour
         {
             players.GetComponent<PlayerScript>().isReady = false;
         }
+        
     }
     
     public bool RoundCheck()
