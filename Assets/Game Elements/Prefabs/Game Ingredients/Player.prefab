@@ -10198,11 +10198,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementType: 1
   speed: 10
-  chargeSpeedModifier: 0.1
+  chargeSpeedModifier: 0.25
   acceleration: 2
   neutralLerpTime: 1
   chargeLerpTime: 0.5
-  dashBurst: 85
+  dashBurst: 75
   dashDuration: 0.3
   dashCooldown: 0.6
   knockbackTime: 0.5
