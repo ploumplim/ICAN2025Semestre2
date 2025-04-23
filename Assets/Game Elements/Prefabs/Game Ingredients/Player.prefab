@@ -10197,14 +10197,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementType: 1
-  speed: 8
-  chargeSpeedModifier: 0.05
-  acceleration: 1
+  speed: 10
+  chargeSpeedModifier: 0.1
+  acceleration: 2
   neutralLerpTime: 1
   chargeLerpTime: 0.5
-  dashBurst: 75
-  dashDuration: 0.24
-  dashCooldown: 0.58
+  dashBurst: 85
+  dashDuration: 0.3
+  dashCooldown: 0.6
   knockbackTime: 0.5
   knockbackForce: 20
   baseLinearDamping: 10
@@ -10330,6 +10330,15 @@ MonoBehaviour:
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 156ffc9f-93ac-4e63-8e06-f824ed4a6c84
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  dashAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 0bbf0d7f-99eb-4688-afc5-4468a9c14c25
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []

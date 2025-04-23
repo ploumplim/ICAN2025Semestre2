@@ -106,6 +106,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public PlayerInput playerInput;
     [HideInInspector] public InputAction moveAction;
     [HideInInspector] public InputAction throwAction;
+    [HideInInspector] public InputAction dashAction;
     [HideInInspector] public InputAction reviveDebug;
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public CapsuleCollider col;
@@ -152,6 +153,7 @@ public class PlayerScript : MonoBehaviour
         moveAction = playerInput.actions["Move"];
         throwAction = playerInput.actions["Attack"];
         reviveDebug = playerInput.actions["DebugRevive"];
+        dashAction = playerInput.actions["Sprint"];
         
         playerLayer = gameObject.layer;
         ballLayer = LayerMask.NameToLayer("Ball");
