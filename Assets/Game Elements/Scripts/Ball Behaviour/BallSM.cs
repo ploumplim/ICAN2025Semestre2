@@ -234,16 +234,11 @@ public class BallSM : MonoBehaviour
                 {
                     GrowBall();
                 }
-
-                if (other.gameObject.CompareTag("PointWall"))
-                {
-                    pointWallHit?.Invoke(pointWallPoints);
-                    OnPointBounce?.Invoke(bounces);
-                }
                 
                 if (other.gameObject.CompareTag("PointWall"))
                 {
                     pointWallHit?.Invoke(pointWallPoints);
+                    GameManager.Instance.levelManager.gameCameraScript.screenShakeGO.GetComponent<ScreenShake>().StartLitleScreenShake();
                     OnPointBounce?.Invoke(bounces);
                 }
                 

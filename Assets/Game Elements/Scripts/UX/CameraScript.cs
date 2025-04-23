@@ -12,6 +12,7 @@ public class CameraScript : MonoBehaviour
     private Vector3[] _lockPoints; // The array of points that the camera can lock itself to.
     private GameObject cameraObject; // The camera component of the camera object.
     private Vector3 _targetPoint; // The point that the camera should lock itself to.
+    public ScreenShake screenShakeGO; // The screen shake component of the camera object.
 
     // ---------------PUBLIC---------------
     [Tooltip("The gameobject holding the camera. The code will move THIS object, while the camera is fixed to it as " +
@@ -161,7 +162,6 @@ public class CameraScript : MonoBehaviour
         return true;
     }
     
-    // Ajoutez cette méthode pour effectuer un screen shake
     public void StartShake(float duration, float magnitude)
     {
         StartCoroutine(ShakeCamera(duration, magnitude));
@@ -181,8 +181,9 @@ public class CameraScript : MonoBehaviour
                 originalPosition.x + offsetX,
                 originalPosition.y + offsetY,
                 originalPosition.z
-            );
-
+            ) ;
+    //* GameManager.Instance.levelManager.gameBall.GetComponent<BallSM>().rb.linearVelocity.magnitude
+            
             elapsed += Time.deltaTime;
             yield return null;
         }

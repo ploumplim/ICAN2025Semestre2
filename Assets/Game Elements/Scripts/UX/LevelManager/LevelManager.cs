@@ -26,7 +26,7 @@ public class LevelManager : MonoBehaviour
     public List<GameObject> players; // List of players in the level
     public List<Transform> _playerSpawnPoints; // List of player spawn points
     [FormerlySerializedAs("globalScore")] [HideInInspector] public int potScore; // Global score of the level
-    [HideInInspector] public GameObject gameBall; // Reference to the game ball
+    public GameObject gameBall; // Reference to the game ball
     [HideInInspector] public int currentRound; // Current round of the level
     [HideInInspector] public int totalRounds; // Total rounds of the level
     public bool gameIsRunning; // Boolean to check if the game is running
