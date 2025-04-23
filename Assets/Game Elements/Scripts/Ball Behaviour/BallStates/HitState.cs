@@ -32,9 +32,21 @@ public class HitState : BallState
         
         float hitForce = BallSm.currentBallSpeedVec3.magnitude + 
                          chargeValue * ballOwnerPlayerScript.hitForce;
+
+        if (chargeValue >= GetComponent<BallVisuals>().perfectHitThreshold)
+        {
+            BallSm.OnPerfectHit?.Invoke();
+        }
+        
+        
         BallSm.rb.linearVelocity = hitDirection * hitForce;
         
         BallSm.SetBallSpeedMinimum(BallSm.rb.linearVelocity.magnitude, hitDirection);
+        
+        if (BallSm.growthType == BallSM.GrowthType.OnHit)
+        {
+            BallSm.GrowBall();
+        }
         
     }
 

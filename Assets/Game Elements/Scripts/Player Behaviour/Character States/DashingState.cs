@@ -28,6 +28,13 @@ public class DashingState : PlayerState
         //Apply the movement, decreasing the speed of the player over time.
         dashSpeed = Mathf.Lerp(dashSpeed, PlayerScript.speed, timer / PlayerScript.dashDuration);
         PlayerScript.Move(dashSpeed, PlayerScript.neutralLerpTime);
+
+        if (!PlayerScript.dashAction.inProgress)
+        {
+            timer = 0;
+            PlayerScript.OnPlayerEndDash?.Invoke();
+            PlayerScript.ChangeState(PlayerScript.GetComponent<NeutralState>());
+        }
         
         
         if (timer >= PlayerScript.dashDuration)
@@ -41,7 +48,9 @@ public class DashingState : PlayerState
 
     public override void Exit()
     {
+        
         base.Exit();
+        timer = 0;
         Physics.IgnoreLayerCollision(PlayerScript.playerLayer, PlayerScript.hazardLayer, false);
         Physics.IgnoreLayerCollision(PlayerScript.playerLayer, PlayerScript.ballLayer, false);
         

@@ -75,6 +75,8 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("The window of opportunity to catch the ball at the start of the charge.")]
     public float catchWindow = 0.2f;
 
+    // ----------------------------------------------------------------------------------------
+    [Header("Game Objects")] public GameObject playerHand;
 
     //---------------------------------------------------------------------------------------
     [HideInInspector] public GameObject MultiplayerManager;
@@ -104,6 +106,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public PlayerInput playerInput;
     [HideInInspector] public InputAction moveAction;
     [HideInInspector] public InputAction throwAction;
+    [HideInInspector] public InputAction dashAction;
     [HideInInspector] public InputAction reviveDebug;
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public CapsuleCollider col;
@@ -150,6 +153,7 @@ public class PlayerScript : MonoBehaviour
         moveAction = playerInput.actions["Move"];
         throwAction = playerInput.actions["Attack"];
         reviveDebug = playerInput.actions["DebugRevive"];
+        dashAction = playerInput.actions["Sprint"];
         
         playerLayer = gameObject.layer;
         ballLayer = LayerMask.NameToLayer("Ball");
@@ -208,8 +212,8 @@ public class PlayerScript : MonoBehaviour
                             newState = GetComponent<ReleaseState>();
                         }
                     }
-                {
-
+                    
+                    
                     if (throwAction.triggered)
                     {
                         newState = GetComponent<ChargingState>();
@@ -219,7 +223,7 @@ public class PlayerScript : MonoBehaviour
                         chargeValueIncrementor = chargeClamp;
                         newState = GetComponent<ReleaseState>();
                     }
-                }
+                    
                     break;
                 case "Sprint":
                         newState = GetComponent<DashingState>();

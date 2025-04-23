@@ -47,9 +47,15 @@ public class BallVisuals : MonoBehaviour
     
     [Header("Ball Impact settings")]
     public ParticleSystem impactParticle;
+    public float particleSizeModifier = 0.1f;
+    [FormerlySerializedAs("particleImpactZoneSize")] public float particleImpactZoneSizeModifier = 0.1f;
     
     [Header("Ball catch settings")]
     public ParticleSystem catchParticle;
+    
+    [Header("Perfect hit settings")]
+    public ParticleSystem perfectHitParticle;
+    public float perfectHitThreshold = 0.95f;
     
     // ---------------PRIVATE---------------
     private BallSM ballSM;
@@ -221,7 +227,11 @@ public class BallVisuals : MonoBehaviour
         catchParticle.Play();
         
     }
-    
+
+    public void OnPerfectHit()
+    {
+        perfectHitParticle.Play();
+    }
     
     private void OnCollisionEnter(Collision other)
     {
@@ -241,13 +251,14 @@ public class BallVisuals : MonoBehaviour
             // Set the size of the impact particle system based on the ball's size and speed.
             float ballSize = ballSM.GetComponent<Transform>().localScale.x;
             float speed = ballSM.GetComponent<Rigidbody>().linearVelocity.magnitude;
-            float size = ballSize * speed * 0.1f;
-            ParticleSystem.MainModule mainModule = impactParticleInstance.main;
-            mainModule.startSize = size * 0.5f;
+            float impactZoneSize = speed * particleImpactZoneSizeModifier;
             
+            ParticleSystem.MainModule mainModule = impactParticleInstance.main;
+            
+            mainModule.startSize = ballSize * particleSizeModifier;
             
             // Set the scale of the particle game object depending on the size and speed of the ball.
-            impactParticleInstance.transform.localScale = new Vector3(size, size, size);
+            impactParticleInstance.transform.localScale = new Vector3(impactZoneSize, impactZoneSize, impactZoneSize);
             
             // Play the impact particle system.
             impactParticleInstance.Play();
