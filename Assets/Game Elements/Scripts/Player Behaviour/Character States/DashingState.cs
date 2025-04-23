@@ -26,7 +26,7 @@ public class DashingState : PlayerState
         base.Tick();
         timer += Time.deltaTime;
         //Apply the movement, decreasing the speed of the player over time.
-        dashSpeed = Mathf.Lerp(dashSpeed, PlayerScript.speed, timer / PlayerScript.dashDuration);
+        dashSpeed = Mathf.Lerp(dashSpeed, PlayerScript.speed, 1f * Time.deltaTime);
         PlayerScript.Move(dashSpeed, PlayerScript.neutralLerpTime);
 
         if (!PlayerScript.dashAction.inProgress)
