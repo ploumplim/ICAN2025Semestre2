@@ -10202,20 +10202,20 @@ MonoBehaviour:
   acceleration: 2
   neutralLerpTime: 1
   chargeLerpTime: 0.5
-  dashBurst: 45
-  dashDuration: 0.3
-  dashCooldown: 0.6
+  dashBurst: 65
+  dashDuration: 0.15
+  dashCooldown: 0.24
   knockbackTime: 0.5
   knockbackForce: 20
   baseLinearDamping: 10
   knockedBackLinearDamping: 5
   hitType: 0
   chargeRate: 2
-  releaseDuration: 0.15
+  releaseDuration: 0.1
   chargeTimeLimit: 0.8
-  hitForce: 10
-  chargeClamp: 0.5
-  hitDetectionRadius: 8
+  hitForce: 15
+  chargeClamp: 0.75
+  hitDetectionRadius: 10
   hitDetectionOffset: 0
   catchWindow: 0.5
   playerHand: {fileID: 2776262344594129282}
@@ -10362,7 +10362,7 @@ MonoBehaviour:
   chargeValueIncrementor: 0.5
   hitTimer: 0
   moveInputVector2: {x: 0, y: 0}
-  bufferDuration: 0.2
+  bufferDuration: 0.3
 --- !u!114 &2291177913900343150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10514,7 +10514,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -0.5, z: 0}
-  m_LocalScale: {x: 4.53, y: 4.53, z: 0}
+  m_LocalScale: {x: 5.67, y: 5.67, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 9195313607378371640}
@@ -10601,7 +10601,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -0.5, z: 0}
-  m_LocalScale: {x: 4.53, y: 4.53, z: 0}
+  m_LocalScale: {x: 2.68, y: 2.68, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 9195313607378371640}

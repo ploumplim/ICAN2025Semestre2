@@ -43,7 +43,7 @@ public class ReleaseState : PlayerState
     public override void Tick()
     {
         base.Tick();
-        PlayerScript.Move(PlayerScript.speed * PlayerScript.chargeSpeedModifier, PlayerScript.neutralLerpTime);
+        PlayerScript.Move(PlayerScript.speed, PlayerScript.neutralLerpTime);
 
     }
 

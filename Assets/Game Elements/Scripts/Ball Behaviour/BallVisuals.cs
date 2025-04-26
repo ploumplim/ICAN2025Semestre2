@@ -57,6 +57,9 @@ public class BallVisuals : MonoBehaviour
     public ParticleSystem perfectHitParticle;
     public float perfectHitThreshold = 0.95f;
     
+    [Header("Lethal ball settings")]
+    public ParticleSystem lethalBallParticle;
+    
     // ---------------PRIVATE---------------
     private BallSM ballSM;
     private Camera _mainCamera;
@@ -230,7 +233,36 @@ public class BallVisuals : MonoBehaviour
 
     public void OnPerfectHit()
     {
+        // recover ball size
+        float ballSize = ballSM.GetComponent<Transform>().localScale.x;
+        // Set the size of the perfect hit particle system based on the ball's size.
+        ParticleSystem.MainModule mainModule = perfectHitParticle.main;
+        
+        // From the charge state, recover the ball owning player's charge value.
+        PlayerScript ballOwnerPlayerScript = ballSM.ballOwnerPlayer.GetComponent<PlayerScript>();
+        float chargeValue = Mathf.Clamp(ballOwnerPlayerScript.chargeValueIncrementor, ballOwnerPlayerScript.chargeClamp, 1f);
+        
+        
+        // Recover the particle's current size.
+        float currentSize = mainModule.startSizeMultiplier;
+        
+        mainModule.startSize = ballSize * currentSize * chargeValue;
+        // From the HitState, get the direction of the hit.
+        Vector3 hitDirection = ballSM.currentState.GetComponent<HitState>().hitDirection;
+        
+        // Set the rotation of the perfect hit particle system to the hit direction.
+        perfectHitParticle.transform.rotation = Quaternion.LookRotation(hitDirection);
+        
+        
         perfectHitParticle.Play();
+        
+        mainModule.startSizeMultiplier = currentSize;
+    }
+    
+    public void OnLethalBall()
+    {
+        // play the lethal ball particle system.
+        lethalBallParticle.Play();
     }
     
     private void OnCollisionEnter(Collision other)

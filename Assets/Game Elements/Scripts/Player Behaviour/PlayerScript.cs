@@ -369,29 +369,25 @@ public class PlayerScript : MonoBehaviour
     public void OnChargeAttack(InputAction.CallbackContext context)
     {
         if (context.started)
+        
         {
-            if (currentState is NeutralState)
+            if (currentState is NeutralState || currentState is DashingState)
             {
+                GetComponent<DashingState>().timer = 0;
                 OnHitButtonPressed?.Invoke();
                 ChangeState(GetComponent<ChargingState>());
             }
             else if (currentState is not ChargingState && currentState is not ReleaseState)
             {
+                GetComponent<DashingState>().timer = 0;
                 BufferInput(context.action);
             }
         }
+        
         else if (currentState is ChargingState && context.canceled) 
+       
         { 
             ChangeState(GetComponent<ReleaseState>()); 
-        }
-
-        if (context.performed)
-        {
-            if (currentState is not NeutralState && currentState is not ChargingState
-                && currentState is not ReleaseState)
-            {
-                BufferInput(context.action);
-            }
         }
         
     }
