@@ -231,6 +231,12 @@ public class BallVisuals : MonoBehaviour
         
     }
 
+    public void StopCatchAnimation()
+    {
+        // stop the catch particle system.
+        catchParticle.Stop();
+    }
+
     public void OnPerfectHit()
     {
         // recover ball size
