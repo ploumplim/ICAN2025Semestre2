@@ -40,11 +40,24 @@ public class CaughtState : BallState
 
         if (BallSm.ballOwnerPlayer)
         {
+            
             playerHandTransform = BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().playerHand.transform;
             
             // Make the ball move towards the player's hand, reducing the speed of the ball over time to 0.
             Vector3 targetPosition = playerHandTransform.position;
-            BallSm.rb.MovePosition(targetPosition);
+            
+            
+            // When the distance between the targetPosition and the ball is less than 0.5f, stop the ball.
+            
+            if (Vector3.Distance(targetPosition, BallSm.transform.position) < 0.5f)
+            {
+                BallSm.rb.linearVelocity = Vector3.zero;
+                BallSm.rb.angularVelocity = Vector3.zero;
+            }
+            else
+            {
+                BallSm.rb.MovePosition(targetPosition);
+            }
             
             BallSm.rb.linearVelocity = Vector3.Lerp(BallSm.rb.linearVelocity, Vector3.zero, Time.deltaTime);
 
@@ -76,6 +89,8 @@ public class CaughtState : BallState
         {
             Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
         }
+        BallSm.rb.linearVelocity = Vector3.zero;
+        BallSm.rb.angularVelocity = Vector3.zero;
     }
 
 }

@@ -6,12 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="c6229357-d157-4b3a-a2a3-9c49815cecc1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ICAN2025Semestre2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ICAN2025Semestre2/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/UX/ingame-GUI Canvas.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/UX/ingame-GUI Canvas.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/Game Ingredients/Ball.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/Game Ingredients/Ball.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallSM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallSM.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/CameraScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/CameraScript.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/CaughtState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/CaughtState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/HitState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/HitState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/ReleaseState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/ReleaseState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/IvanScene/Ivan's Deca Room.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/IvanScene/Ivan's Deca Room.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ScreenShake.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/ScreenShake.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fmod_editor.log" beforeDir="false" afterPath="$PROJECT_DIR$/fmod_editor.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,22 +55,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Attach to Unity Editor.Attach to Unity Editor.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;ToolWindow.GitHub Copilot Chat.ShowToolbar&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;BaptisteLD&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Attach to Unity Editor.Attach to Unity Editor.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "ToolWindow.GitHub Copilot Chat.ShowToolbar": "false",
+    "git-widget-placeholder": "prototype-v6-IvanBranch2",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="$PROJECT_DIR$/../../builds/Dodgeball Build v1\BallGameS2Proto.exe" />
@@ -230,6 +230,7 @@
       <workItem from="1745238369784" duration="735000" />
       <workItem from="1745306814508" duration="13815000" />
       <workItem from="1745829878922" duration="621000" />
+      <workItem from="1745832006915" duration="1496000" />
     </task>
     <servers />
   </component>

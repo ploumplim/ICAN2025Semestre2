@@ -7,17 +7,14 @@ public class ReleaseState : PlayerState
 {
     [FormerlySerializedAs("ballToParry")] [HideInInspector]public GameObject ballToHit;
     [HideInInspector]public Vector3 parrySpherePosition;
-    [HideInInspector]public float currentBallSpeed;
-    [HideInInspector] public bool ballHit;
-    private Vector3 _eightDirDirection;
+
     //---------------------------------------------------------------------------------
     public override void Enter()
     {
         base.Enter();
         Hit();
         PlayerScript.OnPlayerHitReleased?.Invoke(PlayerScript.chargeValueIncrementor);
-        ballHit = false;
-        currentBallSpeed = 0f;
+
     }
 
     public void Hit()
@@ -34,8 +31,19 @@ public class ReleaseState : PlayerState
         {
             HitBox();
         }
-        yield return new WaitForSeconds(PlayerScript.releaseDuration);
-        PlayerScript.ChangeState(GetComponent<NeutralState>());
+
+        if (ballToHit)
+        {
+            PlayerScript.chargeValueIncrementor = Mathf.Clamp(PlayerScript.chargeValueIncrementor, PlayerScript.chargeClamp, 1f);
+            float hitForce = ballToHit.GetComponent<BallSM>().currentBallSpeedVec3.magnitude + PlayerScript.chargeValueIncrementor * PlayerScript.hitForce;
+            yield return new WaitForSeconds(hitForce * ballToHit.GetComponent<BallSM>().hitFreezeTimeMultiplier);
+            PlayerScript.ChangeState(GetComponent<NeutralState>());
+        }
+        else
+        {
+            yield return new WaitForSeconds(PlayerScript.releaseDuration);
+            PlayerScript.ChangeState(GetComponent<NeutralState>());
+        }
 
     }
     
@@ -43,7 +51,7 @@ public class ReleaseState : PlayerState
     public override void Tick()
     {
         base.Tick();
-        PlayerScript.Move(PlayerScript.speed, PlayerScript.neutralLerpTime);
+        // PlayerScript.Move(PlayerScript.speed, PlayerScript.neutralLerpTime);
 
     }
 
@@ -95,6 +103,5 @@ public class ReleaseState : PlayerState
         base.Exit();
         PlayerScript.chargeValueIncrementor = 0f;
         ballToHit = null;
-        _eightDirDirection = Vector3.zero;
     }
 }
