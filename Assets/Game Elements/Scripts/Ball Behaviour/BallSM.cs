@@ -227,13 +227,7 @@ public class BallSM : MonoBehaviour
         
         SetBallSpeedMinimum(rb.linearVelocity.magnitude, rb.linearVelocity.normalized);
 
-        if (other.gameObject.CompareTag("PointWall") || other.gameObject.CompareTag("Player"))
-        {
-            // If the ball hits a wall, set the ball's speed to 0.
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            rb.Sleep();
-        }
+        if (other.gameObject.CompareTag("PointWall"))
         {
             pointWallHit?.Invoke(pointWallPoints);
             GameManager.Instance.levelManager.gameCameraScript.screenShakeGO.GetComponent<ScreenShake>().StartLitleScreenShake(rb.linearVelocity.magnitude);
