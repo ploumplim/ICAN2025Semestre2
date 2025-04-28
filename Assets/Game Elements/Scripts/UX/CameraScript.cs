@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CameraScript : MonoBehaviour
 {
@@ -158,6 +160,36 @@ public class CameraScript : MonoBehaviour
 
         return true;
     }
+    
+    // Ajoutez cette méthode pour effectuer un screen shake
+    public void StartShake(float duration, float magnitude)
+    {
+        StartCoroutine(ShakeCamera(duration, magnitude));
+    }
+
+    public IEnumerator ShakeCamera(float duration, float magnitude)
+    {
+        Vector3 originalPosition = cameraHolderObject.transform.localPosition;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            float offsetX = Random.Range(-1f, 1f) * magnitude;
+            float offsetY = Random.Range(-1f, 1f) * magnitude;
+
+            cameraHolderObject.transform.localPosition = new Vector3(
+                originalPosition.x + offsetX,
+                originalPosition.y + offsetY,
+                originalPosition.z
+            );
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        cameraHolderObject.transform.localPosition = originalPosition;
+    }
+    
 
     private void OnDrawGizmos()
     {

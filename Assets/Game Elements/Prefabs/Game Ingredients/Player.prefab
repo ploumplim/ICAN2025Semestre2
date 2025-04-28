@@ -9898,7 +9898,7 @@ Transform:
   m_GameObject: {fileID: 2776262344594129282}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 3.5}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9945,7 +9945,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 9195313607378371640}
   - {fileID: 3652471148897030110}
@@ -10022,10 +10022,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1
+  m_Radius: 0.8190465
+  m_Height: 3.0417025
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.025750041, z: 0.018789291}
 --- !u!114 &8257710722661929340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10197,27 +10197,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementType: 1
-  speed: 12
-  chargeSpeedModifier: 0.05
-  acceleration: 1
+  speed: 10
+  chargeSpeedModifier: 0.25
+  acceleration: 2
   neutralLerpTime: 1
   chargeLerpTime: 0.5
-  dashBurst: 75
-  dashDuration: 0.24
-  dashCooldown: 0.75
+  dashBurst: 55
+  dashDuration: 0.15
+  dashCooldown: 0.24
   knockbackTime: 0.5
   knockbackForce: 20
   baseLinearDamping: 10
   knockedBackLinearDamping: 5
   hitType: 0
   chargeRate: 2
-  releaseDuration: 0.15
+  releaseDuration: 0.1
   chargeTimeLimit: 0.8
-  hitForce: 10
-  chargeClamp: 0.5
-  hitDetectionRadius: 8
+  hitForce: 15
+  chargeClamp: 0.75
+  hitDetectionRadius: 10
   hitDetectionOffset: 0
   catchWindow: 0.5
+  playerHand: {fileID: 2776262344594129282}
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
   OnHitButtonPressed:
@@ -10333,6 +10334,15 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  dashAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 0bbf0d7f-99eb-4688-afc5-4468a9c14c25
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   reviveDebug:
     m_Name: 
     m_Type: 0
@@ -10352,7 +10362,7 @@ MonoBehaviour:
   chargeValueIncrementor: 0.5
   hitTimer: 0
   moveInputVector2: {x: 0, y: 0}
-  bufferDuration: 0.2
+  bufferDuration: 0.3
 --- !u!114 &2291177913900343150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10503,8 +10513,8 @@ Transform:
   m_GameObject: {fileID: 3357307110571246704}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.9, z: 0}
-  m_LocalScale: {x: 4.63, y: 4.63, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalScale: {x: 5.67, y: 5.67, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 9195313607378371640}
@@ -10590,8 +10600,8 @@ Transform:
   m_GameObject: {fileID: 4082388389795980892}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.9, z: 0}
-  m_LocalScale: {x: 4.63, y: 4.63, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalScale: {x: 2.68, y: 2.68, z: 0}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 9195313607378371640}
@@ -15550,8 +15560,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 9195313607378371640}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -23,6 +23,7 @@ public class BallSM : MonoBehaviour
     public float maxSpeed = 20f;
     [Tooltip("The ball becomes lethal when it reaches this speed.")]
     public float lethalSpeed = 10f;
+    public float firstTimeLethalWaitTime = 0.1f;
     //-------------------------------------------------------------------------------------
     [FormerlySerializedAs("maxHeight")]
     [Header("Ball Height Settings")]
@@ -43,8 +44,6 @@ public class BallSM : MonoBehaviour
     public float flyingLinearDamping = 0.1f;
     [Tooltip("The mass of the ball while its grounded.")]
     public float groundedMass = 1f;
-    [Tooltip("The mass of the ball while its bunted.")]
-    public float buntedMass = 0.5f;
     [FormerlySerializedAs("midAirMass")] [Tooltip("The mass of the ball while its midair.")]
     public float flyingMass = 0.1f;
     
@@ -86,7 +85,8 @@ public class BallSM : MonoBehaviour
     [HideInInspector]public int playerColliderLayer;
     [HideInInspector]public int ballColliderLayer;
     [HideInInspector]public Vector3 currentBallSpeedVec3;
-    [HideInInspector] public float ballSpeedFloor;
+    [HideInInspector]public float ballSpeedFloor;
+    [HideInInspector] public bool onLethal; 
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~EVENTS~~~~~~~~~~~~~~~~~~~~~~~~~~
     
@@ -94,12 +94,15 @@ public class BallSM : MonoBehaviour
     public UnityEvent<int> OnPointBounce;
     public UnityEvent<int> OnNeutralBounce;
     public UnityEvent<float> OnBallFlight;
-    public UnityEvent OnPerfectCatch;
+    public UnityEvent OnBallCaught;
+    public UnityEvent OnPerfectHit;
+    public UnityEvent OnBallLethal;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        onLethal = false;
         col = GetComponent<SphereCollider>();
         rb = GetComponent<Rigidbody>();
         playerColliderLayer = LayerMask.NameToLayer("Player");

@@ -1,6 +1,7 @@
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BallVisuals : MonoBehaviour
 {
@@ -14,11 +15,18 @@ public class BallVisuals : MonoBehaviour
     [Tooltip("This is the ball's light.")]
     public Light ballLight;
     
+    [FormerlySerializedAs("flyingTrailColor")]
     [Header("Trail settings")]
     [Tooltip("Trail color of the ball when flying.")]
-    public Color flyingTrailColor = new (1,0,0,0.5f);
-    [Tooltip("Trail color of the ball when lethal.")]
-    public Color lethalTrailColor = new (0,0,0,0.5f);
+    public Color startFlyingTrailColor = new (1,0,0,0.5f);
+    [FormerlySerializedAs("lethalTrailColor")] [Tooltip("Trail color of the ball when lethal.")]
+    public Color startLethalTrailColor = new (0,0,0,0.5f);
+    [Tooltip("End color of the trail when flying.")]
+    public Color endFlyingTrailColor = new (1,0,0,0f);
+    [Tooltip("End color of the trail when lethal.")]
+    public Color endLethalTrailColor = new (0,0,0,0f);
+    
+    public float trailTimeModifier = 0.1f;
     
     [Header("Ball color settings")]
     public Color flyingBallColor = Color.blue;
@@ -36,6 +44,21 @@ public class BallVisuals : MonoBehaviour
     [Header("Ball shape settings")]
     public GameObject neutralBall;
     public GameObject lethalBall;
+    
+    [Header("Ball Impact settings")]
+    public ParticleSystem impactParticle;
+    public float particleSizeModifier = 0.1f;
+    [FormerlySerializedAs("particleImpactZoneSize")] public float particleImpactZoneSizeModifier = 0.1f;
+    
+    [Header("Ball catch settings")]
+    public ParticleSystem catchParticle;
+    
+    [Header("Perfect hit settings")]
+    public ParticleSystem perfectHitParticle;
+    public float perfectHitThreshold = 0.95f;
+    
+    [Header("Lethal ball settings")]
+    public ParticleSystem lethalBallParticle;
     
     // ---------------PRIVATE---------------
     private BallSM ballSM;
@@ -76,21 +99,25 @@ public class BallVisuals : MonoBehaviour
         // Get the current speed magnitude from the ball
         float speed = ballSM.GetComponent<Rigidbody>().linearVelocity.magnitude;
         
-        // Recover the current width of the trail
-        float currentWidth = _trailRenderer.startWidth;
+        // float ballSize = ballSM.GetComponent<Transform>().localScale.x;
+        //Recover the current width of the trail
+        // float currentWidth = _trailRenderer.startWidth;
         
-        // Change the width of the trail based on the ball's speed. The faster the ball, the wider the trail.
-        _trailRenderer.startWidth = Mathf.Lerp(currentWidth, speed / 10, Time.deltaTime);
+        //Change the width of the trail based on the ball's speed. The faster the ball, the wider the trail.
+        // _trailRenderer.startWidth = Mathf.Lerp(currentWidth, currentWidth * ballSize, Time.deltaTime);
 
+        _trailRenderer.time = speed * trailTimeModifier; 
+        
+        
         switch (ballSM.currentState)
         {
             case FlyingState:
-                _trailRenderer.startColor = flyingTrailColor;
-                _trailRenderer.endColor = flyingTrailColor;
+                _trailRenderer.startColor = startFlyingTrailColor;
+                _trailRenderer.endColor = endFlyingTrailColor;
                 break;
             case LethalBallState:
-                _trailRenderer.startColor = lethalTrailColor;
-                _trailRenderer.endColor = lethalTrailColor;
+                _trailRenderer.startColor = startLethalTrailColor;
+                _trailRenderer.endColor = endLethalTrailColor;
                 break;
         }
         
@@ -195,6 +222,87 @@ public class BallVisuals : MonoBehaviour
                     break;
             }
             
+    }
+
+    public void OnBallCaught()
+    {
+        // play the catch particle system.
+        catchParticle.Play();
         
     }
+
+    public void StopCatchAnimation()
+    {
+        // stop the catch particle system.
+        catchParticle.Stop();
+    }
+
+    public void OnPerfectHit()
+    {
+        // recover ball size
+        float ballSize = ballSM.GetComponent<Transform>().localScale.x;
+        // Set the size of the perfect hit particle system based on the ball's size.
+        ParticleSystem.MainModule mainModule = perfectHitParticle.main;
+        
+        // From the charge state, recover the ball owning player's charge value.
+        PlayerScript ballOwnerPlayerScript = ballSM.ballOwnerPlayer.GetComponent<PlayerScript>();
+        float chargeValue = Mathf.Clamp(ballOwnerPlayerScript.chargeValueIncrementor, ballOwnerPlayerScript.chargeClamp, 1f);
+        
+        
+        // Recover the particle's current size.
+        float currentSize = mainModule.startSizeMultiplier;
+        
+        mainModule.startSize = ballSize * currentSize * chargeValue;
+        // From the HitState, get the direction of the hit.
+        Vector3 hitDirection = ballSM.currentState.GetComponent<HitState>().hitDirection;
+        
+        // Set the rotation of the perfect hit particle system to the hit direction.
+        perfectHitParticle.transform.rotation = Quaternion.LookRotation(hitDirection);
+        
+        
+        perfectHitParticle.Play();
+        
+        mainModule.startSizeMultiplier = currentSize;
+    }
+    
+    public void OnLethalBall()
+    {
+        // play the lethal ball particle system.
+        lethalBallParticle.Play();
+    }
+    
+    private void OnCollisionEnter(Collision other)
+    {
+        foreach (ContactPoint contact in other.contacts)
+        {
+            Vector3 collisionPoint = contact.point;
+            
+            // Instantiate the impact particle system at the collision point.
+            ParticleSystem impactParticleInstance = Instantiate(impactParticle, collisionPoint, Quaternion.identity);
+            
+            // Set the position of the impact particle system to the collision point.
+            impactParticleInstance.transform.position = collisionPoint;
+            
+            // Set the rotation of the impact particle system to the collision normal.
+            impactParticleInstance.transform.rotation = Quaternion.LookRotation(contact.normal);
+            
+            // Set the size of the impact particle system based on the ball's size and speed.
+            float ballSize = ballSM.GetComponent<Transform>().localScale.x;
+            float speed = ballSM.GetComponent<Rigidbody>().linearVelocity.magnitude;
+            float impactZoneSize = speed * particleImpactZoneSizeModifier;
+            
+            ParticleSystem.MainModule mainModule = impactParticleInstance.main;
+            
+            mainModule.startSize = ballSize * particleSizeModifier;
+            
+            // Set the scale of the particle game object depending on the size and speed of the ball.
+            impactParticleInstance.transform.localScale = new Vector3(impactZoneSize, impactZoneSize, impactZoneSize);
+            
+            // Play the impact particle system.
+            impactParticleInstance.Play();
+            
+            // Destroy the impact particle system after 1 second.
+            Destroy(impactParticleInstance.gameObject, 1f);
+        }
+    } 
 }
