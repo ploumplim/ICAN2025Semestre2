@@ -9,6 +9,8 @@ public class HitState : BallState
     public override void Enter()
     {        
         base.Enter();
+        BallSm.rb.linearVelocity = Vector3.zero;
+        BallSm.rb.angularVelocity = Vector3.zero;
         BallSm.OnHitStateStart?.Invoke();
         SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
         GameObject ballOwnerPlayer = BallSm.ballOwnerPlayer;
@@ -49,6 +51,7 @@ public class HitState : BallState
         // deactivate the ball's collider.
         BallSm.col.enabled = false;
         yield return new WaitForSeconds(hitForce * BallSm.hitFreezeTimeMultiplier);
+        BallSm.col.enabled = true;
         BallSm.rb.linearVelocity = hitDirection * hitForce;
         BallSm.SetBallSpeedMinimum(BallSm.rb.linearVelocity.magnitude, hitDirection);
         BallSm.OnHit?.Invoke();
@@ -59,7 +62,6 @@ public class HitState : BallState
     private IEnumerator CollisionToggle()
     {
         // reactivate collider
-        BallSm.col.enabled = true;
         yield return new WaitForSeconds(BallSm.hitStateDuration);
         Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
         if (hitForce >= BallSm.lethalSpeed)

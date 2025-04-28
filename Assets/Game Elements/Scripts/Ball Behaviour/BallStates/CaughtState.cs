@@ -59,8 +59,6 @@ public class CaughtState : BallState
                 BallSm.rb.MovePosition(targetPosition);
             }
             
-            BallSm.rb.linearVelocity = Vector3.Lerp(BallSm.rb.linearVelocity, Vector3.zero, Time.deltaTime);
-
         }
 
         // _caughtTimeoutTimer += Time.deltaTime;
