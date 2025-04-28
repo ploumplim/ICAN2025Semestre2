@@ -11,9 +11,9 @@ public class ReleaseState : PlayerState
     //---------------------------------------------------------------------------------
     public override void Enter()
     {
+        PlayerScript.OnPlayerHitReleased?.Invoke(PlayerScript.chargeValueIncrementor);
         base.Enter();
         Hit();
-        PlayerScript.OnPlayerHitReleased?.Invoke(PlayerScript.chargeValueIncrementor);
 
     }
 
@@ -37,11 +37,14 @@ public class ReleaseState : PlayerState
             PlayerScript.chargeValueIncrementor = Mathf.Clamp(PlayerScript.chargeValueIncrementor, PlayerScript.chargeClamp, 1f);
             float hitForce = ballToHit.GetComponent<BallSM>().currentBallSpeedVec3.magnitude + PlayerScript.chargeValueIncrementor * PlayerScript.hitForce;
             yield return new WaitForSeconds(hitForce * ballToHit.GetComponent<BallSM>().hitFreezeTimeMultiplier);
+            PlayerScript.OnPlayerHitReleased?.Invoke(PlayerScript.chargeValueIncrementor);
             PlayerScript.ChangeState(GetComponent<NeutralState>());
+            
         }
         else
         {
             yield return new WaitForSeconds(PlayerScript.releaseDuration);
+
             PlayerScript.ChangeState(GetComponent<NeutralState>());
         }
 

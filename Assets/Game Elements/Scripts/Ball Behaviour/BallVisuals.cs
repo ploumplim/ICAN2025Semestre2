@@ -56,6 +56,7 @@ public class BallVisuals : MonoBehaviour
     [Header("Perfect hit settings")]
     public ParticleSystem perfectHitParticle;
     public float perfectHitThreshold = 0.95f;
+    public ParticleSystem hitChargeParticle;
     
     [Header("Lethal ball settings")]
     public ParticleSystem lethalBallParticle;
@@ -235,6 +236,19 @@ public class BallVisuals : MonoBehaviour
     {
         // stop the catch particle system.
         catchParticle.Stop();
+    }
+
+    public void OnHitStateStart()
+    {
+        // play the hit charge particle system.
+        hitChargeParticle.Play();
+        
+    }
+
+    public void OnHitStateEnd()
+    {
+        // stop the hit charge particle system.
+        hitChargeParticle.Stop();
     }
 
     public void OnPerfectHit()

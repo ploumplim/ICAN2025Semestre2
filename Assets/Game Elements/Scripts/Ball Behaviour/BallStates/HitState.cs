@@ -9,17 +9,21 @@ public class HitState : BallState
     public override void Enter()
     {        
         base.Enter();
-        BallSm.OnHit?.Invoke();
+        BallSm.OnHitStateStart?.Invoke();
         SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
         GameObject ballOwnerPlayer = BallSm.ballOwnerPlayer;
         PlayerScript ballOwnerPlayerScript = BallSm.ballOwnerPlayer.GetComponent<PlayerScript>();
+        
+
         
         if (ballOwnerPlayer)
         {
             Physics.IgnoreCollision(BallSm.col, ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
         }
-
-
+        
+        
+        
+        
         float chargeValue = Mathf.Clamp(ballOwnerPlayerScript.chargeValueIncrementor, ballOwnerPlayerScript.chargeClamp, 1f);
         
         
@@ -42,18 +46,31 @@ public class HitState : BallState
 
     private IEnumerator FreezeTimeRoutine()
     {
+        // deactivate the ball's collider.
+        BallSm.col.enabled = false;
         yield return new WaitForSeconds(hitForce * BallSm.hitFreezeTimeMultiplier);
         BallSm.rb.linearVelocity = hitDirection * hitForce;
         BallSm.SetBallSpeedMinimum(BallSm.rb.linearVelocity.magnitude, hitDirection);
+        BallSm.OnHit?.Invoke();
         StartCoroutine(CollisionToggle());
 
     }
 
     private IEnumerator CollisionToggle()
     {
+        // reactivate collider
+        BallSm.col.enabled = true;
         yield return new WaitForSeconds(BallSm.hitStateDuration);
         Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
-        BallSm.ChangeState(GetComponent<FlyingState>());
+        if (hitForce >= BallSm.lethalSpeed)
+        {
+            BallSm.ChangeState(GetComponent<LethalBallState>());
+        }
+        else
+        {
+            BallSm.ChangeState(GetComponent<FlyingState>());
+
+        }
     }
 
     public override void Tick()

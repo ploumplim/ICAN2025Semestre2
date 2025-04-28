@@ -21,6 +21,7 @@ public class BallSM : MonoBehaviour
     [Header("Ball Propulsion Settings")]
     [Tooltip("The ball will never go faster than this value.")]
     public float maxSpeed = 20f;
+    public float minSpeed = 10f;
     [Tooltip("The ball becomes lethal when it reaches this speed.")]
     public float lethalSpeed = 10f;
     public float firstTimeLethalWaitTime = 0.1f;
@@ -96,6 +97,7 @@ public class BallSM : MonoBehaviour
     public UnityEvent OnBallCaught;
     [FormerlySerializedAs("OnPerfectHit")] public UnityEvent OnHit;
     public UnityEvent OnBallLethal;
+    public UnityEvent OnHitStateStart;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -113,8 +115,9 @@ public class BallSM : MonoBehaviour
         }
         currentState = GetComponent<DroppedState>();
         Physics.IgnoreLayerCollision(ballColliderLayer, playerColliderLayer, true);
+        ballSpeedFloor = minSpeed;
 
-        
+
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~ CHANGE STATE ~~~~~~~~~~~~~~~~~~~~~~

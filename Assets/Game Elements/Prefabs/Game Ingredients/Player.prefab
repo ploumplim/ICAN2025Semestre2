@@ -189,7 +189,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 297732154456219095}
   serializedVersion: 8
-  lengthInSec: 0.15
+  lengthInSec: 0.25
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -264,7 +264,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0.25
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -2231,7 +2231,7 @@ ParticleSystem:
     speedModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 30
+      scalar: 45
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -4146,7 +4146,7 @@ ParticleSystem:
     lifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -4196,12 +4196,12 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    minVertexDistance: 1
+    minVertexDistance: 0.001
     textureMode: 0
     textureScale: {x: 1, y: 1}
     ribbonCount: 1
     shadowBias: 0.5
-    worldSpace: 0
+    worldSpace: 1
     dieWithParticles: 0
     sizeAffectsWidth: 0
     sizeAffectsLifetime: 0
@@ -10213,7 +10213,7 @@ MonoBehaviour:
   chargeRate: 2
   releaseDuration: 0.1
   chargeTimeLimit: 0.8
-  hitForce: 15
+  hitForce: 10
   chargeClamp: 0.75
   hitDetectionRadius: 10
   hitDetectionOffset: 0
@@ -10422,8 +10422,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballToHit: {fileID: 0}
   parrySpherePosition: {x: 0, y: 0, z: 0}
-  currentBallSpeed: 0
-  ballHit: 0
 --- !u!114 &1951496036296628564
 MonoBehaviour:
   m_ObjectHideFlags: 0
