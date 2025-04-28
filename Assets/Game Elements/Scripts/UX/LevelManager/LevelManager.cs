@@ -15,22 +15,18 @@ public class LevelManager : MonoBehaviour
     {
         public string roundName;
         [Tooltip("This list holds all the positions of the point walls.")]
-        public List<Transform> pointWallPositions;
-        [Tooltip("This list holds all the positions of the neutral walls.")]
-        public List<Transform> neutralWallPositions;
+        public List<Transform> availableArenas;
 
     }
     
-    #region Variable
+    #region Variables
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     private LevelSM _levelSM; // Reference to the Level State Machine
     [FormerlySerializedAs("_currentState")] public LevelState currentState; // Reference to the current state of the level
     public List<GameObject> players; // List of players in the level
     public List<Transform> _playerSpawnPoints; // List of player spawn points
     [FormerlySerializedAs("globalScore")] [HideInInspector] public int potScore; // Global score of the level
-    [HideInInspector] public GameObject gameBall; // Reference to the game ball
-    [HideInInspector] public List<GameObject> pointWalls; // List of point walls
-    [HideInInspector] public List<GameObject> neutralWalls; // List of neutral walls
+    public GameObject gameBall; // Reference to the game ball
     [HideInInspector] public int currentRound; // Current round of the level
     [HideInInspector] public int totalRounds; // Total rounds of the level
     public bool gameIsRunning; // Boolean to check if the game is running
@@ -41,10 +37,10 @@ public class LevelManager : MonoBehaviour
     public GameObject ballPrefab;
     [Tooltip("Insert the ball spawn position here (empty game object with transform)")]
     public Transform ballSpawnPosition;
-    [Tooltip("Insert the wall prefab here that will provide points to the player.")]
-    public GameObject pointWallPrefab;
-    [Tooltip("Insert the neutral wall prefab here, which will not provide points to the player.")]
-    public GameObject neutralWallPrefab;
+    // [Tooltip("Insert the wall prefab here that will provide points to the player.")]
+    // public GameObject pointWallPrefab;
+    // [Tooltip("Insert the neutral wall prefab here, which will not provide points to the player.")]
+    // public GameObject neutralWallPrefab;
 
     //--------------------------------------------------------------------------------
     [Header("Round Manager")]
@@ -64,10 +60,10 @@ public class LevelManager : MonoBehaviour
 
     //--------------------------------------------------------------------------------
     [Header("Score Settings")]
-    [Tooltip("This int value determines the score the player gets when they hit the flying ball.")]
-    public int ballHitScore = 1;
-    [Tooltip("This int value determines the score the player gets when they hit the bunted ball.")]
-    public int buntedBallHitScore = 2;
+    // [Tooltip("This int value determines the score the player gets when they hit the flying ball.")]
+    // public int ballHitScore = 1;
+    // [Tooltip("This int value determines the score the player gets when they hit the bunted ball.")]
+    // public int buntedBallHitScore = 2;
     [Tooltip("This int value determines the score the player gets when they hit the point wall.")]
     public int pointWallHitScore = 3;
     
@@ -78,7 +74,7 @@ public class LevelManager : MonoBehaviour
     //[SerializeField]public MultiplayerManager multiplayerManager; // Reference to the Multiplayer Manager
     [FormerlySerializedAs("PlayerSpawnPoint")] public GameObject PlayerSpawnParent;
 
-    
+    public GameObject ScreenShakeButton;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ EVENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public UnityEvent OnGameStart;
@@ -87,6 +83,8 @@ public class LevelManager : MonoBehaviour
     public UnityEvent<string> OnRoundEnded;
 
     #endregion
+    
+   
 
     private void Awake()
     {
@@ -101,7 +99,6 @@ public class LevelManager : MonoBehaviour
         _levelSM = GetComponent<LevelSM>();
         _levelSM.Init();
         totalRounds = rounds.Count;
-        
     }
 
     public void Update()
@@ -158,26 +155,16 @@ public class LevelManager : MonoBehaviour
             ingameGUIManager.startGameButtonObject.SetActive(false);
             ingameGUIManager.resetPlayersObject.SetActive(false);
             
-            foreach (GameObject player in players)
+            foreach (PlayerScript player in GameManager.Instance.PlayerScriptList)
             {
                 // subscribe to the OnBallHitEvent
                 player.GetComponent<PlayerScript>().OnBallHit += AddScoreToPlayer;
-                int playerScore = player.GetComponent<PlayerPointTracker>().points;
-    
-                for (int i = 0; i < ingameGUIManager._playerHud.Count; i++)
-                {
-                    if (i < players.Count)
-                    {
-                        var playerScript = players[i].transform.GetComponent<PlayerScript>();
-                        ingameGUIManager.UpdatePlayerHud(ingameGUIManager._playerHud[i], players[i].transform.name, 
-                            playerScore.ToString(), playerScript.currentState.ToString());
-                    }
-                    else
-                    {
-                        ingameGUIManager._playerHud[i].SetActive(false);
-                    }
-                }
             }
+            foreach (var panel in ingameGUIManager.UI_PlayerScore)
+            {
+                Destroy(panel.gameObject); // Détruit chaque enfant
+            }
+            ingameGUIManager.UI_PlayerScore.Clear();
         }
         else
         {
@@ -195,13 +182,11 @@ public class LevelManager : MonoBehaviour
         {
             players.GetComponent<PlayerScript>().isReady = false;
         }
+        
     }
     
     public bool RoundCheck()
     {
-        // Check if the current round is less than the total rounds.
-        // If it is, increment the current round and change the state to InRoundState.
-        // If it is not, change the state to OutOfLevelState.
         if (currentRound < totalRounds)
         {
             return false;
@@ -214,22 +199,22 @@ public class LevelManager : MonoBehaviour
     
     public void StartRound()
     {
-        DestroyAllPointWalls();
-        DestroyAllNeutralWalls();
-        // Reset the global score
-        potScore = 0;
-        // Spawn the ball
+        // DestroyAllPointWalls();
+        // DestroyAllNeutralWalls();
+        // // Reset the global score
+        // potScore = 0;
+        // // Spawn the ball
         SpawnBall();
         // Init the players
         InitPlayers();
         // Spawn the point walls
-        SpawnCurrentRoundWalls();
+        // SpawnCurrentRoundWalls();
     }
     
     public void EndRound(GameObject winningPlayer)
     {
         // Add the global score to the winning player's individual score
-        AddScoreToPlayer(potScore, winningPlayer);
+        AddScoreToPlayer(1, winningPlayer);
     }
     
     // ------------------------ MANAGE BALL ♚♛  ------------------------
@@ -258,8 +243,8 @@ public class LevelManager : MonoBehaviour
             ingameGUIManager.AssignBall(gameBall);
             // Assign the ball value.
             gameBall.GetComponent<BallSM>().pointWallPoints = pointWallHitScore;
-            //suscribe to the OnPointWallHit event
-            gameBall.GetComponent<BallSM>().pointWallHit.AddListener(AddGlobalScore);
+            // //suscribe to the OnPointWallHit event
+            // gameBall.GetComponent<BallSM>().pointWallHit.AddListener(AddGlobalScore);
             // Add the ball to the list of lockpoints in the camera script.
             gameCameraScript.AddObjectToArray(gameBall);
         }
@@ -298,95 +283,79 @@ public class LevelManager : MonoBehaviour
     
     // ------------------------ MANAGE WALLS ♜♜  ------------------------
     
-    public void SpawnCurrentRoundWalls()
-    {
-        // Spawn the point walls
-        int i = 0;
-        int j = 0;
-        foreach (Transform pointWallPosition in rounds[currentRound].pointWallPositions)
-        {
-            SpawnPointWall(pointWallPosition.position);
-            
-            // Make it a child of the pointWallPosition's game object.
-
-            if (pointWalls[i])
-            {
-                pointWalls[i].transform.parent = pointWallPosition;
-            }
-
-            i++;
-        }
-        // Spawn the neutral walls
-        foreach (Transform neutralWallPosition in rounds[currentRound].neutralWallPositions)
-        {
-            SpawnNeutralWall(neutralWallPosition.position);
-            // Make it a child of the neutralWallPosition's game object.
-            if (neutralWalls[j])
-            {
-                neutralWalls[j].transform.parent = neutralWallPosition;
-            }
-            j++;
-        }
-    }
+    // public void SpawnCurrentRoundWalls()
+    // {
+    //     // Spawn the point walls
+    //     int i = 0;
+    //     int j = 0;
+    //     foreach (Transform pointWallPosition in rounds[currentRound].pointWallPositions)
+    //     {
+    //         SpawnPointWall(pointWallPosition.position);
+    //         
+    //         // Make it a child of the pointWallPosition's game object.
+    //
+    //         if (pointWalls[i])
+    //         {
+    //             pointWalls[i].transform.parent = pointWallPosition;
+    //         }
+    //
+    //         i++;
+    //     }
+    //     // Spawn the neutral walls
+    //     foreach (Transform neutralWallPosition in rounds[currentRound].neutralWallPositions)
+    //     {
+    //         SpawnNeutralWall(neutralWallPosition.position);
+    //         // Make it a child of the neutralWallPosition's game object.
+    //         if (neutralWalls[j])
+    //         {
+    //             neutralWalls[j].transform.parent = neutralWallPosition;
+    //         }
+    //         j++;
+    //     }
+    // }
     
-    public void SpawnPointWall(Vector3 position)
-    {
-        if (pointWallPrefab)
-        {
-            GameObject pointWall = Instantiate(pointWallPrefab, position, Quaternion.identity);
-            // Add the point wall to the list of point walls
-            pointWalls.Add(pointWall);
-        }
-    }
-    
-    public void SpawnNeutralWall(Vector3 position)
-    {
-        if (neutralWallPrefab)
-        {
-            GameObject neutralWall = Instantiate(neutralWallPrefab, position, Quaternion.identity);
-            // Add the neutral wall to the list of neutral walls
-            neutralWalls.Add(neutralWall);
-        }
-    }
-    public void DestroyAllPointWalls()
-    {
-        foreach (GameObject wall in pointWalls)
-        {
-            Destroy(wall);
-        }
-    }
-    
-    public void DestroyAllNeutralWalls()
-    {
-        foreach (GameObject wall in neutralWalls)
-        {
-            Destroy(wall);
-        }
-    }
+    // public void SpawnPointWall(Vector3 position)
+    // {
+    //     if (pointWallPrefab)
+    //     {
+    //         GameObject pointWall = Instantiate(pointWallPrefab, position, Quaternion.identity);
+    //         // Add the point wall to the list of point walls
+    //         pointWalls.Add(pointWall);
+    //     }
+    // }
+    //
+    // public void SpawnNeutralWall(Vector3 position)
+    // {
+    //     if (neutralWallPrefab)
+    //     {
+    //         GameObject neutralWall = Instantiate(neutralWallPrefab, position, Quaternion.identity);
+    //         // Add the neutral wall to the list of neutral walls
+    //         neutralWalls.Add(neutralWall);
+    //     }
+    // }
+    // public void DestroyAllPointWalls()
+    // {
+    //     foreach (GameObject wall in pointWalls)
+    //     {
+    //         Destroy(wall);
+    //     }
+    // }
+    //
+    // public void DestroyAllNeutralWalls()
+    // {
+    //     foreach (GameObject wall in neutralWalls)
+    //     {
+    //         Destroy(wall);
+    //     }
+    // }
     // ------------------------ MANAGE SCORES 🏆🏆  ------------------------
-    public void AddGlobalScore(int score)
+    // public void AddGlobalScore(int score)
+    // {
+    //     potScore += score;
+    // }
+    public void AddScoreToPlayer(int score, GameObject player)
     {
-        potScore += score;
-    }
-    public void AddScoreToPlayer(int score, GameObject player, BallState ballState = null)
-    {
-        if (!ballState)
-        {
-            player.GetComponent<PlayerPointTracker>().AddPoints(score);
-        }
-        else
-        {
-            switch (ballState)
-            {
-                case FlyingState:
-                    player.GetComponent<PlayerPointTracker>().AddPoints(ballHitScore);
-                    break;
-                // case BuntedBallState:
-                //     player.GetComponent<PlayerPointTracker>().AddPoints(buntedBallHitScore);
-                //     break;
-                
-            }
-        }
+        player.GetComponent<PlayerPointTracker>().AddPoints(score);
     }
 
     public void EndGameScore()
@@ -419,7 +388,7 @@ public class LevelManager : MonoBehaviour
                 }
             }
             GameObject scorePanel = Instantiate(ingameGUIManager.ScorePlayerUIEndGame, playerScorePanelParent.gameObject.transform);
-            ingameGUIManager.playerScorePanelList.Add(scorePanel);
+            ingameGUIManager.UI_PlayerScore.Add(scorePanel);
             scorePanel.SetActive(true);
             ingameGUIManager.EndGameScoreBoardPlayerPanel(playerScore.player, scorePanel, i + 1);
         }

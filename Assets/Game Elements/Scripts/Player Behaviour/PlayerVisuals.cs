@@ -12,7 +12,7 @@ public class PlayerVisuals : MonoBehaviour
     private float _parryRadius;
     
     // Player's normal mesh material and color.
-    private Material _playerMeshMaterial;
+    [FormerlySerializedAs("_playerMeshMaterial")] public Material playerMeshMaterial;
     private Color _originalPlayerMeshColor;
     
     //-------------PUBLIC VARIABLES-------------
@@ -34,7 +34,7 @@ public class PlayerVisuals : MonoBehaviour
     [Tooltip("The pointer showing the direction the player is aiming towards.")]
     public GameObject aimPointer;
 
-    public float aimPointerScale = 2.5f;
+    private float _aimPointerScale = 2.5f;
     
     
     
@@ -43,8 +43,8 @@ public class PlayerVisuals : MonoBehaviour
         // Recover the PlayerScript from the player.
         playerScript = GetComponent<PlayerScript>();
         // Recover the player's mesh material and color.
-        _playerMeshMaterial = playerMesh.GetComponent<MeshRenderer>().material;
-        
+        playerMeshMaterial = playerMesh.GetComponent<MeshRenderer>().material;
+        _aimPointerScale = aimPointer.transform.localScale.x;
 
         _parryRadius = playerScript.hitDetectionRadius;
         
@@ -57,14 +57,14 @@ public class PlayerVisuals : MonoBehaviour
         { 
             case NeutralState:
                 // Change the player's color back to the original color.
-                _playerMeshMaterial.color = _originalPlayerMeshColor;
+                playerMeshMaterial.color = _originalPlayerMeshColor;
                 
                 // Stop the dead particle if it is playing.
                 if (deadParticle.isPlaying)
                 {deadParticle.Stop();}
                 
                 // Set the aimPointer's scale.
-                aimPointer.transform.localScale = new Vector3(aimPointerScale, aimPointerScale, aimPointerScale);
+                aimPointer.transform.localScale = new Vector3(_aimPointerScale, _aimPointerScale, _aimPointerScale);
                 
                 OnSprintEnd();
                 
@@ -77,18 +77,18 @@ public class PlayerVisuals : MonoBehaviour
                 break;
             
             case DeadState:
-                _playerMeshMaterial.color = Color.black; 
+                playerMeshMaterial.color = Color.black; 
                 if (!deadParticle.isPlaying)
                 {deadParticle.Play();}
                 OnSprintEnd();
                 break;
             
             case KnockbackState:
-                _playerMeshMaterial.color = knockbackColor;
+                playerMeshMaterial.color = knockbackColor;
                 OnSprintEnd();
                 break;
             
-            case SprintState:
+            case DashingState:
                 OnSprintStart();
                 break;
             
@@ -113,8 +113,8 @@ public class PlayerVisuals : MonoBehaviour
         // dashTrail.widthMultiplier = playerScript.rollDetectionRadius * 2f;
         
         // Dash color is equal to the player's color.
-        dashTrail.startColor = _playerMeshMaterial.color;
-        dashTrail.endColor = _playerMeshMaterial.color;
+        dashTrail.startColor = playerMeshMaterial.color;
+        dashTrail.endColor = playerMeshMaterial.color;
         
         // Update the parry radius collider.
         var parryParticleShape = parryParticle.shape;
@@ -131,7 +131,7 @@ public class PlayerVisuals : MonoBehaviour
         float chargePercentage = chargingState.chargeLimitTimer / playerScript.chargeTimeLimit;
         
         // The bigger chargePercentage is, the smaller the AimPointer will be.
-        aimPointer.transform.localScale = new Vector3(aimPointerScale * (1 - chargePercentage), aimPointerScale * (1 - chargePercentage), aimPointerScale * (1 - chargePercentage));
+        aimPointer.transform.localScale = new Vector3(_aimPointerScale * (1 - chargePercentage), _aimPointerScale * (1 - chargePercentage), _aimPointerScale * (1 - chargePercentage));
     }
     
     public void WarnChargeAlmostOver()
@@ -200,16 +200,16 @@ public class PlayerVisuals : MonoBehaviour
 
     public void ChangePlayerColor(Color color)
     {
-        if (_playerMeshMaterial)
+        if (playerMeshMaterial)
         {
             // Debug.Log("Changing player color to " + color);
-            _playerMeshMaterial.color = color;
+            playerMeshMaterial.color = color;
             _originalPlayerMeshColor = color;
         }
         else
         {
-            _playerMeshMaterial = playerMesh.GetComponentInChildren<MeshRenderer>().material;
-            _playerMeshMaterial.color = color;
+            playerMeshMaterial = playerMesh.GetComponentInChildren<MeshRenderer>().material;
+            playerMeshMaterial.color = color;
             _originalPlayerMeshColor = color;
             // Debug.Log("Changing player color to " + color);
         }

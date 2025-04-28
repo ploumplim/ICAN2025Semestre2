@@ -58,6 +58,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SetPause",
+                    "type": "Button",
+                    "id": "3f8afffc-fa7d-4753-9ecb-cd405a9575a6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DebugRevive",
+                    "type": "Button",
+                    "id": "736f64af-952a-4c13-83d1-f9ddf28624cc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -130,11 +148,33 @@
                 {
                     "name": "",
                     "id": "31e4ee69-2e89-4360-a7d7-ee4010924b01",
-                    "path": "<Gamepad>/leftTrigger",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
                     "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2b3c066b-9625-47e3-a753-4369e32eafa6",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "SetPause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9328c302-d480-4d12-9536-4a68d7e9718e",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DebugRevive",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

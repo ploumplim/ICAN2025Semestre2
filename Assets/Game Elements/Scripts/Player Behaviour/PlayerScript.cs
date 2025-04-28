@@ -8,9 +8,6 @@ using UnityEngine.Serialization;
 
 public class PlayerScript : MonoBehaviour
 {
-
-    
-   
     public enum MoveType
     {
         Velocity,
@@ -23,16 +20,9 @@ public class PlayerScript : MonoBehaviour
         ReflectiveHit
     }
 
-    #region Variable Region
+    #region Variables
     // ------------------------------ PUBLIC VARIABLES ------------------------------
     [Header("Movement Settings")]
-    [Header("MOVEMENT TYPES: \n " +
-        "Velocity: The player's movement is controlled \n" +
-        " by changing the velocity of the rigidbody.\n" +
-        "Force: The player's movement is controlled \n" +
-        " by applying a force to the rigidbody. \n" +
-        " This means that all movement variables \n " +
-        "should be decreased to avoid the player moving too fast.")]
     [Tooltip("Choose the player's movement type.")]
     public MoveType movementType = MoveType.Velocity;
     [Tooltip("The base player speed. The speed is dependant on the input.")]
@@ -41,14 +31,17 @@ public class PlayerScript : MonoBehaviour
     public float chargeSpeedModifier = 0.5f;
     [Tooltip("The rate at which speed picks up when the input is being performed.")]
     public float acceleration = 0.1f;
-    [Tooltip("The speed modifier when sprinting.")]
-    public float sprintSpeedModifier = 2f;
     //---------------------------------------------------------------------------------------
     [Header("Rotation Lerps")]
     [Tooltip("Lerp time for the rotation while not aiming")]
     public float neutralLerpTime = 0.1f;
     [Tooltip("Lerp time for the rotation while charging a hit")]
     public float chargeLerpTime = 0.1f;
+    //---------
+    [Header("Dash Settings")]
+    public float dashBurst;
+    public float dashDuration;
+    public float dashCooldown;
     
     //---------------------------------------------------------------------------------------
     [Header("Knockback")]
@@ -56,10 +49,10 @@ public class PlayerScript : MonoBehaviour
     public float knockbackTime = 0.5f;
     [Tooltip("This is the force multiplier applied to the player when hit by a ball.")]
     public float knockbackForce = 10f;
-    [Tooltip("The normal linear drag of the player.")]
-    public float linearDrag = 3f;
-    [Tooltip("The linear drag when the player is hit by a ball.")]
-    public float hitLinearDrag = 0f;
+    [FormerlySerializedAs("linearDrag")] [Tooltip("The normal linear drag of the player.")]
+    public float baseLinearDamping = 3f;
+    [FormerlySerializedAs("hitLinearDrag")] [Tooltip("The linear drag when the player is hit by a ball.")]
+    public float knockedBackLinearDamping = 0f;
     
     //---------------------------------------------------------------------------------------
     [Header("Hit parameters")]
@@ -79,15 +72,17 @@ public class PlayerScript : MonoBehaviour
     public float hitDetectionRadius = 3.5f;
     [Tooltip("The offset of the hit detection sphere.")]
     public float hitDetectionOffset = 0f;
+    [Tooltip("The window of opportunity to catch the ball at the start of the charge.")]
+    public float catchWindow = 0.2f;
 
+    // ----------------------------------------------------------------------------------------
+    [Header("Game Objects")] public GameObject playerHand;
 
     //---------------------------------------------------------------------------------------
     [HideInInspector] public GameObject MultiplayerManager;
     
     [Header("Scene References")]
     public CameraScript playerCamera;
-
-    public GameObject playerHand;
     
     [Header("Events")]
     // ------------------------------ EVENTS ------------------------------
@@ -96,12 +91,13 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent OnHitButtonPressed;
     public UnityEvent<float> OnPlayerHitReleased;
     public UnityEvent<float> OnBallHitByPlayer;
-    public UnityEvent OnPlayerHitByBall;
-    public UnityEvent PlayerEndedDash;
+    public UnityEvent OnPlayerHitByBall; 
     public UnityEvent OnPlayerDeath;
+    public UnityEvent OnPlayerDash;
+    public UnityEvent OnPlayerEndDash;
     
     // action events
-    public event Action<int,GameObject,BallState> OnBallHit;
+    public event Action<int,GameObject> OnBallHit;
     
     // ------------------------------ PRIVATE VARIABLES ------------------------------
     
@@ -110,17 +106,23 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public PlayerInput playerInput;
     [HideInInspector] public InputAction moveAction;
     [HideInInspector] public InputAction throwAction;
+    [HideInInspector] public InputAction dashAction;
+    [HideInInspector] public InputAction reviveDebug;
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public CapsuleCollider col;
     [HideInInspector] public int playerLayer;
     [HideInInspector] public int ballLayer;
-    [SerializeField] public bool isReady;
+    [HideInInspector] public int hazardLayer;
+    [HideInInspector] public bool isReady;
+    [HideInInspector] public GameObject playerScorePanel;
+
     // ------------------------------ CHARGING ------------------------------
     [HideInInspector]public float chargeValueIncrementor = 0f;
     // ------------------------------ HIT ------------------------------
     [HideInInspector] public float hitTimer = 0f;
     // ------------------------------ MOVE ------------------------------
     [HideInInspector] public Vector2 moveInputVector2;
+    private float _dashTimer;
     
     // ------------------------------ INPUT BUFFERING ------------------------------
     private InputAction _bufferedAction;
@@ -128,7 +130,6 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] [Tooltip("Time window for input buffering")]
     private float bufferDuration = 0.1f;
     
-
     #endregion
    
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -136,17 +137,10 @@ public class PlayerScript : MonoBehaviour
     {
         SetPlayerParameters();
         col = GetComponent<CapsuleCollider>();
-
-        SetPlayerParameters();
-        col = GetComponent<CapsuleCollider>();
-
-        // R�cup�rer le PlayerSoundScript
-        PlayerSoundScript soundScript = GetComponent<PlayerSoundScript>();
-
-        // Lier les sons aux �v�nements
-        OnHitButtonPressed.AddListener(soundScript.StartChargeSound);
-        OnPlayerHitReleased.AddListener((float chargeValue) => soundScript.StopChargeSound());
-        OnPlayerHitReleased.AddListener((float chargeValue) => soundScript.PlayHitSound());
+    
+        // Subscribe to the "Pause" action with a lambda to pass the context to OnPause
+        playerInput.actions["SetPause"].performed += context => 
+            GameManager.Instance.levelManager.ingameGUIManager.UI_PauseMenu.OnPause(context);
     }
     
     public void SetPlayerParameters()
@@ -158,9 +152,12 @@ public class PlayerScript : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
         throwAction = playerInput.actions["Attack"];
+        reviveDebug = playerInput.actions["DebugRevive"];
+        dashAction = playerInput.actions["Sprint"];
         
         playerLayer = gameObject.layer;
         ballLayer = LayerMask.NameToLayer("Ball");
+        hazardLayer = LayerMask.NameToLayer("LevelHazard");
         
         PlayerState[] states = GetComponents<PlayerState>();
         foreach (PlayerState state in states)
@@ -179,15 +176,16 @@ public class PlayerScript : MonoBehaviour
         currentState.Tick();
         moveInputVector2 = moveAction.ReadValue<Vector2>();
 
-        // If the player is holding a ball, set the ball's position to the player's hand
-        
-        
+        // Timers
         if (hitTimer > 0)
         {
             hitTimer -= Time.deltaTime;
         }
         
-        
+        if (_dashTimer > 0)
+        {
+            _dashTimer -= Time.deltaTime;
+        }
         
     }
     
@@ -214,8 +212,8 @@ public class PlayerScript : MonoBehaviour
                             newState = GetComponent<ReleaseState>();
                         }
                     }
-                {
-
+                    
+                    
                     if (throwAction.triggered)
                     {
                         newState = GetComponent<ChargingState>();
@@ -225,10 +223,10 @@ public class PlayerScript : MonoBehaviour
                         chargeValueIncrementor = chargeClamp;
                         newState = GetComponent<ReleaseState>();
                     }
-                }
+                    
                     break;
                 case "Sprint":
-                        newState = GetComponent<SprintState>();
+                        newState = GetComponent<DashingState>();
                     break;
             }
         }
@@ -250,23 +248,23 @@ public class PlayerScript : MonoBehaviour
             OnPlayerHitByBall?.Invoke();
             // Debug.Log(currentState);
             if (ballSM.currentState is FlyingState)
-            {
+            { 
+                // If the ball is not lethal, push the player in the opposite direction of the ball
+                Vector3 direction = transform.position - other.transform.position;
                 // Debug.Log("Ball hit player");
                 if (currentState is not KnockbackState &&
                     currentState is not DeadState)
                 {
                     ChangeState(GetComponent<KnockbackState>());
                     // Push the player in the opposite direction of the ball
-                    Vector3 direction = transform.position - other.transform.position;
+                    
                     rb.AddForce(
-                        direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude * knockbackForce,
-                        ForceMode.Impulse);
-                    // Apply an opposite force to the ball
-                    other.gameObject.GetComponent<Rigidbody>().AddForce(
-                        -direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude * knockbackForce,
+                        direction.normalized * knockbackForce,
                         ForceMode.Impulse);
                 }
                 
+                // Set the ball's speed to currentBallSpeedVec3.
+                ballSM.rb.linearVelocity = ballSM.currentBallSpeedVec3.magnitude * -direction.normalized;
             }
             else if (ballSM.currentState is LethalBallState)
             {
@@ -274,14 +272,14 @@ public class PlayerScript : MonoBehaviour
                     currentState is not DeadState)
                 {
                     ChangeState(GetComponent<DeadState>());
-                    // Apply an opposite force to the ball
-                    Vector3 direction = transform.position - other.transform.position;
-                    other.gameObject.GetComponent<Rigidbody>().AddForce(
-                        -direction.normalized * other.gameObject.GetComponent<Rigidbody>().linearVelocity.magnitude * knockbackForce,
-                        ForceMode.Impulse);
                 }
             }
-
+        }
+        
+        // If the object is on the collision layer "LevelHazard", change state to "deadstate"
+        if (other.gameObject.layer == hazardLayer)
+        {
+            ChangeState(GetComponent<DeadState>());
         }
     }
 
@@ -333,29 +331,36 @@ public class PlayerScript : MonoBehaviour
             }
     }
     // ------------------------------ SPRINT ------------------------------
-    public void OnSprint(InputAction.CallbackContext context)
+    public void OnDash(InputAction.CallbackContext context)
     {
         switch (currentState)
         {
             case NeutralState:
-                if (context.started || context.performed)
+                if ((context.started || context.performed) &&
+                    _dashTimer <= 0)
                 {
                     // If the player is not moving, sprinting will not work
                     if (moveInputVector2 != Vector2.zero)
                     {
-                        ChangeState(GetComponent<SprintState>());
+                        _dashTimer = dashCooldown;
+                        ChangeState(GetComponent<DashingState>());
                     }
                 }
                 break;
-            case SprintState:
-                if (context.canceled)
-                {
-                    ChangeState(GetComponent<NeutralState>());
-                }
-                break;
+            // case DashingState:
+            //     if (context.canceled)
+            //     {
+            //         ChangeState(GetComponent<NeutralState>());
+            //     }
+            //     break;
             case ReleaseState:
-                if (context.started || context.performed)
+                if ((context.started || context.performed) &&
+                    _dashTimer <= 0)
+                {
+                    _dashTimer = dashCooldown;
                     BufferInput(context.action);
+                }
+
                 break;
         }
     }
@@ -364,29 +369,25 @@ public class PlayerScript : MonoBehaviour
     public void OnChargeAttack(InputAction.CallbackContext context)
     {
         if (context.started)
+        
         {
-            if (currentState is NeutralState)
+            if (currentState is NeutralState || currentState is DashingState)
             {
+                GetComponent<DashingState>().timer = 0;
                 OnHitButtonPressed?.Invoke();
                 ChangeState(GetComponent<ChargingState>());
             }
             else if (currentState is not ChargingState && currentState is not ReleaseState)
             {
+                GetComponent<DashingState>().timer = 0;
                 BufferInput(context.action);
             }
         }
+        
         else if (currentState is ChargingState && context.canceled) 
+       
         { 
             ChangeState(GetComponent<ReleaseState>()); 
-        }
-
-        if (context.performed)
-        {
-            if (currentState is not NeutralState && currentState is not ChargingState
-                && currentState is not ReleaseState)
-            {
-                BufferInput(context.action);
-            }
         }
         
     }
@@ -405,13 +406,14 @@ public class PlayerScript : MonoBehaviour
             GameManager.Instance.multiplayerManager.WaitForPlayersReady();
         }
     }
-    
+    // ------------------------------ DEBUG ------------------------------
 
-    // ------------------------------ EVENTS ------------------------------
-    public void OnBallHitEventMethod(GameObject ball)
+    public void OnDebugRevive(InputAction.CallbackContext context)
     {
-        OnBallHit?.Invoke(0,gameObject,ball.GetComponent<BallSM>().currentState);
+        ChangeState(GetComponent<NeutralState>());
     }
+
+    // ------------------------------ EVENT METHODS ------------------------------
 
     // ------------------------------ PLAYER GIZMOS ------------------------------
 

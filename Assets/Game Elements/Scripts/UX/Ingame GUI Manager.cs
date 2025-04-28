@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -26,24 +27,29 @@ public class IngameGUIManager : MonoBehaviour
     public GameObject resetPlayersObject;
     public float roundInformationDuration = 1.5f;
     public GameObject ScorePlayerUIEndGame;
+    public UI_PauseMenu UI_PauseMenu;
+    public float blinkInterval = 0.5f;
     
     // --------- PRIVATES ----------
     
     private List<GameObject> _playerList;
-    [FormerlySerializedAs("_playerScorePanelList")] public List<GameObject> playerScorePanelList;
+    
     private int _playerCount;
     [SerializeField] private TextMeshPro _globalPointsText;
-    [FormerlySerializedAs("_startGameText")] [SerializeField] private TextMeshProUGUI _RoundInformationAffichage;
-    public List<GameObject> _playerHud;
+    public TextMeshProUGUI _RoundInformationAffichage;
+    [SerializeField] private GameObject PlayerInformationGUI;
+    [FormerlySerializedAs("playerPrefabScore")] [SerializeField] private GameObject UI_PlayerHud;
+    [SerializeField] private GameObject playerPanelSpawnPointParent;
     
-    void Start()
+    public List<GameObject> UI_PlayerHUD;
+    public List<GameObject> UI_PlayerScore;
+    
+    [FormerlySerializedAs("UI_SetReadyInformationText")] public GameObject UI_PressStartTutorialtext;
+    public GameObject UI_SetReadyInformationText;
+
+    private void Start()
     {
-        GameObject PlayerPanelParent = GameObject.FindGameObjectWithTag("PlayerInformationPanel");
-        // After
-        foreach (var VARIABLE in PlayerPanelParent.GetComponentsInChildren<PlayerInfoGui>())
-        {
-            _playerHud.Add(VARIABLE.gameObject);
-        }
+        UI_PauseMenu = GetComponent<UI_PauseMenu>();
         
     }
 
@@ -56,43 +62,88 @@ public class IngameGUIManager : MonoBehaviour
         //UpdateIndividualPlayerScorePanels();
 
     }
+
+    //TODO Ajouter l'update des panel de points des joueurs
+    #region PlayerHUDUpdate
+
+    // public void SetPlayerHud(GameObject playerInfoGui,string playerName , string playerScore, string playerState)
+    // {
+    //     Debug.Log(playerName);
+    //         TextMeshProUGUI playerNameText = null;
+    //         TextMeshProUGUI playerScoreText = null;
+    //         TextMeshProUGUI playerStateText = null;
+    //
+    //         
+    //         foreach (var textMesh in playerInfoGui.GetComponentsInChildren<TextMeshProUGUI>())
+    //         {
+    //             switch (textMesh.gameObject.name)
+    //             {
+    //                 case "PlayerName":
+    //                     playerNameText = textMesh;
+    //                     break;
+    //                 case "PlayerScore":
+    //                     playerScoreText = textMesh;
+    //                     break;
+    //                 case "PlayerState":
+    //                     playerStateText = textMesh;
+    //                     break;
+    //             }
+    //         }
+    //
+    //         if (playerNameText != null)
+    //         {
+    //             playerNameText.text = playerName;
+    //         }
+    //
+    //         if (playerScoreText != null)
+    //         {
+    //             playerScoreText.text = playerScore;
+    //         }
+    //
+    //         if (playerStateText != null)
+    //         {
+    //             playerStateText.text = playerState;
+    //         }
+    // }
+    //
+    // public void UpdatePlayerState(GameObject playerInfoGui, bool isReady)
+    // {
+    //     TextMeshProUGUI playerStateText = null;
+    //
+    //     foreach (var textMesh in playerInfoGui.GetComponentsInChildren<TextMeshProUGUI>())
+    //     {
+    //         if (textMesh.gameObject.name == "PlayerState")
+    //         {
+    //             playerStateText = textMesh;
+    //             break;
+    //         }
+    //     }
+    //
+    //     if (playerStateText != null)
+    //     {
+    //         playerStateText.text = isReady ? "Ready" : "Not Ready";
+    //     }
+    // }
+
+    #endregion
     
-    public void UpdatePlayerHud(GameObject playerInfoGui,string playerName , string playerScore, string playerState)
+    public void UpdatePlayerScore(GameObject playerInfoGui, int score)
     {
-            TextMeshProUGUI playerNameText = null;
-            TextMeshProUGUI playerScoreText = null;
-            TextMeshProUGUI playerStateText = null;
+        TextMeshProUGUI playerScoreText = null;
 
-            foreach (var textMesh in playerInfoGui.GetComponentsInChildren<TextMeshProUGUI>())
+        foreach (var textMesh in playerInfoGui.GetComponentsInChildren<TextMeshProUGUI>())
+        {
+            if (textMesh.gameObject.name == "PlayerScore")
             {
-                switch (textMesh.gameObject.name)
-                {
-                    case "PlayerName":
-                        playerNameText = textMesh;
-                        break;
-                    case "PlayerScore":
-                        playerScoreText = textMesh;
-                        break;
-                    case "PlayerState":
-                        playerStateText = textMesh;
-                        break;
-                }
+                playerScoreText = textMesh;
+                break;
             }
+        }
 
-            if (playerNameText != null)
-            {
-                playerNameText.text = playerName;
-            }
-
-            if (playerScoreText != null)
-            {
-                playerScoreText.text = playerScore;
-            }
-
-            if (playerStateText != null)
-            {
-                playerStateText.text = playerState;
-            }
+        if (playerScoreText != null)
+        {
+            playerScoreText.text = score.ToString();
+        }
     }
     
     public void AssignBall(GameObject ballObject)
@@ -103,20 +154,6 @@ public class IngameGUIManager : MonoBehaviour
     void OnEnable()
     {
         pauseAction.Enable(); 
-    }
-    
-    public void OnPauseAction(InputAction.CallbackContext context)
-    {
-        if (pauseMenu.activeSelf)
-        {
-            GameManager.Instance.ResumeGame();
-            pauseMenu.SetActive(false);
-        }
-        else
-        {
-            GameManager.Instance.PauseGame();
-            pauseMenu.SetActive(true);
-        }
     }
     
     // ------------------------ ROUND INFORMATION FUNCTIONS
@@ -148,12 +185,84 @@ public class IngameGUIManager : MonoBehaviour
         playerScoreText.text = player.GetComponent<PlayerPointTracker>().points.ToString();
         playerNumberText.text = playerRank.ToString();
     }
+    
+    public GameObject SpawnPlayerScorePanel(PlayerScript player)
+    {
+        // Create a list of the children of playerPanelSpawnPointParent
+        List<Transform> spawnPoints = new List<Transform>();
+        foreach (Transform child in playerPanelSpawnPointParent.transform)
+        {
+            spawnPoints.Add(child);
+        }
 
+        // Determine the position for the new panel based on the number of panels already spawned
+        int panelIndex = UI_PlayerHUD.Count;
+        if (panelIndex >= spawnPoints.Count)
+        {
+            Debug.LogError("Not enough spawn points for player score panels.");
+            return null;
+        }
+
+        // Instantiate the new panel at the corresponding spawn point
+        GameObject playerScorePanel = Instantiate(UI_PlayerHud, spawnPoints[panelIndex].position, Quaternion.identity, PlayerInformationGUI.transform);
+        TextMeshProUGUI playerNameText = null;
+        foreach (Transform Text in (playerScorePanel.transform))
+        {
+            if (Text.name == "PlayerName")
+            {
+                playerNameText = Text.GetComponent<TextMeshProUGUI>();
+            }
+            playerNameText.text = player.name;
+        }
+        
+        UI_PlayerHUD.Add(playerScorePanel);
+
+        if (!UI_SetReadyInformationText.gameObject.activeSelf)
+        {
+            UI_SetReadyInformationText.gameObject.SetActive(true);
+            
+            StartBlinking(UI_SetReadyInformationText, blinkInterval);
+        }
+       
+        
+        return playerScorePanel;
+    }
+    
+    //TODO Rajoute moi une fonction qui servirais a clignoter UI_SetReadyInformationText et UI_PressStartTutorialtext
+    // Function to start blinking a UI element
+    public void StartBlinking(GameObject uiElement, float blinkInterval)
+    {
+        StartCoroutine(BlinkUIElement(uiElement, blinkInterval));
+    }
+
+// Coroutine to toggle the active state of the UI element
+    private IEnumerator BlinkUIElement(GameObject uiElement, float blinkInterval)
+    {
+        while (true)
+        {
+            uiElement.SetActive(!uiElement.activeSelf);
+            yield return new WaitForSeconds(blinkInterval);
+        }
+    }
+    
+    
+    public void SpawnReadyPanel()
+    {
+        UI_SetReadyInformationText.gameObject.SetActive(true);
+    }
+    public void ChangeColorOfPlayerScorePanel(GameObject playerScorePanel, Color color)
+    {
+        Image image = playerScorePanel.GetComponent<Image>();
+        if (image != null)
+        {
+            image.color = color;
+        }
+    }
     public void CountDownTimer()
     {
         StartCoroutine(StartCountdown(3)); // Start a 5-second countdown
     }
-
+    
     private IEnumerator StartCountdown(int duration)
     {
         _RoundInformationAffichage.gameObject.SetActive(true);
@@ -191,5 +300,7 @@ public class IngameGUIManager : MonoBehaviour
         _RoundInformationAffichage.text = "";
         _RoundInformationAffichage.gameObject.SetActive(false);
         GameManager.Instance.levelManager.StartLevel(); // Call StartLevel when the countdown finishes
+        UI_SetReadyInformationText.SetActive(false);
+        UI_PressStartTutorialtext.SetActive(false);
     }
 }
