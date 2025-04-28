@@ -227,6 +227,19 @@ public class BallSM : MonoBehaviour
         
         SetBallSpeedMinimum(rb.linearVelocity.magnitude, rb.linearVelocity.normalized);
 
+        if (other.gameObject.CompareTag("PointWall") || other.gameObject.CompareTag("Player"))
+        {
+            // If the ball hits a wall, set the ball's speed to 0.
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.Sleep();
+        }
+        {
+            pointWallHit?.Invoke(pointWallPoints);
+            GameManager.Instance.levelManager.gameCameraScript.screenShakeGO.GetComponent<ScreenShake>().StartLitleScreenShake(rb.linearVelocity.magnitude);
+            OnPointBounce?.Invoke(bounces);
+        }
+        
         switch (currentState)
         {
             case FlyingState:
@@ -237,12 +250,7 @@ public class BallSM : MonoBehaviour
                     GrowBall();
                 }
                 
-                if (other.gameObject.CompareTag("PointWall"))
-                {
-                    pointWallHit?.Invoke(pointWallPoints);
-                    GameManager.Instance.levelManager.gameCameraScript.screenShakeGO.GetComponent<ScreenShake>().StartLitleScreenShake();
-                    OnPointBounce?.Invoke(bounces);
-                }
+                
                 
                 if (other.gameObject.CompareTag("Bouncer"))
                 {
@@ -252,11 +260,6 @@ public class BallSM : MonoBehaviour
                 break;
             case DroppedState:
                 break;
-            // case BuntedBallState:
-            //     if (other.gameObject.CompareTag("Floor"))
-            //     {
-            //         ChangeState(GetComponent<DroppedState>());
-            //     }
             case LethalBallState:
                 bounces++;
                 if (growthType == GrowthType.OnBounce && !other.gameObject.CompareTag("Player")

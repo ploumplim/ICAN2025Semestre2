@@ -162,28 +162,32 @@ public class CameraScript : MonoBehaviour
         return true;
     }
     
-    public void StartShake(float duration, float magnitude)
+    public void StartShake(float duration, float magnitude,float multiplier,float ballSpeed)
     {
-        StartCoroutine(ShakeCamera(duration, magnitude));
+        Debug.Log(ballSpeed);
+        StartCoroutine(ShakeCamera(duration, magnitude, multiplier, ballSpeed));
     }
 
-    public IEnumerator ShakeCamera(float duration, float magnitude)
+    public IEnumerator ShakeCamera(float duration, float magnitude, float multiplier, float ballSpeed)
     {
         Vector3 originalPosition = cameraHolderObject.transform.localPosition;
         float elapsed = 0f;
 
+        // Calculer le facteur de boost basé sur ballSpeed et multiplier
+        float speedBoostFactor = ballSpeed * multiplier;
+
         while (elapsed < duration)
         {
-            float offsetX = Random.Range(-1f, 1f) * magnitude;
-            float offsetY = Random.Range(-1f, 1f) * magnitude;
+            // Appliquer le facteur de boost à l'intensité du shake
+            float offsetX = Random.Range(-1f, 1f) * magnitude * speedBoostFactor;
+            float offsetY = Random.Range(-1f, 1f) * magnitude * speedBoostFactor;
 
             cameraHolderObject.transform.localPosition = new Vector3(
                 originalPosition.x + offsetX,
                 originalPosition.y + offsetY,
                 originalPosition.z
-            ) ;
-    //* GameManager.Instance.levelManager.gameBall.GetComponent<BallSM>().rb.linearVelocity.magnitude
-            
+            );
+
             elapsed += Time.deltaTime;
             yield return null;
         }
