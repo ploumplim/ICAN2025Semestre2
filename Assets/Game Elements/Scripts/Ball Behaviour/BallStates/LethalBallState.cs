@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 public class LethalBallState : BallState
 {
@@ -12,6 +13,25 @@ public class LethalBallState : BallState
         {
             Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
         }
+        if (!BallSm.onLethal)
+        {
+            BallSm.OnBallLethal?.Invoke();
+            // Save current speed
+            BallSm.currentBallSpeedVec3 = BallSm.rb.linearVelocity;
+            // Set ball speed to 0.
+            BallSm.rb.linearVelocity = Vector3.zero;
+            // Deactivate the collider
+            BallSm.col.enabled = false;
+            BallSm.onLethal = true;
+            StartCoroutine(FirstTimeLethal());
+        }
+    }
+    
+    public IEnumerator FirstTimeLethal()
+    {
+        yield return new WaitForSeconds(BallSm.firstTimeLethalWaitTime);
+        BallSm.rb.linearVelocity = BallSm.currentBallSpeedVec3;
+        BallSm.col.enabled = true;
     }
 
     public override void Tick()
@@ -30,10 +50,10 @@ public class LethalBallState : BallState
         }
         
         // if the ball is going under the lethalSpeed, set the ball to the FlyingState.
-        if (BallSm.rb.linearVelocity.magnitude < BallSm.lethalSpeed)
-        {
-            BallSm.ChangeState(GetComponent<FlyingState>());
-        }
+        // if (BallSm.rb.linearVelocity.magnitude < BallSm.lethalSpeed)
+        // {
+        //     BallSm.ChangeState(GetComponent<FlyingState>());
+        // }
     }
     
     public override void Exit()
