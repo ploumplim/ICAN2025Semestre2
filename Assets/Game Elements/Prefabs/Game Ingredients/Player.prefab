@@ -10022,8 +10022,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8190465
-  m_Height: 3.0417025
+  m_Radius: 1.02
+  m_Height: 4.2
   m_Direction: 1
   m_Center: {x: 0, y: -0.025750041, z: 0.018789291}
 --- !u!114 &8257710722661929340
@@ -10197,13 +10197,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementType: 1
-  speed: 10
+  speed: 15
   chargeSpeedModifier: 0.25
   acceleration: 2
   neutralLerpTime: 1
   chargeLerpTime: 0.5
-  dashBurst: 55
-  dashDuration: 0.15
+  dashBurst: 65
+  dashDuration: 0.1
   dashCooldown: 0.24
   knockbackTime: 0.5
   knockbackForce: 20
@@ -10211,13 +10211,14 @@ MonoBehaviour:
   knockedBackLinearDamping: 5
   hitType: 0
   chargeRate: 2
-  releaseDuration: 0.1
+  releaseDuration: 0.15
   chargeTimeLimit: 0.8
-  hitForce: 10
-  chargeClamp: 0.75
+  hitForce: 9
+  chargeClamp: 0.6
   hitDetectionRadius: 10
   hitDetectionOffset: 0
   catchWindow: 0.5
+  hitCooldown: 0.3
   playerHand: {fileID: 2776262344594129282}
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
@@ -15558,7 +15559,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 9195313607378371640}

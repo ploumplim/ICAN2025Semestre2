@@ -75,6 +75,8 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("The window of opportunity to catch the ball at the start of the charge.")]
     public float catchWindow = 0.2f;
 
+    public float hitCooldown = 0.3f;
+
     // ----------------------------------------------------------------------------------------
     [Header("Game Objects")] public GameObject playerHand;
 
@@ -137,7 +139,7 @@ public class PlayerScript : MonoBehaviour
     {
         SetPlayerParameters();
         col = GetComponent<CapsuleCollider>();
-    
+        hitTimer = hitCooldown;
         // Subscribe to the "Pause" action with a lambda to pass the context to OnPause
         playerInput.actions["SetPause"].performed += context => 
             GameManager.Instance.levelManager.ingameGUIManager.UI_PauseMenu.OnPause(context);
@@ -368,25 +370,27 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ CHARGE ATTACK ------------------------------
     public void OnChargeAttack(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && hitTimer <= 0f)
         
         {
             if (currentState is NeutralState || currentState is DashingState)
             {
                 GetComponent<DashingState>().timer = 0;
                 OnHitButtonPressed?.Invoke();
+                hitTimer = hitCooldown;
                 ChangeState(GetComponent<ChargingState>());
             }
             else if (currentState is not ChargingState && currentState is not ReleaseState)
             {
+                hitTimer = hitCooldown;
                 GetComponent<DashingState>().timer = 0;
                 BufferInput(context.action);
             }
         }
         
         else if (currentState is ChargingState && context.canceled) 
-       
-        { 
+        {
+            hitTimer = hitCooldown;
             ChangeState(GetComponent<ReleaseState>()); 
         }
         
