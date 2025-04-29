@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CameraScript : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class CameraScript : MonoBehaviour
     private Vector3[] _lockPoints; // The array of points that the camera can lock itself to.
     private GameObject cameraObject; // The camera component of the camera object.
     private Vector3 _targetPoint; // The point that the camera should lock itself to.
+    public ScreenShake screenShakeGO; // The screen shake component of the camera object.
 
     // ---------------PUBLIC---------------
     [Tooltip("The gameobject holding the camera. The code will move THIS object, while the camera is fixed to it as " +
@@ -25,15 +28,6 @@ public class CameraScript : MonoBehaviour
     [Tooltip("This list contains all objects that the camera should use as points to lock itself.")]
     public GameObject[] lockPoints;
 
-    [Tooltip("This is the padding that the camera will have from the lock points.")]
-    public float padding = 2f;
-
-    [Tooltip("The minimum distance the camera can go when moving towards the lockpoint.")]
-    public float minDistance = 0f;
-    
-    [Tooltip("The maximum distance the camera can go when moving towards the lockpoint.")]
-    public float maxDistance = 10f;
-
     public void Start()
     {
         // Get the camera component of the camera object
@@ -43,7 +37,7 @@ public class CameraScript : MonoBehaviour
 
     public void FixedUpdate()
     {
-        // UpdateCameraPosition();
+        UpdateCameraPosition();
         // UpdateCameraDistance();
     }
 
@@ -78,13 +72,19 @@ public class CameraScript : MonoBehaviour
 
         // Move the camera holder object to the middle point
         Vector3 newPosition = Vector3.Lerp(cameraHolderObject.transform.position, _targetPoint, followSpeed * Time.deltaTime);
+        
+        // Set the camera holder object to the new position
+        cameraHolderObject.transform.position = newPosition;
 
 
-        var newPositionXvalue = cameraHolderObject.transform.position;
-        newPositionXvalue.x = newPosition.x;
-        var cameraHolderObjectVec3 = cameraHolderObject.transform.position;
-        cameraHolderObjectVec3.x = Mathf.Lerp(cameraHolderObject.transform.position.x, newPositionXvalue.x, followSpeed * Time.deltaTime);
-        cameraHolderObject.transform.position = cameraHolderObjectVec3;
+        // var newPositionXvalue = cameraHolderObject.transform.position;
+        // newPositionXvalue.x = newPosition.x;
+        // var cameraHolderObjectVec3 = cameraHolderObject.transform.position;
+        // cameraHolderObjectVec3.x = Mathf.Lerp(cameraHolderObject.transform.position.x, newPositionXvalue.x, followSpeed * Time.deltaTime);
+        // cameraHolderObject.transform.position = cameraHolderObjectVec3;
+        
+        
+        
     }
 
     public static Vector3 CalculateAveragePoint(Vector3[] points)
@@ -161,6 +161,40 @@ public class CameraScript : MonoBehaviour
 
         return true;
     }
+    
+    public void StartShake(float duration, float magnitude,float multiplier,float ballSpeed)
+    {
+        // Debug.Log(ballSpeed);
+        StartCoroutine(ShakeCamera(duration, magnitude, multiplier, ballSpeed));
+    }
+
+    public IEnumerator ShakeCamera(float duration, float magnitude, float multiplier, float ballSpeed)
+    {
+        Vector3 originalPosition = cameraHolderObject.transform.localPosition;
+        float elapsed = 0f;
+
+        // Calculer le facteur de boost basé sur ballSpeed et multiplier
+        float speedBoostFactor = ballSpeed * multiplier;
+
+        while (elapsed < duration)
+        {
+            // Appliquer le facteur de boost à l'intensité du shake
+            float offsetX = Random.Range(-1f, 1f) * magnitude * speedBoostFactor;
+            float offsetY = Random.Range(-1f, 1f) * magnitude * speedBoostFactor;
+
+            cameraHolderObject.transform.localPosition = new Vector3(
+                originalPosition.x + offsetX,
+                originalPosition.y + offsetY,
+                originalPosition.z
+            );
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        cameraHolderObject.transform.localPosition = originalPosition;
+    }
+    
 
     private void OnDrawGizmos()
     {

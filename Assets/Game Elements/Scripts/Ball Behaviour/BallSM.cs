@@ -21,8 +21,11 @@ public class BallSM : MonoBehaviour
     [Header("Ball Propulsion Settings")]
     [Tooltip("The ball will never go faster than this value.")]
     public float maxSpeed = 20f;
+    public float minSpeed = 10f;
     [Tooltip("The ball becomes lethal when it reaches this speed.")]
     public float lethalSpeed = 10f;
+    public float firstTimeLethalWaitTime = 0.1f;
+    public float hitFreezeTimeMultiplier = 0.01f;
     //-------------------------------------------------------------------------------------
     [FormerlySerializedAs("maxHeight")]
     [Header("Ball Height Settings")]
@@ -37,14 +40,10 @@ public class BallSM : MonoBehaviour
     [Header("Ball physical properties")]
     [Tooltip("The linear damping value when the ball is grounded.")]
     public float groundedLinearDamping = 1f;
-    [Tooltip("The linear damping value when the ball is bunted.")]
-    public float buntedLinearDamping = 0.5f;
     [FormerlySerializedAs("midAirLinearDamping")] [Tooltip("The linear damping value when the ball is flying midair.")]
     public float flyingLinearDamping = 0.1f;
     [Tooltip("The mass of the ball while its grounded.")]
     public float groundedMass = 1f;
-    [Tooltip("The mass of the ball while its bunted.")]
-    public float buntedMass = 0.5f;
     [FormerlySerializedAs("midAirMass")] [Tooltip("The mass of the ball while its midair.")]
     public float flyingMass = 0.1f;
     
@@ -86,6 +85,8 @@ public class BallSM : MonoBehaviour
     [HideInInspector]public int playerColliderLayer;
     [HideInInspector]public int ballColliderLayer;
     [HideInInspector]public Vector3 currentBallSpeedVec3;
+    [HideInInspector]public float ballSpeedFloor;
+    [HideInInspector] public bool onLethal; 
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~EVENTS~~~~~~~~~~~~~~~~~~~~~~~~~~
     
@@ -93,11 +94,16 @@ public class BallSM : MonoBehaviour
     public UnityEvent<int> OnPointBounce;
     public UnityEvent<int> OnNeutralBounce;
     public UnityEvent<float> OnBallFlight;
+    public UnityEvent OnBallCaught;
+    [FormerlySerializedAs("OnPerfectHit")] public UnityEvent OnHit;
+    public UnityEvent OnBallLethal;
+    public UnityEvent OnHitStateStart;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        onLethal = false;
         col = GetComponent<SphereCollider>();
         rb = GetComponent<Rigidbody>();
         playerColliderLayer = LayerMask.NameToLayer("Player");
@@ -109,8 +115,9 @@ public class BallSM : MonoBehaviour
         }
         currentState = GetComponent<DroppedState>();
         Physics.IgnoreLayerCollision(ballColliderLayer, playerColliderLayer, true);
+        ballSpeedFloor = minSpeed;
 
-        
+
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~ CHANGE STATE ~~~~~~~~~~~~~~~~~~~~~~
@@ -134,9 +141,9 @@ public class BallSM : MonoBehaviour
         SetMaxSpeed();
     }
 
-    public void FixVerticalSpeed(float maxHeight)
+    public void FixVerticalSpeed()
     {
-        if (transform.position.y >= maxHeight)
+        if (rb.linearVelocity.y > 0)
         {
             // When the ball reaches the maxHeight, set the vertical speed to 0.
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
@@ -154,6 +161,21 @@ public class BallSM : MonoBehaviour
             rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
         }
     }
+    //~~~~~~~~~~~~~~~~~~~~~~ BALL SPEED MANAGERS ~~~~~~~~~~~~~~~~~~~~~~
+    public void SetBallSpeedMinimum(float currentSpeed, Vector3 ballDirection)
+    {
+        switch (currentSpeed)
+        {
+            case > 0f when currentSpeed < ballSpeedFloor:
+                rb.linearVelocity = ballDirection * ballSpeedFloor;
+                break;
+            
+            case > 0f when currentSpeed > ballSpeedFloor:
+                ballSpeedFloor = currentSpeed;
+                break;
+        }
+    }
+    
     //~~~~~~~~~~~~~~~~~~~~~~ GROWTH ~~~~~~~~~~~~~~~~~~~~~~
 
     public void GrowBall()
@@ -204,28 +226,27 @@ public class BallSM : MonoBehaviour
  
     private void OnCollisionEnter(Collision other)
     {
+        
+        SetBallSpeedMinimum(rb.linearVelocity.magnitude, rb.linearVelocity.normalized);
 
+        if (other.gameObject.CompareTag("PointWall"))
+        {
+            pointWallHit?.Invoke(pointWallPoints);
+            GameManager.Instance.levelManager.gameCameraScript.screenShakeGO.GetComponent<ScreenShake>().StartLitleScreenShake(rb.linearVelocity.magnitude);
+            OnPointBounce?.Invoke(bounces);
+        }
+        
         switch (currentState)
         {
             case FlyingState:
                 bounces++;
                 // Check the ball GrowthType. If it's OnBounce, grow the ball.
-                if (growthType == GrowthType.OnBounce)
+                if (growthType == GrowthType.OnBounce && !other.gameObject.CompareTag("Player"))
                 {
                     GrowBall();
                 }
-
-                if (other.gameObject.CompareTag("PointWall"))
-                {
-                    pointWallHit?.Invoke(pointWallPoints);
-                    OnPointBounce?.Invoke(bounces);
-                }
                 
-                if (other.gameObject.CompareTag("PointWall"))
-                {
-                    pointWallHit?.Invoke(pointWallPoints);
-                    OnPointBounce?.Invoke(bounces);
-                }
+                
                 
                 if (other.gameObject.CompareTag("Bouncer"))
                 {
@@ -235,14 +256,10 @@ public class BallSM : MonoBehaviour
                 break;
             case DroppedState:
                 break;
-            // case BuntedBallState:
-            //     if (other.gameObject.CompareTag("Floor"))
-            //     {
-            //         ChangeState(GetComponent<DroppedState>());
-            //     }
             case LethalBallState:
                 bounces++;
-                if (growthType == GrowthType.OnBounce)
+                if (growthType == GrowthType.OnBounce && !other.gameObject.CompareTag("Player")
+                    && !other.gameObject.CompareTag("NonGrowerSurface"))
                 {
                     GrowBall();
                 }
