@@ -39,7 +39,7 @@ public class PlayerSoundScript : MonoBehaviour
         chargeInstance.release(); // Lib�rer l'instance
     }
 
-    public void PlaySound2()
+    public void BallBuntSound()
     {
         AudioManager.instance.PlayOneShot(FMODEvents.instance.BallBunt_Sound, this.transform.position);
     }
@@ -49,12 +49,12 @@ public class PlayerSoundScript : MonoBehaviour
         AudioManager.instance.PlayOneShot(FMODEvents.instance.Bunt_FX, this.transform.position);
     }
 
-    public void PlaySound5()
+    public void BallHitByPlayerSound()
     {
         AudioManager.instance.PlayOneShot(FMODEvents.instance.BallTouched_FX, this.transform.position);
     }
 
-    public void PlaySound6()
+    public void DashSound()
     {
         AudioManager.instance.PlayOneShot(FMODEvents.instance.Dash_FX, this.transform.position);
     }
