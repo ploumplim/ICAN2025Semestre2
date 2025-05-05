@@ -17,7 +17,7 @@ public class ChargingState : PlayerState
         
         private IEnumerator CatchWindowCoroutine()
         {
-            CatchZone();
+            // CatchZone();
             yield return new WaitForSeconds(PlayerScript.catchWindow);
         }
 
@@ -51,25 +51,25 @@ public class ChargingState : PlayerState
                 
         }
 
-        public void CatchZone()
-        {
-            // Create an overlap sphere equal to the size of the hit detection radius.
-            Collider[] hitColliders = Physics.OverlapSphere(PlayerScript.transform.position, PlayerScript.hitDetectionRadius);
-            foreach (var hitCollider in hitColliders)
-            {
-                if (hitCollider.CompareTag("Ball"))
-                {
-                    _caughtBall = hitCollider.gameObject;
-                    _caughtBall.GetComponent<BallSM>().ballOwnerPlayer = gameObject;
-                    if (_caughtBall.GetComponent<BallSM>().currentState != GetComponent<CaughtState>())
-                    {
-                        _caughtBall.GetComponent<BallSM>().ChangeState(_caughtBall.GetComponent<CaughtState>());
-                    }
-                    break;
-                }
-            }
-            
-        }
+        // public void CatchZone()
+        // {
+        //     // Create an overlap sphere equal to the size of the hit detection radius.
+        //     Collider[] hitColliders = Physics.OverlapSphere(PlayerScript.transform.position, PlayerScript.hitDetectionRadius);
+        //     foreach (var hitCollider in hitColliders)
+        //     {
+        //         if (hitCollider.CompareTag("Ball"))
+        //         {
+        //             _caughtBall = hitCollider.gameObject;
+        //             _caughtBall.GetComponent<BallSM>().ballOwnerPlayer = gameObject;
+        //             if (_caughtBall.GetComponent<BallSM>().currentState != GetComponent<CaughtState>())
+        //             {
+        //                 _caughtBall.GetComponent<BallSM>().ChangeState(_caughtBall.GetComponent<CaughtState>());
+        //             }
+        //             break;
+        //         }
+        //     }
+        //     
+        // }
         
         public override void Exit()
         {

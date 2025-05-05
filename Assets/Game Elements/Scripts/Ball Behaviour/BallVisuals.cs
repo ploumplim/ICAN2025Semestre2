@@ -61,6 +61,13 @@ public class BallVisuals : MonoBehaviour
     [Header("Lethal ball settings")]
     public ParticleSystem lethalBallParticle;
     
+    [Header("SpeedFeedback settings")]
+    public ParticleSystem speedFeedbackParticle;
+
+    public float speedFeedBackMultiplier = 0.1f;
+    public float speedFeedbackMaximumSpeed = 100f;
+    public float speedFeedbackMinimumSpeed = 20f;
+    
     // ---------------PRIVATE---------------
     private BallSM ballSM;
     private Camera _mainCamera;
@@ -89,6 +96,25 @@ public class BallVisuals : MonoBehaviour
         TrailEmitter();
         BallColorAndLight();
         UpdateFace();
+        UpdateBallSpeedFeedbacks();
+    }
+
+    private void UpdateBallSpeedFeedbacks()
+    {
+        // Multiply the current velocity multiplier from the speedFeedback Particle by the modifier and the current speed of the ball.
+        float ballSpeed = ballSM.GetComponent<Rigidbody>().linearVelocity.magnitude;
+        float speedFeedback = Mathf.Clamp( ballSpeed * speedFeedBackMultiplier, speedFeedbackMinimumSpeed, speedFeedbackMaximumSpeed);
+        
+        var velocityOverLifetime = speedFeedbackParticle.velocityOverLifetime;
+        ParticleSystem.MinMaxCurve speedModifier = velocityOverLifetime.speedModifier;
+        speedModifier.constant = speedFeedback;
+        
+        // Set the orientation of the particle system equal to the vector velocity of the ball.
+        Vector3 ballVelocity = ballSM.GetComponent<Rigidbody>().linearVelocity;
+        if (ballVelocity != Vector3.zero)
+        {
+            speedFeedbackParticle.transform.rotation = Quaternion.LookRotation(ballVelocity);
+        }
     }
     
     
@@ -147,14 +173,14 @@ public class BallVisuals : MonoBehaviour
                 lethalFace.gameObject.SetActive(false);
                 hitFace.gameObject.SetActive(false);
                 break;
-            case CaughtState:
-                neutralBall.SetActive(true);
-                lethalBall.SetActive(false);
-                
-                neutralFace.gameObject.SetActive(false);
-                lethalFace.gameObject.SetActive(false);
-                hitFace.gameObject.SetActive(true);
-                break;    
+            // case CaughtState:
+            //     neutralBall.SetActive(true);
+            //     lethalBall.SetActive(false);
+            //     
+            //     neutralFace.gameObject.SetActive(false);
+            //     lethalFace.gameObject.SetActive(false);
+            //     hitFace.gameObject.SetActive(true);
+            //     break;    
             case HitState:
                 neutralBall.SetActive(true);
                 lethalBall.SetActive(false);
@@ -189,11 +215,11 @@ public class BallVisuals : MonoBehaviour
 
             switch (ballSM.currentState)
             {
-                case CaughtState:
-                    _neutralBallMaterial.color = caughtBallColor;
-                    _neutralBallMaterial.SetColor("_EmissionColor", caughtBallColor);
-                    ballLight.color = caughtBallColor;
-                    break;
+                // case CaughtState:
+                //     _neutralBallMaterial.color = caughtBallColor;
+                //     _neutralBallMaterial.SetColor("_EmissionColor", caughtBallColor);
+                //     ballLight.color = caughtBallColor;
+                //     break;
                 case HitState:
                     _neutralBallMaterial.color = HitBallColor;
                     _neutralBallMaterial.SetColor("_EmissionColor", HitBallColor);
@@ -242,6 +268,7 @@ public class BallVisuals : MonoBehaviour
     {
         // play the hit charge particle system.
         hitChargeParticle.Play();
+        speedFeedbackParticle.Play();
         
     }
 
@@ -271,7 +298,10 @@ public class BallVisuals : MonoBehaviour
         Vector3 hitDirection = ballSM.currentState.GetComponent<HitState>().hitDirection;
         
         // Set the rotation of the perfect hit particle system to the hit direction.
-        perfectHitParticle.transform.rotation = Quaternion.LookRotation(hitDirection);
+        if (hitDirection != Vector3.zero)
+        {
+            perfectHitParticle.transform.rotation = Quaternion.LookRotation(hitDirection);
+        }
         
         
         perfectHitParticle.Play();

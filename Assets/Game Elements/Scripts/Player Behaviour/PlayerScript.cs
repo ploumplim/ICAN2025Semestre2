@@ -75,6 +75,8 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("The window of opportunity to catch the ball at the start of the charge.")]
     public float catchWindow = 0.2f;
 
+    public float hitCooldown = 0.3f;
+
     // ----------------------------------------------------------------------------------------
     [Header("Game Objects")] public GameObject playerHand;
 
@@ -95,6 +97,7 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent OnPlayerDeath;
     public UnityEvent OnPlayerDash;
     public UnityEvent OnPlayerEndDash;
+    public Action<PlayerState> OnPlayerStateChanged;
     
     // action events
     public event Action<int,GameObject> OnBallHit;
@@ -115,6 +118,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public int hazardLayer;
     [HideInInspector] public bool isReady;
     [HideInInspector] public GameObject playerScorePanel;
+    [HideInInspector] public bool isMoving; // Exclusive for animations
 
     // ------------------------------ CHARGING ------------------------------
     [HideInInspector]public float chargeValueIncrementor = 0f;
@@ -137,7 +141,7 @@ public class PlayerScript : MonoBehaviour
     {
         SetPlayerParameters();
         col = GetComponent<CapsuleCollider>();
-    
+        hitTimer = hitCooldown;
         // Subscribe to the "Pause" action with a lambda to pass the context to OnPause
         playerInput.actions["SetPause"].performed += context => 
             GameManager.Instance.levelManager.ingameGUIManager.UI_PauseMenu.OnPause(context);
@@ -175,6 +179,16 @@ public class PlayerScript : MonoBehaviour
     {
         currentState.Tick();
         moveInputVector2 = moveAction.ReadValue<Vector2>();
+
+
+        if (moveInputVector2 != Vector2.zero && isMoving == false)
+        {
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
+        }
 
         // Timers
         if (hitTimer > 0)
@@ -232,6 +246,7 @@ public class PlayerScript : MonoBehaviour
         }
         
         currentState.Exit();
+        OnPlayerStateChanged?.Invoke(newState);
         currentState = newState;
         currentState.Enter();
         
@@ -368,25 +383,27 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ CHARGE ATTACK ------------------------------
     public void OnChargeAttack(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && hitTimer <= 0f)
         
         {
             if (currentState is NeutralState || currentState is DashingState)
             {
                 GetComponent<DashingState>().timer = 0;
                 OnHitButtonPressed?.Invoke();
+                hitTimer = hitCooldown;
                 ChangeState(GetComponent<ChargingState>());
             }
             else if (currentState is not ChargingState && currentState is not ReleaseState)
             {
+                hitTimer = hitCooldown;
                 GetComponent<DashingState>().timer = 0;
                 BufferInput(context.action);
             }
         }
         
         else if (currentState is ChargingState && context.canceled) 
-       
-        { 
+        {
+            hitTimer = hitCooldown;
             ChangeState(GetComponent<ReleaseState>()); 
         }
         

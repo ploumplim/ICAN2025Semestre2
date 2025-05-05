@@ -7,7 +7,14 @@ public class HitState : BallState
     [HideInInspector] public float hitForce;
     
     public override void Enter()
-    {        
+    {
+
+        if (BallSm.currentBallSpeedVec3 == Vector3.zero)
+        {
+            BallSm.currentBallSpeedVec3 = BallSm.rb.linearVelocity;
+        }
+        
+        BallSm.OnHit?.Invoke();
         base.Enter();
         BallSm.rb.linearVelocity = Vector3.zero;
         BallSm.rb.angularVelocity = Vector3.zero;
@@ -16,15 +23,11 @@ public class HitState : BallState
         GameObject ballOwnerPlayer = BallSm.ballOwnerPlayer;
         PlayerScript ballOwnerPlayerScript = BallSm.ballOwnerPlayer.GetComponent<PlayerScript>();
         
-
         
         if (ballOwnerPlayer)
         {
             Physics.IgnoreCollision(BallSm.col, ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
         }
-        
-        
-        
         
         float chargeValue = Mathf.Clamp(ballOwnerPlayerScript.chargeValueIncrementor, ballOwnerPlayerScript.chargeClamp, 1f);
         
@@ -54,7 +57,6 @@ public class HitState : BallState
         BallSm.col.enabled = true;
         BallSm.rb.linearVelocity = hitDirection * hitForce;
         BallSm.SetBallSpeedMinimum(BallSm.rb.linearVelocity.magnitude, hitDirection);
-        BallSm.OnHit?.Invoke();
         StartCoroutine(CollisionToggle());
 
     }
@@ -64,6 +66,7 @@ public class HitState : BallState
         // reactivate collider
         yield return new WaitForSeconds(BallSm.hitStateDuration);
         Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
+        
         if (hitForce >= BallSm.lethalSpeed)
         {
             BallSm.ChangeState(GetComponent<LethalBallState>());
