@@ -82,6 +82,7 @@ public class LevelManager : MonoBehaviour
     public UnityEvent<string> OnGameEnd;
     public UnityEvent<int> OnRoundStarted;
     public UnityEvent<string> OnRoundEnded;
+    public UnityEvent OnPlayerSpawn;
 
     #endregion
     
@@ -206,7 +207,7 @@ public class LevelManager : MonoBehaviour
             // Check all player's points. If there is a player with 3 points, return true.
             foreach (GameObject player in players)
             {
-                if (player.GetComponent<PlayerPointTracker>().points >= 3)
+                if (player.GetComponent<PlayerPointTracker>().points >= 2)
                 {
                     // Debug.Log("Player " + player.name + " has won the game.");
                     // EndGameScore();

@@ -39,7 +39,6 @@ public class ReleaseState : PlayerState
             float currentBallSpeed = ballToHit.GetComponent<BallSM>().currentBallSpeedVec3.magnitude;
             float hitForce = currentBallSpeed + PlayerScript.chargeValueIncrementor * PlayerScript.hitForce;
             yield return new WaitForSeconds(hitForce * ballToHit.GetComponent<BallSM>().hitFreezeTimeMultiplier);
-            PlayerScript.OnPlayerHitReleased?.Invoke(PlayerScript.chargeValueIncrementor);
             PlayerScript.rb.AddForce(-transform.forward * (PlayerScript.knockbackForce * 3f), ForceMode.Impulse);
             PlayerScript.ChangeState(GetComponent<NeutralState>());
             
