@@ -75,6 +75,8 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("The window of opportunity to catch the ball at the start of the charge.")]
     public float catchWindow = 0.2f;
 
+    // ----------------------------------------------------------------------------------------
+    [Header("Game Objects")] public GameObject playerHand;
 
     //---------------------------------------------------------------------------------------
     [HideInInspector] public GameObject MultiplayerManager;
@@ -95,7 +97,7 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent OnPlayerEndDash;
     
     // action events
-    public event Action<int,GameObject,BallState> OnBallHit;
+    public event Action<int,GameObject> OnBallHit;
     
     // ------------------------------ PRIVATE VARIABLES ------------------------------
     
@@ -104,6 +106,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public PlayerInput playerInput;
     [HideInInspector] public InputAction moveAction;
     [HideInInspector] public InputAction throwAction;
+    [HideInInspector] public InputAction dashAction;
     [HideInInspector] public InputAction reviveDebug;
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public CapsuleCollider col;
@@ -150,6 +153,7 @@ public class PlayerScript : MonoBehaviour
         moveAction = playerInput.actions["Move"];
         throwAction = playerInput.actions["Attack"];
         reviveDebug = playerInput.actions["DebugRevive"];
+        dashAction = playerInput.actions["Sprint"];
         
         playerLayer = gameObject.layer;
         ballLayer = LayerMask.NameToLayer("Ball");
@@ -208,8 +212,8 @@ public class PlayerScript : MonoBehaviour
                             newState = GetComponent<ReleaseState>();
                         }
                     }
-                {
-
+                    
+                    
                     if (throwAction.triggered)
                     {
                         newState = GetComponent<ChargingState>();
@@ -219,7 +223,7 @@ public class PlayerScript : MonoBehaviour
                         chargeValueIncrementor = chargeClamp;
                         newState = GetComponent<ReleaseState>();
                     }
-                }
+                    
                     break;
                 case "Sprint":
                         newState = GetComponent<DashingState>();
@@ -365,29 +369,25 @@ public class PlayerScript : MonoBehaviour
     public void OnChargeAttack(InputAction.CallbackContext context)
     {
         if (context.started)
+        
         {
-            if (currentState is NeutralState)
+            if (currentState is NeutralState || currentState is DashingState)
             {
+                GetComponent<DashingState>().timer = 0;
                 OnHitButtonPressed?.Invoke();
                 ChangeState(GetComponent<ChargingState>());
             }
             else if (currentState is not ChargingState && currentState is not ReleaseState)
             {
+                GetComponent<DashingState>().timer = 0;
                 BufferInput(context.action);
             }
         }
+        
         else if (currentState is ChargingState && context.canceled) 
+       
         { 
             ChangeState(GetComponent<ReleaseState>()); 
-        }
-
-        if (context.performed)
-        {
-            if (currentState is not NeutralState && currentState is not ChargingState
-                && currentState is not ReleaseState)
-            {
-                BufferInput(context.action);
-            }
         }
         
     }
@@ -413,11 +413,7 @@ public class PlayerScript : MonoBehaviour
         ChangeState(GetComponent<NeutralState>());
     }
 
-    // ------------------------------ EVENTS ------------------------------
-    public void OnBallHitEventMethod(GameObject ball)
-    {
-        OnBallHit?.Invoke(0,gameObject,ball.GetComponent<BallSM>().currentState);
-    }
+    // ------------------------------ EVENT METHODS ------------------------------
 
     // ------------------------------ PLAYER GIZMOS ------------------------------
 

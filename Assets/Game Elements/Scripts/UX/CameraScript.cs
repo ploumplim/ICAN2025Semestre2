@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CameraScript : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class CameraScript : MonoBehaviour
     private Vector3[] _lockPoints; // The array of points that the camera can lock itself to.
     private GameObject cameraObject; // The camera component of the camera object.
     private Vector3 _targetPoint; // The point that the camera should lock itself to.
+    public ScreenShake screenShakeGO; // The screen shake component of the camera object.
 
     // ---------------PUBLIC---------------
     [Tooltip("The gameobject holding the camera. The code will move THIS object, while the camera is fixed to it as " +
@@ -158,6 +161,40 @@ public class CameraScript : MonoBehaviour
 
         return true;
     }
+    
+    public void StartShake(float duration, float magnitude,float multiplier,float ballSpeed)
+    {
+        Debug.Log(ballSpeed);
+        StartCoroutine(ShakeCamera(duration, magnitude, multiplier, ballSpeed));
+    }
+
+    public IEnumerator ShakeCamera(float duration, float magnitude, float multiplier, float ballSpeed)
+    {
+        Vector3 originalPosition = cameraHolderObject.transform.localPosition;
+        float elapsed = 0f;
+
+        // Calculer le facteur de boost basé sur ballSpeed et multiplier
+        float speedBoostFactor = ballSpeed * multiplier;
+
+        while (elapsed < duration)
+        {
+            // Appliquer le facteur de boost à l'intensité du shake
+            float offsetX = Random.Range(-1f, 1f) * magnitude * speedBoostFactor;
+            float offsetY = Random.Range(-1f, 1f) * magnitude * speedBoostFactor;
+
+            cameraHolderObject.transform.localPosition = new Vector3(
+                originalPosition.x + offsetX,
+                originalPosition.y + offsetY,
+                originalPosition.z
+            );
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        cameraHolderObject.transform.localPosition = originalPosition;
+    }
+    
 
     private void OnDrawGizmos()
     {

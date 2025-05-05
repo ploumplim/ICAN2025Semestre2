@@ -43,6 +43,8 @@ public class ReleaseState : PlayerState
     public override void Tick()
     {
         base.Tick();
+        PlayerScript.Move(PlayerScript.speed, PlayerScript.neutralLerpTime);
+
     }
 
     public void HitBox()
