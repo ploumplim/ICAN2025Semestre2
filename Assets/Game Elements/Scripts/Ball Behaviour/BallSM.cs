@@ -248,7 +248,7 @@ public class BallSM : MonoBehaviour
                 
                 
                 
-                if (other.gameObject.CompareTag("Bouncer"))
+                if (other.gameObject.CompareTag("NeutralWall"))
                 {
                     OnNeutralBounce?.Invoke(bounces);
                 }

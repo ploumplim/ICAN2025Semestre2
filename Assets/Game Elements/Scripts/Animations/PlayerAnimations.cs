@@ -18,7 +18,7 @@ public class PlayerAnimations : MonoBehaviour
 
     private void Update()
     {
-        AnimationBooleanManager();
+        AnimationUpdateManager();
     }
 
     private void AnimationTriggerManager(PlayerState state)
@@ -33,11 +33,16 @@ public class PlayerAnimations : MonoBehaviour
             case ReleaseState:
                 animator.SetTrigger("IsHitting"); 
                 break;
+            case NeutralState:
+                animator.ResetTrigger("IsCharging");
+                animator.ResetTrigger("IsHitting");
+                break;
         }
     }
     
-    private void AnimationBooleanManager()
+    private void AnimationUpdateManager()
     {
-        animator.SetBool("IsMoving", playerScript.isMoving);
+        // animator.SetBool("IsMoving", playerScript.isMoving);
+        animator.SetFloat("RunningFloat", playerScript.moveInputVector2.magnitude);
     }
 }
