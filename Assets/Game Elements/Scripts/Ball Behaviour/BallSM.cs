@@ -21,9 +21,11 @@ public class BallSM : MonoBehaviour
     [Header("Ball Propulsion Settings")]
     [Tooltip("The ball will never go faster than this value.")]
     public float maxSpeed = 20f;
+    public float minSpeed = 10f;
     [Tooltip("The ball becomes lethal when it reaches this speed.")]
     public float lethalSpeed = 10f;
     public float firstTimeLethalWaitTime = 0.1f;
+    public float hitFreezeTimeMultiplier = 0.01f;
     //-------------------------------------------------------------------------------------
     [FormerlySerializedAs("maxHeight")]
     [Header("Ball Height Settings")]
@@ -38,8 +40,6 @@ public class BallSM : MonoBehaviour
     [Header("Ball physical properties")]
     [Tooltip("The linear damping value when the ball is grounded.")]
     public float groundedLinearDamping = 1f;
-    [Tooltip("The linear damping value when the ball is bunted.")]
-    public float buntedLinearDamping = 0.5f;
     [FormerlySerializedAs("midAirLinearDamping")] [Tooltip("The linear damping value when the ball is flying midair.")]
     public float flyingLinearDamping = 0.1f;
     [Tooltip("The mass of the ball while its grounded.")]
@@ -95,8 +95,9 @@ public class BallSM : MonoBehaviour
     public UnityEvent<int> OnNeutralBounce;
     public UnityEvent<float> OnBallFlight;
     public UnityEvent OnBallCaught;
-    public UnityEvent OnPerfectHit;
+    [FormerlySerializedAs("OnPerfectHit")] public UnityEvent OnHit;
     public UnityEvent OnBallLethal;
+    public UnityEvent OnHitStateStart;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -114,8 +115,9 @@ public class BallSM : MonoBehaviour
         }
         currentState = GetComponent<DroppedState>();
         Physics.IgnoreLayerCollision(ballColliderLayer, playerColliderLayer, true);
+        ballSpeedFloor = minSpeed;
 
-        
+
     }
     
     // ~~~~~~~~~~~~~~~~~~~~~~ CHANGE STATE ~~~~~~~~~~~~~~~~~~~~~~

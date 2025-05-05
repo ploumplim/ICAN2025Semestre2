@@ -164,7 +164,7 @@ public class CameraScript : MonoBehaviour
     
     public void StartShake(float duration, float magnitude,float multiplier,float ballSpeed)
     {
-        Debug.Log(ballSpeed);
+        // Debug.Log(ballSpeed);
         StartCoroutine(ShakeCamera(duration, magnitude, multiplier, ballSpeed));
     }
 
