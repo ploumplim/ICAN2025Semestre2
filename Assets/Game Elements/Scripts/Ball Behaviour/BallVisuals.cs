@@ -111,7 +111,10 @@ public class BallVisuals : MonoBehaviour
         
         // Set the orientation of the particle system equal to the vector velocity of the ball.
         Vector3 ballVelocity = ballSM.GetComponent<Rigidbody>().linearVelocity;
-        speedFeedbackParticle.transform.rotation = Quaternion.LookRotation(ballVelocity);
+        if (ballVelocity != Vector3.zero)
+        {
+            speedFeedbackParticle.transform.rotation = Quaternion.LookRotation(ballVelocity);
+        }
     }
     
     
@@ -295,7 +298,10 @@ public class BallVisuals : MonoBehaviour
         Vector3 hitDirection = ballSM.currentState.GetComponent<HitState>().hitDirection;
         
         // Set the rotation of the perfect hit particle system to the hit direction.
-        perfectHitParticle.transform.rotation = Quaternion.LookRotation(hitDirection);
+        if (hitDirection != Vector3.zero)
+        {
+            perfectHitParticle.transform.rotation = Quaternion.LookRotation(hitDirection);
+        }
         
         
         perfectHitParticle.Play();

@@ -97,6 +97,7 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent OnPlayerDeath;
     public UnityEvent OnPlayerDash;
     public UnityEvent OnPlayerEndDash;
+    public Action<PlayerState> OnPlayerStateChanged;
     
     // action events
     public event Action<int,GameObject> OnBallHit;
@@ -117,6 +118,7 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public int hazardLayer;
     [HideInInspector] public bool isReady;
     [HideInInspector] public GameObject playerScorePanel;
+    [HideInInspector] public bool isMoving; // Exclusive for animations
 
     // ------------------------------ CHARGING ------------------------------
     [HideInInspector]public float chargeValueIncrementor = 0f;
@@ -178,6 +180,16 @@ public class PlayerScript : MonoBehaviour
         currentState.Tick();
         moveInputVector2 = moveAction.ReadValue<Vector2>();
 
+
+        if (moveInputVector2 != Vector2.zero && isMoving == false)
+        {
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
+        }
+
         // Timers
         if (hitTimer > 0)
         {
@@ -234,6 +246,7 @@ public class PlayerScript : MonoBehaviour
         }
         
         currentState.Exit();
+        OnPlayerStateChanged?.Invoke(newState);
         currentState = newState;
         currentState.Enter();
         

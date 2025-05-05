@@ -10219,7 +10219,6 @@ GameObject:
   - component: {fileID: 3984054927209078919}
   - component: {fileID: 6323144974866670032}
   - component: {fileID: 5365377086522546456}
-  - component: {fileID: 6075959955161386088}
   - component: {fileID: 5137235708810773793}
   - component: {fileID: 8536723490127660266}
   - component: {fileID: 596491821321572552}
@@ -10311,7 +10310,7 @@ MonoBehaviour:
   minSpeed: 40
   lethalSpeed: 100
   firstTimeLethalWaitTime: 1.2
-  hitFreezeTimeMultiplier: 0.005
+  hitFreezeTimeMultiplier: 0.01
   groundedMaxHeight: 1
   flyingMaxHeight: 2.5
   minHeight: 0
@@ -10521,6 +10520,8 @@ MonoBehaviour:
   lethalBallParticle: {fileID: 5876851373028963511}
   speedFeedbackParticle: {fileID: 7570369378302132671}
   speedFeedBackMultiplier: 1
+  speedFeedbackMaximumSpeed: 100
+  speedFeedbackMinimumSpeed: 20
 --- !u!114 &6323144974866670032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10545,21 +10546,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0775bb70a4daac94d8ae53b941d36c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6075959955161386088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3874236971623783123}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92cef2062fffd53479df64d5d7f8c634, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timer: 0
-  caughtTimeout: 0.2
-  playerHandTransform: {fileID: 0}
 --- !u!114 &5137235708810773793
 MonoBehaviour:
   m_ObjectHideFlags: 0
