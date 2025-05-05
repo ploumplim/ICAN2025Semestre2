@@ -118,8 +118,6 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public int hazardLayer;
     [HideInInspector] public bool isReady;
     [HideInInspector] public GameObject playerScorePanel;
-    [HideInInspector] public bool isMoving; // Exclusive for animations
-
     // ------------------------------ CHARGING ------------------------------
     [HideInInspector]public float chargeValueIncrementor = 0f;
     // ------------------------------ HIT ------------------------------
@@ -180,15 +178,7 @@ public class PlayerScript : MonoBehaviour
         currentState.Tick();
         moveInputVector2 = moveAction.ReadValue<Vector2>();
 
-
-        if (moveInputVector2 != Vector2.zero && isMoving == false)
-        {
-            isMoving = true;
-        }
-        else
-        {
-            isMoving = false;
-        }
+        
 
         // Timers
         if (hitTimer > 0)

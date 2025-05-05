@@ -29,7 +29,7 @@ public class DashingState : PlayerState
         dashSpeed = Mathf.Lerp(dashSpeed, PlayerScript.speed, 1f * Time.deltaTime);
         PlayerScript.Move(dashSpeed, PlayerScript.neutralLerpTime);
 
-        if (!PlayerScript.dashAction.inProgress)
+        if (timer >= PlayerScript.dashDuration || PlayerScript.throwAction.triggered)
         {
             timer = 0;
             PlayerScript.OnPlayerEndDash?.Invoke();
@@ -37,12 +37,6 @@ public class DashingState : PlayerState
         }
         
         
-        if (timer >= PlayerScript.dashDuration)
-        {
-            timer = 0;
-            PlayerScript.OnPlayerEndDash?.Invoke();
-            PlayerScript.ChangeState(PlayerScript.GetComponent<NeutralState>());
-        }
     }
     
 

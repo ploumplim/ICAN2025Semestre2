@@ -5,21 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6229357-d157-4b3a-a2a3-9c49815cecc1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Animations/PlayerAnimations.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Animations/PlayerAnimations.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ICAN2025Semestre2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ICAN2025Semestre2/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Animations/AnimatorBaseballChara.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Animations/AnimatorBaseballChara.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/Game Ingredients/Ball.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/Game Ingredients/Ball.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/Game Ingredients/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/Game Ingredients/Player.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Animations/Anim.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Animations/Anim.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallVisuals.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Animations/PlayerAnimations.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Animations/PlayerAnimations.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/DashingState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/DashingState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/InputSystem_Actions.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/InputSystem_Actions.inputactions" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models3D/Character/CharacterBaseballV2.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Models3D/Character/CharacterBaseballV2.fbx.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fmod_editor.log" beforeDir="false" afterPath="$PROJECT_DIR$/fmod_editor.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,10 +37,12 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6aa588f9882420485fca490ded58a721dee00/0b/8dd5778b/SetupCoroutine.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6aa588f9882420485fca490ded58a721dee00/3c/d5315755/AnimationCurve.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Game Elements/Scripts/Multiplayer and Controls/HandleGamePads.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/BuntingPlayerState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerScript.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/PLAYGROUND/Scripts/FPS playground controller.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scenes/LevelPrototype/voidCenter/VoidMagnet.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@e2c83221d2dc/InputSystem/Actions/InputActionState.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@e2c83221d2dc/InputSystem/InputManagerStateMonitors.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@15fef0f41df6/Runtime/RendererFeatures/FullScreenPassRendererFeature.cs" root0="SKIP_HIGHLIGHTING" />
