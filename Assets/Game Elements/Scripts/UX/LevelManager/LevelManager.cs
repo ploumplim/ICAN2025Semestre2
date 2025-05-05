@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
@@ -14,8 +15,8 @@ public class LevelManager : MonoBehaviour
     public class Round
     {
         public string roundName;
-        [Tooltip("This list holds all the positions of the point walls.")]
-        public List<Transform> availableArenas;
+        [Tooltip("This list holds all the available arenas.")]
+        public List<Scene> availableArenas;
 
     }
     
@@ -26,7 +27,7 @@ public class LevelManager : MonoBehaviour
     public List<GameObject> players; // List of players in the level
     public List<Transform> _playerSpawnPoints; // List of player spawn points
     [FormerlySerializedAs("globalScore")] [HideInInspector] public int potScore; // Global score of the level
-    [HideInInspector] public GameObject gameBall; // Reference to the game ball
+    public GameObject gameBall; // Reference to the game ball
     [HideInInspector] public int currentRound; // Current round of the level
     [HideInInspector] public int totalRounds; // Total rounds of the level
     public bool gameIsRunning; // Boolean to check if the game is running
@@ -98,7 +99,6 @@ public class LevelManager : MonoBehaviour
     {
         _levelSM = GetComponent<LevelSM>();
         _levelSM.Init();
-        totalRounds = rounds.Count;
     }
 
     public void Update()
@@ -155,10 +155,24 @@ public class LevelManager : MonoBehaviour
             ingameGUIManager.startGameButtonObject.SetActive(false);
             ingameGUIManager.resetPlayersObject.SetActive(false);
             
+            // Check how many players have joined the game and determine the number of rounds depending on that.
+            if (players.Count == 2)
+            {
+                totalRounds = 3;
+            }
+            else if (players.Count == 3)
+            {
+                totalRounds = 5;
+            }
+            else if (players.Count >= 4)
+            {
+                totalRounds = 7;
+            }
+            
+            
             foreach (PlayerScript player in GameManager.Instance.PlayerScriptList)
             {
-                // subscribe to the OnBallHitEvent
-                player.GetComponent<PlayerScript>().OnBallHit += AddScoreToPlayer;
+                //subscribe to pertinent events
             }
             foreach (var panel in ingameGUIManager.UI_PlayerScore)
             {
@@ -189,6 +203,18 @@ public class LevelManager : MonoBehaviour
     {
         if (currentRound < totalRounds)
         {
+            // Check all player's points. If there is a player with 3 points, return true.
+            foreach (GameObject player in players)
+            {
+                if (player.GetComponent<PlayerPointTracker>().points >= 3)
+                {
+                    // Debug.Log("Player " + player.name + " has won the game.");
+                    // EndGameScore();
+                    // OnGameEnd?.Invoke(player.name);
+                    return true;
+                }
+            }
+            // If no player has 3 points, return false.
             return false;
         }
         else
@@ -214,7 +240,7 @@ public class LevelManager : MonoBehaviour
     public void EndRound(GameObject winningPlayer)
     {
         // Add the global score to the winning player's individual score
-        AddScoreToPlayer(1, winningPlayer);
+        winningPlayer.GetComponent<PlayerPointTracker>().AddPoints(1);
     }
     
     // ------------------------ MANAGE BALL ♚♛  ------------------------
@@ -355,7 +381,6 @@ public class LevelManager : MonoBehaviour
     // }
     public void AddScoreToPlayer(int score, GameObject player)
     {
-        player.GetComponent<PlayerPointTracker>().AddPoints(score);
     }
 
     public void EndGameScore()

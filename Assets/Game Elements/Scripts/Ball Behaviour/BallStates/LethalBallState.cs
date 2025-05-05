@@ -9,6 +9,7 @@ public class LethalBallState : BallState
     {
         base.Enter();
         timer = 0;
+        BallSm.OnBallFlight?.Invoke(BallSm.rb.linearVelocity.magnitude);
         if (BallSm.ballOwnerPlayer)
         {
             Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);

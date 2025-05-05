@@ -47,6 +47,7 @@ public class InRoundState : LevelState
             // Debug.Log("Only one player left. Changing state to BufferState.");
             _roundEnded = true;
             winningPlayer = _playersAlive[0];
+            LevelManagerScript.EndRound(winningPlayer);
             Rigidbody ballrb = LevelManagerScript.gameBall.GetComponent<BallSM>().rb;
             ballrb.linearVelocity = Vector3.zero;
             StartCoroutine(VictoryDelay());
@@ -63,7 +64,6 @@ public class InRoundState : LevelState
     public override void Exit()
     {
         //Debug.Log("Exiting InRoundState.");
-        LevelManagerScript.EndRound(winningPlayer);
         LevelManagerScript.OnRoundEnded?.Invoke(winningPlayer.name);
         // Reset the list of players that are alive.
         _playersAlive = null;

@@ -12,22 +12,24 @@ public class ScreenShake : MonoBehaviour
     public float KillEarthQuakeDuration;
     public float KillEarthQuakeMagnitude;
 
-    public void StartLitleScreenShake()
+    public float SpeedMultiplier;
+
+    public void StartLitleScreenShake(float ballSpeed)
     {
         if (levelManager != null)
         {
-            levelManager.gameCameraScript.StartShake(littleEarthQuakeMagnitude, littleEarthQuakeDuration);
+            levelManager.gameCameraScript.StartShake(littleEarthQuakeMagnitude, littleEarthQuakeDuration, SpeedMultiplier,ballSpeed);
         }
         else
         {
             Debug.LogError("LevelManager not assigned in ScreenShake.");
         }
     }
-    public void StartKillScreenShake()
+    public void StartKillScreenShake(float ballSpeed)
     {
         if (levelManager != null)
         {
-            levelManager.gameCameraScript.StartShake(KillEarthQuakeDuration, KillEarthQuakeMagnitude);
+            levelManager.gameCameraScript.StartShake(KillEarthQuakeDuration, KillEarthQuakeMagnitude,SpeedMultiplier,ballSpeed);
         }
         else
         {

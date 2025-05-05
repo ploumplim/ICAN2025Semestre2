@@ -882,8 +882,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba2040119c69754cb9f8f11d7b19d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  screenShakeGO: {fileID: 1371656710}
   cameraHolderObject: {fileID: 207333242}
-  followSpeed: 1.5
+  followSpeed: 0.3
   zoomSpeed: 5
   lockPoints:
   - {fileID: 1651279641}
@@ -2259,6 +2260,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 18004f994e9fb3c40a3942b19aea739a, type: 3}
       propertyPath: m_Name
       value: COLLISION
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 18004f994e9fb3c40a3942b19aea739a, type: 3}
+      propertyPath: m_TagString
+      value: PointWall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4158,6 +4163,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: gameBall
+      value: 
+      objectReference: {fileID: 1651279641}
     - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
       propertyPath: roundBufferTime
       value: 3

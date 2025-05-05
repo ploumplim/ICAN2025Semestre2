@@ -1,26 +1,34 @@
+using System.Collections;
 using UnityEngine;
 
 public class HitState : BallState
 {
     [HideInInspector] public Vector3 hitDirection;
-    [HideInInspector] public float timer;
-    [HideInInspector] public float hitTimer;
+    [HideInInspector] public float hitForce;
     
     public override void Enter()
-    {        
+    {
+
+        if (BallSm.currentBallSpeedVec3 == Vector3.zero)
+        {
+            BallSm.currentBallSpeedVec3 = BallSm.rb.linearVelocity;
+        }
+        
+        BallSm.OnHit?.Invoke();
         base.Enter();
+        BallSm.rb.linearVelocity = Vector3.zero;
+        BallSm.rb.angularVelocity = Vector3.zero;
+        BallSm.OnHitStateStart?.Invoke();
         SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
         GameObject ballOwnerPlayer = BallSm.ballOwnerPlayer;
         PlayerScript ballOwnerPlayerScript = BallSm.ballOwnerPlayer.GetComponent<PlayerScript>();
         
-        timer = 0;
-        hitTimer = 0;
+        
         if (ballOwnerPlayer)
         {
             Physics.IgnoreCollision(BallSm.col, ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
         }
-
-
+        
         float chargeValue = Mathf.Clamp(ballOwnerPlayerScript.chargeValueIncrementor, ballOwnerPlayerScript.chargeClamp, 1f);
         
         
@@ -29,17 +37,10 @@ public class HitState : BallState
         //                    (BallSm.currentBallSpeedVec3.magnitude +
         //                     (chargeValue * BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().hitForce)),
         //     ForceMode.Impulse);
-        
-        float hitForce = BallSm.currentBallSpeedVec3.magnitude + 
-                         chargeValue * ballOwnerPlayerScript.hitForce;
+        hitForce = BallSm.currentBallSpeedVec3.magnitude + 
+                   chargeValue * ballOwnerPlayerScript.hitForce;
 
-        BallSm.rb.linearVelocity = hitDirection * hitForce;
-        
-        BallSm.SetBallSpeedMinimum(BallSm.rb.linearVelocity.magnitude, hitDirection);
-        if (chargeValue >= GetComponent<BallVisuals>().perfectHitThreshold)
-        {
-            BallSm.OnPerfectHit?.Invoke();
-        }
+        StartCoroutine(FreezeTimeRoutine());
         
         if (BallSm.growthType == BallSM.GrowthType.OnHit)
         {
@@ -48,26 +49,44 @@ public class HitState : BallState
         
     }
 
-    public override void Tick()
+    private IEnumerator FreezeTimeRoutine()
     {
-        hitTimer += Time.deltaTime;
-        timer += Time.deltaTime;
-        BallSm.FixVerticalSpeed();
-        if (timer >= BallSm.playerImmunityTime)
+        // deactivate the ball's collider.
+        BallSm.col.enabled = false;
+        yield return new WaitForSeconds(hitForce * BallSm.hitFreezeTimeMultiplier);
+        BallSm.col.enabled = true;
+        BallSm.rb.linearVelocity = hitDirection * hitForce;
+        BallSm.SetBallSpeedMinimum(BallSm.rb.linearVelocity.magnitude, hitDirection);
+        StartCoroutine(CollisionToggle());
+
+    }
+
+    private IEnumerator CollisionToggle()
+    {
+        // reactivate collider
+        yield return new WaitForSeconds(BallSm.hitStateDuration);
+        Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
+        
+        if (hitForce >= BallSm.lethalSpeed)
         {
-            Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
-            // Debug.Log("Player is no longer immune to the ball.");
+            BallSm.ChangeState(GetComponent<LethalBallState>());
         }
-        if (hitTimer >= BallSm.hitStateDuration)
+        else
         {
             BallSm.ChangeState(GetComponent<FlyingState>());
+
         }
+    }
+
+    public override void Tick()
+    {
+        base.Tick();
+        BallSm.FixVerticalSpeed();
     }
     
     public override void Exit()
     { 
         base.Exit();
-        hitTimer = 0;
         if (BallSm.ballOwnerPlayer)
         {
             Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
