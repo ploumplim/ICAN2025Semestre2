@@ -39,7 +39,6 @@ public class PlayerScript : MonoBehaviour
     public float chargeLerpTime = 0.1f;
     //---------
     [Header("Dash Settings")]
-    public float dashBurst;
     public float dashDuration;
     public float dashCooldown;
     public float dashDistance;
