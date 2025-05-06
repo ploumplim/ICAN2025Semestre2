@@ -61,25 +61,26 @@ public class PlayerScript : MonoBehaviour
     [Header("Hit parameters")]
     [Tooltip("Select the type of hit.")]
     public HitType hitType = HitType.ForwardHit;
-    [Tooltip("The rate at which the charge value increases for a hit.")]
-    public float chargeRate = 0.5f;
     [Tooltip("The duration that the hit has to apply force to the ball.")]
     public float releaseDuration = 0.5f;
-    [Tooltip("How long the player can hold the charge before releasing automatically.")]
-    public float chargeTimeLimit = 1f;
+    // [Tooltip("How long the player can hold the charge before releasing automatically.")]
+    // public float chargeTimeLimit = 1f;
     [Tooltip("The speed multiplier on the ball when hit.")]
     public float hitForce = 10f;
-    [Tooltip("This number is the minimum value that the charge reaches when tapped.")]
-    public float chargeClamp = 0.5f;
     [Tooltip("The radius of the sphere that will detect the ball when hitting.")]
     public float hitDetectionRadius = 3.5f;
     [Tooltip("The offset of the hit detection sphere.")]
     public float hitDetectionOffset = 0f;
     [Tooltip("The window of opportunity to catch the ball at the start of the charge.")]
     public float catchWindow = 0.2f;
-
     public float hitCooldown = 0.3f;
 
+    
+    [Header("Charge Parameters")]
+    [Tooltip("The rate at which the charge value increases for a hit.")]
+    public float chargeRate = 0.5f;
+    [Tooltip("This number is the minimum value that the charge reaches when tapped.")]
+    public float chargeClamp = 0.5f;
     // ----------------------------------------------------------------------------------------
     [Header("Game Objects")] public GameObject playerHand;
 
@@ -111,7 +112,8 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public PlayerState currentState;
     [HideInInspector] public PlayerInput playerInput;
     [HideInInspector] public InputAction moveAction;
-    [HideInInspector] public InputAction throwAction;
+    [FormerlySerializedAs("throwAction")] [HideInInspector] public InputAction hitAction;
+    [HideInInspector] public InputAction chargeAction;
     [HideInInspector] public InputAction dashAction;
     [HideInInspector] public InputAction reviveDebug;
     [HideInInspector] public Rigidbody rb;
@@ -156,7 +158,7 @@ public class PlayerScript : MonoBehaviour
         rb = GetComponent<Rigidbody>(); 
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
-        throwAction = playerInput.actions["Attack"];
+        hitAction = playerInput.actions["Attack"];
         reviveDebug = playerInput.actions["DebugRevive"];
         dashAction = playerInput.actions["Sprint"];
         
@@ -209,7 +211,7 @@ public class PlayerScript : MonoBehaviour
                 case "Attack":
                     if (newState != GetComponent<ChargingState>() && newState != GetComponent<ReleaseState>())
                     {
-                        if (throwAction.triggered)
+                        if (hitAction.triggered)
                         {
                             newState = GetComponent<ChargingState>();
                         }
@@ -221,7 +223,7 @@ public class PlayerScript : MonoBehaviour
                     }
                     
                     
-                    if (throwAction.triggered)
+                    if (hitAction.triggered)
                     {
                         newState = GetComponent<ChargingState>();
                     }
@@ -338,7 +340,7 @@ public class PlayerScript : MonoBehaviour
                 transform.forward = Vector3.Slerp(transform.forward, moveDirection, lerpMoveSpeed);
             }
     }
-    // ------------------------------ SPRINT ------------------------------
+    // ------------------------------ DASH ------------------------------
     public void OnDash(InputAction.CallbackContext context)
     {
         switch (currentState)
@@ -376,7 +378,7 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ CHARGE ATTACK ------------------------------
     public void OnChargeAttack(InputAction.CallbackContext context)
     {
-        if (context.started && hitTimer <= 0f)
+        if (context.started)
         
         {
             if (currentState is NeutralState || currentState is DashingState)
@@ -393,15 +395,34 @@ public class PlayerScript : MonoBehaviour
                 BufferInput(context.action);
             }
         }
-        
-        else if (currentState is ChargingState && context.canceled) 
+
+        if (context.canceled)
         {
-            hitTimer = hitCooldown;
-            ChangeState(GetComponent<ReleaseState>()); 
+            ChangeState(GetComponent<NeutralState>());
         }
         
     }
     
+    // ------------------------------ HIT ------------------------------
+    public void OnHitAttack(InputAction.CallbackContext context)
+    {
+        if (context.started && hitTimer <= 0f)
+        {
+            if (currentState is not NeutralState)
+            {
+                hitTimer = hitCooldown;
+                GetComponent<DashingState>().timer = 0;
+                BufferInput(context.action);
+            }
+
+            if (currentState is NeutralState)
+            {
+                hitTimer = hitCooldown;
+                GetComponent<DashingState>().timer = 0;
+                ChangeState(GetComponent<ReleaseState>());
+            }
+        }
+    }
     
     // ------------------------------ ISREADY ------------------------------
     

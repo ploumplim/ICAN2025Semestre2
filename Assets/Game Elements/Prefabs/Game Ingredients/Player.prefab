@@ -10061,7 +10061,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4963522762754067053}
         m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
-        m_MethodName: OnChargeAttack
+        m_MethodName: OnHitAttack
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10119,14 +10119,6 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 5089c710-ac29-4e77-8450-ea020db1f5bf
-    m_ActionName: 'Player/Roll[/XInputControllerWindows/buttonSouth]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f05effeb-87b3-4c34-9213-05678b61ec7b
-    m_ActionName: 'Player/Bunt[/XInputControllerWindows/buttonEast]'
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 1616552d-3108-49e2-bbd8-8caf3d723af0
     m_ActionName: UI/PauseAccess
   - m_PersistentCalls:
@@ -10181,6 +10173,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 736f64af-952a-4c13-83d1-f9ddf28624cc
     m_ActionName: 'Player/DebugRevive[/XInputControllerWindows/leftShoulder]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4963522762754067053}
+        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+        m_MethodName: OnChargeAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 822bf4f3-7580-402b-9e10-e7cfbb646965
+    m_ActionName: 'Player/Charge[/XInputControllerWindows/buttonWest]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -10204,7 +10212,6 @@ MonoBehaviour:
   acceleration: 2
   neutralLerpTime: 1
   chargeLerpTime: 0.5
-  dashBurst: 45
   dashDuration: 0.2
   dashCooldown: 0.24
   dashDistance: 13.5
@@ -10238,15 +10245,14 @@ MonoBehaviour:
   baseLinearDamping: 10
   knockedBackLinearDamping: 5
   hitType: 0
-  chargeRate: 2
   releaseDuration: 0.15
-  chargeTimeLimit: 0.8
   hitForce: 9
-  chargeClamp: 0.6
   hitDetectionRadius: 10
   hitDetectionOffset: 0
   catchWindow: 0.5
   hitCooldown: 0.3
+  chargeRate: 2
+  chargeClamp: 0.6
   playerHand: {fileID: 2776262344594129282}
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
@@ -10354,11 +10360,20 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
-  throwAction:
+  hitAction:
     m_Name: Throw
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 156ffc9f-93ac-4e63-8e06-f824ed4a6c84
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  chargeAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 96d16c6b-b458-4af2-a182-1b5edef59735
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
@@ -10463,7 +10478,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21039349a2464581aed8f3d722e0d306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chargeLimitTimer: 0
 --- !u!114 &-6270888105009861134
 MonoBehaviour:
   m_ObjectHideFlags: 0

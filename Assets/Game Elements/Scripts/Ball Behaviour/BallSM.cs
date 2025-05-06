@@ -61,7 +61,11 @@ public class BallSM : MonoBehaviour
     public float maximumScale = 3.5f;
     [Tooltip("The ball's growth type.")]
     public GrowthType growthType = GrowthType.OnHit;
-    
+    //-------------------------------------------------------------------------------------
+    [Header("Charging ball Settings")] 
+    [Tooltip("Rate of movement towards the player's hand.")]
+    public AnimationCurve movementCurve;
+    public float ballMoveDuration = 0.5f;
     
     //-------------------------------------------------------------------------------------
     [Header("Hit State Settings")]
