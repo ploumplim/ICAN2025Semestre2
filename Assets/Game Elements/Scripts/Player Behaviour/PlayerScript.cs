@@ -42,6 +42,10 @@ public class PlayerScript : MonoBehaviour
     public float dashBurst;
     public float dashDuration;
     public float dashCooldown;
+    public float dashDistance;
+    public AnimationCurve dashCurve;
+    [Tooltip("The offset at which the player will dash if colliding against a wall.")]
+    public float dashOffset;
     
     //---------------------------------------------------------------------------------------
     [Header("Knockback")]
