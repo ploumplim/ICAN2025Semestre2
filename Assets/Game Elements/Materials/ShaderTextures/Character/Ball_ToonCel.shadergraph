@@ -671,7 +671,7 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"17905a2b7f527fa4bb4dd7979d15226a\",\"type\":3}}",
+        "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"5203cf1310b9a15499e030defd5251de\",\"type\":3}}",
         "m_Guid": ""
     },
     "isMainTexture": false,
@@ -691,8 +691,8 @@
     "m_ShaderOutputName": "OutMinMax",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": -0.4699999988079071,
-        "y": -1.0399999618530274
+        "x": -0.07999999821186066,
+        "y": -0.6000000238418579
     },
     "m_DefaultValue": {
         "x": 0.0,
@@ -754,7 +754,7 @@
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": 0.8100000023841858,
+        "x": 0.6200000047683716,
         "y": 2.0,
         "z": 2.0,
         "w": 2.0
@@ -1020,9 +1020,9 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "r": 0.21176470816135407,
-        "g": 0.45490196347236636,
-        "b": 0.7098039388656616,
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
         "a": 0.0
     },
     "isMainColor": false,
@@ -1409,8 +1409,8 @@
     "m_ShaderOutputName": "OutMinMax",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": -0.7699999809265137,
-        "y": 0.8500000238418579
+        "x": -0.25999999046325686,
+        "y": 0.9200000166893005
     },
     "m_DefaultValue": {
         "x": 0.0,
@@ -1601,8 +1601,8 @@
     "m_ShaderOutputName": "InMinMax",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": -0.7599999904632568,
-        "y": 0.20000000298023225
+        "x": 1.0,
+        "y": -0.10999999940395355
     },
     "m_DefaultValue": {
         "x": -1.0,
@@ -1820,8 +1820,8 @@
     "m_ShaderOutputName": "InMinMax",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": -3.9600000381469728,
-        "y": -1.0199999809265137
+        "x": -5.059999942779541,
+        "y": 0.20999999344348908
     },
     "m_DefaultValue": {
         "x": -1.0,
