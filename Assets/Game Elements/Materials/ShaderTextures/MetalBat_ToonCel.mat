@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1602965163530131245
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 9
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -20,12 +7,11 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: dot comics test 2
-  m_Shader: {fileID: -6465566751694194690, guid: dfff427e81ce08d4cb588edb66391ab9, type: 3}
+  m_Name: MetalBat_ToonCel
+  m_Shader: {fileID: -6465566751694194690, guid: ed5955a88379d9041a244e0af638e360, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _USE_SCREEN_SPACE
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -38,7 +24,7 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _main_text:
+    - _Texture2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -56,18 +42,25 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BACK_DOT_PROPAGATION: 0.85
+    - _Max: 1.94
+    - _Min: -1.56
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SPREAD_DOWN: -0.03
-    - _SPREAD_TOP_1: 0.71
-    - _TOP_DOT_PROPAGATION: 1.77
-    - _USE_SCREEN_SPACE: 1
-    - _dot_scale: 20
-    - _rotation_dot: 0
+    - _Shades: -19.3
     m_Colors:
-    - _HIGHLIGHT: {r: 0.10980391, g: 0.30383047, b: 0.87058824, a: 0.45490196}
-    - _MIDTONES: {r: 0.13023138, g: 0.7584905, b: 0.39557132, a: 0.5294118}
-    - _SHADOWS: {r: 0, g: 1, b: 0.6377318, a: 0.7490196}
+    - _Color: {r: 0.5849056, g: 0.3658095, b: 0.17105722, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
+--- !u!114 &1706734909749778733
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9
