@@ -51,7 +51,7 @@ public class PlayerVisuals : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     { 
         switch (playerScript.currentState) 
         { 

@@ -72,16 +72,9 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("The offset of the hit detection sphere.")]
     public float hitDetectionOffset = 0f;
     [Tooltip("The window of opportunity to catch the ball at the start of the charge.")]
-    public float catchWindow = 0.2f;
     public float hitCooldown = 0.3f;
-
-    
-    [Header("Charge Parameters")]
-    [Tooltip("The rate at which the charge value increases for a hit.")]
-    public float chargeRate = 0.5f;
-    [Tooltip("This number is the minimum value that the charge reaches when tapped.")]
-    public float chargeClamp = 0.5f;
-    // ----------------------------------------------------------------------------------------
+    public float hitWindow = 0.5f;
+// ----------------------------------------------------------------------------------------
     [Header("Game Objects")] public GameObject playerHand;
 
     //---------------------------------------------------------------------------------------
@@ -95,8 +88,8 @@ public class PlayerScript : MonoBehaviour
     // unity events
     
     public UnityEvent OnHitButtonPressed;
-    public UnityEvent<float> OnPlayerHitReleased;
-    public UnityEvent<float> OnBallHitByPlayer;
+    public UnityEvent OnPlayerHitReleased;
+    public UnityEvent OnBallHitByPlayer;
     public UnityEvent OnPlayerHitByBall; 
     public UnityEvent OnPlayerDeath;
     public UnityEvent OnPlayerDash;
@@ -123,8 +116,6 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public int hazardLayer;
     [HideInInspector] public bool isReady;
     [HideInInspector] public GameObject playerScorePanel;
-    // ------------------------------ CHARGING ------------------------------
-    [HideInInspector]public float chargeValueIncrementor = 0f;
     // ------------------------------ HIT ------------------------------
     [HideInInspector] public float hitTimer = 0f;
     // ------------------------------ MOVE ------------------------------
@@ -209,33 +200,20 @@ public class PlayerScript : MonoBehaviour
             switch (_bufferedAction.name)
             {
                 case "Attack":
-                    if (newState != GetComponent<ChargingState>() && newState != GetComponent<ReleaseState>())
+                    if (currentState == newState)
                     {
-                        if (hitAction.triggered)
-                        {
-                            newState = GetComponent<ChargingState>();
-                        }
-                        else
-                        {
-                            chargeValueIncrementor = chargeClamp;
-                            newState = GetComponent<ReleaseState>();
-                        }
-                    }
-                    
-                    
-                    if (hitAction.triggered)
-                    {
-                        newState = GetComponent<ChargingState>();
+                        break;
                     }
                     else
                     {
-                        chargeValueIncrementor = chargeClamp;
                         newState = GetComponent<ReleaseState>();
                     }
-                    
                     break;
                 case "Sprint":
-                        newState = GetComponent<DashingState>();
+                    newState = GetComponent<DashingState>();
+                    break;
+                case "Charge":
+                    newState = GetComponent<ChargingState>();
                     break;
             }
         }
@@ -377,23 +355,21 @@ public class PlayerScript : MonoBehaviour
     
     // ------------------------------ CHARGE ATTACK ------------------------------
     public void OnChargeAttack(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        
+    { 
+        if (context.started || context.performed)
         {
+           
             if (currentState is NeutralState || currentState is DashingState)
             {
                 GetComponent<DashingState>().timer = 0;
-                OnHitButtonPressed?.Invoke();
-                hitTimer = hitCooldown;
                 ChangeState(GetComponent<ChargingState>());
             }
-            else if (currentState is not ChargingState && currentState is not ReleaseState)
-            {
-                hitTimer = hitCooldown;
-                GetComponent<DashingState>().timer = 0;
-                BufferInput(context.action);
-            }
+            // else if (currentState is not ChargingState && currentState is not ReleaseState)
+            // {
+            //     hitTimer = hitCooldown;
+            //     GetComponent<DashingState>().timer = 0;
+            //     BufferInput(context.action);
+            // }
         }
 
         if (context.canceled)
@@ -445,6 +421,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     // ------------------------------ EVENT METHODS ------------------------------
+    
 
     // ------------------------------ PLAYER GIZMOS ------------------------------
 

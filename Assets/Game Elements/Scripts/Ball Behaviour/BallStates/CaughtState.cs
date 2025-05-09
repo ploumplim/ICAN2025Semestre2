@@ -16,7 +16,6 @@ public class CaughtState : BallState
         timer = 0;
         SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
 
-        BallSm.currentBallSpeedVec3 = BallSm.rb.linearVelocity;
         
         BallSm.rb.linearVelocity = Vector3.zero;
         BallSm.rb.angularVelocity = Vector3.zero;
@@ -27,8 +26,6 @@ public class CaughtState : BallState
             Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
         }
         
-       
-       
     }
 
     public override void Tick()
@@ -50,6 +47,21 @@ public class CaughtState : BallState
             {
                 _moveTimer = 0;
             }
+
+            if (r >= 1)
+            {
+                currentBallPosition = BallSm.transform.position;
+                _moveTimer = 0;
+            }
+
+            if (BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().currentState != BallSm.ballOwnerPlayer.GetComponent<ChargingState>())
+            {
+                // Debug.Log("Ball should be released");;
+                BallSm.rb.AddForce(BallSm.ballOwnerPlayer.transform.forward * BallSm.currentBallSpeedVec3.magnitude, ForceMode.VelocityChange);
+                BallSm.ChangeState(GetComponent<FlyingState>());
+                _moveTimer = 0;
+                // The Ball should fly in the direction in which the player is facing.
+            }
         }
 
         timer += Time.deltaTime;
@@ -65,6 +77,8 @@ public class CaughtState : BallState
     {
         base.Exit();
         timer = 0;
+        _moveTimer = 0;
+        BallSm.CaughtStateEnded?.Invoke();
         if (BallSm.ballOwnerPlayer)
         {
             Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);

@@ -9,7 +9,6 @@ public class ChargingState : PlayerState
         public override void Enter()
         {
             base.Enter();
-            PlayerScript.chargeValueIncrementor = 0f;
             // StartCoroutine(CatchWindowCoroutine());
         }
         
@@ -23,7 +22,7 @@ public class ChargingState : PlayerState
         {
             base.Tick();
             PlayerScript.Move(PlayerScript.speed * PlayerScript.chargeSpeedModifier, PlayerScript.neutralLerpTime);
-            ChargingForce();
+            // ChargingForce();
 
             if (!_caughtBall)
             {
@@ -33,13 +32,13 @@ public class ChargingState : PlayerState
             
         }
         
-        public void ChargingForce()
-        {
-                PlayerScript.chargeValueIncrementor += PlayerScript.chargeRate * Time.deltaTime;
-                PlayerScript.chargeValueIncrementor = Mathf.Clamp(PlayerScript.chargeValueIncrementor, 
-                    PlayerScript.chargeClamp, 1f);
-                
-        }
+        // public void ChargingForce()
+        // {
+        //         PlayerScript.chargeValueIncrementor += PlayerScript.chargeRate * Time.deltaTime;
+        //         PlayerScript.chargeValueIncrementor = Mathf.Clamp(PlayerScript.chargeValueIncrementor, 
+        //             PlayerScript.chargeClamp, 1f);
+        //         
+        // }
 
         public void CatchZone()
         {
@@ -51,6 +50,7 @@ public class ChargingState : PlayerState
                 {
                     _caughtBall = hitCollider.gameObject;
                     _caughtBall.GetComponent<BallSM>().ballOwnerPlayer = gameObject;
+                    _caughtBall.GetComponent<BallSM>().currentBallSpeedVec3 = _caughtBall.GetComponent<BallSM>().rb.linearVelocity;
                     if (_caughtBall.GetComponent<BallSM>().currentState != GetComponent<CaughtState>())
                     {
                         _caughtBall.GetComponent<BallSM>().ChangeState(_caughtBall.GetComponent<CaughtState>());

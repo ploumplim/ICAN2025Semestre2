@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Charge",
+                    "type": "Button",
+                    "id": "822bf4f3-7580-402b-9e10-e7cfbb646965",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Attack",
                     "type": "Button",
                     "id": "6c2ab1b8-8984-453a-af3d-a3c78ae1679a",
@@ -54,15 +63,6 @@
                     "name": "DebugRevive",
                     "type": "Button",
                     "id": "736f64af-952a-4c13-83d1-f9ddf28624cc",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Charge",
-                    "type": "Button",
-                    "id": "822bf4f3-7580-402b-9e10-e7cfbb646965",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -175,7 +175,7 @@
                     "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse",
+                    "groups": ";Gamepad",
                     "action": "Charge",
                     "isComposite": false,
                     "isPartOfComposite": false
