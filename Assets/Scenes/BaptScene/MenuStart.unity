@@ -119,6 +119,42 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &59692885 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2901422536273526036, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+  m_PrefabInstance: {fileID: 4691304553204041839}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &59692889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59692885}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -454545652
+      Data2: 1296279465
+      Data3: 613968308
+      Data4: 1826648275
+    Path: event:/MUSIC/Retro_MSC
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &326215625
 GameObject:
   m_ObjectHideFlags: 0
@@ -1341,9 +1377,89 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <KnockOut_FX>k__BackingField.Path
+      value: event:/2D/KnockOut_FX_2D
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <KnockBack_FX>k__BackingField.Path
+      value: event:/2D/KnockBack_FX_2D
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <LethalBall_FX>k__BackingField.Path
+      value: event:/2D/LethalBall_FX_2D
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <KnockOut_FX>k__BackingField.Guid.Data1
+      value: -729976712
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <KnockOut_FX>k__BackingField.Guid.Data2
+      value: 1323209620
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <KnockOut_FX>k__BackingField.Guid.Data3
+      value: -1511908175
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <KnockOut_FX>k__BackingField.Guid.Data4
+      value: -1516303985
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <KnockBack_FX>k__BackingField.Guid.Data1
+      value: 1842650834
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <KnockBack_FX>k__BackingField.Guid.Data2
+      value: 1282312999
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <KnockBack_FX>k__BackingField.Guid.Data3
+      value: 1179608222
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <KnockBack_FX>k__BackingField.Guid.Data4
+      value: -1849743670
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <LethalBall_FX>k__BackingField.Guid.Data1
+      value: -1279704656
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <LethalBall_FX>k__BackingField.Guid.Data2
+      value: 1298440246
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <LethalBall_FX>k__BackingField.Guid.Data3
+      value: -1425086586
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <LethalBall_FX>k__BackingField.Guid.Data4
+      value: 117740608
+      objectReference: {fileID: 0}
     - target: {fileID: 2269157160415832326, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2269157160415832326, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: EventReference.Path
+      value: event:/AMBIANT/Street_AMB
+      objectReference: {fileID: 0}
+    - target: {fileID: 2269157160415832326, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: EventReference.Guid.Data1
+      value: 958430009
+      objectReference: {fileID: 0}
+    - target: {fileID: 2269157160415832326, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: EventReference.Guid.Data2
+      value: 1267767193
+      objectReference: {fileID: 0}
+    - target: {fileID: 2269157160415832326, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: EventReference.Guid.Data3
+      value: -1661841995
+      objectReference: {fileID: 0}
+    - target: {fileID: 2269157160415832326, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: EventReference.Guid.Data4
+      value: -1070084438
       objectReference: {fileID: 0}
     - target: {fileID: 2901422536273526036, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: m_Name
@@ -1392,7 +1508,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2901422536273526036, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 59692889}
   m_SourcePrefab: {fileID: 100100000, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
 --- !u!1001 &7960501028321317128
 PrefabInstance:

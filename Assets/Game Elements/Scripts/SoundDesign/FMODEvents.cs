@@ -10,6 +10,12 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference ClassicBounce_FX { get; private set; }
     [field: SerializeField] public EventReference BallBunt_Sound { get; private set; }
     [field: SerializeField] public EventReference Bunt_FX { get; private set; }
+    [field: SerializeField] public EventReference LethalBall_FX { get; private set; }
+
+
+    [field: SerializeField] public EventReference KnockOut_FX { get; private set; }
+    [field: SerializeField] public EventReference KnockBack_FX { get; private set; }
+
 
 
 
