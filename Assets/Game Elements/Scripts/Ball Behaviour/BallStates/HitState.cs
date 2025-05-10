@@ -29,8 +29,6 @@ public class HitState : BallState
             Physics.IgnoreCollision(BallSm.col, ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
         }
         
-        float chargeValue = Mathf.Clamp(ballOwnerPlayerScript.chargeValueIncrementor, ballOwnerPlayerScript.chargeClamp, 1f);
-        
         
         // The ball should now be launched using the hitDirection and the chargeValueIncrementor of the owner player.
         // BallSm.rb.AddForce(hitDirection * 
@@ -38,7 +36,7 @@ public class HitState : BallState
         //                     (chargeValue * BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().hitForce)),
         //     ForceMode.Impulse);
         hitForce = BallSm.currentBallSpeedVec3.magnitude + 
-                   chargeValue * ballOwnerPlayerScript.hitForce;
+                    ballOwnerPlayerScript.hitForce;
 
         StartCoroutine(FreezeTimeRoutine());
         

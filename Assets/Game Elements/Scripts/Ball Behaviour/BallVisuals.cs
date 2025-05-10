@@ -215,11 +215,11 @@ public class BallVisuals : MonoBehaviour
 
             switch (ballSM.currentState)
             {
-                // case CaughtState:
-                //     _neutralBallMaterial.color = caughtBallColor;
-                //     _neutralBallMaterial.SetColor("_EmissionColor", caughtBallColor);
-                //     ballLight.color = caughtBallColor;
-                //     break;
+                case CaughtState:
+                    _neutralBallMaterial.color = caughtBallColor;
+                    _neutralBallMaterial.SetColor("_EmissionColor", caughtBallColor);
+                    ballLight.color = caughtBallColor;
+                    break;
                 case HitState:
                     _neutralBallMaterial.color = HitBallColor;
                     _neutralBallMaterial.SetColor("_EmissionColor", HitBallColor);
@@ -287,13 +287,12 @@ public class BallVisuals : MonoBehaviour
         
         // From the charge state, recover the ball owning player's charge value.
         PlayerScript ballOwnerPlayerScript = ballSM.ballOwnerPlayer.GetComponent<PlayerScript>();
-        float chargeValue = Mathf.Clamp(ballOwnerPlayerScript.chargeValueIncrementor, ballOwnerPlayerScript.chargeClamp, 1f);
         
         
         // Recover the particle's current size.
         float currentSize = mainModule.startSizeMultiplier;
         
-        mainModule.startSize = ballSize * currentSize * chargeValue;
+        mainModule.startSize = ballSize * currentSize;
         // From the HitState, get the direction of the hit.
         Vector3 hitDirection = ballSM.currentState.GetComponent<HitState>().hitDirection;
         

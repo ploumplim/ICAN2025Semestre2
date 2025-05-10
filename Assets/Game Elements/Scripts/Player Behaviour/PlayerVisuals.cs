@@ -51,7 +51,7 @@ public class PlayerVisuals : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     { 
         switch (playerScript.currentState) 
         { 
@@ -72,7 +72,7 @@ public class PlayerVisuals : MonoBehaviour
             
             case ChargingState:
                 // Function to signal the charging state of the player.
-                ChargeFeedback();
+                // ChargeFeedback();
                 OnSprintEnd();
                 break;
             
@@ -106,7 +106,7 @@ public class PlayerVisuals : MonoBehaviour
 
         }
 
-        WarnChargeAlmostOver();
+        // WarnChargeAlmostOver();
 
         // RecoverAfterDash();
         // // Dash trail width is equal to the player's rollDetectionRadius.
@@ -122,43 +122,43 @@ public class PlayerVisuals : MonoBehaviour
 
     }
 
-    public void ChargeFeedback()
-    {
-        // Get the charging state of the player.
-        ChargingState chargingState = GetComponent<ChargingState>();
-        
-        // Calculate the percentage of time past using the chargeLimitTimer and the chargeTimeLimit.
-        float chargePercentage = chargingState.chargeLimitTimer / playerScript.chargeTimeLimit;
-        
-        // The bigger chargePercentage is, the smaller the AimPointer will be.
-        aimPointer.transform.localScale = new Vector3(_aimPointerScale * (1 - chargePercentage), _aimPointerScale * (1 - chargePercentage), _aimPointerScale * (1 - chargePercentage));
-    }
-    
-    public void WarnChargeAlmostOver()
-    {
-        // Get the charging state of the player.
-        ChargingState chargingState = GetComponent<ChargingState>();
-        
-        // Calculate the percentage of time past using the chargeLimitTimer and the chargeTimeLimit.
-        float chargePercentage = chargingState.chargeLimitTimer / playerScript.chargeTimeLimit;
-        
-        if (chargePercentage >= chargeEndingParticleTime)
-        {
-            if (!chargeEndingParticle.isPlaying)
-            {
-                chargeEndingParticle.Play();
-            }
-        }
-        else
-        {
-            if (chargeEndingParticle.isPlaying)
-            {
-                chargeEndingParticle.Stop();
-            }
-        }
-        
-        
-    }
+    // public void ChargeFeedback()
+    // {
+    //     // Get the charging state of the player.
+    //     ChargingState chargingState = GetComponent<ChargingState>();
+    //     
+    //     // Calculate the percentage of time past using the chargeLimitTimer and the chargeTimeLimit.
+    //     float chargePercentage = chargingState.chargeLimitTimer / playerScript.chargeTimeLimit;
+    //     
+    //     // The bigger chargePercentage is, the smaller the AimPointer will be.
+    //     aimPointer.transform.localScale = new Vector3(_aimPointerScale * (1 - chargePercentage), _aimPointerScale * (1 - chargePercentage), _aimPointerScale * (1 - chargePercentage));
+    // }
+    //
+    // public void WarnChargeAlmostOver()
+    // {
+    //     // Get the charging state of the player.
+    //     ChargingState chargingState = GetComponent<ChargingState>();
+    //     
+    //     // Calculate the percentage of time past using the chargeLimitTimer and the chargeTimeLimit.
+    //     float chargePercentage = chargingState.chargeLimitTimer / playerScript.chargeTimeLimit;
+    //     
+    //     if (chargePercentage >= chargeEndingParticleTime)
+    //     {
+    //         if (!chargeEndingParticle.isPlaying)
+    //         {
+    //             chargeEndingParticle.Play();
+    //         }
+    //     }
+    //     else
+    //     {
+    //         if (chargeEndingParticle.isPlaying)
+    //         {
+    //             chargeEndingParticle.Stop();
+    //         }
+    //     }
+    //     
+    //     
+    // }
     
     // public void RecoverAfterDash()
     // {

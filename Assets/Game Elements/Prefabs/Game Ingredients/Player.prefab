@@ -9898,7 +9898,7 @@ Transform:
   m_GameObject: {fileID: 2776262344594129282}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalPosition: {x: 0, y: 0, z: 4.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9917,6 +9917,7 @@ GameObject:
   - component: {fileID: 4892172112868591031}
   - component: {fileID: 86958798917315144}
   - component: {fileID: 8257710722661929340}
+  - component: {fileID: 6913606056980891372}
   - component: {fileID: 4963522762754067053}
   - component: {fileID: 2291177913900343150}
   - component: {fileID: 2442788646745104249}
@@ -9928,7 +9929,6 @@ GameObject:
   - component: {fileID: -9058261084534589756}
   - component: {fileID: 3857658138353711811}
   - component: {fileID: 8877742863024751455}
-  - component: {fileID: 6913606056980891372}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -10061,7 +10061,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4963522762754067053}
         m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
-        m_MethodName: OnChargeAttack
+        m_MethodName: OnHitAttack
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10119,14 +10119,6 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 5089c710-ac29-4e77-8450-ea020db1f5bf
-    m_ActionName: 'Player/Roll[/XInputControllerWindows/buttonSouth]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f05effeb-87b3-4c34-9213-05678b61ec7b
-    m_ActionName: 'Player/Bunt[/XInputControllerWindows/buttonEast]'
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 1616552d-3108-49e2-bbd8-8caf3d723af0
     m_ActionName: UI/PauseAccess
   - m_PersistentCalls:
@@ -10181,11 +10173,49 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 736f64af-952a-4c13-83d1-f9ddf28624cc
     m_ActionName: 'Player/DebugRevive[/XInputControllerWindows/leftShoulder]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4963522762754067053}
+        m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
+        m_MethodName: OnChargeAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 822bf4f3-7580-402b-9e10-e7cfbb646965
+    m_ActionName: 'Player/Charge[/XInputControllerWindows/buttonWest]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!95 &6913606056980891372
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3328443934547631640}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a5d115c1af20e0840bb7df4ec95ae911, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &4963522762754067053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10204,23 +10234,45 @@ MonoBehaviour:
   acceleration: 2
   neutralLerpTime: 1
   chargeLerpTime: 0.5
-  dashBurst: 45
-  dashDuration: 0.1
+  dashDuration: 0.2
   dashCooldown: 0.24
+  dashDistance: 15
+  dashCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  dashOffset: 0.2
   knockbackTime: 0.5
   knockbackForce: 20
   baseLinearDamping: 10
   knockedBackLinearDamping: 5
   hitType: 0
-  chargeRate: 2
   releaseDuration: 0.15
-  chargeTimeLimit: 0.8
   hitForce: 9
-  chargeClamp: 0.6
   hitDetectionRadius: 10
   hitDetectionOffset: 0
-  catchWindow: 0.5
-  hitCooldown: 0.3
+  hitCooldown: 0.5
+  hitWindow: 0.5
   playerHand: {fileID: 2776262344594129282}
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
@@ -10340,11 +10392,20 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
-  throwAction:
+  hitAction:
     m_Name: Throw
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 156ffc9f-93ac-4e63-8e06-f824ed4a6c84
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  chargeAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 96d16c6b-b458-4af2-a182-1b5edef59735
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
@@ -10374,7 +10435,6 @@ MonoBehaviour:
   hazardLayer: 0
   isReady: 0
   playerScorePanel: {fileID: 0}
-  chargeValueIncrementor: 0.5
   hitTimer: 0
   moveInputVector2: {x: 0, y: 0}
   bufferDuration: 0.3
@@ -10449,7 +10509,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21039349a2464581aed8f3d722e0d306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chargeLimitTimer: 0
 --- !u!114 &-6270888105009861134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10514,28 +10573,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 6913606056980891372}
   playerScript: {fileID: 4963522762754067053}
---- !u!95 &6913606056980891372
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3328443934547631640}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a5d115c1af20e0840bb7df4ec95ae911, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3357307110571246704
 GameObject:
   m_ObjectHideFlags: 0

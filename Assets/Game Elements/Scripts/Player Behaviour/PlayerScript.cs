@@ -39,9 +39,12 @@ public class PlayerScript : MonoBehaviour
     public float chargeLerpTime = 0.1f;
     //---------
     [Header("Dash Settings")]
-    public float dashBurst;
     public float dashDuration;
     public float dashCooldown;
+    public float dashDistance;
+    public AnimationCurve dashCurve;
+    [Tooltip("The offset at which the player will dash if colliding against a wall.")]
+    public float dashOffset;
     
     //---------------------------------------------------------------------------------------
     [Header("Knockback")]
@@ -58,26 +61,20 @@ public class PlayerScript : MonoBehaviour
     [Header("Hit parameters")]
     [Tooltip("Select the type of hit.")]
     public HitType hitType = HitType.ForwardHit;
-    [Tooltip("The rate at which the charge value increases for a hit.")]
-    public float chargeRate = 0.5f;
     [Tooltip("The duration that the hit has to apply force to the ball.")]
     public float releaseDuration = 0.5f;
-    [Tooltip("How long the player can hold the charge before releasing automatically.")]
-    public float chargeTimeLimit = 1f;
+    // [Tooltip("How long the player can hold the charge before releasing automatically.")]
+    // public float chargeTimeLimit = 1f;
     [Tooltip("The speed multiplier on the ball when hit.")]
     public float hitForce = 10f;
-    [Tooltip("This number is the minimum value that the charge reaches when tapped.")]
-    public float chargeClamp = 0.5f;
     [Tooltip("The radius of the sphere that will detect the ball when hitting.")]
     public float hitDetectionRadius = 3.5f;
     [Tooltip("The offset of the hit detection sphere.")]
     public float hitDetectionOffset = 0f;
     [Tooltip("The window of opportunity to catch the ball at the start of the charge.")]
-    public float catchWindow = 0.2f;
-
     public float hitCooldown = 0.3f;
-
-    // ----------------------------------------------------------------------------------------
+    public float hitWindow = 0.5f;
+// ----------------------------------------------------------------------------------------
     [Header("Game Objects")] public GameObject playerHand;
 
     //---------------------------------------------------------------------------------------
@@ -91,8 +88,8 @@ public class PlayerScript : MonoBehaviour
     // unity events
     
     public UnityEvent OnHitButtonPressed;
-    public UnityEvent<float> OnPlayerHitReleased;
-    public UnityEvent<float> OnBallHitByPlayer;
+    public UnityEvent OnPlayerHitReleased;
+    public UnityEvent OnBallHitByPlayer;
     public UnityEvent OnPlayerHitByBall; 
     public UnityEvent OnPlayerDeath;
     public UnityEvent OnPlayerDash;
@@ -108,7 +105,8 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public PlayerState currentState;
     [HideInInspector] public PlayerInput playerInput;
     [HideInInspector] public InputAction moveAction;
-    [HideInInspector] public InputAction throwAction;
+    [FormerlySerializedAs("throwAction")] [HideInInspector] public InputAction hitAction;
+    [HideInInspector] public InputAction chargeAction;
     [HideInInspector] public InputAction dashAction;
     [HideInInspector] public InputAction reviveDebug;
     [HideInInspector] public Rigidbody rb;
@@ -118,8 +116,6 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public int hazardLayer;
     [HideInInspector] public bool isReady;
     [HideInInspector] public GameObject playerScorePanel;
-    // ------------------------------ CHARGING ------------------------------
-    [HideInInspector]public float chargeValueIncrementor = 0f;
     // ------------------------------ HIT ------------------------------
     [HideInInspector] public float hitTimer = 0f;
     // ------------------------------ MOVE ------------------------------
@@ -153,7 +149,7 @@ public class PlayerScript : MonoBehaviour
         rb = GetComponent<Rigidbody>(); 
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
-        throwAction = playerInput.actions["Attack"];
+        hitAction = playerInput.actions["Attack"];
         reviveDebug = playerInput.actions["DebugRevive"];
         dashAction = playerInput.actions["Sprint"];
         
@@ -204,33 +200,20 @@ public class PlayerScript : MonoBehaviour
             switch (_bufferedAction.name)
             {
                 case "Attack":
-                    if (newState != GetComponent<ChargingState>() && newState != GetComponent<ReleaseState>())
+                    if (currentState == newState)
                     {
-                        if (throwAction.triggered)
-                        {
-                            newState = GetComponent<ChargingState>();
-                        }
-                        else
-                        {
-                            chargeValueIncrementor = chargeClamp;
-                            newState = GetComponent<ReleaseState>();
-                        }
-                    }
-                    
-                    
-                    if (throwAction.triggered)
-                    {
-                        newState = GetComponent<ChargingState>();
+                        break;
                     }
                     else
                     {
-                        chargeValueIncrementor = chargeClamp;
                         newState = GetComponent<ReleaseState>();
                     }
-                    
                     break;
                 case "Sprint":
-                        newState = GetComponent<DashingState>();
+                    newState = GetComponent<DashingState>();
+                    break;
+                case "Charge":
+                    newState = GetComponent<ChargingState>();
                     break;
             }
         }
@@ -335,7 +318,7 @@ public class PlayerScript : MonoBehaviour
                 transform.forward = Vector3.Slerp(transform.forward, moveDirection, lerpMoveSpeed);
             }
     }
-    // ------------------------------ SPRINT ------------------------------
+    // ------------------------------ DASH ------------------------------
     public void OnDash(InputAction.CallbackContext context)
     {
         switch (currentState)
@@ -372,33 +355,50 @@ public class PlayerScript : MonoBehaviour
     
     // ------------------------------ CHARGE ATTACK ------------------------------
     public void OnChargeAttack(InputAction.CallbackContext context)
-    {
-        if (context.started && hitTimer <= 0f)
-        
+    { 
+        if (context.started || context.performed)
         {
+           
             if (currentState is NeutralState || currentState is DashingState)
             {
                 GetComponent<DashingState>().timer = 0;
-                OnHitButtonPressed?.Invoke();
-                hitTimer = hitCooldown;
                 ChangeState(GetComponent<ChargingState>());
             }
-            else if (currentState is not ChargingState && currentState is not ReleaseState)
+            // else if (currentState is not ChargingState && currentState is not ReleaseState)
+            // {
+            //     hitTimer = hitCooldown;
+            //     GetComponent<DashingState>().timer = 0;
+            //     BufferInput(context.action);
+            // }
+        }
+
+        if (context.canceled)
+        {
+            ChangeState(GetComponent<NeutralState>());
+        }
+        
+    }
+    
+    // ------------------------------ HIT ------------------------------
+    public void OnHitAttack(InputAction.CallbackContext context)
+    {
+        if (context.started && hitTimer <= 0f)
+        {
+            if (currentState is not NeutralState)
             {
                 hitTimer = hitCooldown;
                 GetComponent<DashingState>().timer = 0;
                 BufferInput(context.action);
             }
+
+            if (currentState is NeutralState)
+            {
+                hitTimer = hitCooldown;
+                GetComponent<DashingState>().timer = 0;
+                ChangeState(GetComponent<ReleaseState>());
+            }
         }
-        
-        else if (currentState is ChargingState && context.canceled) 
-        {
-            hitTimer = hitCooldown;
-            ChangeState(GetComponent<ReleaseState>()); 
-        }
-        
     }
-    
     
     // ------------------------------ ISREADY ------------------------------
     
@@ -421,6 +421,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     // ------------------------------ EVENT METHODS ------------------------------
+    
 
     // ------------------------------ PLAYER GIZMOS ------------------------------
 

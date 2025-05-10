@@ -6,11 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="c6229357-d157-4b3a-a2a3-9c49815cecc1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ICAN2025Semestre2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ICAN2025Semestre2/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Animations/AnimatorBaseballChara.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Animations/AnimatorBaseballChara.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/Game Ingredients/Ball.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/Game Ingredients/Ball.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/Game Ingredients/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/Game Ingredients/Player.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Animations/PlayerAnimations.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Animations/PlayerAnimations.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/DashingState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/DashingState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallSM.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallSM.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/CaughtState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/CaughtState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/HitState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallStates/HitState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Ball Behaviour/BallVisuals.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/ChargingState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/ChargingState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/ReleaseState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/ReleaseState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerScript.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerVisuals.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/InputSystem_Actions.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/InputSystem_Actions.inputactions" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,10 +42,12 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/625a8efa9584467e83a7a5516b99a6c92ac00/f7/4f8fb605/Rigidbody.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6aa588f9882420485fca490ded58a721dee00/0b/8dd5778b/SetupCoroutine.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6aa588f9882420485fca490ded58a721dee00/3c/d5315755/AnimationCurve.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Game Elements/Scripts/Multiplayer and Controls/HandleGamePads.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/BuntingPlayerState.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/ReleaseState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerScript.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/PLAYGROUND/Scripts/FPS playground controller.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/LevelPrototype/voidCenter/VoidMagnet.cs" root0="FORCE_HIGHLIGHTING" />
@@ -113,13 +121,15 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="21216">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" />
+      <option name="pid" value="21216" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
-        <list />
+        <list>
+          <MonoRuntime />
+        </list>
       </option>
       <option name="selectedOptions">
         <list />
@@ -242,6 +252,10 @@
       <workItem from="1746256731795" duration="2987000" />
       <workItem from="1746427054335" duration="3047000" />
       <workItem from="1746433875980" duration="310000" />
+      <workItem from="1746524063940" duration="2767000" />
+      <workItem from="1746604729190" duration="11241000" />
+      <workItem from="1746629110740" duration="332000" />
+      <workItem from="1746757801942" duration="3573000" />
     </task>
     <servers />
   </component>
