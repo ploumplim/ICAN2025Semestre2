@@ -51,6 +51,7 @@ public class InRoundState : LevelState
             Rigidbody ballrb = LevelManagerScript.gameBall.GetComponent<BallSM>().rb;
             ballrb.linearVelocity = Vector3.zero;
             StartCoroutine(VictoryDelay());
+            
         }
         
     }
@@ -58,7 +59,9 @@ public class InRoundState : LevelState
     IEnumerator VictoryDelay()
     {
         yield return new WaitForSeconds(LevelManagerScript.roundVictoryDelay);
+        
         LevelSM.ChangeState(LevelManagerScript.GetComponent<BufferState>());
+        
     }
     
     public override void Exit()

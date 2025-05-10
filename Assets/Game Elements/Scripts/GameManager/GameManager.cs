@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         SetManagerParameters();
+        GetComponent<ArenaLoader>().currentSceneIndex = 0;
     }
 
     public void SetManagerParameters()

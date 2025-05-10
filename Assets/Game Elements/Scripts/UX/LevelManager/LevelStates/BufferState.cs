@@ -1,5 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using Eflatun.SceneReference;
+using UnityEngine.SceneManagement;
+
 public class BufferState : LevelState
 {
     private bool _finalRound;
@@ -16,6 +19,7 @@ public class BufferState : LevelState
         {
             //Remove control from players
             LevelManagerScript.RemovePlayerControl();
+            LevelLoader();
             LevelManagerScript.StartRound();
             StartCoroutine(WaitForBufferTime());
         }
@@ -34,9 +38,32 @@ public class BufferState : LevelState
     {
         yield return new WaitForSeconds(LevelManagerScript.roundBufferTime);
         //Return control to players
+        
         LevelManagerScript.ReturnPlayerControl();
         LevelSM.ChangeState(LevelManagerScript.GetComponent<InRoundState>());
-        // Debug.Log("Buffer time passed. Next round starting.");
+        
+    }
+
+    public void LevelLoader()
+    {
+        ArenaLoader loader = GameManager.Instance.GetComponent<ArenaLoader>();
+        int currentSceneIndex = loader.currentSceneIndex;
+        int nextSceneID = currentSceneIndex + 1;
+
+        // Vérifie si l'ID de la prochaine scène est valide
+        if (nextSceneID < loader.sceneList.Count)
+        {
+            // Charge la scène depuis la liste sceneList
+            string nextSceneName = loader.sceneList[nextSceneID].Name;
+            SceneManager.LoadScene(nextSceneName);
+
+            // Met à jour l'index de la scène actuelle
+            loader.currentSceneIndex = nextSceneID;
+        }
+        else
+        {
+            Debug.LogWarning("Aucune scène suivante disponible dans la liste ArenaLoader.sceneList.");
+        }
     }
 
 }
