@@ -200,14 +200,7 @@ public class PlayerScript : MonoBehaviour
             switch (_bufferedAction.name)
             {
                 case "Attack":
-                    if (currentState == newState)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        newState = GetComponent<ReleaseState>();
-                    }
+                    newState = GetComponent<ReleaseState>();
                     break;
                 case "Sprint":
                     newState = GetComponent<DashingState>();
@@ -372,7 +365,7 @@ public class PlayerScript : MonoBehaviour
             // }
         }
 
-        if (context.canceled)
+        if (context.canceled && currentState is ChargingState)
         {
             ChangeState(GetComponent<NeutralState>());
         }
@@ -384,19 +377,18 @@ public class PlayerScript : MonoBehaviour
     {
         if (context.started && hitTimer <= 0f)
         {
+            if (currentState is NeutralState || currentState is ChargingState)
+            {
+                hitTimer = hitCooldown;
+                ChangeState(GetComponent<ReleaseState>());
+            }
             if (currentState is not NeutralState)
             {
                 hitTimer = hitCooldown;
-                GetComponent<DashingState>().timer = 0;
                 BufferInput(context.action);
             }
 
-            if (currentState is NeutralState)
-            {
-                hitTimer = hitCooldown;
-                GetComponent<DashingState>().timer = 0;
-                ChangeState(GetComponent<ReleaseState>());
-            }
+
         }
     }
     

@@ -43,7 +43,9 @@ public class ReleaseState : PlayerState
             ballToHit.GetComponent<BallSM>().ChangeState(ballToHit.GetComponent<HitState>());
             float currentBallSpeed = ballToHit.GetComponent<BallSM>().currentBallSpeedVec3.magnitude;
             float hitForce = currentBallSpeed + PlayerScript.hitForce;
+            
             yield return new WaitForSeconds(hitForce * ballToHit.GetComponent<BallSM>().hitFreezeTimeMultiplier);
+            
             PlayerScript.rb.AddForce(-transform.forward * (PlayerScript.knockbackForce * 3f), ForceMode.Impulse);
             PlayerScript.ChangeState(GetComponent<NeutralState>());
             
@@ -69,7 +71,7 @@ public class ReleaseState : PlayerState
         }
         else
         {
-            PlayerScript.Move(PlayerScript.speed, PlayerScript.neutralLerpTime);
+            PlayerScript.Move(0f, PlayerScript.neutralLerpTime);
         }
         
     }

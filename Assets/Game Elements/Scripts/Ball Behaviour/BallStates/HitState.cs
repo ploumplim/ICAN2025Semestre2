@@ -61,7 +61,6 @@ public class HitState : BallState
 
     private IEnumerator CollisionToggle()
     {
-        // reactivate collider
         yield return new WaitForSeconds(BallSm.hitStateDuration);
         Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
         
