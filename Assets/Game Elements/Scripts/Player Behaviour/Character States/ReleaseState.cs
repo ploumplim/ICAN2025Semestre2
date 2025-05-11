@@ -11,6 +11,7 @@ public class ReleaseState : PlayerState
     //---------------------------------------------------------------------------------
     public override void Enter()
     {
+        ballToHit = null;
         PlayerScript.OnHitButtonPressed?.Invoke();
         base.Enter();
         StartCoroutine(HitWindowCoroutine());
@@ -63,15 +64,17 @@ public class ReleaseState : PlayerState
     public override void Tick()
     {
         base.Tick();
-        PlayerScript.Move(0f, PlayerScript.neutralLerpTime);
         
         if (ballToHit)
         {
             BallDirection();
+            PlayerScript.Move(0f, PlayerScript.hitLerpTime);
+
         }
         else
         {
             PlayerScript.Move(0f, PlayerScript.neutralLerpTime);
+
         }
         
     }
