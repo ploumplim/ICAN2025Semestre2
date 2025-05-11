@@ -10319,7 +10319,7 @@ MonoBehaviour:
   chargeSpeedModifier: 0
   acceleration: 2
   neutralLerpTime: 1
-  hitLerpTime: 0.025
+  hitLerpTime: 0.035
   dashDuration: 0.2
   dashCooldown: 0.3
   dashDistance: 19
@@ -15813,7 +15813,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1252265281615666675
 Transform:
   m_ObjectHideFlags: 0
@@ -15897,7 +15897,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3382598962104853538
 Transform:
   m_ObjectHideFlags: 0
