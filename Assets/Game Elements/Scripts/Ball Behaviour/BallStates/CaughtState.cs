@@ -1,96 +1,89 @@
-// using UnityEngine;
-//
-// public class CaughtState : BallState
-// {
-//     [HideInInspector] public float timer;
-//     private float _caughtTimeoutTimer;
-//     [SerializeField] private float caughtTimeout = 0.2f;
-//     [SerializeField] private Transform playerHandTransform;
-//
-//
-//     public override void Enter()
-//     {        
-//         base.Enter();
-//         
-//         BallSm.OnBallCaught?.Invoke();
-//         
-//         // _caughtTimeoutTimer = 0;
-//         timer = 0;
-//         SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
-//
-//         BallSm.currentBallSpeedVec3 = BallSm.rb.linearVelocity;
-//         
-//         BallSm.rb.linearVelocity = Vector3.zero;
-//         BallSm.rb.angularVelocity = Vector3.zero;
-//         // if (BallSm.rb.linearVelocity.magnitude > 0f)
-//         // {
-//         //     BallSm.rb.linearVelocity /= BallSm.rb.linearVelocity.magnitude;
-//         // }
-//         
-//         if (BallSm.ballOwnerPlayer)
-//         {
-//             Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
-//         }
-//         
-//        
-//        
-//     }
-//
-//     public override void Tick()
-//     {
-//         base.Tick();
-//
-//         if (BallSm.ballOwnerPlayer)
-//         {
-//             
-//             playerHandTransform = BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().playerHand.transform;
-//             
-//             // Make the ball move towards the player's hand, reducing the speed of the ball over time to 0.
-//             Vector3 targetPosition = playerHandTransform.position;
-//             
-//             
-//             // When the distance between the targetPosition and the ball is less than 0.5f, stop the ball.
-//             
-//             // if (Vector3.Distance(targetPosition, BallSm.transform.position) < 0.5f)
-//             // {
-//             //     BallSm.rb.linearVelocity = Vector3.zero;
-//             //     BallSm.rb.angularVelocity = Vector3.zero;
-//             // }
-//             // else
-//             // {
-//             BallSm.transform.position = targetPosition;
-//             // }
-//             
-//         }
-//
-//         // _caughtTimeoutTimer += Time.deltaTime;
-//         timer += Time.deltaTime;
-//         
-//         if (timer >= BallSm.playerImmunityTime)
-//         {
-//             Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
-//             // Debug.Log("Player is no longer immune to the ball.");
-//         }
-//         
-//         // if (_caughtTimeoutTimer >= BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().chargeTimeLimit + caughtTimeout)
-//         // {
-//         //     BallSm.rb.linearVelocity = BallSm.currentBallSpeedVec3;
-//         //     BallSm.SetBallSpeedMinimum(BallSm.currentBallSpeedVec3.magnitude, BallSm.currentBallSpeedVec3.normalized);
-//         //     BallSm.ChangeState(GetComponent<FlyingState>());
-//         // }
-//     }
-//
-//     public override void Exit()
-//     {
-//         base.Exit();
-//         // _caughtTimeoutTimer = 0;
-//         timer = 0;
-//         if (BallSm.ballOwnerPlayer)
-//         {
-//             Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
-//         }
-//         BallSm.rb.linearVelocity = Vector3.zero;
-//         BallSm.rb.angularVelocity = Vector3.zero;
-//     }
-//
-// }
+using UnityEngine;
+
+public class CaughtState : BallState
+{
+    [HideInInspector] public float timer;
+    private float _moveTimer;
+    [SerializeField] private Transform playerHandTransform;
+
+
+    public override void Enter()
+    {        
+        base.Enter();
+        
+        BallSm.OnBallCaught?.Invoke();
+        
+        timer = 0;
+        SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
+
+        
+        BallSm.rb.linearVelocity = Vector3.zero;
+        BallSm.rb.angularVelocity = Vector3.zero;
+        
+        if (BallSm.ballOwnerPlayer)
+        {
+            playerHandTransform = BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().playerHand.transform;
+            Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
+        }
+        
+    }
+
+    public override void Tick()
+    {
+        base.Tick();
+        Vector3 currentBallPosition = BallSm.transform.position;
+
+        if (BallSm.ballOwnerPlayer && playerHandTransform)
+        {
+            float r = Mathf.Clamp01(_moveTimer / BallSm.ballMoveDuration);
+            float curveVal = BallSm.GetComponent<BallSM>().movementCurve.Evaluate(r);
+            if (transform.position != playerHandTransform.position)
+            {
+                _moveTimer += Time.deltaTime;
+                Vector3 newPosition = Vector3.Lerp(currentBallPosition, playerHandTransform.position, curveVal);
+                BallSm.rb.MovePosition(newPosition);
+            }
+            else
+            {
+                _moveTimer = 0;
+            }
+
+            if (r >= 1)
+            {
+                _moveTimer = 0;
+            }
+
+            if (BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().currentState != BallSm.ballOwnerPlayer.GetComponent<ChargingState>())
+            {
+                // Debug.Log("Ball should be released");;
+                BallSm.rb.AddForce(BallSm.ballOwnerPlayer.transform.forward * BallSm.currentBallSpeedVec3.magnitude, ForceMode.VelocityChange);
+                BallSm.ChangeState(GetComponent<FlyingState>());
+                _moveTimer = 0;
+                // The Ball should fly in the direction in which the player is facing.
+            }
+        }
+
+        timer += Time.deltaTime;
+        
+        if (timer >= BallSm.playerImmunityTime)
+        {
+            Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
+            // Debug.Log("Player is no longer immune to the ball.");
+        }
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        timer = 0;
+        _moveTimer = 0;
+        BallSm.CaughtStateEnded?.Invoke();
+        if (BallSm.ballOwnerPlayer)
+        {
+            Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
+        }
+        BallSm.rb.linearVelocity = Vector3.zero;
+        BallSm.rb.angularVelocity = Vector3.zero;
+    }
+
+}
