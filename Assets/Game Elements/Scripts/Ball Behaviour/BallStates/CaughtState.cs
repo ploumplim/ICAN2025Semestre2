@@ -31,10 +31,10 @@ public class CaughtState : BallState
     public override void Tick()
     {
         base.Tick();
+        Vector3 currentBallPosition = BallSm.transform.position;
 
         if (BallSm.ballOwnerPlayer && playerHandTransform)
         {
-            Vector3 currentBallPosition = BallSm.transform.position;
             float r = Mathf.Clamp01(_moveTimer / BallSm.ballMoveDuration);
             float curveVal = BallSm.GetComponent<BallSM>().movementCurve.Evaluate(r);
             if (transform.position != playerHandTransform.position)
@@ -50,7 +50,6 @@ public class CaughtState : BallState
 
             if (r >= 1)
             {
-                currentBallPosition = BallSm.transform.position;
                 _moveTimer = 0;
             }
 

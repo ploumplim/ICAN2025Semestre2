@@ -36,7 +36,7 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("Lerp time for the rotation while not aiming")]
     public float neutralLerpTime = 0.1f;
     [Tooltip("Lerp time for the rotation while charging a hit")]
-    public float chargeLerpTime = 0.1f;
+    public float hitLerpTime = 0.1f;
     //---------
     [Header("Dash Settings")]
     public float dashDuration;
@@ -94,6 +94,7 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent OnPlayerDeath;
     public UnityEvent OnPlayerDash;
     public UnityEvent OnPlayerEndDash;
+    public UnityEvent OnPlayerCatch;
     public Action<PlayerState> OnPlayerStateChanged;
     
     // action events
@@ -200,14 +201,7 @@ public class PlayerScript : MonoBehaviour
             switch (_bufferedAction.name)
             {
                 case "Attack":
-                    if (currentState == newState)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        newState = GetComponent<ReleaseState>();
-                    }
+                    newState = GetComponent<ReleaseState>();
                     break;
                 case "Sprint":
                     newState = GetComponent<DashingState>();
@@ -240,8 +234,7 @@ public class PlayerScript : MonoBehaviour
                 // If the ball is not lethal, push the player in the opposite direction of the ball
                 Vector3 direction = transform.position - other.transform.position;
                 // Debug.Log("Ball hit player");
-                if (currentState is not KnockbackState &&
-                    currentState is not DeadState)
+                if (currentState is NeutralState)
                 {
                     ChangeState(GetComponent<KnockbackState>());
                     // Push the player in the opposite direction of the ball
@@ -300,6 +293,11 @@ public class PlayerScript : MonoBehaviour
             // Calculate the movement direction
             Vector3 moveDirection = (cameraForward * moveInputVector2.y + cameraRight * moveInputVector2.x);
 
+            if (moveDirection != Vector3.zero)
+            {
+                transform.forward = Vector3.Slerp(transform.forward, moveDirection, lerpMoveSpeed);
+            }
+            
             // Apply movement and set the player's direction
             switch (movementType)
             {
@@ -313,10 +311,7 @@ public class PlayerScript : MonoBehaviour
                     break;
             }
 
-            if (moveDirection != Vector3.zero)
-            {
-                transform.forward = Vector3.Slerp(transform.forward, moveDirection, lerpMoveSpeed);
-            }
+
     }
     // ------------------------------ DASH ------------------------------
     public void OnDash(InputAction.CallbackContext context)
@@ -372,7 +367,7 @@ public class PlayerScript : MonoBehaviour
             // }
         }
 
-        if (context.canceled)
+        if (context.canceled && currentState is ChargingState)
         {
             ChangeState(GetComponent<NeutralState>());
         }
@@ -384,19 +379,18 @@ public class PlayerScript : MonoBehaviour
     {
         if (context.started && hitTimer <= 0f)
         {
+            if (currentState is NeutralState || currentState is ChargingState)
+            {
+                hitTimer = hitCooldown;
+                ChangeState(GetComponent<ReleaseState>());
+            }
             if (currentState is not NeutralState)
             {
                 hitTimer = hitCooldown;
-                GetComponent<DashingState>().timer = 0;
                 BufferInput(context.action);
             }
 
-            if (currentState is NeutralState)
-            {
-                hitTimer = hitCooldown;
-                GetComponent<DashingState>().timer = 0;
-                ChangeState(GetComponent<ReleaseState>());
-            }
+
         }
     }
     

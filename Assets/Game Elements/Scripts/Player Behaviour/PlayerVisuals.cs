@@ -1,4 +1,5 @@
-using UnityEngine;
+    using TMPro;
+    using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -9,7 +10,7 @@ public class PlayerVisuals : MonoBehaviour
     private PlayerScript playerScript;
     
     // Image component of the parry timer visuals.
-    private float _parryRadius;
+    private float _parryDiameter;
     
     // Player's normal mesh material and color.
     [FormerlySerializedAs("_playerMeshMaterial")] public Material playerMeshMaterial;
@@ -31,10 +32,10 @@ public class PlayerVisuals : MonoBehaviour
     public ParticleSystem chargeEndingParticle;
     [Tooltip("The porcentage of the charge time that the particle will start playing.")]
     public float chargeEndingParticleTime;
-    [Tooltip("The pointer showing the direction the player is aiming towards.")]
-    public GameObject aimPointer;
+    [FormerlySerializedAs("aimPointer")] [Tooltip("The sphere that determines the character's range.")]
+    public GameObject rangeSphereObject;
 
-    private float _aimPointerScale = 2.5f;
+    public GameObject stateText;
     
     
     
@@ -44,15 +45,15 @@ public class PlayerVisuals : MonoBehaviour
         playerScript = GetComponent<PlayerScript>();
         // Recover the player's mesh material and color.
         playerMeshMaterial = playerMesh.GetComponent<MeshRenderer>().material;
-        _aimPointerScale = aimPointer.transform.localScale.x;
-
-        _parryRadius = playerScript.hitDetectionRadius;
+        _parryDiameter = playerScript.hitDetectionRadius * 2f;
         
     }
 
     // Update is called once per frame
     void Update()
-    { 
+    {
+        PlayerStateText();
+        
         switch (playerScript.currentState) 
         { 
             case NeutralState:
@@ -64,7 +65,7 @@ public class PlayerVisuals : MonoBehaviour
                 {deadParticle.Stop();}
                 
                 // Set the aimPointer's scale.
-                aimPointer.transform.localScale = new Vector3(_aimPointerScale, _aimPointerScale, _aimPointerScale);
+                rangeSphereObject.transform.localScale = new Vector3(_parryDiameter, 1f, _parryDiameter);
                 
                 OnSprintEnd();
                 
@@ -98,10 +99,10 @@ public class PlayerVisuals : MonoBehaviour
         switch (playerScript.hitType)
         {
             case PlayerScript.HitType.ForwardHit:
-                aimPointer.SetActive(true);
+                rangeSphereObject.SetActive(true);
                 break;
             case PlayerScript.HitType.ReflectiveHit:
-                aimPointer.SetActive(false);
+                rangeSphereObject.SetActive(false);
                 break;
 
         }
@@ -118,7 +119,7 @@ public class PlayerVisuals : MonoBehaviour
         
         // Update the parry radius collider.
         var parryParticleShape = parryParticle.shape;
-        parryParticleShape.radius = _parryRadius;
+        parryParticleShape.radius = _parryDiameter / 2f;
 
     }
 
@@ -172,6 +173,15 @@ public class PlayerVisuals : MonoBehaviour
     //     }
     // }
 
+    private void PlayerStateText()
+    {
+        // Get the current state of the player.
+        string currentState = playerScript.currentState.ToString();
+        
+        // Set the text of the stateText to the current state.
+        stateText.GetComponent<TextMeshPro>().text = currentState;
+    }
+    
     public void SetEightDirectionArrow()
     {
         // Using the player's eightDirection Vector3, recover a float that represents the rotation value of that direction
@@ -182,7 +192,7 @@ public class PlayerVisuals : MonoBehaviour
         //aimPointer.transform.rotation = Quaternion.Euler(90, angle, 0);
         
     }
-    public void OnParry(float chargeValue)
+    public void OnParry()
     {
         // Play the parry particle.
         parryParticle.Play();

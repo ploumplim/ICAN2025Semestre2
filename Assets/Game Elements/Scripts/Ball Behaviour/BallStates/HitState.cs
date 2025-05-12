@@ -49,9 +49,12 @@ public class HitState : BallState
 
     private IEnumerator FreezeTimeRoutine()
     {
-        // deactivate the ball's collider.
+        BallSm.rb.isKinematic = true;
         BallSm.col.enabled = false;
+        
         yield return new WaitForSeconds(hitForce * BallSm.hitFreezeTimeMultiplier);
+        
+        BallSm.rb.isKinematic = false;
         BallSm.col.enabled = true;
         BallSm.rb.linearVelocity = hitDirection * hitForce;
         BallSm.SetBallSpeedMinimum(BallSm.rb.linearVelocity.magnitude, hitDirection);
@@ -61,7 +64,6 @@ public class HitState : BallState
 
     private IEnumerator CollisionToggle()
     {
-        // reactivate collider
         yield return new WaitForSeconds(BallSm.hitStateDuration);
         Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
         
