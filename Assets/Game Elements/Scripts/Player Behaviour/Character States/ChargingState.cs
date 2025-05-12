@@ -48,6 +48,7 @@ public class ChargingState : PlayerState
             {
                 if (hitCollider.CompareTag("Ball"))
                 {
+                    PlayerScript.OnPlayerCatch?.Invoke();
                     _caughtBall = hitCollider.gameObject;
                     _caughtBall.GetComponent<BallSM>().ballOwnerPlayer = gameObject;
                     _caughtBall.GetComponent<BallSM>().currentBallSpeedVec3 = _caughtBall.GetComponent<BallSM>().rb.linearVelocity;

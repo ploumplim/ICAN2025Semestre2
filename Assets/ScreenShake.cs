@@ -13,7 +13,7 @@ public class ScreenShake : MonoBehaviour
     public float KillEarthQuakeMagnitude;
 
     public float SpeedMultiplier;
-
+    
     public void StartLitleScreenShake(float ballSpeed)
     {
         if (levelManager != null)

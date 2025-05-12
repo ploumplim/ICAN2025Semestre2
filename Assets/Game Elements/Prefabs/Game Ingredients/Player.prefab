@@ -10336,6 +10336,15 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 0.29934222
+      value: 0.6598337
+      inSlope: 1.2567127
+      outSlope: 1.2567127
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 1
       value: 1
       inSlope: 0
@@ -10354,7 +10363,7 @@ MonoBehaviour:
   knockedBackLinearDamping: 5
   hitType: 0
   releaseDuration: 0.15
-  hitForce: 7.5
+  hitForce: 5
   hitDetectionRadius: 8
   hitDetectionOffset: 0
   hitCooldown: 0.75

@@ -94,6 +94,7 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent OnPlayerDeath;
     public UnityEvent OnPlayerDash;
     public UnityEvent OnPlayerEndDash;
+    public UnityEvent OnPlayerCatch;
     public Action<PlayerState> OnPlayerStateChanged;
     
     // action events
