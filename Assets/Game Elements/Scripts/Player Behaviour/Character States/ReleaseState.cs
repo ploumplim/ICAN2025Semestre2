@@ -11,11 +11,17 @@ public class ReleaseState : PlayerState
     //---------------------------------------------------------------------------------
     public override void Enter()
     {
+        PlayerScript.OnHitButtonPressed?.Invoke();
         base.Enter();
-        Hit();
-
+        StartCoroutine(HitWindowCoroutine());
     }
 
+    IEnumerator HitWindowCoroutine()
+    {
+        Hit();
+        yield return new WaitForSeconds(PlayerScript.hitWindow);
+    }
+    
     public void Hit()
     {
         // Debug.Log("Parry!");
@@ -33,13 +39,13 @@ public class ReleaseState : PlayerState
         if (ballToHit)
         {
             ballToHit.GetComponent<BallSM>().ballOwnerPlayer = gameObject;
-            PlayerScript.OnBallHitByPlayer?.Invoke(PlayerScript.chargeValueIncrementor);
-            PlayerScript.chargeValueIncrementor = Mathf.Clamp(PlayerScript.chargeValueIncrementor, PlayerScript.chargeClamp, 1f);
+            PlayerScript.OnBallHitByPlayer?.Invoke();
             ballToHit.GetComponent<BallSM>().ChangeState(ballToHit.GetComponent<HitState>());
             float currentBallSpeed = ballToHit.GetComponent<BallSM>().currentBallSpeedVec3.magnitude;
-            float hitForce = currentBallSpeed + PlayerScript.chargeValueIncrementor * PlayerScript.hitForce;
+            float hitForce = currentBallSpeed + PlayerScript.hitForce;
+            
             yield return new WaitForSeconds(hitForce * ballToHit.GetComponent<BallSM>().hitFreezeTimeMultiplier);
-            PlayerScript.OnPlayerHitReleased?.Invoke(PlayerScript.chargeValueIncrementor);
+            
             PlayerScript.rb.AddForce(-transform.forward * (PlayerScript.knockbackForce * 3f), ForceMode.Impulse);
             PlayerScript.ChangeState(GetComponent<NeutralState>());
             
@@ -47,7 +53,7 @@ public class ReleaseState : PlayerState
         else
         {
             yield return new WaitForSeconds(PlayerScript.releaseDuration);
-            PlayerScript.OnPlayerHitReleased?.Invoke(PlayerScript.chargeValueIncrementor);
+            PlayerScript.OnPlayerHitReleased?.Invoke();
             PlayerScript.ChangeState(GetComponent<NeutralState>());
         }
 
@@ -58,11 +64,16 @@ public class ReleaseState : PlayerState
     {
         base.Tick();
         PlayerScript.Move(0f, PlayerScript.neutralLerpTime);
+        
         if (ballToHit)
         {
             BallDirection();
         }
-
+        else
+        {
+            PlayerScript.Move(0f, PlayerScript.neutralLerpTime);
+        }
+        
     }
 
     public void HitBox()
@@ -108,7 +119,6 @@ public class ReleaseState : PlayerState
     public override void Exit()
     {
         base.Exit();
-        PlayerScript.chargeValueIncrementor = 0f;
         ballToHit = null;
     }
 }

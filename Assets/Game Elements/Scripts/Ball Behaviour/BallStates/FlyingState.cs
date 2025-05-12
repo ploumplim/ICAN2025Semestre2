@@ -3,14 +3,13 @@ using UnityEngine;
 
 public class FlyingState : BallState
 {
-    
     public override void Enter()
     {
         base.Enter();
         
         SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
         BallSm.OnBallFlight?.Invoke(BallSm.rb.linearVelocity.magnitude);
-        BallSm.currentBallSpeedVec3 = BallSm.rb.linearVelocity; 
+        BallSm.currentBallSpeedVec3 = BallSm.rb.linearVelocity;
         
         
     }
