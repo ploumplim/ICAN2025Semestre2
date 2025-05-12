@@ -8,7 +8,6 @@ public class BufferState : LevelState
     private bool _finalRound;
     public override void Enter()
     {
-        Debug.LogWarning("Test");
         LevelManagerScript.currentRound++;
         _finalRound = LevelManagerScript.RoundCheck();
         if (_finalRound)

@@ -186,6 +186,8 @@ public class LevelManager : MonoBehaviour
             ingameGUIManager.UI_PlayerScore.Clear();
             GameManager.Instance.NextSceneToPlay.Clear();
             GameManager.Instance.NextSceneToPlay = new List<SceneReference>(GameManager.Instance.scenesToLoad);
+            ingameGUIManager.StopBlinking();
+            ingameGUIManager.UI_PressStartTutorialtext.SetActive(false);
         }
         else
         {
@@ -398,11 +400,6 @@ public class LevelManager : MonoBehaviour
 
         playerScores.Sort((x, y) => y.score.CompareTo(x.score));
 
-        if (playerScores.Count > 0)
-        {
-            string highestScoringPlayer = playerScores[0].player.name;
-        }
-
         for (int i = 0; i < playerScores.Count; i++)
         {
             var playerScore = playerScores[i];
@@ -416,6 +413,7 @@ public class LevelManager : MonoBehaviour
                 }
             }
             GameObject scorePanel = Instantiate(ingameGUIManager.ScorePlayerUIEndGame, playerScorePanelParent.gameObject.transform);
+            ingameGUIManager.StartBlinking(ingameGUIManager.UI_SetReadyInformationText,ingameGUIManager.blinkInterval);
             ingameGUIManager.UI_PlayerScore.Add(scorePanel);
             scorePanel.SetActive(true);
             ingameGUIManager.EndGameScoreBoardPlayerPanel(playerScore.player, scorePanel, i + 1);

@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
     public void GoToGameScene()
     {
         StartCoroutine(LoadGameSceneCoroutine());
+        
     }
 
     private IEnumerator LoadGameSceneCoroutine()
@@ -97,6 +98,8 @@ public class GameManager : MonoBehaviour
         {
             levelManager.ingameGUIManager.UI_PressStartTutorialtext.SetActive(true);
         }
+
+        levelManager.ingameGUIManager.ActivateSetReadyText();
     }
 
     public void StartLoadArenaScene()
