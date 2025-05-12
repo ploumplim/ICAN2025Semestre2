@@ -142,8 +142,22 @@ public class GameManager : MonoBehaviour
 
         LevelLoader();
     }
-
-    public void LoadNextLevel(int levelIndex)
+    
+    public void LevelLoader()
+    {
+        if (NextSceneToPlay != null && NextSceneToPlay.Count > 0)
+        {
+            int randomIndex = Random.Range(0, NextSceneToPlay.Count);
+            RandomLevelSelection(randomIndex);
+            NextSceneToPlay.RemoveAt(randomIndex);
+        }
+        else
+        {
+            Debug.LogWarning("Plus d'arène a charger, Fin de la partie");
+        }
+    }
+    
+    public void RandomLevelSelection(int levelIndex)
     {
         int preserveIndex1 = 1;
         int preserveIndex2 = -1;
@@ -177,20 +191,6 @@ public class GameManager : MonoBehaviour
                     rootObject.SetActive(true);
                 }
             }
-        }
-    }
-
-    public void LevelLoader()
-    {
-        if (NextSceneToPlay != null && NextSceneToPlay.Count > 0)
-        {
-            int randomIndex = Random.Range(0, NextSceneToPlay.Count);
-            LoadNextLevel(randomIndex);
-            NextSceneToPlay.RemoveAt(randomIndex);
-        }
-        else
-        {
-            Debug.LogWarning("NextSceneToPlay list is empty or null.");
         }
     }
 

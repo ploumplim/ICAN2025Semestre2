@@ -88,7 +88,7 @@ public class LevelManager : MonoBehaviour
         // _levelSM= GetComponent<LevelSM>();
         // _levelSM.levelManager = this;
         // GameManager.Instance.GetComponent<PlayingState>().levelSM = _levelSM;
-        GameManager.Instance.NextSceneToPlay = new List<SceneReference>(GameManager.Instance.scenesToLoad);
+        
         
 
 
@@ -161,8 +161,8 @@ public class LevelManager : MonoBehaviour
         {
             _levelSM.ChangeState(GetComponent<SetupState>());
             // Disable the game start button in the GUI
-            ingameGUIManager.startGameButtonObject.SetActive(false);
-            ingameGUIManager.resetPlayersObject.SetActive(false);
+            // ingameGUIManager.startGameButtonObject.SetActive(false);
+            // ingameGUIManager.resetPlayersObject.SetActive(false);
             
             // Check how many players have joined the game and determine the number of rounds depending on that.
             if (players.Count == 2)
@@ -183,6 +183,8 @@ public class LevelManager : MonoBehaviour
                 Destroy(panel.gameObject); // Détruit chaque enfant
             }
             ingameGUIManager.UI_PlayerScore.Clear();
+            GameManager.Instance.NextSceneToPlay.Clear();
+            GameManager.Instance.NextSceneToPlay = new List<SceneReference>(GameManager.Instance.scenesToLoad);
         }
         else
         {
