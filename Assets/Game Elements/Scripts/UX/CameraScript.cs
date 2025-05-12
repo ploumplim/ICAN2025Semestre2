@@ -21,24 +21,20 @@ public class CameraScript : MonoBehaviour
 
     [Tooltip("The camera's follow speed.")]
     public float followSpeed = 5f;
-
-    [Tooltip("The camera's speed when moving away from the scene.")]
-    public float zoomSpeed = 5f;
-
-    [Tooltip("This list contains all objects that the camera should use as points to lock itself.")]
-    public GameObject[] lockPoints;
+    
+    [HideInInspector] public GameObject[] lockPoints;
 
     public void Start()
     {
         // Get the camera component of the camera object
         cameraObject = cameraHolderObject.GetComponentInChildren<Camera>().gameObject;
         
+        // Add the Vector3.zero to the _lockPoints array as the first element
     }
 
     public void FixedUpdate()
     {
         UpdateCameraPosition();
-        // UpdateCameraDistance();
     }
 
     private void UpdateCameraPosition()
@@ -50,7 +46,7 @@ public class CameraScript : MonoBehaviour
         if (lockPointsLength > 0)
         {
             // Create a new Vector3 array with the same length as the lockPoints array
-            _lockPoints = new Vector3[lockPointsLength];
+            _lockPoints = new Vector3[lockPointsLength + 1];
 
             // Loop through the lockPoints array
             for (int i = 0; i < lockPointsLength; i++)
@@ -75,13 +71,6 @@ public class CameraScript : MonoBehaviour
         
         // Set the camera holder object to the new position
         cameraHolderObject.transform.position = newPosition;
-
-
-        // var newPositionXvalue = cameraHolderObject.transform.position;
-        // newPositionXvalue.x = newPosition.x;
-        // var cameraHolderObjectVec3 = cameraHolderObject.transform.position;
-        // cameraHolderObjectVec3.x = Mathf.Lerp(cameraHolderObject.transform.position.x, newPositionXvalue.x, followSpeed * Time.deltaTime);
-        // cameraHolderObject.transform.position = cameraHolderObjectVec3;
         
         
         
@@ -121,46 +110,7 @@ public class CameraScript : MonoBehaviour
             }
         }
     }
-
-    private void UpdateCameraDistance()
-    {
-        // Recover the vector distance between the camera holder object and the camera object
-        Vector3 tPointAndCamVec3 = _targetPoint - cameraHolderObject.transform.position;
-        
-        // Clamp the distance between the min and max distance
-        float distance = tPointAndCamVec3.magnitude;
-        
-        // Check if all objects within the lockPoints array are visible
-        if (!AreAllLockPointsVisible())
-        {
-            // If they are, move the camera holder object away from the camera object
-            cameraHolderObject.transform.position = Vector3.Lerp(cameraHolderObject.transform.position,
-                cameraHolderObject.transform.position + tPointAndCamVec3, zoomSpeed * Time.deltaTime);
-        }
-    }
-
-    private bool AreAllLockPointsVisible()
-    {
-        Camera gameCamera = cameraObject.GetComponent<Camera>();
-        
-        if (_lockPoints == null || _lockPoints.Length == 0)
-        {
-            return false;
-        }
-        else
-        {
-            foreach (Vector3 point in _lockPoints)
-            {
-                Vector3 viewportPoint = gameCamera.WorldToViewportPoint(point);
-                if (viewportPoint.x < 0 || viewportPoint.x > 1 || viewportPoint.y < 0 || viewportPoint.y > 1)
-                {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
+    
     
     public void StartShake(float duration, float magnitude,float multiplier,float ballSpeed)
     {
@@ -199,6 +149,6 @@ public class CameraScript : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(_targetPoint, 0.5f);
+        Gizmos.DrawSphere(_targetPoint, 0.1f);
     }
 }
