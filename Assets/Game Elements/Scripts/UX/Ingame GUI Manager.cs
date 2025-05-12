@@ -50,14 +50,14 @@ public class IngameGUIManager : MonoBehaviour
     private void Start()
     {
         UI_PauseMenu = GetComponent<UI_PauseMenu>();
-        
+        levelManager = GameManager.Instance.levelManager;
+
     }
 
     void Update()
     {
         _playerList = levelManager.players;
         // Update the global point texts using the levelManager's global points.
-        _globalPointsText.text = levelManager.potScore.ToString();
         _playerCount = _playerList.Count;
         //UpdateIndividualPlayerScorePanels();
 

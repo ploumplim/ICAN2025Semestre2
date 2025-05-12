@@ -8,6 +8,7 @@ public class BufferState : LevelState
     private bool _finalRound;
     public override void Enter()
     {
+        Debug.LogWarning("Test");
         LevelManagerScript.currentRound++;
         _finalRound = LevelManagerScript.RoundCheck();
         if (_finalRound)
@@ -19,7 +20,7 @@ public class BufferState : LevelState
         {
             //Remove control from players
             LevelManagerScript.RemovePlayerControl();
-            LevelLoader();
+            GameManager.Instance.LevelLoader();
             LevelManagerScript.StartRound();
             StartCoroutine(WaitForBufferTime());
         }
@@ -44,26 +45,6 @@ public class BufferState : LevelState
         
     }
 
-    public void LevelLoader()
-    {
-        ArenaLoader loader = GameManager.Instance.GetComponent<ArenaLoader>();
-        int currentSceneIndex = loader.currentSceneIndex;
-        int nextSceneID = currentSceneIndex + 1;
-
-        // Vérifie si l'ID de la prochaine scène est valide
-        if (nextSceneID < loader.sceneList.Count)
-        {
-            // Charge la scène depuis la liste sceneList
-            string nextSceneName = loader.sceneList[nextSceneID].Name;
-            SceneManager.LoadScene(nextSceneName);
-
-            // Met à jour l'index de la scène actuelle
-            loader.currentSceneIndex = nextSceneID;
-        }
-        else
-        {
-            Debug.LogWarning("Aucune scène suivante disponible dans la liste ArenaLoader.sceneList.");
-        }
-    }
+    
 
 }

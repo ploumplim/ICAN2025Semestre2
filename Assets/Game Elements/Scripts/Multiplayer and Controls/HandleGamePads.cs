@@ -32,9 +32,7 @@ public class HandleGamePads : MonoBehaviour
                 PendingGamepads.Add(gamepad);
             }
         }
-
-        // Detect gamepad inputs
-        //DetectGamepadInput();
+        
     }
 
     public void CheckGamepadAssignments()
@@ -80,66 +78,5 @@ public class HandleGamePads : MonoBehaviour
 
         Debug.Log($"gamepad '{gamepad.displayName}' assigned to player  '{player.name}'");
     }
-//     public void DetectGamepadInput()
-//     {
-//         foreach (var gamepad in Gamepad.all)
-//         {
-//             if (gamepad.buttonSouth.wasPressedThisFrame)
-//             {
-//                 Debug.Log($"Gamepad {gamepad.displayName}: South button pressed");
-//             }
-//             if (gamepad.buttonNorth.wasPressedThisFrame)
-//             {
-//                 Debug.Log($"Gamepad {gamepad.displayName}: North button pressed");
-//             }
-//             if (gamepad.buttonEast.wasPressedThisFrame)
-//             {
-//                 Debug.Log($"Gamepad {gamepad.displayName}: East button pressed");
-//             }
-//             if (gamepad.buttonWest.wasPressedThisFrame)
-//             {
-//                 Debug.Log($"Gamepad {gamepad.displayName}: West button pressed");
-//             }
-//             if (gamepad.leftTrigger.wasPressedThisFrame)
-//             {
-//                 Debug.Log($"Gamepad {gamepad.displayName}: Left trigger pressed");
-//             }
-//             if (gamepad.rightTrigger.wasPressedThisFrame)
-//             {
-//                 Debug.Log($"Gamepad {gamepad.displayName}: Right trigger pressed");
-//             }
-//             if (gamepad.leftShoulder.wasPressedThisFrame)
-//             {
-//                 Debug.Log($"Gamepad {gamepad.displayName}: Left shoulder pressed");
-//             }
-//             if (gamepad.rightShoulder.wasPressedThisFrame)
-//             {
-//                 Debug.Log($"Gamepad {gamepad.displayName}: Right shoulder pressed");
-//             }
-//             if (gamepad.dpad.up.wasPressedThisFrame)
-//             {
-//                 Debug.Log($"Gamepad {gamepad.displayName}: D-pad up pressed");
-//             }
-//             if (gamepad.dpad.down.wasPressedThisFrame)
-//             {
-//                 Debug.Log($"Gamepad {gamepad.displayName}: D-pad down pressed");
-//             }
-//             if (gamepad.dpad.left.wasPressedThisFrame)
-//             {
-//                 Debug.Log($"Gamepad {gamepad.displayName}: D-pad left pressed");
-//             }
-//             if (gamepad.dpad.right.wasPressedThisFrame)
-//             {
-//                 Debug.Log($"Gamepad {gamepad.displayName}: D-pad right pressed");
-//             }
-//             if (gamepad.leftStickButton.wasPressedThisFrame)
-//             {
-//                 Debug.Log($"Gamepad {gamepad.displayName}: Left stick button pressed");
-//             }
-//             if (gamepad.rightStickButton.wasPressedThisFrame)
-//             {
-//                 Debug.Log($"Gamepad {gamepad.displayName}: Right stick button pressed");
-//             }
-//         }
-//     }
+
  }

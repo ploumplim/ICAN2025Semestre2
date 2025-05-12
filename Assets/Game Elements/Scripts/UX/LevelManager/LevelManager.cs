@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Eflatun.SceneReference;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -11,14 +12,6 @@ using UnityEngine.UIElements;
 
 public class LevelManager : MonoBehaviour
 {
-    [Serializable]
-    public class Round
-    {
-        public string roundName;
-        [Tooltip("This list holds all the available arenas.")]
-        public List<Scene> availableArenas;
-
-    }
     
     #region Variables
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -55,9 +48,8 @@ public class LevelManager : MonoBehaviour
     [Tooltip("This value represents the delay after the last player is dead during a round, before the buffer" +
              "is called.")]
     public float roundVictoryDelay = 2f;
-    
-    [Tooltip("This list holds all the rounds in the level. Modify the level design of each round here.")]
-    public List<Round> rounds;
+
+    public List<SceneReference> levels;
 
     //--------------------------------------------------------------------------------
     [Header("Score Settings")]
@@ -74,8 +66,6 @@ public class LevelManager : MonoBehaviour
     public CameraScript gameCameraScript;
     //[SerializeField]public MultiplayerManager multiplayerManager; // Reference to the Multiplayer Manager
     [FormerlySerializedAs("PlayerSpawnPoint")] public GameObject PlayerSpawnParent;
-
-    public GameObject ScreenShakeButton;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ EVENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public UnityEvent OnGameStart;
@@ -90,6 +80,25 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         GameManager.Instance.levelManager = this;
+        foreach (var player in GameManager.Instance.PlayerScriptList)
+        {
+            players.Add(player.gameObject);
+        }
+        gameBall = GameObject.FindGameObjectWithTag("Ball");
+        // _levelSM= GetComponent<LevelSM>();
+        // _levelSM.levelManager = this;
+        // GameManager.Instance.GetComponent<PlayingState>().levelSM = _levelSM;
+        GameManager.Instance.NextSceneToPlay = new List<SceneReference>(GameManager.Instance.scenesToLoad);
+        
+
+
+    }
+    
+
+    public void LevelManagerSetup()
+    {
+        _playerSpawnPoints.Clear();
+        PlayerSpawnParent = GameObject.FindGameObjectWithTag("SpawnParent");
         
     }
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -169,11 +178,6 @@ public class LevelManager : MonoBehaviour
                 totalRounds = 7;
             }
             
-            
-            foreach (PlayerScript player in GameManager.Instance.PlayerScriptList)
-            {
-                //subscribe to pertinent events
-            }
             foreach (var panel in ingameGUIManager.UI_PlayerScore)
             {
                 Destroy(panel.gameObject); // Détruit chaque enfant
@@ -225,16 +229,12 @@ public class LevelManager : MonoBehaviour
     
     public void StartRound()
     {
-        // DestroyAllPointWalls();
-        // DestroyAllNeutralWalls();
-        // // Reset the global score
-        // potScore = 0;
-        // // Spawn the ball
         SpawnBall();
         // Init the players
         InitPlayers();
         // Spawn the point walls
-        // SpawnCurrentRoundWalls();
+        //GameManager.Instance.LoadNextLevel();
+        
     }
     
     public void EndRound(GameObject winningPlayer)
