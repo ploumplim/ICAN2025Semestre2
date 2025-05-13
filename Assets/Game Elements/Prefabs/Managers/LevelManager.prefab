@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 7884196244828706504}
   - component: {fileID: 4967665493931135493}
   - component: {fileID: 6321886603128638455}
+  - component: {fileID: 6704843019017409336}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -83,44 +84,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
-  players: []
+  players:
+  - {fileID: 0}
+  _playerSpawnPoints: []
   potScore: 0
   gameBall: {fileID: 0}
-  pointWalls: []
-  neutralWalls: []
   currentRound: 0
   totalRounds: 0
   gameIsRunning: 0
   ballPrefab: {fileID: 3874236971623783123, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
   ballSpawnPosition: {fileID: 4872211941869060550}
-  pointWallPrefab: {fileID: 4644919870295857136, guid: fffa66def8c7c2c40ae60cb32e65d617, type: 3}
-  neutralWallPrefab: {fileID: 4644919870295857136, guid: 4978d0f94522b694eaa2779fd7141ef9, type: 3}
   setupTime: 1.5
   roundBufferTime: 1.5
   roundVictoryDelay: 2
   rounds:
   - roundName: 
-    pointWallPositions:
-    - {fileID: 0}
-    neutralWallPositions:
-    - {fileID: 0}
+    availableArenas: []
   - roundName: 
-    pointWallPositions:
-    - {fileID: 0}
-    neutralWallPositions:
-    - {fileID: 0}
+    availableArenas: []
   - roundName: 
-    pointWallPositions:
-    - {fileID: 0}
-    neutralWallPositions:
-    - {fileID: 0}
-  ballHitScore: 1
-  buntedBallHitScore: 2
+    availableArenas: []
   pointWallHitScore: 3
   ingameGUIManager: {fileID: 0}
   gameCameraScript: {fileID: 0}
-  multiplayerManager: {fileID: 0}
-  PlayerSpawnPoint: {fileID: 0}
+  PlayerSpawnParent: {fileID: 0}
+  ScreenShakeButton: {fileID: 0}
   OnGameStart:
     m_PersistentCalls:
       m_Calls: []
@@ -133,6 +121,21 @@ MonoBehaviour:
   OnRoundEnded:
     m_PersistentCalls:
       m_Calls: []
+  OnPlayerSpawn:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6704843019017409336}
+        m_TargetAssemblyTypeName: LevelSoundScript, Assembly-CSharp
+        m_MethodName: PlayerSpawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7683787567743412218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,5 +212,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff2a455bae77b1145b54090684ffa445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6704843019017409336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3059810454532666425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad1c7585c36ca13429dd9cbf7d05bc6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
