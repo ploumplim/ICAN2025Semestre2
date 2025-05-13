@@ -75,6 +75,8 @@ public class PlayerScript : MonoBehaviour
     public float hitCooldown = 0.3f;
     public float hitWindow = 0.5f;
     
+    
+    
     [Header("Charge Parameters")]
     public int maxGrabAngle = 180;
     public int minGrabAngle = 30;
@@ -218,9 +220,8 @@ public class PlayerScript : MonoBehaviour
                     break;
             }
         }
-        
-        currentState.Exit();
         OnPlayerStateChanged?.Invoke(newState);
+        currentState.Exit();
         currentState = newState;
         currentState.Enter();
         
@@ -288,7 +289,7 @@ public class PlayerScript : MonoBehaviour
     {
         // Apply movement
             // Get the camera's forward and right vectors
-            Vector3 cameraForward = playerCamera.transform.forward;
+            Vector3 cameraForward = playerCamera.transform.up;
             Vector3 cameraRight = playerCamera.transform.right;
 
             // Flatten the vectors to the ground plane and normalize

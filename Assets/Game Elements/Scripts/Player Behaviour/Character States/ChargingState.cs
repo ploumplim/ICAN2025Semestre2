@@ -23,6 +23,7 @@ public class ChargingState : PlayerState
 
         public override void Tick()
         {
+            currentAngle = PlayerScript.maxGrabAngle;
             base.Tick();
             PlayerScript.Move(PlayerScript.speed * PlayerScript.chargeSpeedModifier, PlayerScript.neutralLerpTime);
             // ChargingForce();
@@ -60,7 +61,6 @@ public class ChargingState : PlayerState
             foreach (var hitCollider in hitColliders)
             {
                 Vector3 directionToObject = (hitCollider.transform.position - PlayerScript.transform.position).normalized;
-                
                 
                 if (Vector3.Dot(PlayerScript.transform.forward, directionToObject) < 0)
                 {

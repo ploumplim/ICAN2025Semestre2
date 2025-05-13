@@ -34,8 +34,8 @@ public class PlayerAnimations : MonoBehaviour
                 animator.SetTrigger("IsHitting"); 
                 break;
             case NeutralState:
-                animator.ResetTrigger("IsCharging");
-                animator.ResetTrigger("IsHitting");
+                // animator.ResetTrigger("IsCharging");
+                // animator.ResetTrigger("IsHitting");
                 break;
         }
     }
