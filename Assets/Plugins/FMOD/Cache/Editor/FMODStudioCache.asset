@@ -104,7 +104,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 1886
+  Length: 1786
 --- !u!114 &-5283038265350044106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,7 +131,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 1610
+  Length: 1590
 --- !u!114 &-4550157028643754234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,33 +159,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 29596
---- !u!114 &-3903500429617012581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/FX/Bunt_FX
-  m_EditorClassIdentifier: 
-  Path: event:/FX/Bunt_FX
-  Guid:
-    Data1: -2047862209
-    Data2: 1200786523
-    Data3: 1548496300
-    Data4: 1429099891
-  Banks:
-  - {fileID: 9013900838437733036}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 5649
 --- !u!114 &-3230815617287640978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,10 +174,10 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638826568713523805
+  lastModified: 638827463296116967
   FileSizes:
   - Name: 
-    Value: 1504
+    Value: 1512
   Exists: 1
 --- !u!114 &-1303960338205871670
 MonoBehaviour:
@@ -248,7 +221,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638826568713724906
+  lastModified: 638824743351363769
   FileSizes: []
   Exists: 1
 --- !u!114 &-213022198960008552
@@ -271,13 +244,13 @@ MonoBehaviour:
     Data4: -1516303985
   Banks:
   - {fileID: 9013900838437733036}
-  IsStream: 0
+  IsStream: 1
   Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 3311
+  Length: 2700
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,8 +274,6 @@ MonoBehaviour:
   - {fileID: -5283038265350044106}
   - {fileID: 3840750683163560846}
   - {fileID: -1303960338205871670}
-  - {fileID: -3903500429617012581}
-  - {fileID: 4902193628403371422}
   - {fileID: -213022198960008552}
   - {fileID: 5597448249454433560}
   - {fileID: -7731113860503252890}
@@ -314,7 +285,7 @@ MonoBehaviour:
   - {fileID: 9013900838437733036}
   StringsBanks:
   - {fileID: -3230815617287640978}
-  cacheTime: 638826568713724906
+  cacheTime: 638827463296116967
   cacheVersion: 131846
 --- !u!114 &3840750683163560846
 MonoBehaviour:
@@ -342,7 +313,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 460
+  Length: 700
 --- !u!114 &3934459937923346836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,33 +368,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 680
---- !u!114 &4902193628403371422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/FX/BallBunt_FX
-  m_EditorClassIdentifier: 
-  Path: event:/FX/BallBunt_FX
-  Guid:
-    Data1: 163804249
-    Data2: 1195028346
-    Data3: -1985330011
-    Data4: 262312931
-  Banks:
-  - {fileID: 9013900838437733036}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 1900
 --- !u!114 &5597448249454433560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,7 +411,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638826568713373539
+  lastModified: 638827463296090705
   FileSizes: []
   Exists: 1
 --- !u!114 &9061532659611863500

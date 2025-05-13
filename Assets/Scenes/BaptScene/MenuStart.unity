@@ -1378,16 +1378,40 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <Dash_FX>k__BackingField.Path
+      value: event:/FX/Dash_FX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <Hit_Sound>k__BackingField.Path
+      value: event:/FX/Hit_FX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <KnockOut_FX>k__BackingField.Path
-      value: event:/2D/KnockOut_FX_2D
+      value: event:/FX/KnockOut_FX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <PressHit_FX>k__BackingField.Path
+      value: event:/FX/PressHit_FX
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <KnockBack_FX>k__BackingField.Path
-      value: event:/2D/KnockBack_FX_2D
+      value: event:/FX/KnockBack_FX
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <LethalBall_FX>k__BackingField.Path
-      value: event:/2D/LethalBall_FX_2D
+      value: event:/FX/LethalBall_FX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <BallTouched_FX>k__BackingField.Path
+      value: event:/FX/BallTouched_FX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <PlayerSpawn_FX>k__BackingField.Path
+      value: event:/FX/PlayerSpawn_FX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <ClassicBounce_FX>k__BackingField.Path
+      value: event:/FX/ClassicBounce_FX
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <KnockOut_FX>k__BackingField.Guid.Data1
