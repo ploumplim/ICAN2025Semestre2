@@ -74,6 +74,13 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("The window of opportunity to catch the ball at the start of the charge.")]
     public float hitCooldown = 0.3f;
     public float hitWindow = 0.5f;
+    
+    [Header("Charge Parameters")]
+    public int maxGrabAngle = 180;
+    public int minGrabAngle = 30;
+    public float grabDetectionRadius = 3.5f;
+    public float grabTimeLimit = 0.5f;
+    public AnimationCurve grabShrinkCurve;
 // ----------------------------------------------------------------------------------------
     [Header("Game Objects")] public GameObject playerHand;
 
