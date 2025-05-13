@@ -61,7 +61,15 @@ public class ChargingState : PlayerState
             {
                 Vector3 directionToObject = (hitCollider.transform.position - PlayerScript.transform.position).normalized;
                 
+                
+                if (Vector3.Dot(PlayerScript.transform.forward, directionToObject) < 0)
+                {
+                    // Ignore objects behind the player
+                    break;
+                }
+                
                 float angle = Vector3.Angle(PlayerScript.transform.forward, directionToObject);
+                
                 if (angle <= currentAngle)
                 {
                     if (hitCollider.CompareTag("Ball"))
