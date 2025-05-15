@@ -390,6 +390,7 @@ public class LevelManager : MonoBehaviour
 
     public void EndGameScore()
     {
+        ingameGUIManager.gameObject.GetComponent<EndGameScorePanel>().StartEndGamePanel();
         List<(GameObject player, int score)> playerScores = new List<(GameObject player, int score)>();
 
         foreach (var player in players)
