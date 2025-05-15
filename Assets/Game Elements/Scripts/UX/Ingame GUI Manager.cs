@@ -96,25 +96,25 @@ public class IngameGUIManager : MonoBehaviour
     
     // ------------------------ ROUND INFORMATION FUNCTIONS
   
-    public void EndGameScoreBoardPlayerPanel(GameObject player, GameObject scorePanel, int playerRank)
-    {
-        TextMeshProUGUI playerNameText = null;
-        TextMeshProUGUI playerNumberText = null;
-
-        foreach (Transform Text in scorePanel.transform)
-        {
-            if (Text.name == "PlayerName")
-            {
-                playerNameText = Text.GetComponent<TextMeshProUGUI>();
-            }
-            if (Text.name == "PlayerNumber")
-            {
-                playerNumberText = Text.GetComponent<TextMeshProUGUI>();
-            }
-        }
-        playerNameText.text = player.name;
-        playerNumberText.text = playerRank.ToString();
-    }
+    // public void EndGameScoreBoardPlayerPanel(GameObject player, GameObject scorePanel, int playerRank)
+    // {
+    //     TextMeshProUGUI playerNameText = null;
+    //     TextMeshProUGUI playerNumberText = null;
+    //
+    //     foreach (Transform Text in scorePanel.transform)
+    //     {
+    //         if (Text.name == "PlayerName")
+    //         {
+    //             playerNameText = Text.GetComponent<TextMeshProUGUI>();
+    //         }
+    //         if (Text.name == "PlayerNumber")
+    //         {
+    //             playerNumberText = Text.GetComponent<TextMeshProUGUI>();
+    //         }
+    //     }
+    //     playerNameText.text = player.name;
+    //     playerNumberText.text = playerRank.ToString();
+    // }
     
     public GameObject SpawnPlayerScorePanel(PlayerScript player)
     {

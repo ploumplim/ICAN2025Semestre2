@@ -391,34 +391,34 @@ public class LevelManager : MonoBehaviour
     public void EndGameScore()
     {
         ingameGUIManager.gameObject.GetComponent<EndGameScorePanel>().StartEndGamePanel();
-        List<(GameObject player, int score)> playerScores = new List<(GameObject player, int score)>();
-
-        foreach (var player in players)
-        {
-            int score = player.GetComponent<PlayerPointTracker>().points;
-            playerScores.Add((player, score));
-        }
-
-        playerScores.Sort((x, y) => y.score.CompareTo(x.score));
-
-        for (int i = 0; i < playerScores.Count; i++)
-        {
-            var playerScore = playerScores[i];
-            // Debug.Log($"Player: {playerScore.player.name}, Score: {playerScore.score}");
-            GameObject playerScorePanelParent = null;
-            foreach (Transform child in ingameGUIManager.transform)
-            {
-                if (child.CompareTag("ScorePlayerPanel"))
-                {
-                    playerScorePanelParent = child.gameObject;
-                }
-            }
-            GameObject scorePanel = Instantiate(ingameGUIManager.ScorePlayerUIEndGame, playerScorePanelParent.gameObject.transform);
-            ingameGUIManager.StartBlinking(ingameGUIManager.UI_SetReadyInformationText,ingameGUIManager.blinkInterval);
-            ingameGUIManager.UI_PlayerScore.Add(scorePanel);
-            scorePanel.SetActive(true);
-            ingameGUIManager.EndGameScoreBoardPlayerPanel(playerScore.player, scorePanel, i + 1);
-        }
+        // List<(GameObject player, int score)> playerScores = new List<(GameObject player, int score)>();
+        //
+        // foreach (var player in players)
+        // {
+        //     int score = player.GetComponent<PlayerPointTracker>().points;
+        //     playerScores.Add((player, score));
+        // }
+        //
+        // playerScores.Sort((x, y) => y.score.CompareTo(x.score));
+        //
+        // for (int i = 0; i < playerScores.Count; i++)
+        // {
+        //     var playerScore = playerScores[i];
+        //     // Debug.Log($"Player: {playerScore.player.name}, Score: {playerScore.score}");
+        //     GameObject playerScorePanelParent = null;
+        //     foreach (Transform child in ingameGUIManager.transform)
+        //     {
+        //         if (child.CompareTag("ScorePlayerPanel"))
+        //         {
+        //             playerScorePanelParent = child.gameObject;
+        //         }
+        //     }
+        //     GameObject scorePanel = Instantiate(ingameGUIManager.ScorePlayerUIEndGame, playerScorePanelParent.gameObject.transform);
+        //     ingameGUIManager.StartBlinking(ingameGUIManager.UI_SetReadyInformationText,ingameGUIManager.blinkInterval);
+        //     ingameGUIManager.UI_PlayerScore.Add(scorePanel);
+        //     scorePanel.SetActive(true);
+        //     //ingameGUIManager.EndGameScoreBoardPlayerPanel(playerScore.player, scorePanel, i + 1);
+        // }
     }
     
     public void ResetAllPoints()
