@@ -7,6 +7,7 @@ public class ReleaseState : PlayerState
 {
     [FormerlySerializedAs("ballToParry")] [HideInInspector]public GameObject ballToHit;
     [HideInInspector]public Vector3 parrySpherePosition;
+    private float _windowTimer;
 
     //---------------------------------------------------------------------------------
     public override void Enter()
@@ -14,24 +15,15 @@ public class ReleaseState : PlayerState
         ballToHit = null;
         PlayerScript.OnHitButtonPressed?.Invoke();
         base.Enter();
-        StartCoroutine(HitWindowCoroutine());
     }
-
-    IEnumerator HitWindowCoroutine()
-    {
-        Hit();
-        yield return new WaitForSeconds(PlayerScript.hitWindow);
-    }
+    
+    //---------------------------------------------------------------------------------
     
     public void Hit()
     {
         // Debug.Log("Parry!");
         parrySpherePosition = PlayerScript.transform.position + transform.forward * PlayerScript.hitDetectionOffset;
-        StartCoroutine(HitTime());
-    }
-    
-    IEnumerator HitTime()
-    {
+        
         if (!ballToHit)
         {
             HitBox();
@@ -39,46 +31,10 @@ public class ReleaseState : PlayerState
 
         if (ballToHit)
         {
-            ballToHit.GetComponent<BallSM>().ballOwnerPlayer = gameObject;
-            PlayerScript.OnBallHitByPlayer?.Invoke();
-            ballToHit.GetComponent<BallSM>().ChangeState(ballToHit.GetComponent<HitState>());
-            float currentBallSpeed = ballToHit.GetComponent<BallSM>().currentBallSpeedVec3.magnitude;
-            float hitForce = currentBallSpeed + PlayerScript.hitForce;
-            
-            yield return new WaitForSeconds(hitForce * ballToHit.GetComponent<BallSM>().hitFreezeTimeMultiplier);
-            
-            PlayerScript.rb.AddForce(-transform.forward * (PlayerScript.knockbackForce * 3f), ForceMode.Impulse);
-            PlayerScript.ChangeState(GetComponent<NeutralState>());
-            
-        }
-        else
-        {
-            yield return new WaitForSeconds(PlayerScript.releaseDuration);
-            PlayerScript.OnPlayerHitReleased?.Invoke();
-            PlayerScript.ChangeState(GetComponent<NeutralState>());
+            StartCoroutine(HitTime());
         }
 
     }
-    
-    //---------------------------------------------------------------------------------
-    public override void Tick()
-    {
-        base.Tick();
-        
-        if (ballToHit)
-        {
-            BallDirection();
-            PlayerScript.Move(0f, PlayerScript.hitLerpTime);
-
-        }
-        else
-        {
-            PlayerScript.Move(0f, PlayerScript.neutralLerpTime);
-
-        }
-        
-    }
-
     public void HitBox()
     {
         // create an overlap sphere that detects the ball. If it did, set the ball to parry to the ball that was detected.
@@ -95,6 +51,52 @@ public class ReleaseState : PlayerState
             }
         }
     }
+    IEnumerator HitTime()
+    {
+            ballToHit.GetComponent<BallSM>().ballOwnerPlayer = gameObject;
+            PlayerScript.OnBallHitByPlayer?.Invoke();
+            float currentBallSpeed = ballToHit.GetComponent<BallSM>().currentBallSpeedVec3.magnitude;
+            ballToHit.GetComponent<BallSM>().ChangeState(ballToHit.GetComponent<HitState>());
+            float hitForce = currentBallSpeed + PlayerScript.hitForce;
+            
+            yield return new WaitForSeconds(hitForce * ballToHit.GetComponent<BallSM>().hitFreezeTimeMultiplier);
+            
+            PlayerScript.rb.AddForce(-transform.forward * (PlayerScript.knockbackForceMultiplier * 3f), ForceMode.Impulse);
+            PlayerScript.ChangeState(GetComponent<NeutralState>());
+
+    }
+    
+    //---------------------------------------------------------------------------------
+    public override void Tick()
+    {
+        base.Tick();
+        if (_windowTimer < PlayerScript.hitWindow && !ballToHit)
+        {
+            _windowTimer += Time.deltaTime;
+            Hit();
+        }
+        
+        if (_windowTimer >= PlayerScript.hitWindow)
+        {
+            PlayerScript.OnPlayerHitReleased?.Invoke();
+            PlayerScript.ChangeState(GetComponent<NeutralState>());
+        }
+        
+        if (ballToHit)
+        {
+            BallDirection();
+            PlayerScript.Move(0f, PlayerScript.hitLerpTime);
+
+        }
+        else
+        {
+            PlayerScript.Move(0f, PlayerScript.neutralLerpTime);
+
+        }
+        
+    }
+
+
 
     public void BallDirection()
     {
@@ -121,6 +123,7 @@ public class ReleaseState : PlayerState
     //---------------------------------------------------------------------------------
     public override void Exit()
     {
+        _windowTimer = 0;
         base.Exit();
         ballToHit = null;
     }

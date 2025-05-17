@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class ChargingState : PlayerState
+public class GrabbingState : PlayerState
     {
         private GameObject _caughtBall;
         private float _grabAngleTimer;
@@ -12,7 +13,9 @@ public class ChargingState : PlayerState
         public override void Enter()
         {
             base.Enter();
+            PlayerScript.OnGrabStateEntered?.Invoke();
             // StartCoroutine(CatchWindowCoroutine());
+            currentAngle = PlayerScript.maxGrabAngle;
         }
         
         // private IEnumerator CatchWindowCoroutine()
@@ -23,15 +26,21 @@ public class ChargingState : PlayerState
 
         public override void Tick()
         {
-            currentAngle = PlayerScript.maxGrabAngle;
             base.Tick();
             PlayerScript.Move(PlayerScript.speed * PlayerScript.chargeSpeedModifier, PlayerScript.neutralLerpTime);
-            // ChargingForce();
-            
+
+
             
             if (!_caughtBall)
             {
                 CatchZone();
+            }
+            
+            PlayerScript.grabCurrentCharge -= PlayerScript.grabDischargeRate * Time.deltaTime;
+            
+            if (PlayerScript.grabCurrentCharge <= 0)
+            {
+                PlayerScript.ChangeState(GetComponent<NeutralState>());
             }
             
             
@@ -94,6 +103,7 @@ public class ChargingState : PlayerState
         public override void Exit()
         {
             base.Exit();
+            PlayerScript.OnGrabStateExited?.Invoke();
             if (_caughtBall)
             {
                 // Make the player collide with the ball again.
@@ -108,32 +118,25 @@ public class ChargingState : PlayerState
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.magenta;
-            // Draw the forward direction
-            Gizmos.DrawRay(transform.position, transform.forward * PlayerScript.grabDetectionRadius);
-            // Draw the shrinking angle
-            float halfAngle = currentAngle / 2f;
-            Vector3 leftBoundary = Quaternion.AngleAxis(-halfAngle, Vector3.up) * transform.forward;
-            Vector3 rightBoundary = Quaternion.AngleAxis(halfAngle, Vector3.up) * transform.forward;
+            if (PlayerScript == null) return;
 
+            // Draw the grab detection radius
             Gizmos.color = Color.magenta;
-            Gizmos.DrawRay(transform.position, leftBoundary * PlayerScript.grabDetectionRadius);
-            Gizmos.DrawRay(transform.position, rightBoundary * PlayerScript.grabDetectionRadius);
+            Gizmos.DrawWireSphere(transform.position, PlayerScript.grabDetectionRadius);
 
-            // Optionally, draw an arc to represent the angle
-            Gizmos.color = Color.magenta;
-            int segments = 20;
-            for (int i = 0; i < segments; i++)
+
+            // Draw the grab angle as a sector
+            if (PlayerScript.currentState is GrabbingState grabbingState)
             {
-                float angle1 = -halfAngle + (i * (currentAngle / segments));
-                float angle2 = -halfAngle + ((i + 1) * (currentAngle / segments));
-
-                Vector3 point1 = Quaternion.AngleAxis(angle1, Vector3.up) * transform.forward * PlayerScript.grabDetectionRadius;
-                Vector3 point2 = Quaternion.AngleAxis(angle2, Vector3.up) * transform.forward * PlayerScript.grabDetectionRadius;
-
-                Gizmos.DrawLine(transform.position + point1, transform.position + point2);
+                Handles.color = new Color(1, 0, 1, 0.2f); // Semi-transparent magenta
+                Vector3 forward = transform.forward;
+                Handles.DrawSolidArc(
+                    transform.position,
+                    Vector3.up,
+                    Quaternion.Euler(0, -grabbingState.currentAngle * 0.5f, 0) * forward,
+                    grabbingState.currentAngle,
+                    PlayerScript.grabDetectionRadius
+                );
             }
-            
-            
         }
     }

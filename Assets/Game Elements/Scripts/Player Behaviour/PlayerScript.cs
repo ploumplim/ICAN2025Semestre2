@@ -47,15 +47,19 @@ public class PlayerScript : MonoBehaviour
     public float dashOffset;
     
     //---------------------------------------------------------------------------------------
-    [Header("Knockback")]
+    [FormerlySerializedAs("knockbackTime")]
+    [Header("Knockback settings")]
     [Tooltip("Time where the player loses control after being struck by the ball.")]
-    public float knockbackTime = 0.5f;
-    [Tooltip("This is the force multiplier applied to the player when hit by a ball.")]
-    public float knockbackForce = 10f;
-    [FormerlySerializedAs("linearDrag")] [Tooltip("The normal linear drag of the player.")]
+    public float knockbackStunMultiplier = 0.5f;
+    [FormerlySerializedAs("knockbackForce")] [Tooltip("This is the force multiplier applied to the player when hit by a ball.")]
+    public float knockbackForceMultiplier = 10f;
+    [Tooltip("The normal linear drag of the player.")]
     public float baseLinearDamping = 3f;
-    [FormerlySerializedAs("hitLinearDrag")] [Tooltip("The linear drag when the player is hit by a ball.")]
+    [Tooltip("The linear drag when the player is hit by a ball.")]
     public float knockedBackLinearDamping = 0f;
+
+    [HideInInspector] public float trueStunTime;
+    [HideInInspector] public float truePushForce;
     
     //---------------------------------------------------------------------------------------
     [Header("Hit parameters")]
@@ -77,12 +81,22 @@ public class PlayerScript : MonoBehaviour
     
     
     
-    [Header("Charge Parameters")]
+    [Header("Grab Parameters")]
     public int maxGrabAngle = 180;
     public int minGrabAngle = 30;
     public float grabDetectionRadius = 3.5f;
     public float grabTimeLimit = 0.5f;
     public AnimationCurve grabShrinkCurve;
+    [Tooltip("Rate at which the grab is discharged.")]
+    public float grabDischargeRate = 1f;
+    [Tooltip("Time until grab is fully charged.")]
+    public float grabRechargeRate = 1f;
+    [Tooltip("Total amount of charge the player has available.")]
+    public float grabTotalCharge = 1f;
+    [HideInInspector]public float grabCurrentCharge;
+    [Tooltip("The time the player will be locked out of grabbing after leaving the state.")]
+    public float grabLockoutTime = 0.5f;
+    
 // ----------------------------------------------------------------------------------------
     [Header("Game Objects")] public GameObject playerHand;
 
@@ -104,6 +118,8 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent OnPlayerDash;
     public UnityEvent OnPlayerEndDash;
     public UnityEvent OnPlayerCatch;
+    public UnityEvent OnGrabStateEntered;
+    public UnityEvent OnGrabStateExited;
     public Action<PlayerState> OnPlayerStateChanged;
     
     // action events
@@ -149,6 +165,7 @@ public class PlayerScript : MonoBehaviour
         // Subscribe to the "Pause" action with a lambda to pass the context to OnPause
         playerInput.actions["SetPause"].performed += context => 
             GameManager.Instance.levelManager.ingameGUIManager.UI_PauseMenu.OnPause(context);
+        grabCurrentCharge = grabTotalCharge;
     }
     
     public void SetPlayerParameters()
@@ -184,19 +201,26 @@ public class PlayerScript : MonoBehaviour
         currentState.Tick();
         moveInputVector2 = moveAction.ReadValue<Vector2>();
 
-        
+    }
 
+    private void Update()
+    {
         // Timers
         if (hitTimer > 0)
         {
             hitTimer -= Time.deltaTime;
         }
-        
+                
         if (_dashTimer > 0)
         {
             _dashTimer -= Time.deltaTime;
         }
         
+        if (currentState is not GrabbingState && 
+            grabCurrentCharge < grabTotalCharge)
+        {
+            grabCurrentCharge += grabRechargeRate * Time.deltaTime;
+        }
     }
     
 
@@ -205,21 +229,25 @@ public class PlayerScript : MonoBehaviour
     public void ChangeState(PlayerState newState)
     {
         //buffering inputs
-        if (_bufferedAction != null && Time.time - _bufferedActionTime < bufferDuration)
+        if (currentState is not KnockbackState)
         {
-            switch (_bufferedAction.name)
+            if (_bufferedAction != null && Time.time - _bufferedActionTime < bufferDuration)
             {
-                case "Attack":
-                    newState = GetComponent<ReleaseState>();
-                    break;
-                case "Sprint":
-                    newState = GetComponent<DashingState>();
-                    break;
-                case "Charge":
-                    newState = GetComponent<ChargingState>();
-                    break;
+                switch (_bufferedAction.name)
+                {
+                    case "Attack":
+                        newState = GetComponent<ReleaseState>();
+                        break;
+                    case "Sprint":
+                        newState = GetComponent<DashingState>();
+                        break;
+                    case "Charge":
+                        newState = GetComponent<GrabbingState>();
+                        break;
+                }
             }
         }
+
         OnPlayerStateChanged?.Invoke(newState);
         currentState.Exit();
         currentState = newState;
@@ -233,6 +261,7 @@ public class PlayerScript : MonoBehaviour
     public void OnCollisionEnter(Collision other)
     {
         BallSM ballSM = other.gameObject.GetComponent<BallSM>();
+        
         if (ballSM)
         {
             OnPlayerHitByBall?.Invoke();
@@ -241,27 +270,18 @@ public class PlayerScript : MonoBehaviour
             { 
                 // If the ball is not lethal, push the player in the opposite direction of the ball
                 Vector3 direction = transform.position - other.transform.position;
-                // Debug.Log("Ball hit player");
-                if (currentState is NeutralState)
-                {
-                    ChangeState(GetComponent<KnockbackState>());
-                    // Push the player in the opposite direction of the ball
+                
+                truePushForce = ballSM.rb.linearVelocity.magnitude * knockbackForceMultiplier;
+                trueStunTime = ballSM.rb.linearVelocity.magnitude * knockbackStunMultiplier;
+                
+                ChangeState(GetComponent<KnockbackState>());
+                // Push the player in the opposite direction of the ball
                     
-                    rb.AddForce(
-                        direction.normalized * knockbackForce,
-                        ForceMode.Impulse);
-                }
+                rb.AddForce(direction.normalized * truePushForce,
+                    ForceMode.Impulse);
                 
                 // Set the ball's speed to currentBallSpeedVec3.
                 ballSM.rb.linearVelocity = ballSM.currentBallSpeedVec3.magnitude * -direction.normalized;
-            }
-            else if (ballSM.currentState is LethalBallState)
-            {
-                if (currentState is not KnockbackState &&
-                    currentState is not DeadState)
-                {
-                    ChangeState(GetComponent<DeadState>());
-                }
             }
         }
         
@@ -359,13 +379,17 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ CHARGE ATTACK ------------------------------
     public void OnChargeAttack(InputAction.CallbackContext context)
     { 
+        if (context.canceled)
+        {
+            ChangeState(GetComponent<NeutralState>());
+        }
         if (context.started || context.performed)
         {
            
             if (currentState is NeutralState || currentState is DashingState)
             {
                 GetComponent<DashingState>().timer = 0;
-                ChangeState(GetComponent<ChargingState>());
+                ChangeState(GetComponent<GrabbingState>());
             }
             // else if (currentState is not ChargingState && currentState is not ReleaseState)
             // {
@@ -375,10 +399,11 @@ public class PlayerScript : MonoBehaviour
             // }
         }
 
-        if (context.canceled && currentState is ChargingState)
+        if (context.canceled && currentState is GrabbingState)
         {
             ChangeState(GetComponent<NeutralState>());
         }
+        
         
     }
     
@@ -387,18 +412,17 @@ public class PlayerScript : MonoBehaviour
     {
         if (context.started && hitTimer <= 0f)
         {
-            if (currentState is NeutralState || currentState is ChargingState)
+            if (currentState is NeutralState || currentState is GrabbingState)
             {
                 hitTimer = hitCooldown;
                 ChangeState(GetComponent<ReleaseState>());
             }
-            if (currentState is not NeutralState)
+            if (currentState is not NeutralState && currentState is not KnockbackState)
             {
                 hitTimer = hitCooldown;
                 BufferInput(context.action);
             }
-
-
+            
         }
     }
     
@@ -428,14 +452,14 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ PLAYER GIZMOS ------------------------------
 
     // Create a gizmo to show the direction the player is looking at
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawRay(transform.position, transform.forward * 10);
-        
-        // Draw the hit sphere
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + transform.forward * hitDetectionOffset, hitDetectionRadius);
-        
-    }
+    // private void OnDrawGizmos()
+    // {
+    //     Gizmos.color = Color.green;
+    //     Gizmos.DrawRay(transform.position, transform.forward * 10);
+    //     
+    //     // Draw the hit sphere
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawWireSphere(transform.position + transform.forward * hitDetectionOffset, hitDetectionRadius);
+    //     
+    // }
 }
