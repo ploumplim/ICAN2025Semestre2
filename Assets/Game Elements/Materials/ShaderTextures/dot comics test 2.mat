@@ -56,18 +56,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BACK_DOT_PROPAGATION: 0.961
+    - _BACK_DOT_PROPAGATION: 0.85
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SPREAD_DOWN: 0.16
-    - _SPREAD_TOP_1: 0.79
-    - _TOP_DOT_PROPAGATION: 1.179
+    - _SPREAD_DOWN: -0.03
+    - _SPREAD_TOP_1: 0.71
+    - _TOP_DOT_PROPAGATION: 1.77
     - _USE_SCREEN_SPACE: 1
-    - _dot_scale: 13
-    - _rotation_dot: 0.84
+    - _dot_scale: 20
+    - _rotation_dot: 0
     m_Colors:
-    - _HIGHLIGHT: {r: 0.93207544, g: 0.8266955, b: 0.16003552, a: 0.45490196}
-    - _MIDTONES: {r: 0.86415094, g: 0.065104626, b: 0.06358835, a: 0.5294118}
-    - _SHADOWS: {r: 1, g: 0, b: 0.047058783, a: 0.7490196}
+    - _HIGHLIGHT: {r: 0.10980391, g: 0.30383047, b: 0.87058824, a: 0.45490196}
+    - _MIDTONES: {r: 0.13023138, g: 0.7584905, b: 0.39557132, a: 0.5294118}
+    - _SHADOWS: {r: 0, g: 1, b: 0.6377318, a: 0.7490196}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

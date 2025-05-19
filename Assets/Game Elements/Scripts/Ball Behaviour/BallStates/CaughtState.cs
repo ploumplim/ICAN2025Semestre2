@@ -36,6 +36,7 @@ public class CaughtState : BallState
         if (BallSm.ballOwnerPlayer && playerHandTransform)
         {
             float r = Mathf.Clamp01(_moveTimer / BallSm.ballMoveDuration);
+            
             float curveVal = BallSm.GetComponent<BallSM>().movementCurve.Evaluate(r);
             if (transform.position != playerHandTransform.position)
             {
@@ -53,7 +54,7 @@ public class CaughtState : BallState
                 _moveTimer = 0;
             }
 
-            if (BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().currentState != BallSm.ballOwnerPlayer.GetComponent<ChargingState>())
+            if (BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().currentState != BallSm.ballOwnerPlayer.GetComponent<GrabbingState>())
             {
                 // Debug.Log("Ball should be released");;
                 BallSm.rb.AddForce(BallSm.ballOwnerPlayer.transform.forward * BallSm.currentBallSpeedVec3.magnitude, ForceMode.VelocityChange);
@@ -82,8 +83,8 @@ public class CaughtState : BallState
         {
             Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);
         }
-        BallSm.rb.linearVelocity = Vector3.zero;
-        BallSm.rb.angularVelocity = Vector3.zero;
+        // BallSm.rb.linearVelocity = Vector3.zero;
+        // BallSm.rb.angularVelocity = Vector3.zero;
     }
 
 }

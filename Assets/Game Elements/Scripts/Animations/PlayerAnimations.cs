@@ -27,15 +27,15 @@ public class PlayerAnimations : MonoBehaviour
         // animator.ResetTrigger("IsHitting");
         switch (state)
         {
-            case ChargingState:
+            case GrabbingState:
                 animator.SetTrigger("IsCharging");
                 break;
             case ReleaseState:
                 animator.SetTrigger("IsHitting"); 
                 break;
             case NeutralState:
-                animator.ResetTrigger("IsCharging");
-                animator.ResetTrigger("IsHitting");
+                // animator.ResetTrigger("IsCharging");
+                // animator.ResetTrigger("IsHitting");
                 break;
         }
     }
@@ -43,6 +43,9 @@ public class PlayerAnimations : MonoBehaviour
     private void AnimationUpdateManager()
     {
         // animator.SetBool("IsMoving", playerScript.isMoving);
-        animator.SetFloat("RunningFloat", playerScript.moveInputVector2.magnitude);
+        if (playerScript.currentState is NeutralState)
+        {
+            animator.SetFloat("RunningFloat", playerScript.moveInputVector2.magnitude);
+        }
     }
 }

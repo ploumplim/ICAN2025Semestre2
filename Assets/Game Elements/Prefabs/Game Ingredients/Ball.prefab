@@ -10252,7 +10252,7 @@ MonoBehaviour:
   currentState: {fileID: 0}
   maxSpeed: 180
   minSpeed: 30
-  lethalSpeed: 1
+  lethalSpeed: 40000
   firstTimeLethalWaitTime: 1.2
   hitFreezeTimeMultiplier: 0.01
   groundedMaxHeight: 1
@@ -10274,8 +10274,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -10283,8 +10283,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 2
-      outSlope: 2
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -10310,7 +10310,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 596491821321572552}
         m_TargetAssemblyTypeName: BallSoundScript, Assembly-CSharp
-        m_MethodName: PlaySound
+        m_MethodName: PlayClassicBounce
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10325,7 +10325,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 596491821321572552}
         m_TargetAssemblyTypeName: BallSoundScript, Assembly-CSharp
-        m_MethodName: PlaySound
+        m_MethodName: PlayClassicBounce
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10340,7 +10340,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 596491821321572552}
         m_TargetAssemblyTypeName: BallSoundScript, Assembly-CSharp
-        m_MethodName: PlaySound
+        m_MethodName: PlayClassicBounce
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10353,18 +10353,6 @@ MonoBehaviour:
   OnBallFlight:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 596491821321572552}
-        m_TargetAssemblyTypeName: BallSoundScript, Assembly-CSharp
-        m_MethodName: PlaySound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 3984054927209078919}
         m_TargetAssemblyTypeName: BallVisuals, Assembly-CSharp
         m_MethodName: OnHitStateEnd
@@ -10413,6 +10401,18 @@ MonoBehaviour:
       - m_Target: {fileID: 3984054927209078919}
         m_TargetAssemblyTypeName: BallVisuals, Assembly-CSharp
         m_MethodName: OnLethalBall
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 596491821321572552}
+        m_TargetAssemblyTypeName: BallSoundScript, Assembly-CSharp
+        m_MethodName: PlaySound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
