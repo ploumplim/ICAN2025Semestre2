@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -196,13 +197,12 @@ public class IngameGUIManager : MonoBehaviour
             remainingTime--;
         }
 
-        // When the countdown is finished, you can perform any additional actions here
-        _RoundInformationAffichage.text = "";
-        _RoundInformationAffichage.gameObject.SetActive(false);
-        GameManager.Instance.levelManager.StartLevel(); // Call StartLevel when the countdown finishes
-        
-        
+        StartGame();
+
+
     }
+
+   
     
     public void ActivateSetReadyText()
     {
@@ -236,6 +236,35 @@ public class IngameGUIManager : MonoBehaviour
         {
             uiElement.SetActive(!uiElement.activeSelf);
             yield return new WaitForSeconds(blinkInterval);
+        }
+    }
+    
+    public void StartGame()
+    {
+        GetComponent<EndGameScorePanel>().EndGameScorePanelGO.SetActive(false);
+        // When the countdown is finished, you can perform any additional actions here
+        _RoundInformationAffichage.text = "";
+        _RoundInformationAffichage.gameObject.SetActive(false);
+        GameManager.Instance.levelManager.StartLevel(); // Call StartLevel when the countdown finishes
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    public void BackToMainMenu()
+    {
+        StartCoroutine(LoadMainMenuAsync());
+    }
+
+    private IEnumerator LoadMainMenuAsync()
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(0);
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
         }
     }
 }
