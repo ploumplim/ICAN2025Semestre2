@@ -1241,6 +1241,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 347135594415308757, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
+      propertyPath: maxPlayerCount
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4046874531373292982, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
       propertyPath: m_Name
       value: MultiplayerManager
@@ -1551,15 +1555,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5357367878516543847, guid: 97a1ed56cb8a28748bc88d4979535d65, type: 3}
       propertyPath: scenesToLoad.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5357367878516543847, guid: 97a1ed56cb8a28748bc88d4979535d65, type: 3}
       propertyPath: scenesToLoad.Array.data[0].guid
-      value: 45cbc4fd13fb9794d81df5e93c881d0d
+      value: a343c91831a17e44bb8389696aefa2bd
       objectReference: {fileID: 0}
     - target: {fileID: 5357367878516543847, guid: 97a1ed56cb8a28748bc88d4979535d65, type: 3}
       propertyPath: scenesToLoad.Array.data[1].guid
-      value: 3b1dedde1720b2b4d92217e0c0a48d71
+      value: 45cbc4fd13fb9794d81df5e93c881d0d
       objectReference: {fileID: 0}
     - target: {fileID: 5357367878516543847, guid: 97a1ed56cb8a28748bc88d4979535d65, type: 3}
       propertyPath: scenesToLoad.Array.data[2].guid
@@ -1572,11 +1576,11 @@ PrefabInstance:
     - target: {fileID: 5357367878516543847, guid: 97a1ed56cb8a28748bc88d4979535d65, type: 3}
       propertyPath: scenesToLoad.Array.data[0].asset
       value: 
-      objectReference: {fileID: 102900000, guid: 45cbc4fd13fb9794d81df5e93c881d0d, type: 3}
+      objectReference: {fileID: 102900000, guid: a343c91831a17e44bb8389696aefa2bd, type: 3}
     - target: {fileID: 5357367878516543847, guid: 97a1ed56cb8a28748bc88d4979535d65, type: 3}
       propertyPath: scenesToLoad.Array.data[1].asset
       value: 
-      objectReference: {fileID: 102900000, guid: 3b1dedde1720b2b4d92217e0c0a48d71, type: 3}
+      objectReference: {fileID: 102900000, guid: 45cbc4fd13fb9794d81df5e93c881d0d, type: 3}
     - target: {fileID: 5357367878516543847, guid: 97a1ed56cb8a28748bc88d4979535d65, type: 3}
       propertyPath: scenesToLoad.Array.data[2].asset
       value: 

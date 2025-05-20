@@ -2342,6 +2342,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8243870776174257223}
     - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
+      propertyPath: pointNeededToWin
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1327721485598010912, guid: 2016d588ebdafc14bb64dce22f307ec6, type: 3}
       propertyPath: PlayerSpawnParent
       value: 
       objectReference: {fileID: 79125514}

@@ -8,7 +8,7 @@
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] SystemI::DSPCodecPoolRegister            : register codec pool for pool type 0
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x4000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
-[LOG] AsyncManager::init                       : manager 000002772E499DB8 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 0000027CC8606D38 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.
@@ -20,6 +20,61 @@
 [LOG] BankLoader::serializeBank                : fileversion = 146, compatVersion = 146 (oldest = 44, newest = 146)
 [LOG] PlaybackSystem::acquireMasterBus         : Setting master channel group format to 6
 [LOG] BankLoader::serializeBank                : fileversion = 146, compatVersion = 146 (oldest = 44, newest = 146)
+[LOG] SoundI::release                          : calm-street-7080 (0000027BFE5BB9D8)
+[LOG] SoundI::release                          :     calm-street-7080 (0000027CC7B43F48)
+[LOG] SoundI::release                          :     calm-street-7080 (0000027D14EE9258)
+[LOG] SoundI::release                          :  (0000027D14DA0588)
+[LOG] SoundI::release                          :     orchestra-hit-240475 (0000027BE8381E08)
+[LOG] SoundI::release                          :  (0000027C8C841C98)
+[LOG] SoundI::release                          :     Hip-Hop (0000027CE56F94E8)
+[LOG] SoundI::release                          :  (0000027BE880C3A8)
+[LOG] SoundI::release                          :     Swoosh (0000027D5B3D9D88)
+[LOG] SoundI::release                          :  (0000027C8C842218)
+[LOG] SoundI::release                          :     Magic Impulsion (0000027CE56F9C68)
+[LOG] SoundI::release                          :  (0000027C8C8419D8)
+[LOG] SoundI::release                          :     Kung Fu (0000027CE56F9368)
+[LOG] SoundI::release                          :  (0000027D14D9FEA8)
+[LOG] SoundI::release                          :     Swooshes, Swish, Short, Wind Gusts, Dry SND55502 (0000027BE8381088)
+[LOG] SoundI::release                          :  (0000027BE880C0E8)
+[LOG] SoundI::release                          :     Baseball Hit (0000027D5B3DA208)
+[LOG] SoundI::release                          :  (0000027C8C8420B8)
+[LOG] SoundI::release                          :     Metal Impact (0000027CE56F91E8)
+[LOG] SoundI::release                          :  (0000027C8C8424D8)
+[LOG] SoundI::release                          :     Dash_Sound_2 (0000027CE56F9668)
+[LOG] SoundI::release                          :  (0000027D14D9FD48)
+[LOG] SoundI::release                          :     Face Punch (0000027BE8381508)
+[LOG] SoundI::release                          :  (0000027BE880C248)
+[LOG] SoundI::release                          :     Basketball (0000027D5B3D9F08)
+[LOG] SoundI::release                          :  (0000027D14DA0168)
+[LOG] SoundI::release                          :     knocking-on-a-window-104412 (0000027BE8381388)
+[LOG] SoundI::release                          :  (0000027C8C841878)
+[LOG] SoundI::release                          :     Powerful Impact 2 (0000027CE56F9068)
+[LOG] SoundI::release                          :  (0000027C8C841DF8)
+[LOG] SoundI::release                          :     cartoon-drum-bass-01-186984 (0000027CE56F9968)
+[LOG] SoundI::release                          :  (0000027D14DA0008)
+[LOG] SoundI::release                          :     Powerful Impact (0000027BE8381208)
+[LOG] SoundI::release                          :  (0000027D14DA09A8)
+[LOG] SoundI::release                          :     Sci-Fi_Bounce (0000027BE8381688)
+[LOG] SoundI::release                          :  (0000027C8C841718)
+[LOG] SoundI::release                          :     Plasma_2 (0000027D5B3D9C08)
+[LOG] SoundI::release                          :  (0000027C8C841F58)
+[LOG] SoundI::release                          :     Punch (0000027CE56F9AE8)
+[LOG] SoundI::release                          :  (0000027C8C841B38)
+[LOG] SoundI::release                          :     mixkit-quick-hit-through-air-2142 (0000027CE56F9DE8)
+[LOG] SoundI::release                          :  (0000027D14DA06E8)
+[LOG] SoundI::release                          :     Charge Up (0000027BE8381808)
+[LOG] SoundI::release                          :  (0000027C8C842378)
+[LOG] SoundI::release                          :     big-punch-with-whoosh-103638 (0000027CE56F97E8)
+[LOG] Thread::callback                         : FMOD Studio update thread finished.
+[LOG] Thread::callback                         : FMOD Studio bank load thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] Thread::callback                         : FMOD Studio sample load thread finished.
+[LOG] LiveUpdate::release                      : 
+[LOG] LiveUpdate::reset                        : Reset connection (reason Disconnected)
+[LOG] Thread::callback                         : FMOD stream thread finished.
+[LOG] Thread::callback                         : FMOD mixer thread finished.
+[LOG] Profile::disconnectAll                   : Profiler disconnecting all clients
+[LOG] SystemI::closeInternal                   : Closed.
 [LOG] Thread::callback                         : FMOD Studio bank load thread finished.
 [LOG] Thread::callback                         : FMOD Studio sample load thread finished.
 [LOG] LiveUpdate::release                      : 
@@ -27,3 +82,5 @@
 [LOG] Thread::callback                         : FMOD stream thread finished.
 [LOG] Thread::callback                         : FMOD mixer thread finished.
 [LOG] SystemI::closeInternal                   : Closed.
+[LOG] Thread::callback                         : FMOD nonblocking thread (0) finished.
+[LOG] Thread::callback                         : FMOD file thread finished.

@@ -24,6 +24,12 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public int currentRound; // Current round of the level
     [HideInInspector] public int totalRounds; // Total rounds of the level
     public bool gameIsRunning; // Boolean to check if the game is running
+
+    public List<PointTracker> PointTrackers;
+    public GoalSpawner goalSpawner;
+    
+    
+    public int pointNeededToWin;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     [Header("Prefab settings")]
     [Tooltip("Insert the ball prefab here to spawn it when the level starts and on" +
@@ -109,6 +115,7 @@ public class LevelManager : MonoBehaviour
     {
         _levelSM = GetComponent<LevelSM>();
         _levelSM.Init();
+        
     }
 
     public void Update()
