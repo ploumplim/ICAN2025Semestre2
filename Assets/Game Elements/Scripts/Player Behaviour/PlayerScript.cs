@@ -65,10 +65,6 @@ public class PlayerScript : MonoBehaviour
     [Header("Hit parameters")]
     [Tooltip("Select the type of hit.")]
     public HitType hitType = HitType.ForwardHit;
-    [Tooltip("The duration that the hit has to apply force to the ball.")]
-    public float releaseDuration = 0.5f;
-    // [Tooltip("How long the player can hold the charge before releasing automatically.")]
-    // public float chargeTimeLimit = 1f;
     [Tooltip("The speed multiplier on the ball when hit.")]
     public float hitForce = 10f;
     [Tooltip("The radius of the sphere that will detect the ball when hitting.")]
@@ -78,8 +74,6 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("The window of opportunity to catch the ball at the start of the charge.")]
     public float hitCooldown = 0.3f;
     public float hitWindow = 0.5f;
-    
-    
     
     [Header("Grab Parameters")]
     public int maxGrabAngle = 180;
@@ -94,8 +88,6 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("Total amount of charge the player has available.")]
     public float grabTotalCharge = 1f;
     [HideInInspector]public float grabCurrentCharge;
-    [Tooltip("The time the player will be locked out of grabbing after leaving the state.")]
-    public float grabLockoutTime = 0.5f;
     
 // ----------------------------------------------------------------------------------------
     [Header("Game Objects")] public GameObject playerHand;
@@ -200,7 +192,6 @@ public class PlayerScript : MonoBehaviour
     {
         currentState.Tick();
         moveInputVector2 = moveAction.ReadValue<Vector2>();
-
     }
 
     private void Update()
@@ -236,7 +227,11 @@ public class PlayerScript : MonoBehaviour
                 switch (_bufferedAction.name)
                 {
                     case "Attack":
-                        newState = GetComponent<ReleaseState>();
+                        if (currentState is not ReleaseState)
+                        {
+                            newState = GetComponent<ReleaseState>();
+                        }
+
                         break;
                     case "Sprint":
                         newState = GetComponent<DashingState>();

@@ -10517,12 +10517,11 @@ MonoBehaviour:
   trueStunTime: 0
   truePushForce: 0
   hitType: 0
-  releaseDuration: 0.15
   hitForce: 5
   hitDetectionRadius: 8
   hitDetectionOffset: 0
-  hitCooldown: 0.75
-  hitWindow: 0.5
+  hitCooldown: 0.25
+  hitWindow: 0.25
   maxGrabAngle: 180
   minGrabAngle: 45
   grabDetectionRadius: 8
@@ -10555,7 +10554,6 @@ MonoBehaviour:
   grabRechargeRate: 1
   grabTotalCharge: 1
   grabCurrentCharge: 0
-  grabLockoutTime: 0.5
   playerHand: {fileID: 2776262344594129282}
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
@@ -11392,7 +11390,7 @@ ParticleSystem:
     startRotationY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1.5707963
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -11763,7 +11761,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 500
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -11866,66 +11864,8 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    m_BurstCount: 1
-    m_Bursts:
-    - serializedVersion: 2
-      time: 0
-      countCurve:
-        serializedVersion: 2
-        minMaxState: 0
-        scalar: 10
-        minScalar: 30
-        maxCurve:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        minCurve:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-      cycleCount: 0
-      repeatInterval: 0.01
-      probability: 1
+    m_BurstCount: 0
+    m_Bursts: []
   SizeModule:
     enabled: 1
     curve:
@@ -15731,7 +15671,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8cfeac164e1fd7e4791be868b1917ae5, type: 2}
+  - {fileID: 2100000, guid: 477b367554bd00241b40d0aba4d55472, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

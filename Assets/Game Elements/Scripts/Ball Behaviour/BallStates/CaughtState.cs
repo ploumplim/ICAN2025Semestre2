@@ -5,13 +5,16 @@ public class CaughtState : BallState
     [HideInInspector] public float timer;
     private float _moveTimer;
     [SerializeField] private Transform playerHandTransform;
+    private Vector3 currentBallDirection;
 
 
     public override void Enter()
     {        
         base.Enter();
-        
         BallSm.OnBallCaught?.Invoke();
+        // Save the current ball direction
+        currentBallDirection = BallSm.rb.linearVelocity.normalized;
+        
         
         timer = 0;
         SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
@@ -57,7 +60,7 @@ public class CaughtState : BallState
             if (BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().currentState != BallSm.ballOwnerPlayer.GetComponent<GrabbingState>())
             {
                 // Debug.Log("Ball should be released");;
-                BallSm.rb.AddForce(BallSm.ballOwnerPlayer.transform.forward * BallSm.currentBallSpeedVec3.magnitude, ForceMode.VelocityChange);
+                BallSm.rb.AddForce(currentBallDirection * BallSm.currentBallSpeedVec3.magnitude, ForceMode.VelocityChange);
                 BallSm.ChangeState(GetComponent<FlyingState>());
                 _moveTimer = 0;
                 // The Ball should fly in the direction in which the player is facing.
