@@ -32,6 +32,12 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("The rate at which speed picks up when the input is being performed.")]
     public float acceleration = 0.1f;
     //---------------------------------------------------------------------------------------
+    [Header("Player Point")]
+    public GameObject playerGoalToDefend;
+    public GameObject playerGoalToAttack;
+    public int playerPoint;
+    
+    //---------------------------------------------------------------------------------------
     [Header("Rotation Lerps")]
     [Tooltip("Lerp time for the rotation while not aiming")]
     public float neutralLerpTime = 0.1f;
@@ -158,6 +164,10 @@ public class PlayerScript : MonoBehaviour
         playerInput.actions["SetPause"].performed += context => 
             GameManager.Instance.levelManager.ingameGUIManager.UI_PauseMenu.OnPause(context);
         grabCurrentCharge = grabTotalCharge;
+        
+        int playerId = GameManager.Instance.PlayerScriptList.IndexOf(this);
+        
+        GameManager.Instance.levelManager.goalSpawner.LinkGoalToPlayer(playerId);
     }
     
     public void SetPlayerParameters()
@@ -212,6 +222,8 @@ public class PlayerScript : MonoBehaviour
         {
             grabCurrentCharge += grabRechargeRate * Time.deltaTime;
         }
+
+        playerPoint = playerGoalToAttack.GetComponent<PointTracker>()._points;
     }
     
 

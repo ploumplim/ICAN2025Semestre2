@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Eflatun.SceneReference;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -11,14 +12,6 @@ using UnityEngine.UIElements;
 
 public class LevelManager : MonoBehaviour
 {
-    [Serializable]
-    public class Round
-    {
-        public string roundName;
-        [Tooltip("This list holds all the available arenas.")]
-        public List<Scene> availableArenas;
-
-    }
     
     #region Variables
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -31,6 +24,12 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public int currentRound; // Current round of the level
     [HideInInspector] public int totalRounds; // Total rounds of the level
     public bool gameIsRunning; // Boolean to check if the game is running
+
+    public List<PointTracker> PointTrackers;
+    public GoalSpawner goalSpawner;
+    
+    
+    public int pointNeededToWin;
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PUBLIC VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     [Header("Prefab settings")]
     [Tooltip("Insert the ball prefab here to spawn it when the level starts and on" +
@@ -55,9 +54,8 @@ public class LevelManager : MonoBehaviour
     [Tooltip("This value represents the delay after the last player is dead during a round, before the buffer" +
              "is called.")]
     public float roundVictoryDelay = 2f;
-    
-    [Tooltip("This list holds all the rounds in the level. Modify the level design of each round here.")]
-    public List<Round> rounds;
+
+    public List<SceneReference> levels;
 
     //--------------------------------------------------------------------------------
     [Header("Score Settings")]
@@ -74,8 +72,6 @@ public class LevelManager : MonoBehaviour
     public CameraScript gameCameraScript;
     //[SerializeField]public MultiplayerManager multiplayerManager; // Reference to the Multiplayer Manager
     [FormerlySerializedAs("PlayerSpawnPoint")] public GameObject PlayerSpawnParent;
-
-    public GameObject ScreenShakeButton;
     
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ EVENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public UnityEvent OnGameStart;
@@ -91,6 +87,25 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         GameManager.Instance.levelManager = this;
+        foreach (var player in GameManager.Instance.PlayerScriptList)
+        {
+            players.Add(player.gameObject);
+        }
+        gameBall = GameObject.FindGameObjectWithTag("Ball");
+        // _levelSM= GetComponent<LevelSM>();
+        // _levelSM.levelManager = this;
+        // GameManager.Instance.GetComponent<PlayingState>().levelSM = _levelSM;
+        
+        
+
+
+    }
+    
+
+    public void LevelManagerSetup()
+    {
+        _playerSpawnPoints.Clear();
+        PlayerSpawnParent = GameObject.FindGameObjectWithTag("SpawnParent");
         
     }
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ METHODS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,6 +115,7 @@ public class LevelManager : MonoBehaviour
     {
         _levelSM = GetComponent<LevelSM>();
         _levelSM.Init();
+        
     }
 
     public void Update()
@@ -153,8 +169,8 @@ public class LevelManager : MonoBehaviour
         {
             _levelSM.ChangeState(GetComponent<SetupState>());
             // Disable the game start button in the GUI
-            ingameGUIManager.startGameButtonObject.SetActive(false);
-            ingameGUIManager.resetPlayersObject.SetActive(false);
+            // ingameGUIManager.startGameButtonObject.SetActive(false);
+            // ingameGUIManager.resetPlayersObject.SetActive(false);
             
             // Check how many players have joined the game and determine the number of rounds depending on that.
             if (players.Count == 2)
@@ -170,16 +186,15 @@ public class LevelManager : MonoBehaviour
                 totalRounds = 7;
             }
             
-            
-            foreach (PlayerScript player in GameManager.Instance.PlayerScriptList)
-            {
-                //subscribe to pertinent events
-            }
             foreach (var panel in ingameGUIManager.UI_PlayerScore)
             {
                 Destroy(panel.gameObject); // Détruit chaque enfant
             }
             ingameGUIManager.UI_PlayerScore.Clear();
+            GameManager.Instance.NextSceneToPlay.Clear();
+            GameManager.Instance.NextSceneToPlay = new List<SceneReference>(GameManager.Instance.scenesToLoad);
+            ingameGUIManager.StopBlinking();
+            ingameGUIManager.UI_PressStartTutorialtext.SetActive(false);
         }
         else
         {
@@ -226,16 +241,12 @@ public class LevelManager : MonoBehaviour
     
     public void StartRound()
     {
-        // DestroyAllPointWalls();
-        // DestroyAllNeutralWalls();
-        // // Reset the global score
-        // potScore = 0;
-        // // Spawn the ball
         SpawnBall();
         // Init the players
         InitPlayers();
         // Spawn the point walls
-        // SpawnCurrentRoundWalls();
+        //GameManager.Instance.LoadNextLevel();
+        
     }
     
     public void EndRound(GameObject winningPlayer)
@@ -386,38 +397,35 @@ public class LevelManager : MonoBehaviour
 
     public void EndGameScore()
     {
-        List<(GameObject player, int score)> playerScores = new List<(GameObject player, int score)>();
-
-        foreach (var player in players)
-        {
-            int score = player.GetComponent<PlayerPointTracker>().points;
-            playerScores.Add((player, score));
-        }
-
-        playerScores.Sort((x, y) => y.score.CompareTo(x.score));
-
-        if (playerScores.Count > 0)
-        {
-            string highestScoringPlayer = playerScores[0].player.name;
-        }
-
-        for (int i = 0; i < playerScores.Count; i++)
-        {
-            var playerScore = playerScores[i];
-            // Debug.Log($"Player: {playerScore.player.name}, Score: {playerScore.score}");
-            GameObject playerScorePanelParent = null;
-            foreach (Transform child in ingameGUIManager.transform)
-            {
-                if (child.CompareTag("ScorePlayerPanel"))
-                {
-                    playerScorePanelParent = child.gameObject;
-                }
-            }
-            GameObject scorePanel = Instantiate(ingameGUIManager.ScorePlayerUIEndGame, playerScorePanelParent.gameObject.transform);
-            ingameGUIManager.UI_PlayerScore.Add(scorePanel);
-            scorePanel.SetActive(true);
-            ingameGUIManager.EndGameScoreBoardPlayerPanel(playerScore.player, scorePanel, i + 1);
-        }
+        ingameGUIManager.gameObject.GetComponent<EndGameScorePanel>().StartEndGamePanel();
+        // List<(GameObject player, int score)> playerScores = new List<(GameObject player, int score)>();
+        //
+        // foreach (var player in players)
+        // {
+        //     int score = player.GetComponent<PlayerPointTracker>().points;
+        //     playerScores.Add((player, score));
+        // }
+        //
+        // playerScores.Sort((x, y) => y.score.CompareTo(x.score));
+        //
+        // for (int i = 0; i < playerScores.Count; i++)
+        // {
+        //     var playerScore = playerScores[i];
+        //     // Debug.Log($"Player: {playerScore.player.name}, Score: {playerScore.score}");
+        //     GameObject playerScorePanelParent = null;
+        //     foreach (Transform child in ingameGUIManager.transform)
+        //     {
+        //         if (child.CompareTag("ScorePlayerPanel"))
+        //         {
+        //             playerScorePanelParent = child.gameObject;
+        //         }
+        //     }
+        //     GameObject scorePanel = Instantiate(ingameGUIManager.ScorePlayerUIEndGame, playerScorePanelParent.gameObject.transform);
+        //     ingameGUIManager.StartBlinking(ingameGUIManager.UI_SetReadyInformationText,ingameGUIManager.blinkInterval);
+        //     ingameGUIManager.UI_PlayerScore.Add(scorePanel);
+        //     scorePanel.SetActive(true);
+        //     //ingameGUIManager.EndGameScoreBoardPlayerPanel(playerScore.player, scorePanel, i + 1);
+        // }
     }
     
     public void ResetAllPoints()
