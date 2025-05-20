@@ -96,7 +96,7 @@ public class BallVisuals : MonoBehaviour
         TrailEmitter();
         BallColorAndLight();
         UpdateFace();
-        UpdateBallSpeedFeedbacks();
+        // UpdateBallSpeedFeedbacks();
     }
 
     private void UpdateBallSpeedFeedbacks()
@@ -268,7 +268,6 @@ public class BallVisuals : MonoBehaviour
     {
         // play the hit charge particle system.
         hitChargeParticle.Play();
-        speedFeedbackParticle.Play();
         
     }
 
