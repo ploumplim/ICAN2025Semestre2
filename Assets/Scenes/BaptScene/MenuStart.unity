@@ -1382,6 +1382,10 @@ PrefabInstance:
       value: event:/FX/Dash_FX
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <Grab_FX>k__BackingField.Path
+      value: event:/FX/Grab_FX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <Hit_Sound>k__BackingField.Path
       value: event:/FX/Hit_FX
       objectReference: {fileID: 0}
@@ -1396,6 +1400,22 @@ PrefabInstance:
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <KnockBack_FX>k__BackingField.Path
       value: event:/FX/KnockBack_FX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <Grab_FX>k__BackingField.Guid.Data1
+      value: 3397310
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <Grab_FX>k__BackingField.Guid.Data2
+      value: 1205374675
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <Grab_FX>k__BackingField.Guid.Data3
+      value: 65357189
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <Grab_FX>k__BackingField.Guid.Data4
+      value: -638130468
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <LethalBall_FX>k__BackingField.Path

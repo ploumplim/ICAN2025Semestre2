@@ -1,5 +1,32 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9028977947487947444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/FX/Grab_FX
+  m_EditorClassIdentifier: 
+  Path: event:/FX/Grab_FX
+  Guid:
+    Data1: 3397310
+    Data2: 1205374675
+    Data3: 65357189
+    Data4: -638130468
+  Banks:
+  - {fileID: 9013900838437733036}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 2748
 --- !u!114 &-8831266110946202750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,10 +201,10 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638827463296116967
+  lastModified: 638830772828180803
   FileSizes:
   - Name: 
-    Value: 1512
+    Value: 1550
   Exists: 1
 --- !u!114 &-1303960338205871670
 MonoBehaviour:
@@ -250,7 +277,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 2700
+  Length: 2949
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,12 +307,13 @@ MonoBehaviour:
   - {fileID: 9061532659611863500}
   - {fileID: 4160025467108558828}
   - {fileID: 3934459937923346836}
+  - {fileID: -9028977947487947444}
   EditorParameters: []
   MasterBanks:
   - {fileID: 9013900838437733036}
   StringsBanks:
   - {fileID: -3230815617287640978}
-  cacheTime: 638827463296116967
+  cacheTime: 638830772828180803
   cacheVersion: 131846
 --- !u!114 &3840750683163560846
 MonoBehaviour:
@@ -411,7 +439,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638827463296090705
+  lastModified: 638830772828155505
   FileSizes: []
   Exists: 1
 --- !u!114 &9061532659611863500
@@ -440,4 +468,4 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 300
+  Length: 3049

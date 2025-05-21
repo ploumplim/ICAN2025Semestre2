@@ -77,4 +77,10 @@ public class PlayerSoundScript : MonoBehaviour
         AudioManager.instance.PlayOneShot(FMODEvents.instance.KnockBack_FX, this.transform.position);
 
     }
+
+    public void PlayGrabSound()
+    {
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.Grab_FX, this.transform.position);
+
+    }
 }
