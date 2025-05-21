@@ -1,4 +1,6 @@
+    using System.Globalization;
     using TMPro;
+    using UnityEditor;
     using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -36,7 +38,11 @@ public class PlayerVisuals : MonoBehaviour
     public GameObject rangeSphereObject;
 
     public GameObject stateText;
+    public GameObject chargeText;
     
+    public ParticleSystem grabParticle;
+    private ParticleSystem.ShapeModule _grabParticleShape;
+    private float _currentEmissionRate;
     
     
     void Start()
@@ -45,8 +51,8 @@ public class PlayerVisuals : MonoBehaviour
         playerScript = GetComponent<PlayerScript>();
         // Recover the player's mesh material and color.
         playerMeshMaterial = playerMesh.GetComponent<MeshRenderer>().material;
-        _parryDiameter = playerScript.hitDetectionRadius * 2f;
-        
+        _parryDiameter = playerScript.hitDetectionRadius * 2f - parryParticle.main.startSizeMultiplier / 2f;
+        _grabParticleShape = grabParticle.shape;
     }
 
     // Update is called once per frame
@@ -57,23 +63,17 @@ public class PlayerVisuals : MonoBehaviour
         switch (playerScript.currentState) 
         { 
             case NeutralState:
-                // Change the player's color back to the original color.
+                ResetGrabParticle();
                 playerMeshMaterial.color = _originalPlayerMeshColor;
-                
-                // Stop the dead particle if it is playing.
                 if (deadParticle.isPlaying)
                 {deadParticle.Stop();}
-                
-                // Set the aimPointer's scale.
                 rangeSphereObject.transform.localScale = new Vector3(_parryDiameter, 1f, _parryDiameter);
-                
                 OnSprintEnd();
                 
                 break;
             
-            case ChargingState:
-                // Function to signal the charging state of the player.
-                // ChargeFeedback();
+            case GrabbingState:
+                UpdateGrabParticle();
                 OnSprintEnd();
                 break;
             
@@ -107,71 +107,64 @@ public class PlayerVisuals : MonoBehaviour
 
         }
 
-        // WarnChargeAlmostOver();
-
-        // RecoverAfterDash();
-        // // Dash trail width is equal to the player's rollDetectionRadius.
-        // dashTrail.widthMultiplier = playerScript.rollDetectionRadius * 2f;
         
-        // Dash color is equal to the player's color.
         dashTrail.startColor = playerMeshMaterial.color;
         dashTrail.endColor = playerMeshMaterial.color;
         
-        // Update the parry radius collider.
+
         var parryParticleShape = parryParticle.shape;
         parryParticleShape.radius = _parryDiameter / 2f;
+        
+        GrabChargeValue(playerScript.grabCurrentCharge);
 
     }
 
-    // public void ChargeFeedback()
-    // {
-    //     // Get the charging state of the player.
-    //     ChargingState chargingState = GetComponent<ChargingState>();
-    //     
-    //     // Calculate the percentage of time past using the chargeLimitTimer and the chargeTimeLimit.
-    //     float chargePercentage = chargingState.chargeLimitTimer / playerScript.chargeTimeLimit;
-    //     
-    //     // The bigger chargePercentage is, the smaller the AimPointer will be.
-    //     aimPointer.transform.localScale = new Vector3(_aimPointerScale * (1 - chargePercentage), _aimPointerScale * (1 - chargePercentage), _aimPointerScale * (1 - chargePercentage));
-    // }
-    //
-    // public void WarnChargeAlmostOver()
-    // {
-    //     // Get the charging state of the player.
-    //     ChargingState chargingState = GetComponent<ChargingState>();
-    //     
-    //     // Calculate the percentage of time past using the chargeLimitTimer and the chargeTimeLimit.
-    //     float chargePercentage = chargingState.chargeLimitTimer / playerScript.chargeTimeLimit;
-    //     
-    //     if (chargePercentage >= chargeEndingParticleTime)
-    //     {
-    //         if (!chargeEndingParticle.isPlaying)
-    //         {
-    //             chargeEndingParticle.Play();
-    //         }
-    //     }
-    //     else
-    //     {
-    //         if (chargeEndingParticle.isPlaying)
-    //         {
-    //             chargeEndingParticle.Stop();
-    //         }
-    //     }
-    //     
-    //     
-    // }
+    public void OnGrabStateEntered()
+    {
+        // Play the grab particle.
+        grabParticle.Play();
+    }
+    public void OnGrabStateExited()
+    {
+        // Stop the grab particle.
+        grabParticle.Stop();
+    }
     
-    // public void RecoverAfterDash()
-    // {
-    //     if (playerMesh.transform.rotation.x != 0)
-    //     {
-    //         // Rotate the player mesh on the X axis to emulate them standing up over time.
-    //         
-    //         playerMesh.transform.rotation = Quaternion.Euler
-    //         (Mathf.Lerp(playerMesh.transform.rotation.x, 0, Time.deltaTime * playerScript.dashDuration),
-    //             playerMesh.transform.rotation.y, playerMesh.transform.rotation.z);
-    //     }
-    // }
+    
+    private void UpdateGrabParticle()
+    {
+        GrabbingState grabbingState = playerScript.currentState as GrabbingState;
+        if (grabbingState == null) return;
+        
+        // Set the shape radius to be equal to the grab radius
+        _grabParticleShape.radius = playerScript.grabDetectionRadius;
+        
+        
+        
+        // Adjust the emission rate based on the current charge
+        // var emission = grabParticle.emission;
+        // _currentEmissionRate = emission.rateOverTime.constant;
+        // float maxEmissionRate = emission.rateOverTime.constant; // Maximum emission rate
+        // emission.rateOverTime = maxEmissionRate * playerScript.grabCurrentCharge;
+        
+        
+        
+        // Get the current angle of the grabbing state.
+        float currentAngle = grabbingState.currentAngle;
+
+        _grabParticleShape.arc = currentAngle;
+        
+        _grabParticleShape.rotation = new Vector3(-90, 90 + (180 - currentAngle * 0.5f), 0);
+    }
+    
+    private void ResetGrabParticle()
+    {
+        
+        // var emission = grabParticle.emission;
+        // emission.rateOverTime = _currentEmissionRate;
+        _grabParticleShape.arc = 180;
+        _grabParticleShape.rotation = new Vector3(-90, 180, 0);
+    }
 
     private void PlayerStateText()
     {
@@ -181,17 +174,17 @@ public class PlayerVisuals : MonoBehaviour
         // Set the text of the stateText to the current state.
         stateText.GetComponent<TextMeshPro>().text = currentState;
     }
-    
-    public void SetEightDirectionArrow()
+
+    private void GrabChargeValue(float charge)
     {
-        // Using the player's eightDirection Vector3, recover a float that represents the rotation value of that direction
-        // in relation to the player's forward direction.
-        //float angle = x;
-        // Debug.Log(angle);
-        // Rotate the aimPointer to the angle.
-        //aimPointer.transform.rotation = Quaternion.Euler(90, angle, 0);
+        //Round charge down to 2 decimal places.
         
+        charge = Mathf.Round(charge * 100f) / 100f;
+        
+        
+        chargeText.GetComponent<TextMeshPro>().text = charge.ToString(CultureInfo.CurrentCulture);
     }
+    
     public void OnParry()
     {
         // Play the parry particle.

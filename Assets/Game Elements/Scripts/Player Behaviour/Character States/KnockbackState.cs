@@ -14,7 +14,7 @@ public class KnockbackState : PlayerState
     {
         base.Tick();
         _timer += Time.deltaTime;
-        if (_timer >= PlayerScript.knockbackTime)
+        if (_timer >= PlayerScript.trueStunTime)
         {
             PlayerScript.ChangeState(GetComponent<NeutralState>());
         }
