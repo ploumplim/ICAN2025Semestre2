@@ -89,7 +89,7 @@ public class PlayerVisuals : MonoBehaviour
                 OnSprintEnd();
                 break;
             
-            case DashingState:
+            case SprintState:
                 OnSprintStart();
                 break;
             
@@ -154,7 +154,7 @@ public class PlayerVisuals : MonoBehaviour
 
         _grabParticleShape.arc = currentAngle;
         
-        _grabParticleShape.rotation = new Vector3(-90, 90 + (180-currentAngle*0.5f), 0);
+        _grabParticleShape.rotation = new Vector3(-90, 90 + (180 - currentAngle * 0.5f), 0);
     }
     
     private void ResetGrabParticle()

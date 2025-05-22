@@ -10186,7 +10186,7 @@ GameObject:
   - component: {fileID: 924477131349713796}
   - component: {fileID: 1951496036296628564}
   - component: {fileID: -6270888105009861134}
-  - component: {fileID: 455819523336466626}
+  - component: {fileID: 3894163205778654102}
   - component: {fileID: -9058261084534589756}
   - component: {fileID: 3857658138353711811}
   - component: {fileID: 8877742863024751455}
@@ -10402,7 +10402,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4963522762754067053}
         m_TargetAssemblyTypeName: PlayerScript, Assembly-CSharp
-        m_MethodName: OnDash
+        m_MethodName: OnSprint
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10471,37 +10471,30 @@ MonoBehaviour:
   speed: 10
   chargeSpeedModifier: 0
   acceleration: 2
+  playerGoalToDefend: {fileID: 0}
+  playerGoalToAttack: {fileID: 0}
+  playerPoint: 0
   neutralLerpTime: 1
-  hitLerpTime: 0.035
-  dashDuration: 0.2
-  dashCooldown: 0.3
-  dashDistance: 19
-  dashCurve:
+  sprintMaxInitialBoost: 2
+  sprintSpeed: 15
+  sprintBoostDecayTime: 0.2
+  sprintCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.46341538
-      value: 0.712077
-      inSlope: 1.0731692
-      outSlope: 1.0731692
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -10509,7 +10502,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  dashOffset: 0.2
+  sprintBoostRecoveryRate: 0.5
   knockbackStunMultiplier: 0.02
   knockbackForceMultiplier: 0.8
   baseLinearDamping: 10
@@ -10517,12 +10510,11 @@ MonoBehaviour:
   trueStunTime: 0
   truePushForce: 0
   hitType: 0
-  releaseDuration: 0.15
   hitForce: 5
   hitDetectionRadius: 8
   hitDetectionOffset: 0
-  hitCooldown: 0.75
-  hitWindow: 0.5
+  hitCooldown: 0.25
+  hitWindow: 0.25
   maxGrabAngle: 180
   minGrabAngle: 45
   grabDetectionRadius: 8
@@ -10555,7 +10547,6 @@ MonoBehaviour:
   grabRechargeRate: 1
   grabTotalCharge: 1
   grabCurrentCharge: 0
-  grabLockoutTime: 0.5
   playerHand: {fileID: 2776262344594129282}
   MultiplayerManager: {fileID: 0}
   playerCamera: {fileID: 0}
@@ -10841,7 +10832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec9b3f61f508a594f8768f02d3eff6ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &455819523336466626
+--- !u!114 &3894163205778654102
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10850,10 +10841,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3328443934547631640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d24d344422f6594a9016c6f3a57ab8d, type: 3}
+  m_Script: {fileID: 11500000, guid: 363d09c718cbc3f4ebdf3ca5f3d0e034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
+  currentSprintBoost: 0
 --- !u!114 &-9058261084534589756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11392,7 +11383,7 @@ ParticleSystem:
     startRotationY:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1.5707963
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -11763,7 +11754,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 500
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -11866,66 +11857,8 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    m_BurstCount: 1
-    m_Bursts:
-    - serializedVersion: 2
-      time: 0
-      countCurve:
-        serializedVersion: 2
-        minMaxState: 0
-        scalar: 10
-        minScalar: 30
-        maxCurve:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        minCurve:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-      cycleCount: 0
-      repeatInterval: 0.01
-      probability: 1
+    m_BurstCount: 0
+    m_Bursts: []
   SizeModule:
     enabled: 1
     curve:
@@ -15731,7 +15664,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8cfeac164e1fd7e4791be868b1917ae5, type: 2}
+  - {fileID: 2100000, guid: 477b367554bd00241b40d0aba4d55472, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
