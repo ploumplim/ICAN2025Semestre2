@@ -320,23 +320,7 @@ public class LevelManager : MonoBehaviour
             player.GetComponent<PlayerInput>().ActivateInput();
         }
     }
-
-    public void LoadGoalsForScene()
-    {
-        Debug.LogWarning("Loading goals for scene");
-        foreach (var goal in GoalList)
-        {
-            goal.SetActive(false); // Deactivate all goals initially
-        }
-
-        int startIndex = (GameManager.Instance.levelCounter - 1) * 2;
-        int endIndex = startIndex + 1;
-
-        for (int i = startIndex; i <= endIndex && i < GoalList.Count; i++)
-        {
-            GoalList[i].SetActive(true); // Activate the required goals
-        }
-    }
+    
     
     // ------------------------ MANAGE WALLS ♜♜  ------------------------
     

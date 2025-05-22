@@ -21,7 +21,9 @@ public class GoalSpawner : MonoBehaviour
         
         foreach (var goalSpawnPoint in GoalSpawnPoints)
         {
-            GameObject GoalSpawn = Instantiate(GoalPrefab, goalSpawnPoint.transform.position, goalSpawnPoint.transform.rotation);
+            // Instantiate the object and set it as a child of the GameObject that has this script
+            GameObject GoalSpawn = Instantiate(GoalPrefab, goalSpawnPoint.transform.position, goalSpawnPoint.transform.rotation, this.transform);
+    
             levelManager.GoalList.Add(GoalSpawn);
         }
 
