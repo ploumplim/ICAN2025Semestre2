@@ -13,7 +13,6 @@ public class ReleaseState : PlayerState
     //---------------------------------------------------------------------------------
     public override void Enter()
     {
-        Debug.Log("Enter release state");
         base.Enter();
         ballToHit = null;
         PlayerScript.OnHitButtonPressed?.Invoke();
@@ -31,7 +30,6 @@ public class ReleaseState : PlayerState
 
         if (ballToHit)
         {
-            Debug.Log("Hit!");
             PlayerScript.OnBallHitByPlayer?.Invoke();
             BallDirection();
             ballToHit.GetComponent<BallSM>().ChangeState(ballToHit.GetComponent<HitState>());

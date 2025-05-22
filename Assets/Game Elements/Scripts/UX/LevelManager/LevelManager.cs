@@ -26,6 +26,7 @@ public class LevelManager : MonoBehaviour
     public bool gameIsRunning; // Boolean to check if the game is running
 
     public List<PointTracker> PointTrackers;
+    public List<GameObject> GoalList;
     public GoalSpawner goalSpawner;
     
     
@@ -95,6 +96,7 @@ public class LevelManager : MonoBehaviour
         // _levelSM= GetComponent<LevelSM>();
         // _levelSM.levelManager = this;
         // GameManager.Instance.GetComponent<PlayingState>().levelSM = _levelSM;
+        
         
         
 
@@ -316,6 +318,23 @@ public class LevelManager : MonoBehaviour
         foreach (GameObject player in players)
         {
             player.GetComponent<PlayerInput>().ActivateInput();
+        }
+    }
+
+    public void LoadGoalsForScene()
+    {
+        Debug.LogWarning("Loading goals for scene");
+        foreach (var goal in GoalList)
+        {
+            goal.SetActive(false); // Deactivate all goals initially
+        }
+
+        int startIndex = (GameManager.Instance.levelCounter - 1) * 2;
+        int endIndex = startIndex + 1;
+
+        for (int i = startIndex; i <= endIndex && i < GoalList.Count; i++)
+        {
+            GoalList[i].SetActive(true); // Activate the required goals
         }
     }
     

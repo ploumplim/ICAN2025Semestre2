@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     public List<SceneReference> scenesToLoad;
     public List<SceneReference> NextSceneToPlay;
+
+    public int levelCounter = 0;
     
 
     public static GameManager Instance
@@ -148,15 +150,18 @@ public class GameManager : MonoBehaviour
     
     public void LevelLoader()
     {
+        levelCounter++;
+
+        levelManager.LoadGoalsForScene();
         if (NextSceneToPlay != null && NextSceneToPlay.Count > 0)
         {
             int randomIndex = Random.Range(0, NextSceneToPlay.Count);
             RandomLevelSelection(randomIndex);
             NextSceneToPlay.RemoveAt(randomIndex);
-        }
-        else
-        {
-            Debug.LogWarning("Plus d'arène a charger, Fin de la partie");
+            //TODO : Set les nouveaux buts
+            
+
+
         }
     }
     
