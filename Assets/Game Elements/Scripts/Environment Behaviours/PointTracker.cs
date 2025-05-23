@@ -6,7 +6,17 @@ public class PointTracker : MonoBehaviour
 {
     public TextMeshPro pointsText;
     
-    private int _points;
+    public int _points;
+
+    public void Start()
+    {
+        var instanceLevelManager = GameManager.Instance.levelManager;
+        instanceLevelManager.PointTrackers.Add(this);
+        // for (int i = 0; i < instanceLevelManager.PointTrackers.Count; i++)
+        // {
+        //     GameManager.Instance.PlayerScriptList[i].playerGoalToDefend = instanceLevelManager.PointTrackers[i];
+        // }
+    }
 
     public void AddPoints()
     {

@@ -1,5 +1,8 @@
 using UnityEngine;
 using System.Collections;
+using Eflatun.SceneReference;
+using UnityEngine.SceneManagement;
+
 public class BufferState : LevelState
 {
     private bool _finalRound;
@@ -16,6 +19,7 @@ public class BufferState : LevelState
         {
             //Remove control from players
             LevelManagerScript.RemovePlayerControl();
+            GameManager.Instance.LevelLoader();
             LevelManagerScript.StartRound();
             StartCoroutine(WaitForBufferTime());
         }
@@ -34,9 +38,12 @@ public class BufferState : LevelState
     {
         yield return new WaitForSeconds(LevelManagerScript.roundBufferTime);
         //Return control to players
+        
         LevelManagerScript.ReturnPlayerControl();
         LevelSM.ChangeState(LevelManagerScript.GetComponent<InRoundState>());
-        // Debug.Log("Buffer time passed. Next round starting.");
+        
     }
+
+    
 
 }

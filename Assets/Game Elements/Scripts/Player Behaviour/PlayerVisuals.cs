@@ -89,7 +89,7 @@ public class PlayerVisuals : MonoBehaviour
                 OnSprintEnd();
                 break;
             
-            case DashingState:
+            case SprintState:
                 OnSprintStart();
                 break;
             
