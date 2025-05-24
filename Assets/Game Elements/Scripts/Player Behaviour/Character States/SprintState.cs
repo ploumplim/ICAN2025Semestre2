@@ -7,7 +7,7 @@ public class SprintState : PlayerState
     [HideInInspector] public float currentSprintBoost;
     public override void Enter()
     {
-        _currentSprintSpeed = PlayerScript.sprintSpeed * currentSprintBoost;
+        _currentSprintSpeed = PlayerScript.sprintSpeed + PlayerScript.sprintSpeed * currentSprintBoost;
         currentSprintBoost = 0f;
         _timer = 0;
     }

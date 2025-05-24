@@ -39,6 +39,7 @@ public class PlayerVisuals : MonoBehaviour
 
     public GameObject stateText;
     public GameObject chargeText;
+    public GameObject sprintText;
     
     public ParticleSystem grabParticle;
     private ParticleSystem.ShapeModule _grabParticleShape;
@@ -59,6 +60,7 @@ public class PlayerVisuals : MonoBehaviour
     void Update()
     {
         PlayerStateText();
+        PlayerSprintText();
         
         switch (playerScript.currentState) 
         { 
@@ -99,7 +101,7 @@ public class PlayerVisuals : MonoBehaviour
         switch (playerScript.hitType)
         {
             case PlayerScript.HitType.ForwardHit:
-                rangeSphereObject.SetActive(true);
+                // rangeSphereObject.SetActive(true);
                 break;
             case PlayerScript.HitType.ReflectiveHit:
                 rangeSphereObject.SetActive(false);
@@ -117,6 +119,22 @@ public class PlayerVisuals : MonoBehaviour
         
         GrabChargeValue(playerScript.grabCurrentCharge);
 
+    }
+
+    public void PlayerSprintText()
+    {
+        // Using the currentSprintBoost of the sprint state, change the text of the SprintText.
+        SprintState sprintState = playerScript.currentState as SprintState;
+        if (sprintState != null)
+        {
+            float currentSprintBoost = sprintState.currentSprintBoost;
+            // Change the text to show the current sprint boost rounded to 2 decimal points.
+            sprintText.GetComponent<TextMeshPro>().text = "Sprint Boost: " + (Mathf.Round(currentSprintBoost * 100f) / 100f).ToString(CultureInfo.CurrentCulture);
+        }
+        else
+        {
+            sprintText.GetComponent<TextMeshPro>().text = "No sprint state";
+        }
     }
 
     public void OnGrabStateEntered()
