@@ -100,7 +100,7 @@ public class MultiplayerManager : MonoBehaviour
         
         GameManager.Instance.levelManager.ingameGUIManager.ChangeColorOfPlayerScorePanel(
             playerToConnect.GetComponent<PlayerScript>().playerScorePanel,
-            playerToConnect.GetComponent<PlayerVisuals>().playerMeshMaterial.color);
+            playerToConnect.GetComponent<PlayerVisuals>().playerCapMaterial.color);
         playerToConnect = null;
         
         OnPlayerJoin?.Invoke();

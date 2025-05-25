@@ -26,6 +26,7 @@ public class LevelManager : MonoBehaviour
     public bool gameIsRunning; // Boolean to check if the game is running
 
     public List<PointTracker> PointTrackers;
+    public List<GameObject> GoalList;
     public GoalSpawner goalSpawner;
     
     
@@ -95,6 +96,7 @@ public class LevelManager : MonoBehaviour
         // _levelSM= GetComponent<LevelSM>();
         // _levelSM.levelManager = this;
         // GameManager.Instance.GetComponent<PlayingState>().levelSM = _levelSM;
+        
         
         
 
@@ -222,11 +224,8 @@ public class LevelManager : MonoBehaviour
             // Check all player's points. If there is a player with 3 points, return true.
             foreach (GameObject player in players)
             {
-                if (player.GetComponent<PlayerPointTracker>().points >= 2)
+                if (player.GetComponent<PlayerPointTracker>().points >= GameManager.Instance.PlayerScriptList.Count+2)
                 {
-                    // Debug.Log("Player " + player.name + " has won the game.");
-                    // EndGameScore();
-                    // OnGameEnd?.Invoke(player.name);
                     return true;
                 }
             }
@@ -319,6 +318,7 @@ public class LevelManager : MonoBehaviour
         }
     }
     
+    
     // ------------------------ MANAGE WALLS ♜♜  ------------------------
     
     // public void SpawnCurrentRoundWalls()
@@ -397,8 +397,12 @@ public class LevelManager : MonoBehaviour
 
     public void EndGameScore()
     {
-        ingameGUIManager.gameObject.GetComponent<EndGameScorePanel>().StartEndGamePanel();
-        // List<(GameObject player, int score)> playerScores = new List<(GameObject player, int score)>();
+       //ingameGUIManager.gameObject.GetComponent<EndGameScorePanel>().StartEndGamePanel();
+        
+       
+       // Debug.Log("HELP");
+       
+       // List<(GameObject player, int score)> playerScores = new List<(GameObject player, int score)>();
         //
         // foreach (var player in players)
         // {

@@ -148,15 +148,12 @@ public class GameManager : MonoBehaviour
     
     public void LevelLoader()
     {
+        //levelManager.LoadGoalsForScene();
         if (NextSceneToPlay != null && NextSceneToPlay.Count > 0)
         {
             int randomIndex = Random.Range(0, NextSceneToPlay.Count);
             RandomLevelSelection(randomIndex);
             NextSceneToPlay.RemoveAt(randomIndex);
-        }
-        else
-        {
-            Debug.LogWarning("Plus d'arène a charger, Fin de la partie");
         }
     }
     

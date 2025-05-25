@@ -66,6 +66,11 @@ public class InRoundState : LevelState
                     LevelManagerScript.EndRound(winningPlayer);
                 }
                 Debug.Log(topPlayer.name + " won");
+
+                foreach (var VARIABLE in levelManager.PointTrackers)
+                {
+                    pointTrackerList._points = 0;
+                }
                 Rigidbody ballrb = LevelManagerScript.gameBall.GetComponent<BallSM>().rb;
                 ballrb.linearVelocity = Vector3.zero;
                 StartCoroutine(VictoryDelay());
