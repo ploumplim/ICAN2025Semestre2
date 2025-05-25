@@ -25,9 +25,6 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public int totalRounds; // Total rounds of the level
     public bool gameIsRunning; // Boolean to check if the game is running
 
-    public List<PointTracker> PointTrackers;
-    public List<GameObject> GoalList;
-    public GoalSpawner goalSpawner;
     
     
     public int pointNeededToWin;
@@ -38,6 +35,12 @@ public class LevelManager : MonoBehaviour
     public GameObject ballPrefab;
     [Tooltip("Insert the ball spawn position here (empty game object with transform)")]
     public Transform ballSpawnPosition;
+    
+    public List<PointTracker> PointTrackers;
+    public List<GameObject> GoalList;
+    public GoalSpawner goalSpawner;
+
+    public GameObject centerPoint;
     // [Tooltip("Insert the wall prefab here that will provide points to the player.")]
     // public GameObject pointWallPrefab;
     // [Tooltip("Insert the neutral wall prefab here, which will not provide points to the player.")]
@@ -98,7 +101,7 @@ public class LevelManager : MonoBehaviour
         // GameManager.Instance.GetComponent<PlayingState>().levelSM = _levelSM;
         
         
-        
+        gameBall.transform.position = ballSpawnPosition.position;
 
 
     }
