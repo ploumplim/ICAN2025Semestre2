@@ -63,7 +63,7 @@ public class PlayerVisuals : MonoBehaviour
         switch (playerScript.currentState) 
         { 
             case NeutralState:
-                ResetGrabParticle();
+                //ResetGrabParticle();
                 playerMeshMaterial.color = _originalPlayerMeshColor;
                 if (deadParticle.isPlaying)
                 {deadParticle.Stop();}
