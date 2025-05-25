@@ -124,16 +124,17 @@ public class PlayerVisuals : MonoBehaviour
     public void PlayerSprintText()
     {
         // Using the currentSprintBoost of the sprint state, change the text of the SprintText.
-        SprintState sprintState = playerScript.currentState as SprintState;
+        SprintState sprintState = GetComponent<SprintState>();
+        float currentSprintBoost = sprintState.currentSprintBoost;
+
         if (sprintState != null)
         {
-            float currentSprintBoost = sprintState.currentSprintBoost;
             // Change the text to show the current sprint boost rounded to 2 decimal points.
-            sprintText.GetComponent<TextMeshPro>().text = "Sprint Boost: " + (Mathf.Round(currentSprintBoost * 100f) / 100f).ToString(CultureInfo.CurrentCulture);
+            sprintText.GetComponent<TextMeshPro>().text = (Mathf.Round(currentSprintBoost * 100f) / 100f).ToString(CultureInfo.CurrentCulture);
         }
         else
         {
-            sprintText.GetComponent<TextMeshPro>().text = "No sprint state";
+            sprintText.GetComponent<TextMeshPro>().text = (Mathf.Round(currentSprintBoost * 100f) / 100f).ToString(CultureInfo.CurrentCulture);
         }
     }
 
