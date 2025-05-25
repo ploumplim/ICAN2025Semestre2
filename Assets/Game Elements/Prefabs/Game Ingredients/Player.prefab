@@ -10475,7 +10475,7 @@ MonoBehaviour:
   playerGoalToAttack: {fileID: 0}
   playerPoint: 0
   neutralLerpTime: 1
-  sprintMaxInitialBoost: 2
+  sprintMaxInitialBoost: 5
   sprintSpeed: 15
   sprintBoostDecayTime: 0.7
   sprintCurve:
@@ -10502,7 +10502,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  sprintBoostRecoveryRate: 0.5
+  sprintBoostRecoveryRate: 2.5
   knockbackStunMultiplier: 0.02
   knockbackForceMultiplier: 0.8
   baseLinearDamping: 10
@@ -10524,21 +10524,21 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
       value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.26246184
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -3.1595504
-      outSlope: -3.1595504
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.03967446
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -10757,8 +10757,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c9b53faab58b594a8665a092b162745, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMeshMaterial: {fileID: 0}
+  playerCapMaterial: {fileID: 0}
   playerMesh: {fileID: 8492407723993443446}
+  perso: {fileID: 8000602738304486762}
   knockbackColor: {r: 1, g: 0, b: 0, a: 1}
   parryParticle: {fileID: 5173066124080812186}
   dashTrail: {fileID: 6567929651033778354}
@@ -21219,6 +21220,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: CharacterBaseballV2
       objectReference: {fileID: 0}
+    - target: {fileID: 6003334231284560567, guid: e9ff1e910e59d2a4ba1d696b63afed31, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 444729c66f2091d4ea1412434616b59f, type: 2}
+    - target: {fileID: 6003334231284560567, guid: e9ff1e910e59d2a4ba1d696b63afed31, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 352c4217c50c98c43af4a330d31dbfa7, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -21257,5 +21266,10 @@ Animator:
 --- !u!4 &6787820363268725087 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e9ff1e910e59d2a4ba1d696b63afed31, type: 3}
+  m_PrefabInstance: {fileID: 6465365682517638836}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8000602738304486762 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3944676190704301022, guid: e9ff1e910e59d2a4ba1d696b63afed31, type: 3}
   m_PrefabInstance: {fileID: 6465365682517638836}
   m_PrefabAsset: {fileID: 0}

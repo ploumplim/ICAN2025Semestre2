@@ -15,13 +15,16 @@ public class PlayerVisuals : MonoBehaviour
     private float _parryDiameter;
     
     // Player's normal mesh material and color.
-    [FormerlySerializedAs("_playerMeshMaterial")] public Material playerMeshMaterial;
+    [FormerlySerializedAs("playerMeshMaterial")] [FormerlySerializedAs("_playerMeshMaterial")] public Material playerCapMaterial;
     private Color _originalPlayerMeshColor;
     
     //-------------PUBLIC VARIABLES-------------
     
     [Tooltip("Player's mesh.")]
     public GameObject playerMesh;
+
+    public GameObject perso;
+    
     [Tooltip("Color when knocked back.")]
     public Color knockbackColor;
     [Tooltip("This particle is played when the player parries.")]
@@ -51,9 +54,17 @@ public class PlayerVisuals : MonoBehaviour
         // Recover the PlayerScript from the player.
         playerScript = GetComponent<PlayerScript>();
         // Recover the player's mesh material and color.
-        playerMeshMaterial = playerMesh.GetComponent<MeshRenderer>().material;
         _parryDiameter = playerScript.hitDetectionRadius * 2f - parryParticle.main.startSizeMultiplier / 2f;
         _grabParticleShape = grabParticle.shape;
+
+
+        if (perso)
+        {
+            SkinnedMeshRenderer skinnedMeshRenderer = perso.GetComponentInChildren<SkinnedMeshRenderer>();
+            Material[] materials = skinnedMeshRenderer.materials;
+            
+            playerCapMaterial = materials[1];
+        }
     }
 
     // Update is called once per frame
@@ -66,7 +77,7 @@ public class PlayerVisuals : MonoBehaviour
         { 
             case NeutralState:
                 ResetGrabParticle();
-                playerMeshMaterial.color = _originalPlayerMeshColor;
+                playerCapMaterial.color = _originalPlayerMeshColor;
                 if (deadParticle.isPlaying)
                 {deadParticle.Stop();}
                 rangeSphereObject.transform.localScale = new Vector3(_parryDiameter, 1f, _parryDiameter);
@@ -80,14 +91,14 @@ public class PlayerVisuals : MonoBehaviour
                 break;
             
             case DeadState:
-                playerMeshMaterial.color = Color.black; 
+                playerCapMaterial.color = Color.black; 
                 if (!deadParticle.isPlaying)
                 {deadParticle.Play();}
                 OnSprintEnd();
                 break;
             
             case KnockbackState:
-                playerMeshMaterial.color = knockbackColor;
+                playerCapMaterial.color = knockbackColor;
                 OnSprintEnd();
                 break;
             
@@ -110,8 +121,8 @@ public class PlayerVisuals : MonoBehaviour
         }
 
         
-        dashTrail.startColor = playerMeshMaterial.color;
-        dashTrail.endColor = playerMeshMaterial.color;
+        dashTrail.startColor = playerCapMaterial.color;
+        dashTrail.endColor = playerCapMaterial.color;
         
 
         var parryParticleShape = parryParticle.shape;
@@ -222,16 +233,16 @@ public class PlayerVisuals : MonoBehaviour
 
     public void ChangePlayerColor(Color color)
     {
-        if (playerMeshMaterial)
+        if (playerCapMaterial)
         {
             // Debug.Log("Changing player color to " + color);
-            playerMeshMaterial.color = color;
+            playerCapMaterial.color = color;
             _originalPlayerMeshColor = color;
         }
         else
         {
-            playerMeshMaterial = playerMesh.GetComponentInChildren<MeshRenderer>().material;
-            playerMeshMaterial.color = color;
+            playerCapMaterial = playerMesh.GetComponentInChildren<MeshRenderer>().material;
+            playerCapMaterial.color = color;
             _originalPlayerMeshColor = color;
             // Debug.Log("Changing player color to " + color);
         }
