@@ -249,7 +249,6 @@ public class PlayerScript : MonoBehaviour
                         {
                             newState = GetComponent<ReleaseState>();
                         }
-
                         break;
                     case "Sprint":
                         newState = GetComponent<SprintState>();

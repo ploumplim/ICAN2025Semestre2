@@ -15,13 +15,16 @@ public class PlayerVisuals : MonoBehaviour
     private float _parryDiameter;
     
     // Player's normal mesh material and color.
-    [FormerlySerializedAs("_playerMeshMaterial")] public Material playerMeshMaterial;
+    [FormerlySerializedAs("playerMeshMaterial")] [FormerlySerializedAs("_playerMeshMaterial")] public Material playerCapMaterial;
     private Color _originalPlayerMeshColor;
     
     //-------------PUBLIC VARIABLES-------------
     
     [Tooltip("Player's mesh.")]
     public GameObject playerMesh;
+
+    public GameObject perso;
+    
     [Tooltip("Color when knocked back.")]
     public Color knockbackColor;
     [Tooltip("This particle is played when the player parries.")]
@@ -39,6 +42,7 @@ public class PlayerVisuals : MonoBehaviour
 
     public GameObject stateText;
     public GameObject chargeText;
+    public GameObject sprintText;
     
     public ParticleSystem grabParticle;
     private ParticleSystem.ShapeModule _grabParticleShape;
@@ -50,21 +54,30 @@ public class PlayerVisuals : MonoBehaviour
         // Recover the PlayerScript from the player.
         playerScript = GetComponent<PlayerScript>();
         // Recover the player's mesh material and color.
-        playerMeshMaterial = playerMesh.GetComponent<MeshRenderer>().material;
         _parryDiameter = playerScript.hitDetectionRadius * 2f - parryParticle.main.startSizeMultiplier / 2f;
         _grabParticleShape = grabParticle.shape;
+
+
+        if (perso)
+        {
+            SkinnedMeshRenderer skinnedMeshRenderer = perso.GetComponentInChildren<SkinnedMeshRenderer>();
+            Material[] materials = skinnedMeshRenderer.materials;
+            
+            playerCapMaterial = materials[1];
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         PlayerStateText();
+        PlayerSprintText();
         
         switch (playerScript.currentState) 
         { 
             case NeutralState:
-                //ResetGrabParticle();
-                playerMeshMaterial.color = _originalPlayerMeshColor;
+                ResetGrabParticle();
+                playerCapMaterial.color = _originalPlayerMeshColor;
                 if (deadParticle.isPlaying)
                 {deadParticle.Stop();}
                 rangeSphereObject.transform.localScale = new Vector3(_parryDiameter, 1f, _parryDiameter);
@@ -78,14 +91,14 @@ public class PlayerVisuals : MonoBehaviour
                 break;
             
             case DeadState:
-                playerMeshMaterial.color = Color.black; 
+                playerCapMaterial.color = Color.black; 
                 if (!deadParticle.isPlaying)
                 {deadParticle.Play();}
                 OnSprintEnd();
                 break;
             
             case KnockbackState:
-                playerMeshMaterial.color = knockbackColor;
+                playerCapMaterial.color = knockbackColor;
                 OnSprintEnd();
                 break;
             
@@ -99,7 +112,7 @@ public class PlayerVisuals : MonoBehaviour
         switch (playerScript.hitType)
         {
             case PlayerScript.HitType.ForwardHit:
-                rangeSphereObject.SetActive(true);
+                // rangeSphereObject.SetActive(true);
                 break;
             case PlayerScript.HitType.ReflectiveHit:
                 rangeSphereObject.SetActive(false);
@@ -108,8 +121,8 @@ public class PlayerVisuals : MonoBehaviour
         }
 
         
-        dashTrail.startColor = playerMeshMaterial.color;
-        dashTrail.endColor = playerMeshMaterial.color;
+        dashTrail.startColor = playerCapMaterial.color;
+        dashTrail.endColor = playerCapMaterial.color;
         
 
         var parryParticleShape = parryParticle.shape;
@@ -117,6 +130,23 @@ public class PlayerVisuals : MonoBehaviour
         
         GrabChargeValue(playerScript.grabCurrentCharge);
 
+    }
+
+    public void PlayerSprintText()
+    {
+        // Using the currentSprintBoost of the sprint state, change the text of the SprintText.
+        SprintState sprintState = GetComponent<SprintState>();
+        float currentSprintBoost = sprintState.currentSprintBoost;
+
+        if (sprintState != null)
+        {
+            // Change the text to show the current sprint boost rounded to 2 decimal points.
+            sprintText.GetComponent<TextMeshPro>().text = (Mathf.Round(currentSprintBoost * 100f) / 100f).ToString(CultureInfo.CurrentCulture);
+        }
+        else
+        {
+            sprintText.GetComponent<TextMeshPro>().text = (Mathf.Round(currentSprintBoost * 100f) / 100f).ToString(CultureInfo.CurrentCulture);
+        }
     }
 
     public void OnGrabStateEntered()
@@ -203,16 +233,16 @@ public class PlayerVisuals : MonoBehaviour
 
     public void ChangePlayerColor(Color color)
     {
-        if (playerMeshMaterial)
+        if (playerCapMaterial)
         {
             // Debug.Log("Changing player color to " + color);
-            playerMeshMaterial.color = color;
+            playerCapMaterial.color = color;
             _originalPlayerMeshColor = color;
         }
         else
         {
-            playerMeshMaterial = playerMesh.GetComponentInChildren<MeshRenderer>().material;
-            playerMeshMaterial.color = color;
+            playerCapMaterial = playerMesh.GetComponentInChildren<MeshRenderer>().material;
+            playerCapMaterial.color = color;
             _originalPlayerMeshColor = color;
             // Debug.Log("Changing player color to " + color);
         }
