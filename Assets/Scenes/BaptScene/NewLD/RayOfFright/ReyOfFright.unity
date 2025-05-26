@@ -127,6 +127,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1781535541546788107, guid: d6afbfc042e38ba42b3da045480298bd, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 2083552226203954430, guid: d6afbfc042e38ba42b3da045480298bd, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 2561260546098220433, guid: d6afbfc042e38ba42b3da045480298bd, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
     - target: {fileID: 3773298084468596526, guid: d6afbfc042e38ba42b3da045480298bd, type: 3}
       propertyPath: m_LocalScale.z
       value: 26.935
@@ -142,6 +154,14 @@ PrefabInstance:
     - target: {fileID: 5333911050830775061, guid: d6afbfc042e38ba42b3da045480298bd, type: 3}
       propertyPath: m_Name
       value: RayFright
+      objectReference: {fileID: 0}
+    - target: {fileID: 6015275776710676766, guid: d6afbfc042e38ba42b3da045480298bd, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 6987946895621553430, guid: d6afbfc042e38ba42b3da045480298bd, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
       objectReference: {fileID: 0}
     - target: {fileID: 7012004949811332679, guid: d6afbfc042e38ba42b3da045480298bd, type: 3}
       propertyPath: m_LocalScale.z

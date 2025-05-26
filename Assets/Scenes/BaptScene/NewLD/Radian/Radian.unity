@@ -141,7 +141,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5665763164275481281, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
---- !u!1 &761828592
+--- !u!1 &483301492
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -149,7 +149,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 761828593}
+  - component: {fileID: 483301493}
   m_Layer: 0
   m_Name: BallSpawnPoint
   m_TagString: Untagged
@@ -157,16 +157,16 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &761828593
+--- !u!4 &483301493
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 761828592}
+  m_GameObject: {fileID: 483301492}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.097586, y: -1.4174222, z: 5.2185073}
+  m_LocalPosition: {x: -0.40241432, y: -1.4174222, z: 15.718508}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -630,6 +630,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RadianWall
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 232b7398c33ac77479ac86e2b3c2ca5c, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -800,6 +804,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5049032948309972686, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: -3821253740895256905, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: -2655573560833850164, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
     - target: {fileID: -674878561654183148, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.90101
@@ -876,6 +892,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: RadianNewMiniWall
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395320445879687111, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 1585015375599971490, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 3380080921822813343, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
     - target: {fileID: 3617766064933204627, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.90101
@@ -899,6 +931,18 @@ PrefabInstance:
     - target: {fileID: 3617766064933204627, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
       propertyPath: m_LocalPosition.z
       value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893722416717529905, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 4811171726696857748, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619302609615435187, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1098,4 +1142,4 @@ SceneRoots:
   - {fileID: 1598650409}
   - {fileID: 1631680887}
   - {fileID: 2119405976}
-  - {fileID: 761828593}
+  - {fileID: 483301493}

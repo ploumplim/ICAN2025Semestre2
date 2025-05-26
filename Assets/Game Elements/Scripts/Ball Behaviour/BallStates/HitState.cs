@@ -9,6 +9,7 @@ public class HitState : BallState
     
     public override void Enter()
     {
+        
         base.Enter();
         if (BallSm.currentBallSpeedVec3 == Vector3.zero)
         {
@@ -21,6 +22,10 @@ public class HitState : BallState
         SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
         GameObject ballOwnerPlayer = BallSm.ballOwnerPlayer;
         PlayerScript ballOwnerPlayerScript = BallSm.ballOwnerPlayer.GetComponent<PlayerScript>();
+        Debug.Log("Ball hit by " + ballOwnerPlayerScript.name);
+        
+        //TODO : Faire que la balle ne puisse plus hit le playerOwner
+       
         
         if (ballOwnerPlayer)
         {
