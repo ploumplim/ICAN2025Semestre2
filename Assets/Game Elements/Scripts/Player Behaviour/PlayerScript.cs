@@ -32,19 +32,24 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("The rate at which speed picks up when the input is being performed.")]
     public float acceleration = 0.1f;
     //---------------------------------------------------------------------------------------
+    [Header("Player Goal Settings")]
+    public GameObject playerGoalToDefend;
+    public GameObject playerGoalToAttack;
+    public int playerPoint;
+    
+    //---------------------------------------------------------------------------------------
     [Header("Rotation Lerps")]
     [Tooltip("Lerp time for the rotation while not aiming")]
     public float neutralLerpTime = 0.1f;
-    [Tooltip("Lerp time for the rotation while charging a hit")]
-    public float hitLerpTime = 0.1f;
+
     //---------
-    [Header("Dash Settings")]
-    public float dashDuration;
-    public float dashCooldown;
-    public float dashDistance;
-    public AnimationCurve dashCurve;
-    [Tooltip("The offset at which the player will dash if colliding against a wall.")]
-    public float dashOffset;
+    [Header("Sprint Settings")]
+
+    public float sprintMaxInitialBoost = 1.5f;
+    public float sprintSpeed = 1.5f;
+    public float sprintBoostDecayTime = 0.2f;
+    public AnimationCurve sprintCurve = AnimationCurve.Linear(0, 0, 1, 1);
+    public float sprintBoostRecoveryRate = 0.5f;
     
     //---------------------------------------------------------------------------------------
     [FormerlySerializedAs("knockbackTime")]
@@ -88,6 +93,7 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("Total amount of charge the player has available.")]
     public float grabTotalCharge = 1f;
     [HideInInspector]public float grabCurrentCharge;
+    
     
 // ----------------------------------------------------------------------------------------
     [Header("Game Objects")] public GameObject playerHand;
@@ -158,6 +164,10 @@ public class PlayerScript : MonoBehaviour
         playerInput.actions["SetPause"].performed += context => 
             GameManager.Instance.levelManager.ingameGUIManager.UI_PauseMenu.OnPause(context);
         grabCurrentCharge = grabTotalCharge;
+        
+        int playerId = GameManager.Instance.PlayerScriptList.IndexOf(this);
+        
+        GameManager.Instance.levelManager.goalSpawner.LinkGoalToPlayer(playerId);
     }
     
     public void SetPlayerParameters()
@@ -187,7 +197,7 @@ public class PlayerScript : MonoBehaviour
     }
     
 
-    // ------------------------------ FIXED UPDATE ------------------------------
+    // ------------------------------ UPDATES ------------------------------
     private void FixedUpdate()
     {
         currentState.Tick();
@@ -201,17 +211,25 @@ public class PlayerScript : MonoBehaviour
         {
             hitTimer -= Time.deltaTime;
         }
-                
-        if (_dashTimer > 0)
-        {
-            _dashTimer -= Time.deltaTime;
-        }
+        
         
         if (currentState is not GrabbingState && 
             grabCurrentCharge < grabTotalCharge)
         {
             grabCurrentCharge += grabRechargeRate * Time.deltaTime;
         }
+
+        if (currentState is not SprintState)
+        {
+            // From the SprintState, the currentSprintBoost should be set to its maximum value (sprintMaxInitialBoost)
+            if (GetComponent<SprintState>().currentSprintBoost < sprintMaxInitialBoost)
+            {
+                GetComponent<SprintState>().currentSprintBoost += Time.deltaTime * sprintBoostRecoveryRate;
+            }
+        }
+        
+        // Update the player score panel
+        playerPoint = playerGoalToAttack.GetComponent<PointTracker>()._points;
     }
     
 
@@ -231,10 +249,9 @@ public class PlayerScript : MonoBehaviour
                         {
                             newState = GetComponent<ReleaseState>();
                         }
-
                         break;
                     case "Sprint":
-                        newState = GetComponent<DashingState>();
+                        newState = GetComponent<SprintState>();
                         break;
                     case "Charge":
                         newState = GetComponent<GrabbingState>();
@@ -337,37 +354,19 @@ public class PlayerScript : MonoBehaviour
 
     }
     // ------------------------------ DASH ------------------------------
-    public void OnDash(InputAction.CallbackContext context)
+    public void OnSprint(InputAction.CallbackContext context)
     {
-        switch (currentState)
+        // If the current state is NOT sprinting, then change state to sprinting.
+        if (context.started && currentState is not SprintState &&
+            currentState is not KnockbackState && moveInputVector2 != Vector2.zero)
         {
-            case NeutralState:
-                if ((context.started || context.performed) &&
-                    _dashTimer <= 0)
-                {
-                    // If the player is not moving, sprinting will not work
-                    if (moveInputVector2 != Vector2.zero)
-                    {
-                        _dashTimer = dashCooldown;
-                        ChangeState(GetComponent<DashingState>());
-                    }
-                }
-                break;
-            // case DashingState:
-            //     if (context.canceled)
-            //     {
-            //         ChangeState(GetComponent<NeutralState>());
-            //     }
-            //     break;
-            case ReleaseState:
-                if ((context.started || context.performed) &&
-                    _dashTimer <= 0)
-                {
-                    _dashTimer = dashCooldown;
-                    BufferInput(context.action);
-                }
-
-                break;
+            ChangeState(GetComponent<SprintState>());
+        }
+        
+        // If the current state IS the sprinting state and the context is released, then go to neutral state.
+        if (context.canceled && currentState is SprintState)
+        {
+            ChangeState(GetComponent<NeutralState>());
         }
     }
     
@@ -378,20 +377,10 @@ public class PlayerScript : MonoBehaviour
         {
             ChangeState(GetComponent<NeutralState>());
         }
+        
         if (context.started || context.performed)
         {
-           
-            if (currentState is NeutralState || currentState is DashingState)
-            {
-                GetComponent<DashingState>().timer = 0;
-                ChangeState(GetComponent<GrabbingState>());
-            }
-            // else if (currentState is not ChargingState && currentState is not ReleaseState)
-            // {
-            //     hitTimer = hitCooldown;
-            //     GetComponent<DashingState>().timer = 0;
-            //     BufferInput(context.action);
-            // }
+            ChangeState(GetComponent<GrabbingState>());
         }
 
         if (context.canceled && currentState is GrabbingState)

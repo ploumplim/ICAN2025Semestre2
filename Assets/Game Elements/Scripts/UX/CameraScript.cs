@@ -22,13 +22,15 @@ public class CameraScript : MonoBehaviour
     [Tooltip("The camera's follow speed.")]
     public float followSpeed = 5f;
     
-    [HideInInspector] public GameObject[] lockPoints;
+    public GameObject[] lockPoints;
 
     public void Start()
     {
         // Get the camera component of the camera object
         cameraObject = cameraHolderObject.GetComponentInChildren<Camera>().gameObject;
-        
+        GameManager.Instance.multiplayerManager.camera = this;
+        GameManager.Instance.levelManager.gameCameraScript = this;
+
         // Add the Vector3.zero to the _lockPoints array as the first element
     }
 

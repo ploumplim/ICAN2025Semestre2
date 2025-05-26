@@ -39,18 +39,42 @@ public class InRoundState : LevelState
                 _playersAlive.Remove(player);
             }
         }
+
+        var levelManager = GameManager.Instance.levelManager;
         
-        if (_playersAlive.Count == 1 && !_roundEnded)
+        foreach (var pointTrackerList in levelManager.PointTrackers)
         {
-            // If there is only one player left, then the round is over.
-            // Change the state to BufferState.
-            // Debug.Log("Only one player left. Changing state to BufferState.");
-            _roundEnded = true;
-            winningPlayer = _playersAlive[0];
-            LevelManagerScript.EndRound(winningPlayer);
-            Rigidbody ballrb = LevelManagerScript.gameBall.GetComponent<BallSM>().rb;
-            ballrb.linearVelocity = Vector3.zero;
-            StartCoroutine(VictoryDelay());
+            if (pointTrackerList._points == levelManager.pointNeededToWin)
+            {
+                _roundEnded = true;
+                
+                PlayerScript topPlayer = null;
+                int highestPoints = int.MinValue;
+
+                foreach (var player in GameManager.Instance.PlayerScriptList)
+                {
+                    if (player.playerPoint > highestPoints)
+                    {
+                        highestPoints = player.playerPoint;
+                        topPlayer = player;
+                    }
+                }
+
+                if (topPlayer != null)
+                {
+                    winningPlayer = topPlayer.gameObject;
+                    LevelManagerScript.EndRound(winningPlayer);
+                }
+                Debug.Log(topPlayer.name + " won");
+
+                foreach (var VARIABLE in levelManager.PointTrackers)
+                {
+                    pointTrackerList._points = 0;
+                }
+                Rigidbody ballrb = LevelManagerScript.gameBall.GetComponent<BallSM>().rb;
+                ballrb.linearVelocity = Vector3.zero;
+                StartCoroutine(VictoryDelay());
+            }
         }
         
     }
@@ -58,7 +82,9 @@ public class InRoundState : LevelState
     IEnumerator VictoryDelay()
     {
         yield return new WaitForSeconds(LevelManagerScript.roundVictoryDelay);
+        
         LevelSM.ChangeState(LevelManagerScript.GetComponent<BufferState>());
+        
     }
     
     public override void Exit()

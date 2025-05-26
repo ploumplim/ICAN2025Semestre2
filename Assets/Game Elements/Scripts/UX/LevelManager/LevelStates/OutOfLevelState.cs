@@ -6,8 +6,8 @@ public class OutOfLevelState : LevelState
     {
         base.Enter();
         // enable all button game objects
-        LevelManagerScript.ingameGUIManager.startGameButtonObject.SetActive(true);
-        LevelManagerScript.ingameGUIManager.resetPlayersObject.SetActive(true);
+        // LevelManagerScript.ingameGUIManager.startGameButtonObject.SetActive(true);
+        // LevelManagerScript.ingameGUIManager.resetPlayersObject.SetActive(true);
         
         LevelManagerScript.InitPlayers();
         LevelManagerScript.SpawnBall();

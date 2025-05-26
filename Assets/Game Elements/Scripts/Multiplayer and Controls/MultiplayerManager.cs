@@ -100,7 +100,7 @@ public class MultiplayerManager : MonoBehaviour
         
         GameManager.Instance.levelManager.ingameGUIManager.ChangeColorOfPlayerScorePanel(
             playerToConnect.GetComponent<PlayerScript>().playerScorePanel,
-            playerToConnect.GetComponent<PlayerVisuals>().playerMeshMaterial.color);
+            playerToConnect.GetComponent<PlayerVisuals>().playerCapMaterial.color);
         playerToConnect = null;
         
         OnPlayerJoin?.Invoke();
@@ -110,6 +110,7 @@ public class MultiplayerManager : MonoBehaviour
     {
         // Instantiate a new player object at a specified position and rotation
         GameObject newPlayer = Instantiate(playerPrefab, spawnPosition.position, Quaternion.identity);
+        DontDestroyOnLoad(newPlayer.gameObject);
 
         // Change the player's name to include the player's number
         newPlayer.name = $"Player {connectedPlayers.Count + 1}";
