@@ -396,7 +396,13 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ HIT ------------------------------
     public void OnHitAttack(InputAction.CallbackContext context)
     {
-        if (context.started && hitTimer <= 0f)
+
+        if (hitTimer > 0f)
+        {
+            return;
+        }
+
+        if (context.started)
         {
             if (currentState is NeutralState || currentState is GrabbingState)
             {
