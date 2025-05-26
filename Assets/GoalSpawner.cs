@@ -39,22 +39,18 @@ public class GoalSpawner : MonoBehaviour
     {
         
         int currenGoalscenePlaying = GameManager.Instance.currentSceneID * 2;
-        Debug.Log(currenGoalscenePlaying);
         if (playerId % 2 == 0)
         {
             GameManager.Instance.PlayerScriptList[playerId].playerGoalToDefend = levelManager.GoalList[currenGoalscenePlaying+1].gameObject;
-            //TODO : Assign le mesh du g
-        
-            //Debug.Log("GoalToDefed :" +GameManager.Instance.PlayerScriptList[playerId].playerGoalToDefend.name);
+            //TODO : Assign le mesh du goal to defend du player 2
         
             GameManager.Instance.PlayerScriptList[playerId].playerGoalToAttack = levelManager.GoalList[currenGoalscenePlaying].gameObject;
         }
         else
         {
             GameManager.Instance.PlayerScriptList[playerId].playerGoalToDefend = levelManager.GoalList[currenGoalscenePlaying].gameObject;
-        
-        
-            //Debug.Log("GoalToDefed :" +GameManager.Instance.PlayerScriptList[playerId].playerGoalToDefend.name);
+            //TODO : Assign le mesh du goal to defend du player 1
+            
         
             GameManager.Instance.PlayerScriptList[playerId].playerGoalToAttack = levelManager.GoalList[currenGoalscenePlaying+1].gameObject;
         }

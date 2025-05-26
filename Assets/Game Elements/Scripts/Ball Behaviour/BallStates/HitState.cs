@@ -22,7 +22,6 @@ public class HitState : BallState
         SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
         GameObject HitStateBallOwnerPlayer = BallSm.ballOwnerPlayer;
         PlayerScript ballOwnerPlayerScript = BallSm.ballOwnerPlayer.GetComponent<PlayerScript>();
-        Debug.Log("Ball hit by " + ballOwnerPlayerScript.name);
         
         //TODO : Faire que la balle ne puisse plus hit le playerOwner
        

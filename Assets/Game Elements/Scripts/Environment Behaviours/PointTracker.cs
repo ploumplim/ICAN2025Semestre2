@@ -24,17 +24,28 @@ public class PointTracker : MonoBehaviour
 
     public void AddPoints()
     {
-        _points++;
-        pointsText.text = _points.ToString();
+        Debug.Log("ADDPOINTS");
+        // Verify if the ball's owner player is the one attacking this goal
+        if (ballSM.ballOwnerPlayer != null && 
+            ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack == linkedGoal)
+        {
+            _points++;
+            pointsText.text = _points.ToString();
 
-        MoveBallSpawnPositionToLoosingPlayer();
-        
-        //TODO : Instantiate Ball function 
-        
-        
-        
-        BallResetPositionAfterGoal();
-        
+            MoveBallSpawnPositionToLoosingPlayer();
+
+            // Instantiate a new ball after the goal
+            // GameObject newBall = Instantiate(GameManager.Instance.levelManager.ballPrefab, 
+            //     GameManager.Instance.levelManager.ballSpawnPosition.position, 
+            //     Quaternion.identity);
+            //GameManager.Instance.levelManager.gameBall = newBall;
+
+            BallResetPositionAfterGoal();
+        }
+        else
+        {
+            Debug.LogWarning("The ball's owner player does not match the attacking goal.");
+        }
     }
 
     private void MoveBallSpawnPositionToLoosingPlayer()
@@ -44,30 +55,48 @@ public class PointTracker : MonoBehaviour
 
         foreach (var player in GameManager.Instance.PlayerScriptList)
         {
-            Debug.Log("OwnerPlayer :" +ballSM.ballOwnerPlayer);
-            if (player.playerGoalToAttack == gameObject)
-            {
-                defendingPlayer = player;
-                Debug.Log("defending player :" +defendingPlayer.name);
-
-                // Calculate the average distance between levelManager.centerPoint and playerPosition
-                Transform transformPosition = GameManager.Instance.levelManager.ballSpawnPosition.transform;
-                Vector3 centerPoint = levelManager.centerPoint.transform.position;
-                Vector3 playerPosition = defendingPlayer.transform.position;
-
-                float averageDistance = Vector3.Distance(centerPoint, playerPosition);
-
-                // Set a new Vector3 based on the average distance
-                Vector3 direction = (player.playerSpawnPoint.transform.position - centerPoint).normalized;
-                Vector3 newBallSpawnPosition = centerPoint + direction * averageDistance;
-
-                // Move the ball spawn position to the calculated position
-                transformPosition.position = newBallSpawnPosition;
-                Debug.Log("Destroy");
-                Destroy(GameManager.Instance.levelManager.gameBall);
-                GameManager.Instance.levelManager.SpawnBall();
+             if (player.playerGoalToAttack == gameObject)
+             {
+                 defendingPlayer = player;
+                 Debug.Log("defending player :" +defendingPlayer.name);
+            
+                 // Calculate the average distance between levelManager.centerPoint and playerPosition
+                 Transform transformPosition = GameManager.Instance.levelManager.ballSpawnPosition.transform;
+                 Vector3 centerPoint = levelManager.centerPoint.transform.position;
+                 Vector3 playerPosition = defendingPlayer.transform.position;
+            
+                 float averageDistance = Vector3.Distance(centerPoint, playerPosition);
+            
+                 // Set a new Vector3 based on the average distance
+                 Vector3 direction = (player.playerSpawnPoint.transform.position - centerPoint).normalized;
+                 Vector3 newBallSpawnPosition = centerPoint + direction * averageDistance;
+            
+                 // Move the ball spawn position to the calculated position
+                 transformPosition.position = newBallSpawnPosition;
+                 
             }
+            
+            // if (player.playerGoalToAttack == gameObject)
+            // {
+            //     defendingPlayer = player;
+            //
+            //     // Instanciate the ball spawn position directly at the centerPoint
+            //     int playerIndex = GameManager.Instance.PlayerScriptList.IndexOf(defendingPlayer);
+            //     if (playerIndex >= 0 && playerIndex < levelManager._playerSpawnPoints.Count)
+            //     {
+            //         Transform transformPosition = levelManager._playerSpawnPoints[playerIndex].transform;
+            //         transformPosition.position = levelManager.centerPoint.transform.position;
+            //     }
+            //     else
+            //     {
+            //         Debug.LogError("Defending player not found or index out of range.");
+            //     }
+            // }
         }
+        Debug.Log("Destroy");
+        GameManager.Instance.levelManager.gameCameraScript.RemoveObjectFromArray(GameManager.Instance.levelManager.gameBall);
+        Destroy(GameManager.Instance.levelManager.gameBall);
+        GameManager.Instance.levelManager.SpawnBall();
     }
 
     private void BallResetPositionAfterGoal()

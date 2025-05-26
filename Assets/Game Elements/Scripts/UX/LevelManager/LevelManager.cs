@@ -270,8 +270,6 @@ public class LevelManager : MonoBehaviour
             {
                 // unsuscribe to all the events
                 existingBall.GetComponent<BallSM>().pointWallHit.RemoveAllListeners();
-                // from the game camera script, remove the ball from the list of lockpoints.
-                gameCameraScript.RemoveObjectFromArray(existingBall);
                 Destroy(GameObject.FindWithTag("Ball"));
             }
             
