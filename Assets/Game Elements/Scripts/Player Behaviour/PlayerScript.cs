@@ -32,9 +32,9 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("The rate at which speed picks up when the input is being performed.")]
     public float acceleration = 0.1f;
     //---------------------------------------------------------------------------------------
-    [Header("Player Goal Settings")]
-    public GameObject playerGoalToDefend;
+    [FormerlySerializedAs("playerGoalToAttack1")] [FormerlySerializedAs("playerGoalToDefend")] [Header("Player Goal Settings")]
     public GameObject playerGoalToAttack;
+    [FormerlySerializedAs("playerGoalToAttack")] public GameObject playerGoalToDefend;
     public int playerPoint;
     
     //---------------------------------------------------------------------------------------
@@ -140,6 +140,8 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public int hazardLayer;
     [HideInInspector] public bool isReady;
     [HideInInspector] public GameObject playerScorePanel;
+
+    [HideInInspector] public GameObject playerSpawnPoint;
     // ------------------------------ HIT ------------------------------
     [HideInInspector] public float hitTimer = 0f;
     // ------------------------------ MOVE ------------------------------
@@ -229,7 +231,7 @@ public class PlayerScript : MonoBehaviour
         }
         
         // Update the player score panel
-        playerPoint = playerGoalToAttack.GetComponent<PointTracker>()._points;
+        playerPoint = playerGoalToDefend.GetComponent<PointTracker>()._points;
     }
     
 
@@ -357,7 +359,8 @@ public class PlayerScript : MonoBehaviour
     public void OnSprint(InputAction.CallbackContext context)
     {
         // If the current state is NOT sprinting, then change state to sprinting.
-        if (context.started && currentState is not SprintState)
+        if (context.started && currentState is not SprintState &&
+            currentState is not KnockbackState && moveInputVector2 != Vector2.zero)
         {
             ChangeState(GetComponent<SprintState>());
         }

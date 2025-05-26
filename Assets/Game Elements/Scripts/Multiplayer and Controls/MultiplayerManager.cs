@@ -110,6 +110,7 @@ public class MultiplayerManager : MonoBehaviour
     {
         // Instantiate a new player object at a specified position and rotation
         GameObject newPlayer = Instantiate(playerPrefab, spawnPosition.position, Quaternion.identity);
+        newPlayer.GetComponent<PlayerScript>().playerSpawnPoint = spawnPosition.gameObject;
         DontDestroyOnLoad(newPlayer.gameObject);
 
         // Change the player's name to include the player's number
