@@ -31,11 +31,7 @@ public class BallSoundScript : MonoBehaviour
         bounceInstance.release();
     }
 
-    public void PlaySound()
-    {
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.LethalBall_FX, this.transform.position);
-
-    }
+   
 
 
 
