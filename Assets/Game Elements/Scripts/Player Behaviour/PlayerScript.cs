@@ -185,6 +185,8 @@ public class PlayerScript : MonoBehaviour
         playerLayer = gameObject.layer;
         ballLayer = LayerMask.NameToLayer("Ball");
         hazardLayer = LayerMask.NameToLayer("LevelHazard");
+        grabCurrentCharge = grabTotalCharge;
+        GetComponent<SprintState>().currentSprintBoost = sprintMaxInitialBoost;
         
         PlayerState[] states = GetComponents<PlayerState>();
         foreach (PlayerState state in states)

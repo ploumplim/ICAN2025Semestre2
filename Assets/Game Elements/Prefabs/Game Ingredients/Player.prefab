@@ -10475,9 +10475,9 @@ MonoBehaviour:
   playerGoalToAttack: {fileID: 0}
   playerPoint: 0
   neutralLerpTime: 1
-  sprintMaxInitialBoost: 5
+  sprintMaxInitialBoost: 25
   sprintSpeed: 15
-  sprintBoostDecayTime: 0.7
+  sprintBoostDecayTime: 0.2
   sprintCurve:
     serializedVersion: 2
     m_Curve:
@@ -10502,7 +10502,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  sprintBoostRecoveryRate: 2.5
+  sprintBoostRecoveryRate: 10
   knockbackStunMultiplier: 0.02
   knockbackForceMultiplier: 0.8
   baseLinearDamping: 10
