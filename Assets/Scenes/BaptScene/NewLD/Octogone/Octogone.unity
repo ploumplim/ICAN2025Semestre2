@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Octogone
       objectReference: {fileID: 0}
+    - target: {fileID: 2637662685457859782, guid: 8d9711f8ad717344f8812770d39c21cc, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
     - target: {fileID: 6941151723648784570, guid: 8d9711f8ad717344f8812770d39c21cc, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -182,6 +186,10 @@ PrefabInstance:
     - target: {fileID: 6941151723648784570, guid: 8d9711f8ad717344f8812770d39c21cc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549045127281940441, guid: 8d9711f8ad717344f8812770d39c21cc, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

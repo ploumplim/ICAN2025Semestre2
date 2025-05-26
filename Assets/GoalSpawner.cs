@@ -30,7 +30,7 @@ public class GoalSpawner : MonoBehaviour
         var instancePlayerScriptList = GameManager.Instance.PlayerScriptList;
         for (int i = 0; i < instancePlayerScriptList.Count; i++)
         {
-            instancePlayerScriptList[i].playerGoalToDefend = levelManager.GoalList[i].gameObject;
+            instancePlayerScriptList[i].playerGoalToAttack = levelManager.GoalList[i].gameObject;
         }
     }
     
@@ -38,10 +38,10 @@ public class GoalSpawner : MonoBehaviour
     public void LinkGoalToPlayer(int playerId)
     {
         int nextGoalIndex = (playerId + 1) % levelManager.GoalList.Count;
-        GameManager.Instance.PlayerScriptList[playerId].playerGoalToAttack = levelManager.GoalList[nextGoalIndex].gameObject;
+        GameManager.Instance.PlayerScriptList[playerId].playerGoalToDefend = levelManager.GoalList[nextGoalIndex].gameObject;
         //Debug.LogWarning(GameManager.Instance.PlayerScriptList[playerId].playerGoalToDefend.name);
         
-        GameManager.Instance.PlayerScriptList[playerId].playerGoalToDefend = levelManager.GoalList[playerId].gameObject;
+        GameManager.Instance.PlayerScriptList[playerId].playerGoalToAttack = levelManager.GoalList[playerId].gameObject;
     }
 
     
