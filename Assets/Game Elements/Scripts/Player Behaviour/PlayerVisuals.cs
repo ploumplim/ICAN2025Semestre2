@@ -46,7 +46,7 @@ public class PlayerVisuals : MonoBehaviour
     
     public ParticleSystem grabParticle;
     private ParticleSystem.ShapeModule _grabParticleShape;
-    private float _currentEmissionRate;
+    private float _grabParticleSize;
     
     
     void Start()
@@ -56,6 +56,7 @@ public class PlayerVisuals : MonoBehaviour
         // Recover the player's mesh material and color.
         _parryDiameter = playerScript.hitDetectionRadius * 2f - parryParticle.main.startSizeMultiplier / 2f;
         _grabParticleShape = grabParticle.shape;
+        _grabParticleSize = grabParticle.main.startSize.constant;
 
 
         if (perso)
@@ -169,15 +170,13 @@ public class PlayerVisuals : MonoBehaviour
         // Set the shape radius to be equal to the grab radius
         _grabParticleShape.radius = playerScript.grabDetectionRadius;
         
+        // Recover the particle size.
+        var main = grabParticle.main;
         
+        // modify the particle size based on the current grab charge.
+        main.startSize = Mathf.Clamp(playerScript.grabCurrentCharge * _grabParticleSize, 0.1f, _grabParticleSize);
         
-        // Adjust the emission rate based on the current charge
-        // var emission = grabParticle.emission;
-        // _currentEmissionRate = emission.rateOverTime.constant;
-        // float maxEmissionRate = emission.rateOverTime.constant; // Maximum emission rate
-        // emission.rateOverTime = maxEmissionRate * playerScript.grabCurrentCharge;
-        
-        
+        // Debug.Log ("Grab charge: " + playerScript.grabCurrentCharge + " Particle size: " + main.startSize.constant);
         
         // Get the current angle of the grabbing state.
         float currentAngle = grabbingState.currentAngle;
@@ -189,11 +188,12 @@ public class PlayerVisuals : MonoBehaviour
     
     private void ResetGrabParticle()
     {
-        
-        // var emission = grabParticle.emission;
-        // emission.rateOverTime = _currentEmissionRate;
-        _grabParticleShape.arc = 180;
-        _grabParticleShape.rotation = new Vector3(-90, 180, 0);
+        // Reset the particle size to 3
+        var main = grabParticle.main;
+        main.startSize = _grabParticleSize;
+
+        _grabParticleShape.arc = playerScript.maxGrabAngle;
+        _grabParticleShape.rotation = new Vector3(-90, playerScript.maxGrabAngle, 0);
     }
 
     private void PlayerStateText()
