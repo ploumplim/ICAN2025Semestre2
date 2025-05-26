@@ -630,6 +630,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RadianWall
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 232b7398c33ac77479ac86e2b3c2ca5c, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -800,6 +804,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5049032948309972686, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: -3821253740895256905, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: -2655573560833850164, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
     - target: {fileID: -674878561654183148, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.90101
@@ -876,6 +892,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: RadianNewMiniWall
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395320445879687111, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 1585015375599971490, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 3380080921822813343, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
     - target: {fileID: 3617766064933204627, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.90101
@@ -899,6 +931,18 @@ PrefabInstance:
     - target: {fileID: 3617766064933204627, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
       propertyPath: m_LocalPosition.z
       value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893722416717529905, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 4811171726696857748, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 5619302609615435187, guid: c1a15c27c83196a41affff9ff4dc24f2, type: 3}
+      propertyPath: m_TagString
+      value: NeutralWall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
