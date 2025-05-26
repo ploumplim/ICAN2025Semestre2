@@ -25,7 +25,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _main_text:
-        m_Texture: {fileID: 2800000, guid: 1e701bdb71900154f993bb91203a9407, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8345bbf0a3ca0864d8ca64e61b11ddf3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -42,18 +42,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BACK_DOT_PROPAGATION: 0.92
+    - _BACK_DOT_PROPAGATION: 0.9
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SPREAD_DOWN: -0.12
+    - _SPREAD_DOWN: -0.03
     - _SPREAD_TOP_1: 1.5
     - _TOP_DOT_PROPAGATION: 0.01
     - _USE_SCREEN_SPACE: 0
-    - _dot_scale: 22.23
-    - _rotation_dot: 2.2
+    - _dot_scale: 22
+    - _rotation_dot: 20
     m_Colors:
     - _HIGHLIGHT: {r: 1, g: 1, b: 1, a: 0}
-    - _MIDTONES: {r: 0.87781465, g: 1, b: 0.84339625, a: 0}
+    - _MIDTONES: {r: 0.69327784, g: 0.96981126, b: 0.6129939, a: 0}
     - _SHADOWS: {r: 0.27557242, g: 0.7433963, b: 0.2679032, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
