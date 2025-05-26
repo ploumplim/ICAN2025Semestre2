@@ -10513,7 +10513,7 @@ MonoBehaviour:
   hitForce: 5
   hitDetectionRadius: 8
   hitDetectionOffset: 0
-  hitCooldown: 0.25
+  hitCooldown: 0.5
   hitWindow: 0.25
   maxGrabAngle: 200
   minGrabAngle: 90
@@ -21161,6 +21161,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9195313607378371640}
     m_Modifications:
+    - target: {fileID: 4957030250788900916, guid: 7a09d583c32f4db44a49606e5a475fe3, type: 3}
+      propertyPath: ColorModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4957030250788900916, guid: 7a09d583c32f4db44a49606e5a475fe3, type: 3}
+      propertyPath: ShapeModule.alignToDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4957030250788900916, guid: 7a09d583c32f4db44a49606e5a475fe3, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6854809023179654925, guid: 7a09d583c32f4db44a49606e5a475fe3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

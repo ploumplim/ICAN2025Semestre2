@@ -169,17 +169,12 @@ public class PlayerVisuals : MonoBehaviour
         // Set the shape radius to be equal to the grab radius
         _grabParticleShape.radius = playerScript.grabDetectionRadius;
         
-        // //Recover the current emission rate
-        // _currentEmissionRate = grabParticle.emission.rateOverTime.constant;
-        //
-        // // Adjust the emission rate based on the current charge
-        // float chargePercentage = playerScript.grabCurrentCharge / playerScript.grabTotalCharge;
-        //
-        // // Set the emission rate to be proportional to the charge percentage
-        // float newEmissionRate = _currentEmissionRate * chargePercentage;
-        // var emission = grabParticle.emission;
-        // emission.rateOverTime = newEmissionRate;
+        // Recover the particle size.
+        var main = grabParticle.main;
+        var startSize = main.startSize;
         
+        // modify the particle size based on the current grab charge.
+        main.startSize = Mathf.Clamp((playerScript.grabCurrentCharge * startSize.constant), 3f, 10f);
         
         // Get the current angle of the grabbing state.
         float currentAngle = grabbingState.currentAngle;
@@ -191,10 +186,10 @@ public class PlayerVisuals : MonoBehaviour
     
     private void ResetGrabParticle()
     {
-        
-        // Reset the emission rate to the original value.
-        // var emission = grabParticle.emission;
-        // emission.rateOverTime = _currentEmissionRate;
+        // Reset the particle size to 3
+        var main = grabParticle.main;
+        main.startSize = 3f;
+
         _grabParticleShape.arc = playerScript.maxGrabAngle;
         _grabParticleShape.rotation = new Vector3(-90, playerScript.maxGrabAngle, 0);
     }

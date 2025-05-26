@@ -219,6 +219,7 @@ public class PlayerScript : MonoBehaviour
             grabCurrentCharge < grabTotalCharge)
         {
             grabCurrentCharge += grabRechargeRate * Time.deltaTime;
+            
         }
 
         if (currentState is not SprintState)
@@ -380,7 +381,8 @@ public class PlayerScript : MonoBehaviour
             ChangeState(GetComponent<NeutralState>());
         }
         
-        if (context.started || context.performed)
+        if ((context.started || context.performed) 
+            && grabCurrentCharge >= grabTotalCharge)
         {
             ChangeState(GetComponent<GrabbingState>());
         }
