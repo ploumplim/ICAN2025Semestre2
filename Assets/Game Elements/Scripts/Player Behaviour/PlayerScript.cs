@@ -359,7 +359,8 @@ public class PlayerScript : MonoBehaviour
     public void OnSprint(InputAction.CallbackContext context)
     {
         // If the current state is NOT sprinting, then change state to sprinting.
-        if (context.started && currentState is not SprintState)
+        if (context.started && currentState is not SprintState &&
+            currentState is not KnockbackState && moveInputVector2 != Vector2.zero)
         {
             ChangeState(GetComponent<SprintState>());
         }
