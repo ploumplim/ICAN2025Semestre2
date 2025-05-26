@@ -192,7 +192,7 @@ public class PlayerVisuals : MonoBehaviour
         
         // var emission = grabParticle.emission;
         // emission.rateOverTime = _currentEmissionRate;
-        _grabParticleShape.arc = 180;
+//        _grabParticleShape.arc = 180;
         _grabParticleShape.rotation = new Vector3(-90, 180, 0);
     }
 

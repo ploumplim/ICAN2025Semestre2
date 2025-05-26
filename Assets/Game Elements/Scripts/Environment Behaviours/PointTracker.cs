@@ -10,14 +10,16 @@ public class PointTracker : MonoBehaviour
     
     public PlayerScript defendingPlayer;
 
+    public BallSM ballSM;
+
+    public GameObject linkedGoal;
+
     public void Start()
     {
+        ballSM = GameManager.Instance.levelManager.gameBall.GetComponent<BallSM>();
         var instanceLevelManager = GameManager.Instance.levelManager;
         instanceLevelManager.PointTrackers.Add(this);
-        // for (int i = 0; i < instanceLevelManager.PointTrackers.Count; i++)
-        // {
-        //     GameManager.Instance.PlayerScriptList[i].playerGoalToDefend = instanceLevelManager.PointTrackers[i];
-        // }
+        
     }
 
     public void AddPoints()
@@ -37,13 +39,16 @@ public class PointTracker : MonoBehaviour
 
     private void MoveBallSpawnPositionToLoosingPlayer()
     {
+       
         LevelManager levelManager = GameManager.Instance.levelManager;
 
         foreach (var player in GameManager.Instance.PlayerScriptList)
         {
+            Debug.Log("OwnerPlayer :" +ballSM.ballOwnerPlayer);
             if (player.playerGoalToAttack == gameObject)
             {
                 defendingPlayer = player;
+                Debug.Log("defending player :" +defendingPlayer.name);
 
                 // Calculate the average distance between levelManager.centerPoint and playerPosition
                 Transform transformPosition = GameManager.Instance.levelManager.ballSpawnPosition.transform;
@@ -51,7 +56,6 @@ public class PointTracker : MonoBehaviour
                 Vector3 playerPosition = defendingPlayer.transform.position;
 
                 float averageDistance = Vector3.Distance(centerPoint, playerPosition);
-                Debug.Log("Average Distance: " + averageDistance);
 
                 // Set a new Vector3 based on the average distance
                 Vector3 direction = (player.playerSpawnPoint.transform.position - centerPoint).normalized;
@@ -59,31 +63,18 @@ public class PointTracker : MonoBehaviour
 
                 // Move the ball spawn position to the calculated position
                 transformPosition.position = newBallSpawnPosition;
+                Debug.Log("Destroy");
                 Destroy(GameManager.Instance.levelManager.gameBall);
                 GameManager.Instance.levelManager.SpawnBall();
-                Debug.Log("New Ball Spawn Position: " + newBallSpawnPosition);
             }
         }
     }
-
-    // private static void SpawnNewBall(Transform transformPosition)
-    // {
-    //     Debug.Log("Ball Destroyed at position: " + GameManager.Instance.levelManager.gameBall.transform.position);
-    //     Destroy(GameManager.Instance.levelManager.gameBall);
-    //             
-    //     GameObject newball = Instantiate(GameManager.Instance.levelManager.ballPrefab, transformPosition.position, Quaternion.identity);
-    //     GameManager.Instance.levelManager.gameBall = newball;
-    //     
-    //     
-    //     GameManager.Instance.levelManager.gameCameraScript.AddObjectToArray(newball);
-    // }
 
     private void BallResetPositionAfterGoal()
     {
         
         // Reset the ball
         var ball = GameManager.Instance.levelManager.gameBall.GetComponent<Rigidbody>(); // Assuming ball is a reference to the Rigidbody
-        Debug.Log(ball.transform.position);
         ball.transform.position = GameManager.Instance.levelManager.ballSpawnPosition.position;
         ball.linearVelocity = Vector3.zero;
         ball.angularVelocity = Vector3.zero;

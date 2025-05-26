@@ -20,16 +20,16 @@ public class HitState : BallState
         BallSm.OnHitStateStart?.Invoke();
         
         SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
-        GameObject ballOwnerPlayer = BallSm.ballOwnerPlayer;
+        GameObject HitStateBallOwnerPlayer = BallSm.ballOwnerPlayer;
         PlayerScript ballOwnerPlayerScript = BallSm.ballOwnerPlayer.GetComponent<PlayerScript>();
         Debug.Log("Ball hit by " + ballOwnerPlayerScript.name);
         
         //TODO : Faire que la balle ne puisse plus hit le playerOwner
        
         
-        if (ballOwnerPlayer)
+        if (HitStateBallOwnerPlayer)
         {
-            Physics.IgnoreCollision(BallSm.col, ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
+            Physics.IgnoreCollision(BallSm.col, HitStateBallOwnerPlayer.GetComponent<CapsuleCollider>(), true);
         }
 
         BallSm.rb.linearVelocity = hitDirection * (BallSm.currentBallSpeedVec3.magnitude + BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().hitForce);
