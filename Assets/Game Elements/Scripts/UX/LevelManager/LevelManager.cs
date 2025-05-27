@@ -262,7 +262,6 @@ public class LevelManager : MonoBehaviour
     {
         if (ballPrefab)
         {
-            // Destroy the ball if it exists
             
             GameObject existingBall = GameObject.FindWithTag("Ball");
             
@@ -270,6 +269,7 @@ public class LevelManager : MonoBehaviour
             {
                 // unsuscribe to all the events
                 existingBall.GetComponent<BallSM>().pointWallHit.RemoveAllListeners();
+                gameCameraScript.RemoveObjectFromArray(gameBall);
                 Destroy(GameObject.FindWithTag("Ball"));
             }
             

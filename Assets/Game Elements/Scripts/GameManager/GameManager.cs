@@ -154,7 +154,6 @@ public class GameManager : MonoBehaviour
         //levelManager.LoadGoalsForScene();
         if (NextSceneToPlay != null && NextSceneToPlay.Count > 0)
         {
-            Debug.Log("NextSceneToPlay.Count: " + NextSceneToPlay.Count);
             currentSceneID++;
             int randomIndex = Random.Range(0, NextSceneToPlay.Count);
             RandomLevelSelection(randomIndex);
