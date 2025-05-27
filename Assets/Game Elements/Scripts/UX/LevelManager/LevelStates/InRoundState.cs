@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using Vector2 = System.Numerics.Vector2;
 
@@ -68,9 +69,18 @@ public class InRoundState : LevelState
 
                 if (topPlayer != null) Debug.Log(topPlayer.name + " won");
 
-                foreach (var VARIABLE in levelManager.PointTrackers)
+                foreach (var goals in levelManager.PointTrackers)
                 {
-                    pointTrackerList._points = 0;
+                    goals._points = 0;
+                    for (int i = 0; i < goals.transform.childCount; i++)
+                    {
+                        GameObject child = goals.transform.GetChild(i).gameObject;
+                        var tmp = child.GetComponent<TextMeshPro>();
+                        if (tmp != null)
+                        {
+                            tmp.text = goals._points.ToString();
+                        }
+                    }
                 }
                 Rigidbody ballrb = LevelManagerScript.gameBall.GetComponent<BallSM>().rb;
                 ballrb.linearVelocity = Vector3.zero;

@@ -37,10 +37,7 @@ public class PointTracker : MonoBehaviour
 
             BallResetPositionAfterGoal();
         }
-        else
-        {
-            
-        }
+        
     }
 
     private void MoveBallSpawnPositionToLoosingPlayer()
@@ -78,7 +75,6 @@ public class PointTracker : MonoBehaviour
 
     private void BallResetPositionAfterGoal()
     {
-        
         // Reset the ball
         var ball = GameManager.Instance.levelManager.gameBall.GetComponent<Rigidbody>(); // Assuming ball is a reference to the Rigidbody
         ball.transform.position = GameManager.Instance.levelManager.ballSpawnPosition.position;
