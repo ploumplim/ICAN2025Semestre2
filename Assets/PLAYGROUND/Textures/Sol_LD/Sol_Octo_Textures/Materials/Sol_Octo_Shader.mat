@@ -42,10 +42,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+<<<<<<<< HEAD:Assets/PLAYGROUND/Textures/Sol_LD/Sol_Octo_Textures/Materials/Sol_Octo_Shader.mat
     - _BACK_DOT_PROPAGATION: 0.9
+========
+    - _BACK_DOT_PROPAGATION: 0.97
+>>>>>>>> BaptisteLD:Assets/Game Elements/Materials/ShaderTextures/Batiments_DOT 1.mat
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SPREAD_DOWN: -0.03
+    - _SPREAD_DOWN: -0.04
     - _SPREAD_TOP_1: 1.5
     - _TOP_DOT_PROPAGATION: 0.01
     - _USE_SCREEN_SPACE: 0
@@ -53,8 +57,13 @@ Material:
     - _rotation_dot: 20
     m_Colors:
     - _HIGHLIGHT: {r: 1, g: 1, b: 1, a: 0}
+<<<<<<<< HEAD:Assets/PLAYGROUND/Textures/Sol_LD/Sol_Octo_Textures/Materials/Sol_Octo_Shader.mat
     - _MIDTONES: {r: 0.69327784, g: 0.96981126, b: 0.6129939, a: 0}
     - _SHADOWS: {r: 0.27557242, g: 0.7433963, b: 0.2679032, a: 0}
+========
+    - _MIDTONES: {r: 0.4509804, g: 0.4509804, b: 0.4509804, a: 0}
+    - _SHADOWS: {r: 0.47843137, g: 0.47843137, b: 0.47843137, a: 0}
+>>>>>>>> BaptisteLD:Assets/Game Elements/Materials/ShaderTextures/Batiments_DOT 1.mat
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &3169273275987208625

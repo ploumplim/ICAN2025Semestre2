@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Trotoire_Shader
+  m_Name: MetalBat_ToonCel
   m_Shader: {fileID: -6465566751694194690, guid: ed5955a88379d9041a244e0af638e360, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -46,9 +46,9 @@ Material:
     - _Min: -1.56
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Shades: -23.7
+    - _Shades: -19.3
     m_Colors:
-    - _Color: {r: 0.7207546, g: 0.7207546, b: 0.7207546, a: 0}
+    - _Color: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &1706734909749778733

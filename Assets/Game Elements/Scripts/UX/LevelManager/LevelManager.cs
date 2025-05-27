@@ -24,7 +24,6 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public int currentRound; // Current round of the level
     [HideInInspector] public int totalRounds; // Total rounds of the level
     public bool gameIsRunning; // Boolean to check if the game is running
-
     
     
     public int pointNeededToWin;
@@ -82,8 +81,14 @@ public class LevelManager : MonoBehaviour
     public UnityEvent<string> OnGameEnd;
     public UnityEvent<int> OnRoundStarted;
     public UnityEvent<string> OnRoundEnded;
-    public UnityEvent OnPlayerSpawn;
+    
+    public UnityEvent onPlayerSpawn;
+    
+    public UnityEvent<int> OnGoalScored;
+    
+    public UnityEvent OnNewLevelStart;
 
+    
     #endregion
     
    
@@ -262,7 +267,6 @@ public class LevelManager : MonoBehaviour
     {
         if (ballPrefab)
         {
-            // Destroy the ball if it exists
             
             GameObject existingBall = GameObject.FindWithTag("Ball");
             
@@ -270,8 +274,7 @@ public class LevelManager : MonoBehaviour
             {
                 // unsuscribe to all the events
                 existingBall.GetComponent<BallSM>().pointWallHit.RemoveAllListeners();
-                // from the game camera script, remove the ball from the list of lockpoints.
-                gameCameraScript.RemoveObjectFromArray(existingBall);
+                gameCameraScript.RemoveObjectFromArray(gameBall);
                 Destroy(GameObject.FindWithTag("Ball"));
             }
             
