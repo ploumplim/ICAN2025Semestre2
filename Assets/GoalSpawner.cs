@@ -23,7 +23,7 @@ public class GoalSpawner : MonoBehaviour
         {
             // Instantiate the object and set it as a child of the GameObject that has this script
             GameObject GoalSpawn = Instantiate(GoalPrefab, goalSpawnPoint.transform.position, goalSpawnPoint.transform.rotation, this.transform);
-    
+            GoalSpawn.GetComponent<PointTracker>().linkedGoal = GoalSpawn;
             levelManager.GoalList.Add(GoalSpawn);
         }
 
@@ -34,14 +34,39 @@ public class GoalSpawner : MonoBehaviour
         }
     }
     
-
     public void LinkGoalToPlayer(int playerId)
     {
-        int nextGoalIndex = (playerId + 1) % levelManager.GoalList.Count;
-        GameManager.Instance.PlayerScriptList[playerId].playerGoalToDefend = levelManager.GoalList[nextGoalIndex].gameObject;
-        //Debug.LogWarning(GameManager.Instance.PlayerScriptList[playerId].playerGoalToDefend.name);
         
-        GameManager.Instance.PlayerScriptList[playerId].playerGoalToAttack = levelManager.GoalList[playerId].gameObject;
+        int currenGoalscenePlaying = GameManager.Instance.currentSceneID * 2;
+        if (playerId % 2 == 0)
+        {
+            GameManager.Instance.PlayerScriptList[playerId].playerGoalToDefend = levelManager.GoalList[currenGoalscenePlaying+1].gameObject;
+            
+            //TODO : Assign le mesh du goal to defend du player 2
+        
+            GameManager.Instance.PlayerScriptList[playerId].playerGoalToAttack = levelManager.GoalList[currenGoalscenePlaying].gameObject;
+        }
+        else
+        {
+            GameManager.Instance.PlayerScriptList[playerId].playerGoalToDefend = levelManager.GoalList[currenGoalscenePlaying].gameObject;
+            //TODO : Assign le mesh du goal to defend du player 1
+            
+        
+            GameManager.Instance.PlayerScriptList[playerId].playerGoalToAttack = levelManager.GoalList[currenGoalscenePlaying+1].gameObject;
+        }
+        
+        
+        
+        foreach (Transform childTransform in GameManager.Instance.PlayerScriptList[playerId].playerGoalToDefend.transform)
+        {
+            if (childTransform.name == "Renderer")
+            {
+                childTransform.GetComponent<MeshRenderer>().material.color =
+                    GameManager.Instance.PlayerScriptList[playerId].GetComponent<PlayerVisuals>().playerCapMaterial.color;
+            }
+        }
+
+        
     }
 
     

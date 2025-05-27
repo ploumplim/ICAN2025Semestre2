@@ -83,7 +83,7 @@ public class BallSM : MonoBehaviour
     
     //---------------------------PRIVATE or HIDDEN VARIABLES---------------------------
     [HideInInspector]public int bounces = 0;
-    [HideInInspector]public GameObject ballOwnerPlayer;
+    public GameObject ballOwnerPlayer;
     [HideInInspector]public SphereCollider col;
     [HideInInspector]public int pointWallPoints;
     [HideInInspector]public int playerColliderLayer;

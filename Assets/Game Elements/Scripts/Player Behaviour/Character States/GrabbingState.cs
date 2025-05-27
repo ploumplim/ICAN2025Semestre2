@@ -29,7 +29,7 @@ public class GrabbingState : PlayerState
             base.Tick();
             PlayerScript.Move(PlayerScript.speed * PlayerScript.chargeSpeedModifier, PlayerScript.neutralLerpTime);
 
-
+            GrabAngleUpdater();
             
             if (!_caughtBall)
             {
@@ -37,6 +37,7 @@ public class GrabbingState : PlayerState
             }
             
             PlayerScript.grabCurrentCharge -= PlayerScript.grabDischargeRate * Time.deltaTime;
+            // Debug.Log("Grab charge: " + PlayerScript.grabCurrentCharge);
             
             if (PlayerScript.grabCurrentCharge <= 0)
             {
@@ -54,7 +55,7 @@ public class GrabbingState : PlayerState
         //         
         // }
 
-        public void CatchZone()
+        private void GrabAngleUpdater()
         {
             _grabAngleTimer += Time.deltaTime;
             
@@ -64,37 +65,41 @@ public class GrabbingState : PlayerState
             float holdTime = Mathf.Clamp(_grabAngleTimer / PlayerScript.grabTimeLimit, 0, 1);
             float curveValue = PlayerScript.grabShrinkCurve.Evaluate(holdTime);
             currentAngle = Mathf.Lerp(maxAngle, minAngle, curveValue);
-            
+        }
+
+        private void CatchZone()
+        {
             // Create an overlap sphere equal to the size of the hit detection radius.
             Collider[] hitColliders = Physics.OverlapSphere(PlayerScript.transform.position, PlayerScript.grabDetectionRadius);
             foreach (var hitCollider in hitColliders)
             {
+                if (!hitCollider.CompareTag("Ball"))
+                {
+                    // Ignore objects that are not tagged as "Ball"
+                    continue;
+                }
+                
                 Vector3 directionToObject = (hitCollider.transform.position - PlayerScript.transform.position).normalized;
                 
-                if (Vector3.Dot(PlayerScript.transform.forward, directionToObject) < 0)
-                {
-                    // Ignore objects behind the player
-                    break;
-                }
+                // if (Vector3.Dot(PlayerScript.transform.forward, directionToObject) < 0)
+                // {
+                //     // Ignore objects behind the player
+                //     break;
+                // }
                 
                 float angle = Vector3.Angle(PlayerScript.transform.forward, directionToObject);
                 
-                if (angle <= currentAngle)
+                if (angle <= currentAngle/2f)
                 {
-                    if (hitCollider.CompareTag("Ball"))
+                    PlayerScript.OnPlayerCatch?.Invoke();
+                    _caughtBall = hitCollider.gameObject;
+                    _caughtBall.GetComponent<BallSM>().ballOwnerPlayer = gameObject;
+                    _caughtBall.GetComponent<BallSM>().currentBallSpeedVec3 = _caughtBall.GetComponent<BallSM>().rb.linearVelocity;
+                    if (_caughtBall.GetComponent<BallSM>().currentState != GetComponent<CaughtState>())
                     {
-                        PlayerScript.OnPlayerCatch?.Invoke();
-                        _caughtBall = hitCollider.gameObject;
-                        _caughtBall.GetComponent<BallSM>().ballOwnerPlayer = gameObject;
-                        _caughtBall.GetComponent<BallSM>().currentBallSpeedVec3 =
-                            _caughtBall.GetComponent<BallSM>().rb.linearVelocity;
-                        if (_caughtBall.GetComponent<BallSM>().currentState != GetComponent<CaughtState>())
-                        {
-                            _caughtBall.GetComponent<BallSM>().ChangeState(_caughtBall.GetComponent<CaughtState>());
-                        }
-
-                        break;
+                        _caughtBall.GetComponent<BallSM>().ChangeState(_caughtBall.GetComponent<CaughtState>());
                     }
+                    break;
                 }
             }
             

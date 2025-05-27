@@ -187,6 +187,8 @@ public class PlayerScript : MonoBehaviour
         playerLayer = gameObject.layer;
         ballLayer = LayerMask.NameToLayer("Ball");
         hazardLayer = LayerMask.NameToLayer("LevelHazard");
+        grabCurrentCharge = grabTotalCharge;
+        GetComponent<SprintState>().currentSprintBoost = sprintMaxInitialBoost;
         
         PlayerState[] states = GetComponents<PlayerState>();
         foreach (PlayerState state in states)
@@ -219,6 +221,7 @@ public class PlayerScript : MonoBehaviour
             grabCurrentCharge < grabTotalCharge)
         {
             grabCurrentCharge += grabRechargeRate * Time.deltaTime;
+            
         }
 
         if (currentState is not SprintState)
@@ -380,7 +383,8 @@ public class PlayerScript : MonoBehaviour
             ChangeState(GetComponent<NeutralState>());
         }
         
-        if (context.started || context.performed)
+        if ((context.started || context.performed) && currentState is not KnockbackState 
+            && grabCurrentCharge >= grabTotalCharge)
         {
             ChangeState(GetComponent<GrabbingState>());
         }
@@ -396,14 +400,20 @@ public class PlayerScript : MonoBehaviour
     // ------------------------------ HIT ------------------------------
     public void OnHitAttack(InputAction.CallbackContext context)
     {
-        if (context.started && hitTimer <= 0f)
+
+        if (hitTimer > 0f && currentState is not KnockbackState)
+        {
+            return;
+        }
+
+        if (context.started)
         {
             if (currentState is NeutralState || currentState is GrabbingState)
             {
                 hitTimer = hitCooldown;
                 ChangeState(GetComponent<ReleaseState>());
             }
-            if (currentState is not NeutralState && currentState is not KnockbackState)
+            if (currentState is not NeutralState)
             {
                 hitTimer = hitCooldown;
                 BufferInput(context.action);
