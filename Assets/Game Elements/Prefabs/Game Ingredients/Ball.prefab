@@ -5291,7 +5291,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8330626829919473925}
   m_Father: {fileID: 0}
@@ -5578,7 +5578,7 @@ MonoBehaviour:
   endFlyingTrailColor: {r: 0.6117647, g: 0, b: 1, a: 0}
   endLethalTrailColor: {r: 1, g: 0, b: 0, a: 0}
   trailTimeModifier: 0.01
-  flyingBallColor: {r: 0.056402206, g: 0, b: 1, a: 1}
+  flyingBallColor: {r: 1, g: 1, b: 1, a: 1}
   lethalBallColor: {r: 1, g: 0, b: 0.19018412, a: 1}
   caughtBallColor: {r: 1, g: 0, b: 0.79249954, a: 1}
   HitBallColor: {r: 1, g: 0.53236574, b: 0.015686274, a: 1}
@@ -5601,6 +5601,7 @@ MonoBehaviour:
   speedFeedBackMultiplier: 1
   speedFeedbackMaximumSpeed: 100
   speedFeedbackMinimumSpeed: 20
+  stretchModifier: 0.03
 --- !u!114 &6323144974866670032
 MonoBehaviour:
   m_ObjectHideFlags: 0

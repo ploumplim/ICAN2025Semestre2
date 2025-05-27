@@ -63,6 +63,7 @@ public class ReleaseState : PlayerState
             {
                 ballToHit = hitCollider.gameObject;
                 ballToHit.GetComponent<BallSM>().ballOwnerPlayer = gameObject;
+                ballToHit.GetComponent<BallVisuals>().UpdateFlyingColor(GetComponent<PlayerVisuals>().playerCapMaterial.color);
                 break;
             }
         }

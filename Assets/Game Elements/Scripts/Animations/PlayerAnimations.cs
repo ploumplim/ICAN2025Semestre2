@@ -45,7 +45,7 @@ public class PlayerAnimations : MonoBehaviour
         // animator.SetBool("IsMoving", playerScript.isMoving);
         if (playerScript.currentState is NeutralState)
         {
-            animator.SetFloat("RunningFloat", playerScript.moveInputVector2.magnitude);
+            animator.SetFloat("RunningFloat", playerScript.rb.linearVelocity.magnitude);
         }
     }
 }

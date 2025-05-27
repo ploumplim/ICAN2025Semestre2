@@ -67,6 +67,9 @@ public class BallVisuals : MonoBehaviour
     public float speedFeedBackMultiplier = 0.1f;
     public float speedFeedbackMaximumSpeed = 100f;
     public float speedFeedbackMinimumSpeed = 20f;
+
+    [Header("Stretch and squash settings")]
+    public float stretchModifier = 0.5f;
     
     // ---------------PRIVATE---------------
     private BallSM ballSM;
@@ -95,8 +98,44 @@ public class BallVisuals : MonoBehaviour
     {
         TrailEmitter();
         BallColorAndLight();
-        UpdateFace();
+        // UpdateFace();
         // UpdateBallSpeedFeedbacks();
+        UpdateForward();
+        StretchAndSquash();
+    }
+
+    private void UpdateForward()
+    {
+        // Make the ball always align with its linear velocity vector 3 direction.
+        Vector3 ballVelocity = ballSM.GetComponent<Rigidbody>().linearVelocity;
+        if (ballVelocity != Vector3.zero)
+        {
+            // Set the rotation of the ball to look in the direction of its velocity.
+            Quaternion targetRotation = Quaternion.LookRotation(ballVelocity);
+            ballSM.transform.rotation = targetRotation;
+        }
+    }
+
+    public void UpdateFlyingColor(Color ownerColor)
+    {
+        // Update the color of the ball when it's flying based on the owner player's color.
+        flyingBallColor = ownerColor;
+        startFlyingTrailColor = ownerColor;
+        endFlyingTrailColor = new Color(ownerColor.r, ownerColor.g, ownerColor.b, 0f);
+    }
+
+    private void StretchAndSquash()
+    {
+        // Apply on the ball's neutral sphere a stretch and squash effect based on the ball's current speed. Do this by 
+        // changing the local Z scale of the ball's neutral sphere.
+        
+        float speed = ballSM.GetComponent<Rigidbody>().linearVelocity.magnitude;
+        float currentBallSize = neutralBall.GetComponent<Transform>().localScale.x;
+        // Calculate the new Z scale based on the speed and ball size.
+        float newZScale = Mathf.Clamp( speed * currentBallSize * stretchModifier, 100f, 150f);
+        // Set the new local scale of the ball's neutral sphere.
+        Vector3 newScale = new Vector3(currentBallSize, currentBallSize, newZScale);
+        neutralBall.transform.localScale = newScale;
     }
 
     private void UpdateBallSpeedFeedbacks()
@@ -151,63 +190,63 @@ public class BallVisuals : MonoBehaviour
         
     }
 
-    private void UpdateFace()
-    {
-        switch (ballSM.currentState)
-        {
-            case FlyingState:
-                // Set the ball shape to neutral.
-                neutralBall.SetActive(true);
-                lethalBall.SetActive(false);
-                
-                // Set the neutral face to active and the others to inactive.
-                neutralFace.gameObject.SetActive(true);
-                lethalFace.gameObject.SetActive(false);
-                hitFace.gameObject.SetActive(false);
-                break;
-            case DroppedState:
-                neutralBall.SetActive(true);
-                lethalBall.SetActive(false);
-                
-                neutralFace.gameObject.SetActive(true);
-                lethalFace.gameObject.SetActive(false);
-                hitFace.gameObject.SetActive(false);
-                break;
-            // case CaughtState:
-            //     neutralBall.SetActive(true);
-            //     lethalBall.SetActive(false);
-            //     
-            //     neutralFace.gameObject.SetActive(false);
-            //     lethalFace.gameObject.SetActive(false);
-            //     hitFace.gameObject.SetActive(true);
-            //     break;    
-            case HitState:
-                neutralBall.SetActive(true);
-                lethalBall.SetActive(false);
-                
-                neutralFace.gameObject.SetActive(false);
-                lethalFace.gameObject.SetActive(false);
-                hitFace.gameObject.SetActive(true);
-                break;
-            case LethalBallState:
-                neutralBall.SetActive(false);
-                lethalBall.SetActive(true);
-                
-                neutralFace.gameObject.SetActive(false);
-                lethalFace.gameObject.SetActive(true);
-                hitFace.gameObject.SetActive(false);
-                break;
-        }
-        
-        //Make the face always look towards the main camera using the facesGameObject on the X axis.
-        Vector3 lookDirection = _mainCamera.transform.position - facesGameObject.transform.position;
-        lookDirection.x = 0;
-        lookDirection.Normalize();
-        Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
-        facesGameObject.transform.rotation = Quaternion.Slerp(facesGameObject.transform.rotation, lookRotation, Time.deltaTime * 5f);
-        
-        
-    }
+    // private void UpdateFace()
+    // {
+    //     switch (ballSM.currentState)
+    //     {
+    //         case FlyingState:
+    //             // Set the ball shape to neutral.
+    //             neutralBall.SetActive(true);
+    //             lethalBall.SetActive(false);
+    //             
+    //             // Set the neutral face to active and the others to inactive.
+    //             neutralFace.gameObject.SetActive(true);
+    //             lethalFace.gameObject.SetActive(false);
+    //             hitFace.gameObject.SetActive(false);
+    //             break;
+    //         case DroppedState:
+    //             neutralBall.SetActive(true);
+    //             lethalBall.SetActive(false);
+    //             
+    //             neutralFace.gameObject.SetActive(true);
+    //             lethalFace.gameObject.SetActive(false);
+    //             hitFace.gameObject.SetActive(false);
+    //             break;
+    //         // case CaughtState:
+    //         //     neutralBall.SetActive(true);
+    //         //     lethalBall.SetActive(false);
+    //         //     
+    //         //     neutralFace.gameObject.SetActive(false);
+    //         //     lethalFace.gameObject.SetActive(false);
+    //         //     hitFace.gameObject.SetActive(true);
+    //         //     break;    
+    //         case HitState:
+    //             neutralBall.SetActive(true);
+    //             lethalBall.SetActive(false);
+    //             
+    //             neutralFace.gameObject.SetActive(false);
+    //             lethalFace.gameObject.SetActive(false);
+    //             hitFace.gameObject.SetActive(true);
+    //             break;
+    //         case LethalBallState:
+    //             neutralBall.SetActive(false);
+    //             lethalBall.SetActive(true);
+    //             
+    //             neutralFace.gameObject.SetActive(false);
+    //             lethalFace.gameObject.SetActive(true);
+    //             hitFace.gameObject.SetActive(false);
+    //             break;
+    //     }
+    //     
+    //     //Make the face always look towards the main camera using the facesGameObject on the X axis.
+    //     Vector3 lookDirection = _mainCamera.transform.position - facesGameObject.transform.position;
+    //     lookDirection.x = 0;
+    //     lookDirection.Normalize();
+    //     Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
+    //     facesGameObject.transform.rotation = Quaternion.Slerp(facesGameObject.transform.rotation, lookRotation, Time.deltaTime * 5f);
+    //     
+    //     
+    // }
     
     private void BallColorAndLight()
     {

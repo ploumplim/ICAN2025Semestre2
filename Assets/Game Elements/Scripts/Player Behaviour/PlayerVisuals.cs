@@ -47,6 +47,11 @@ public class PlayerVisuals : MonoBehaviour
     public ParticleSystem grabParticle;
     private ParticleSystem.ShapeModule _grabParticleShape;
     private float _grabParticleSize;
+
+    public ParticleSystem runningParticles;
+    private float _runningParticleDuration;
+    private float _particleLifetime;
+    
     
     
     void Start()
@@ -57,6 +62,9 @@ public class PlayerVisuals : MonoBehaviour
         _parryDiameter = playerScript.hitDetectionRadius * 2f - parryParticle.main.startSizeMultiplier / 2f;
         _grabParticleShape = grabParticle.shape;
         _grabParticleSize = grabParticle.main.startSize.constant;
+        
+        _runningParticleDuration = runningParticles.main.startLifetime.constant;
+        _particleLifetime = runningParticles.main.startLifetime.constant;
 
 
         if (perso)
@@ -73,6 +81,7 @@ public class PlayerVisuals : MonoBehaviour
     {
         PlayerStateText();
         PlayerSprintText();
+        RunningParticleUpdater();
         
         switch (playerScript.currentState) 
         { 
@@ -131,6 +140,20 @@ public class PlayerVisuals : MonoBehaviour
         
         GrabChargeValue(playerScript.grabCurrentCharge);
 
+    }
+
+
+    private void RunningParticleUpdater()
+    {
+        // If the player is running, play the running particles.
+        if (playerScript.rb.linearVelocity.magnitude > 10f)
+        {
+            runningParticles.Play();
+        }
+        else
+        {
+            runningParticles.Stop();
+        }
     }
 
     public void PlayerSprintText()

@@ -99,6 +99,7 @@ public class GrabbingState : PlayerState
                     {
                         _caughtBall.GetComponent<BallSM>().ChangeState(_caughtBall.GetComponent<CaughtState>());
                     }
+                    _caughtBall.GetComponent<BallVisuals>().UpdateFlyingColor(GetComponent<PlayerVisuals>().playerCapMaterial.color);
                     break;
                 }
             }
