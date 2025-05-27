@@ -24,7 +24,6 @@ public class PointTracker : MonoBehaviour
 
     public void AddPoints()
     {
-        Debug.Log(ballSM.ballOwnerPlayer);  
         // Verify if the ball's owner player is the one attacking this goal
         if (ballSM.ballOwnerPlayer != null && 
             ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack == linkedGoal)

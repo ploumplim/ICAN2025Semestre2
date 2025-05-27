@@ -65,7 +65,8 @@ public class InRoundState : LevelState
                     winningPlayer = topPlayer.gameObject;
                     LevelManagerScript.EndRound(winningPlayer);
                 }
-                Debug.Log(topPlayer.name + " won");
+
+                if (topPlayer != null) Debug.Log(topPlayer.name + " won");
 
                 foreach (var VARIABLE in levelManager.PointTrackers)
                 {
