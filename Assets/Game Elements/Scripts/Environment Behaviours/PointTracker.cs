@@ -39,8 +39,7 @@ public class PointTracker : MonoBehaviour
         }
         else
         {
-            Debug.Log(ballSM.ballOwnerPlayer);
-            Debug.LogWarning("The ball's owner player does not match the attacking goal.");
+            
         }
     }
 
