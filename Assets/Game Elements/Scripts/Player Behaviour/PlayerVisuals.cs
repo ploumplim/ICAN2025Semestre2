@@ -52,6 +52,11 @@ public class PlayerVisuals : MonoBehaviour
     private float _runningParticleDuration;
     private float _particleLifetime;
     
+    public ParticleSystem sprintBoostParticle;
+    private float _currentSprintBoostROT; //Rate Over Time
+    private float _currentSprintBoostBurstCount;
+    private float _currentSprintBoostParticleSize;
+    
     
     
     void Start()
@@ -65,6 +70,10 @@ public class PlayerVisuals : MonoBehaviour
         
         _runningParticleDuration = runningParticles.main.startLifetime.constant;
         _particleLifetime = runningParticles.main.startLifetime.constant;
+        
+        _currentSprintBoostROT = sprintBoostParticle.emission.rateOverTime.constant;
+        _currentSprintBoostBurstCount = sprintBoostParticle.emission.GetBurst(0).count.constant;
+        _currentSprintBoostParticleSize = sprintBoostParticle.main.startSize.constant;
 
 
         if (perso)
@@ -82,6 +91,7 @@ public class PlayerVisuals : MonoBehaviour
         PlayerStateText();
         PlayerSprintText();
         RunningParticleUpdater();
+        // SprintBoostUpdater();
         
         switch (playerScript.currentState) 
         { 
@@ -127,7 +137,6 @@ public class PlayerVisuals : MonoBehaviour
             case PlayerScript.HitType.ReflectiveHit:
                 rangeSphereObject.SetActive(false);
                 break;
-
         }
 
         
@@ -143,6 +152,42 @@ public class PlayerVisuals : MonoBehaviour
     }
 
 
+    private void SprintBoostUpdater()
+    {
+        // If the player is sprinting, play the sprint boost particles.
+        SprintState sprintState = GetComponent<SprintState>();
+        if (sprintState != null)
+        {
+            // Using the sprintStates currentSprintBoost, change the rate over time and burst count of the sprint boost particle. The more boost, the higher the rate over time and burst count.
+            var emission = sprintBoostParticle.emission;
+            float currentSprintBoost = Mathf.Clamp(sprintState.currentSprintBoost, 1, sprintState.currentSprintBoost);
+            emission.rateOverTime = _currentSprintBoostROT * currentSprintBoost;
+            emission.SetBurst(0, new ParticleSystem.Burst(0f, _currentSprintBoostBurstCount * currentSprintBoost));
+        }
+    }
+
+    public void StartSprintBoostParticle()
+    {
+        // Start the sprint boost particle.
+        if (!sprintBoostParticle.isPlaying)
+        {
+            // Set the particle size to multiply the current sprint boost by the original size.
+            var main = sprintBoostParticle.main;   
+            main.startSize = _currentSprintBoostParticleSize * GetComponent<SprintState>().currentSprintBoost;
+            sprintBoostParticle.Play();
+        }
+    }
+    
+    public void StopSprintBoostParticle()
+    {
+        // Stop the sprint boost particle.
+        if (sprintBoostParticle.isPlaying)
+        {
+            sprintBoostParticle.Stop();
+        }
+    }
+    
+    
     private void RunningParticleUpdater()
     {
         // If the player is running, play the running particles.
