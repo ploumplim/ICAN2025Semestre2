@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Batiments_DOT 1
+  m_Name: Sol_Ray_Shader
   m_Shader: {fileID: -6465566751694194690, guid: dfff427e81ce08d4cb588edb66391ab9, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 1993
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
@@ -25,7 +25,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _main_text:
-        m_Texture: {fileID: 2800000, guid: 8345bbf0a3ca0864d8ca64e61b11ddf3, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7d7ca83fa803d694cb3a7edd4451febe, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -44,7 +44,7 @@ Material:
     m_Floats:
     - _BACK_DOT_PROPAGATION: 0.97
     - _QueueControl: 0
-    - _QueueOffset: 0
+    - _QueueOffset: -7
     - _SPREAD_DOWN: -0.04
     - _SPREAD_TOP_1: 1.5
     - _TOP_DOT_PROPAGATION: 0.01
@@ -53,8 +53,8 @@ Material:
     - _rotation_dot: 20
     m_Colors:
     - _HIGHLIGHT: {r: 1, g: 1, b: 1, a: 0}
-    - _MIDTONES: {r: 0.4509804, g: 0.4509804, b: 0.4509804, a: 0}
-    - _SHADOWS: {r: 0.47843137, g: 0.47843137, b: 0.47843137, a: 0}
+    - _MIDTONES: {r: 0.4490565, g: 0.4490565, b: 0.4490565, a: 0}
+    - _SHADOWS: {r: 0.4792453, g: 0.4792453, b: 0.4792453, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &3169273275987208625
