@@ -8,6 +8,7 @@ public class BufferState : LevelState
     private bool _finalRound;
     public override void Enter()
     {
+        GameManager.Instance.levelManager.OnNewLevelStart?.Invoke();
         Debug.Log("Fin de Round " + LevelManagerScript.currentRound);   
         LevelManagerScript.currentRound++;
         _finalRound = LevelManagerScript.RoundCheck();

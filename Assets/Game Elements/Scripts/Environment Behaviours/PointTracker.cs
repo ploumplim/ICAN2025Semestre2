@@ -29,6 +29,8 @@ public class PointTracker : MonoBehaviour
             ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack == linkedGoal)
         {
             _points++;
+            GameManager.Instance.levelManager.OnGoalScored.Invoke(_points);
+            
             pointsText.text = _points.ToString();
 
             MoveBallSpawnPositionToLoosingPlayer();
@@ -37,6 +39,7 @@ public class PointTracker : MonoBehaviour
         }
         else
         {
+            Debug.Log(ballSM.ballOwnerPlayer);
             Debug.LogWarning("The ball's owner player does not match the attacking goal.");
         }
     }

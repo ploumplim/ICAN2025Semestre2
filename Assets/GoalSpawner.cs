@@ -34,7 +34,6 @@ public class GoalSpawner : MonoBehaviour
         }
     }
     
-
     public void LinkGoalToPlayer(int playerId)
     {
         
@@ -42,6 +41,7 @@ public class GoalSpawner : MonoBehaviour
         if (playerId % 2 == 0)
         {
             GameManager.Instance.PlayerScriptList[playerId].playerGoalToDefend = levelManager.GoalList[currenGoalscenePlaying+1].gameObject;
+            
             //TODO : Assign le mesh du goal to defend du player 2
         
             GameManager.Instance.PlayerScriptList[playerId].playerGoalToAttack = levelManager.GoalList[currenGoalscenePlaying].gameObject;
