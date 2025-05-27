@@ -4,16 +4,15 @@ public class PlayerSoundScript : MonoBehaviour
 {
     private FMOD.Studio.EventInstance grabInstance;
     private bool isGrabbing = false;
+    private float grabStartTime;
 
-    //private FMOD.Studio.EventInstance chargeInstance;
-    //private bool isCharging = false;
+
 
     void Start()
     {
         // Création de l’instance Grab comme pour Charge
         grabInstance = FMODUnity.RuntimeManager.CreateInstance(FMODEvents.instance.GrabPress_FX);
 
-        // chargeInstance = FMODUnity.RuntimeManager.CreateInstance(FMODEvents.instance.PressHit_FX);
     }
 
     public void PlayHitSound()
@@ -53,9 +52,11 @@ public class PlayerSoundScript : MonoBehaviour
         if (!isGrabbing)
         {
             isGrabbing = true;
+            grabStartTime = Time.time;
             grabInstance.start();
         }
     }
+
 
     public void StopGrabSound()
     {
@@ -63,14 +64,20 @@ public class PlayerSoundScript : MonoBehaviour
         {
             isGrabbing = false;
             grabInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+
+            // Ne joue le son de sortie que si le grab a duré au moins 0.1s
+            if (Time.time - grabStartTime > 0.1f)
+            {
+                PlayGrabOut();
+            }
         }
     }
+
+
 
     void OnDestroy()
     {
         grabInstance.release();
-
-        // chargeInstance.release();
     }
 
     public void PlayGrabBall()

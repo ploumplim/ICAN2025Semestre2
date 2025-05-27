@@ -6,4 +6,11 @@ public class LevelSoundScript : MonoBehaviour
     {
         AudioManager.instance.PlayOneShot(FMODEvents.instance.PlayerSpawn_FX, this.transform.position);
     }
+
+
+    public void PlayEvolutivMusic()
+    {
+
+    }
+
 }

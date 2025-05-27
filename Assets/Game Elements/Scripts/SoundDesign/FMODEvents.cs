@@ -31,6 +31,7 @@ public class FMODEvents : MonoBehaviour
 
 
 
+    [field: SerializeField] public EventReference EvolutivMusic_MSC { get; private set; }
 
 
 
