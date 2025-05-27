@@ -169,7 +169,7 @@ public class PlayerScript : MonoBehaviour
         
         int playerId = GameManager.Instance.PlayerScriptList.IndexOf(this);
         
-        GameManager.Instance.levelManager.goalSpawner.LinkGoalToPlayer(playerId);
+        GameManager.Instance.levelManager.LinkGoalToPlayer(playerId);
     }
     
     public void SetPlayerParameters()

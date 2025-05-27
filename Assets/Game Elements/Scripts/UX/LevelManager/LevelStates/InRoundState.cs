@@ -14,7 +14,7 @@ public class InRoundState : LevelState
     {
         winningPlayer = null;
         _playersAlive = new List<GameObject>();
-        foreach (GameObject player in LevelManagerScript.players)
+        foreach (GameObject player in LevelManagerScript.playersList)
         {
             // Add the player to the list of players that are alive.
             _playersAlive.Add(player);
@@ -30,7 +30,7 @@ public class InRoundState : LevelState
         // Check the state of every player.
         // If all players except for one are dead, then the round is over.
         
-        foreach (GameObject player in LevelManagerScript.players)
+        foreach (GameObject player in LevelManagerScript.playersList)
         {
             PlayerScript playerScript = player.GetComponent<PlayerScript>();
             

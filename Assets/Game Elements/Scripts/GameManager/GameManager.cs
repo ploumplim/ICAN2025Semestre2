@@ -155,9 +155,13 @@ public class GameManager : MonoBehaviour
         if (NextSceneToPlay != null && NextSceneToPlay.Count > 0)
         {
             currentSceneID++;
-            int randomIndex = Random.Range(0, NextSceneToPlay.Count);
-            RandomLevelSelection(randomIndex);
-            NextSceneToPlay.RemoveAt(randomIndex);
+            // int randomIndex = Random.Range(0, NextSceneToPlay.Count);
+            // RandomLevelSelection(randomIndex);
+            // NextSceneToPlay.RemoveAt(randomIndex);
+            
+           Debug.Log(currentSceneID);
+            RandomLevelSelection(currentSceneID);
+            //NextSceneToPlay.RemoveAt(currentSceneID);
         }
     }
     
