@@ -6,10 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="c6229357-d157-4b3a-a2a3-9c49815cecc1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ICAN2025Semestre2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ICAN2025Semestre2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/Camera.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/Camera.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/Game Ingredients/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/Game Ingredients/Player.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/SprintState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/SprintState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/KnockbackState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/KnockbackState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerScript.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerVisuals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerVisuals.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BaptScene/MenuStart.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BaptScene/MenuStart.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JMO Assets/Cartoon FX Remaster/CFXR Assets/Graphics/cfxr smoke cloud x4 ab.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JMO Assets/Cartoon FX Remaster/CFXR Assets/Graphics/cfxr smoke cloud x4 ab.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BaptScene/Container.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BaptScene/Container.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,15 +121,13 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="355304">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="355304" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
-        <list>
-          <MonoRuntime />
-        </list>
+        <list />
       </option>
       <option name="selectedOptions">
         <list />
@@ -270,7 +271,8 @@
       <workItem from="1748161473339" duration="7212000" />
       <workItem from="1748245708122" duration="7091000" />
       <workItem from="1748329136750" duration="5275000" />
-      <workItem from="1748337463769" duration="5847000" />
+      <workItem from="1748337463769" duration="12989000" />
+      <workItem from="1748418703842" duration="2941000" />
     </task>
     <servers />
   </component>

@@ -49,14 +49,19 @@ public class PlayerVisuals : MonoBehaviour
     private float _grabParticleSize;
 
     public ParticleSystem runningParticles;
-    private float _runningParticleDuration;
-    private float _particleLifetime;
+    public float baseRunningParticleRefreshRate = 1f; // How often the running particles play, divided by current speed.
+    public float runningParticleRefreshMultiplier = 10f; // How much the running particle refresh rate is multiplied by the player's speed.
+    private float _runningParticleTimer;
     
     public ParticleSystem sprintBoostParticle;
     private float _currentSprintBoostROT; //Rate Over Time
     private float _currentSprintBoostBurstCount;
     private float _currentSprintBoostParticleSize;
+
+    public ParticleSystem sprintSweatParticle;
+    public float sweatPercent = 50f; // Percentage of sprint boost at which the sweat particle will be activated.
     
+    public ParticleSystem knockbackParticle;
     
     
     void Start()
@@ -67,9 +72,6 @@ public class PlayerVisuals : MonoBehaviour
         _parryDiameter = playerScript.hitDetectionRadius * 2f - parryParticle.main.startSizeMultiplier / 2f;
         _grabParticleShape = grabParticle.shape;
         _grabParticleSize = grabParticle.main.startSize.constant;
-        
-        _runningParticleDuration = runningParticles.main.startLifetime.constant;
-        _particleLifetime = runningParticles.main.startLifetime.constant;
         
         _currentSprintBoostROT = sprintBoostParticle.emission.rateOverTime.constant;
         _currentSprintBoostBurstCount = sprintBoostParticle.emission.GetBurst(0).count.constant;
@@ -85,12 +87,12 @@ public class PlayerVisuals : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         PlayerStateText();
         PlayerSprintText();
         RunningParticleUpdater();
+        SweatParticleUpdater();
         // SprintBoostUpdater();
         
         switch (playerScript.currentState) 
@@ -118,7 +120,7 @@ public class PlayerVisuals : MonoBehaviour
                 break;
             
             case KnockbackState:
-                playerCapMaterial.color = knockbackColor;
+                // playerCapMaterial.color = knockbackColor;
                 OnSprintEnd();
                 break;
             
@@ -143,14 +145,46 @@ public class PlayerVisuals : MonoBehaviour
         dashTrail.startColor = playerCapMaterial.color;
         dashTrail.endColor = playerCapMaterial.color;
         
-
+        // Set the alpha value to 0.5f for the trail color
+        Color endColor = dashTrail.endColor;
+        endColor.a = 0f;
+        dashTrail.endColor = endColor;
+        
+        Color startColor = dashTrail.startColor;
+        startColor.a = 0.5f;
+        dashTrail.startColor = startColor;
+        
+        
+        
         var parryParticleShape = parryParticle.shape;
         parryParticleShape.radius = _parryDiameter / 2f;
         
         GrabChargeValue(playerScript.grabCurrentCharge);
 
     }
-
+    
+    private void SweatParticleUpdater()
+    {
+        // Activate the sweat particle if the player's boost is less than half, deactivate when its more.
+        SprintState sprintState = GetComponent<SprintState>();
+        if (sprintState)
+        {
+            if (sprintState.currentSprintBoost < playerScript.sprintMaxInitialBoost * (sweatPercent / 100f))
+            {
+                if (!sprintSweatParticle.isPlaying)
+                {
+                    sprintSweatParticle.Play();
+                }
+            }
+            else
+            {
+                if (sprintSweatParticle.isPlaying)
+                {
+                    sprintSweatParticle.Stop();
+                }
+            }
+        }
+    }
 
     private void SprintBoostUpdater()
     {
@@ -166,6 +200,23 @@ public class PlayerVisuals : MonoBehaviour
         }
     }
 
+    public void StartKnockbackParticle()
+    {
+        // Start the knockback particle.
+        if (!knockbackParticle.isPlaying)
+        {
+            knockbackParticle.Play();
+        }
+    }
+    public void StopKnockbackParticle()
+    {
+        // Stop the knockback particle.
+        if (knockbackParticle.isPlaying)
+        {
+            knockbackParticle.Stop();
+        }
+    }
+    
     public void StartSprintBoostParticle()
     {
         // Start the sprint boost particle.
@@ -173,7 +224,7 @@ public class PlayerVisuals : MonoBehaviour
         {
             // Set the particle size to multiply the current sprint boost by the original size.
             var main = sprintBoostParticle.main;   
-            main.startSize = _currentSprintBoostParticleSize * GetComponent<SprintState>().currentSprintBoost;
+            main.startSize = Mathf.Clamp(_currentSprintBoostParticleSize * GetComponent<SprintState>().currentSprintBoost, 1f, 5f);
             sprintBoostParticle.Play();
         }
     }
@@ -186,20 +237,40 @@ public class PlayerVisuals : MonoBehaviour
             sprintBoostParticle.Stop();
         }
     }
-    
-    
+
+
     private void RunningParticleUpdater()
     {
-        // If the player is running, play the running particles.
-        if (playerScript.rb.linearVelocity.magnitude > 10f)
+        float playerSpeed = playerScript.rb.linearVelocity.magnitude;
+        float newRefreshRate = baseRunningParticleRefreshRate;
+        
+        _runningParticleTimer += Time.deltaTime;
+        
+        if (playerSpeed <= 0)
         {
+            return;
+        }
+        
+        if (playerSpeed > 0)
+        {
+            // Calculate the new refresh rate based on the player's speed.
+            newRefreshRate = baseRunningParticleRefreshRate * runningParticleRefreshMultiplier / playerSpeed;
+            newRefreshRate = Mathf.Max(newRefreshRate, 0.15f);
+        }
+        
+        // Everytime the _runningParticleTimer reaches the runningParticleRefreshRate, play the running particles.
+        if (_runningParticleTimer >= newRefreshRate)
+        {
+            // Reset the timer.
+            _runningParticleTimer = 0f;
+            // Play the running particles.
             runningParticles.Play();
+            Debug.Log("Playing running particles with refresh rate: " + newRefreshRate);
+            
         }
-        else
-        {
-            runningParticles.Stop();
-        }
+        
     }
+    
 
     public void PlayerSprintText()
     {
