@@ -265,7 +265,7 @@ public class PlayerVisuals : MonoBehaviour
             _runningParticleTimer = 0f;
             // Play the running particles.
             runningParticles.Play();
-            Debug.Log("Playing running particles with refresh rate: " + newRefreshRate);
+            // Debug.Log("Playing running particles with refresh rate: " + newRefreshRate);
             
         }
         
