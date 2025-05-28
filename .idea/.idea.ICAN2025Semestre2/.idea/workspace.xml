@@ -6,15 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="c6229357-d157-4b3a-a2a3-9c49815cecc1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ICAN2025Semestre2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ICAN2025Semestre2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/EndGameScorePanel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/EndGameScorePanel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/UX/ingame-GUI Canvas.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Prefabs/UX/ingame-GUI Canvas.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Environment Behaviours/PointTracker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Environment Behaviours/PointTracker.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/GameManager/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/GameManager/GameManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerScript.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/PlayerScript.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/Ingame GUI Manager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/Ingame GUI Manager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/LevelManager/LevelManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/LevelManager/LevelManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/LevelManager/LevelStates/BufferState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/LevelManager/LevelStates/BufferState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/LevelManager/LevelStates/ExitLevelState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/LevelManager/LevelStates/ExitLevelState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/LevelManager/LevelStates/InRoundState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game Elements/Scripts/UX/LevelManager/LevelStates/InRoundState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/GoalSpawner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/GoalSpawner.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/BaptScene/Container.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BaptScene/Container.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BaptScene/MenuStart.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BaptScene/MenuStart.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BaptScene/NewLD/RayOfFright/ReyOfFright.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BaptScene/NewLD/RayOfFright/ReyOfFright.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,11 +45,8 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6aa588f9882420485fca490ded58a721dee00/3c/d5315755/AnimationCurve.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6aa588f9882420485fca490ded58a721dee00/9a/7903c79c/SceneManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e6aa588f9882420485fca490ded58a721dee00/d3/23dae3a3/Object.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3ea01e77be99618395f448b16bd7cc2bd4248bd9e5d8474964b2d97f39c5d74/System.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d44b17e136d09081da1e8fd0e8c83fde60e11818b9f2442d7ed8cb733fae895e/System.Collections.Generic.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/morea/Desktop/Unity Project/ICAN2025Semestre2/Assets/Game Elements/Scripts/Environment Behaviours/PointTracker.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/morea/Desktop/Unity Project/ICAN2025Semestre2/Assets/Game Elements/Scripts/Environment Behaviours/PointTracker.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/morea/Desktop/Unity Project/ICAN2025Semestre2/Assets/Game Elements/Scripts/Environment Behaviours/PointTracker.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/morea/Desktop/Unity Project/ICAN2025Semestre2/Assets/Game Elements/Scripts/Environment Behaviours/PointTracker.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Game Elements/Scripts/Multiplayer and Controls/HandleGamePads.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/BuntingPlayerState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Game Elements/Scripts/Player Behaviour/Character States/ReleaseState.cs" root0="FORCE_HIGHLIGHTING" />
@@ -273,6 +272,8 @@
       <workItem from="1748075645340" duration="1601000" />
       <workItem from="1748176709771" duration="8851000" />
       <workItem from="1748334323394" duration="6155000" />
+      <workItem from="1748370046901" duration="1985000" />
+      <workItem from="1748418027692" duration="7496000" />
     </task>
     <servers />
   </component>

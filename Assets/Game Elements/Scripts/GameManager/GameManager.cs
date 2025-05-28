@@ -159,9 +159,7 @@ public class GameManager : MonoBehaviour
             // RandomLevelSelection(randomIndex);
             // NextSceneToPlay.RemoveAt(randomIndex);
             
-           Debug.Log(currentSceneID);
             RandomLevelSelection(currentSceneID);
-            //NextSceneToPlay.RemoveAt(currentSceneID);
         }
     }
     

@@ -40,6 +40,8 @@ public class LevelManager : MonoBehaviour
     public GoalSpawner goalSpawner;
 
     public GameObject centerPoint;
+
+    public PlayerScript winningPlayer;
     // [Tooltip("Insert the wall prefab here that will provide points to the player.")]
     // public GameObject pointWallPrefab;
     // [Tooltip("Insert the neutral wall prefab here, which will not provide points to the player.")]
@@ -56,7 +58,7 @@ public class LevelManager : MonoBehaviour
     
     [Tooltip("This value represents the delay after the last player is dead during a round, before the buffer" +
              "is called.")]
-    public float roundVictoryDelay = 2f;
+    public float roundVictoryDelay = 1f;
 
     public List<SceneReference> levels;
 
@@ -80,7 +82,7 @@ public class LevelManager : MonoBehaviour
     public UnityEvent OnGameStart;
     public UnityEvent<string> OnGameEnd;
     public UnityEvent<int> OnRoundStarted;
-    public UnityEvent<string> OnRoundEnded;
+    public UnityEvent<PlayerScript> OnRoundEnded;
     
     public UnityEvent onPlayerSpawn;
     
@@ -248,6 +250,10 @@ public class LevelManager : MonoBehaviour
     
     public void StartRound()
     {
+        foreach (GameObject player in playersList)
+        {
+            player.GetComponent<PlayerScript>().playerPoint = 0;
+        }
         SpawnBall();
         // Init the players
         InitPlayers();
@@ -259,9 +265,10 @@ public class LevelManager : MonoBehaviour
         foreach (var player in playersList)
         {
             LinkGoalToPlayer(playersList.IndexOf(player));
+            player.GetComponent<PlayerScript>().playerPoint = 0;
 
         }
-        Debug.Log(GameManager.Instance.currentSceneID);
+        Debug.Log("Current Scene id : "+GameManager.Instance.currentSceneID);
     }
     
     
@@ -302,7 +309,7 @@ public class LevelManager : MonoBehaviour
         
     }
     
-    public void EndRound(GameObject winningPlayer)
+    public void EndRound(PlayerScript winningPlayer)
     {
         // Add the global score to the winning player's individual score
         winningPlayer.GetComponent<PlayerPointTracker>().AddPoints(1);

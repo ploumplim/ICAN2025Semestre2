@@ -28,6 +28,8 @@ public class PointTracker : MonoBehaviour
         if (ballSM.ballOwnerPlayer != null && 
             ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack == linkedGoal)
         {
+            ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerPoint++;
+            Debug.Log("Player " + ballSM.ballOwnerPlayer.name + " scored" +ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerPoint );
             _points++;
             GameManager.Instance.levelManager.OnGoalScored.Invoke(_points);
             
@@ -36,7 +38,14 @@ public class PointTracker : MonoBehaviour
             MoveBallSpawnPositionToLoosingPlayer();
 
             BallResetPositionAfterGoal();
+            if (ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerPoint >= GameManager.Instance.levelManager.pointNeededToWin)
+            {
+                //Debug.Log("Player " + ballSM.ballOwnerPlayer.name + " won the set");
+                ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGlobalPoint++;
+            }
+            
         }
+        
         
     }
 

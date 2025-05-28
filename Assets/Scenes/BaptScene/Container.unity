@@ -2173,8 +2173,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerIGScorePosition
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2286249472836078733, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 372187228413170178, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
     - {fileID: 6020187212857607832, guid: 0fa0355ee331ce649a9662de0d7399df, type: 3}
@@ -2689,19 +2688,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EndGameScorePanelGO: {fileID: 2057427144335995174}
-  PlayerScoreGO: {fileID: 1985028565856852581, guid: e34f48d5655d08e4fbb786af7b6edc2b, type: 3}
-  EndGamePlayerSpotPoint: {fileID: 636167053}
-  playerSpotGO: {fileID: 5465909692386156840, guid: 3749b7f06542b844bbc0e9ee1106a6e4, type: 3}
-  playerCount: 0
-  winnerTimerSpot: 5
-  WinnerScoreGO: {fileID: 0}
-  WinnerCenterPoint: {fileID: 379112565}
-  playerTopScore: {fileID: 0}
-  SizingUpSpotValue: 2
-  playerSpotList: []
-  playerScoreListGO: []
-  rotatingBGSpeed: 5
-  BackGround: {fileID: 2117496438}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

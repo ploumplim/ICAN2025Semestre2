@@ -181,7 +181,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 457320249154142526}
-  - component: {fileID: 2286249472836078733}
   m_Layer: 5
   m_Name: EndGameScoreBoard
   m_TagString: ScorePlayerPanel
@@ -208,32 +207,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 930.7, y: 891}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2286249472836078733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2018882652244376436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 4
-  m_Spacing: 0
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
 --- !u!1 &2040459016307848593
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,6 +686,8 @@ MonoBehaviour:
   ScorePlayerUIEndGame: {fileID: 7046694280828125761, guid: bd2dd111f584558409847e9c76b43953, type: 3}
   UI_PauseMenu: {fileID: 0}
   blinkInterval: 0.5
+  UI_PressStartTutorialtext: {fileID: 6483042867649256949}
+  UI_SetReadyInformationText: {fileID: 582198587691169053}
   _globalPointsText: {fileID: 0}
   _RoundInformationAffichage: {fileID: 707790751982861911}
   PlayerInformationGUI: {fileID: 2485724112963675803}
@@ -720,8 +695,6 @@ MonoBehaviour:
   playerPanelSpawnPointParent: {fileID: 8520582421764788485}
   UI_PlayerHUD: []
   UI_PlayerScore: []
-  UI_PressStartTutorialtext: {fileID: 6483042867649256949}
-  UI_SetReadyInformationText: {fileID: 582198587691169053}
 --- !u!1 &4199181106027239474
 GameObject:
   m_ObjectHideFlags: 0

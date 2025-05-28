@@ -9,13 +9,10 @@ public class BufferState : LevelState
     public override void Enter()
     {
         GameManager.Instance.levelManager.OnNewLevelStart?.Invoke();
-        Debug.Log("Fin de Round " + LevelManagerScript.currentRound);  
         LevelManagerScript.currentRound++;
-        Debug.Log("Debut du round " + LevelManagerScript.currentRound);  
         _finalRound = LevelManagerScript.RoundCheck();
         if (_finalRound)
         {
-            Debug.Log("Fin de Game " + LevelManagerScript.currentRound);   
             LevelSM.ChangeState(GetComponent<ExitLevelState>());
         }
         else
