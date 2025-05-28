@@ -201,10 +201,10 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638839440371580252
+  lastModified: 638840349421356189
   FileSizes:
   - Name: 
-    Value: 1690
+    Value: 1744
   Exists: 1
 --- !u!114 &-1303960338205871670
 MonoBehaviour:
@@ -248,7 +248,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638839440372010781
+  lastModified: 638840358261648344
   FileSizes: []
   Exists: 1
 --- !u!114 &-958775104751810421
@@ -343,7 +343,7 @@ MonoBehaviour:
   - {fileID: 9013900838437733036}
   StringsBanks:
   - {fileID: -3230815617287640978}
-  cacheTime: 638839440372010781
+  cacheTime: 638840358261648344
   cacheVersion: 131846
 --- !u!114 &3840750683163560846
 MonoBehaviour:
@@ -426,6 +426,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 680
+--- !u!114 &5109924990780729282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/EvolutivMusic_MSC/ScorePitch
+  m_EditorClassIdentifier: 
+  Name: ScorePitch
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3684307094
+    data2: 865695652
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &5597448249454433560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,19 +519,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: event:/MUSIC/EvolutivMusic_MSC
   Guid:
-    Data1: 1611923460
-    Data2: 1100170481
-    Data3: -1111408994
-    Data4: -1585138763
+    Data1: 1758094542
+    Data2: 1278318921
+    Data3: -1288473670
+    Data4: -1443210615
   Banks:
   - {fileID: -1279955497749796651}
   IsStream: 1
   Is3D: 0
-  IsOneShot: 1
-  Parameters: []
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 5109924990780729282}
   MinDistance: 1
   MaxDistance: 20
-  Length: 73880
+  Length: 74000
 --- !u!114 &9013900838437733036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -523,7 +548,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638839440371549817
+  lastModified: 638840349421335758
   FileSizes: []
   Exists: 1
 --- !u!114 &9061532659611863500

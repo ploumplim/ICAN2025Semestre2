@@ -92,23 +92,21 @@ MonoBehaviour:
   currentRound: 0
   totalRounds: 0
   gameIsRunning: 0
+  pointNeededToWin: 0
   ballPrefab: {fileID: 3874236971623783123, guid: 01740f44df6559f4f9e6cc1b9c44b820, type: 3}
   ballSpawnPosition: {fileID: 4872211941869060550}
+  PointTrackers: []
+  GoalList: []
+  goalSpawner: {fileID: 0}
+  centerPoint: {fileID: 0}
   setupTime: 1.5
   roundBufferTime: 1.5
   roundVictoryDelay: 2
-  rounds:
-  - roundName: 
-    availableArenas: []
-  - roundName: 
-    availableArenas: []
-  - roundName: 
-    availableArenas: []
+  levels: []
   pointWallHitScore: 3
   ingameGUIManager: {fileID: 0}
   gameCameraScript: {fileID: 0}
   PlayerSpawnParent: {fileID: 0}
-  ScreenShakeButton: {fileID: 0}
   OnGameStart:
     m_PersistentCalls:
       m_Calls: []
@@ -121,7 +119,7 @@ MonoBehaviour:
   OnRoundEnded:
     m_PersistentCalls:
       m_Calls: []
-  OnPlayerSpawn:
+  onPlayerSpawn:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6704843019017409336}
@@ -136,6 +134,24 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnGoalScored:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6704843019017409336}
+        m_TargetAssemblyTypeName: LevelSoundScript, Assembly-CSharp
+        m_MethodName: RecoverCurrentRound
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnNewLevelStart:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7683787567743412218
 MonoBehaviour:
   m_ObjectHideFlags: 0
