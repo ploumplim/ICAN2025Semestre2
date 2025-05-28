@@ -8,6 +8,7 @@ public class KnockbackState : PlayerState
         base.Enter();
         _timer = 0;
         PlayerScript.rb.linearDamping = PlayerScript.knockedBackLinearDamping;
+        PlayerScript.OnKnockbackStateEntered?.Invoke();
     }
 
     public override void Tick()
@@ -24,5 +25,6 @@ public class KnockbackState : PlayerState
     {
         base.Exit();
         PlayerScript.rb.linearDamping = PlayerScript.baseLinearDamping;
+        PlayerScript.OnKnockbackStateExited?.Invoke();
     }
 }

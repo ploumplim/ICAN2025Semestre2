@@ -8,6 +8,7 @@ public class SprintState : PlayerState
     public override void Enter()
     {
         _currentSprintSpeed = PlayerScript.sprintSpeed + currentSprintBoost;
+        PlayerScript.OnPlayerDash?.Invoke();
         currentSprintBoost = 0f;
         _timer = 0;
     }
@@ -35,5 +36,11 @@ public class SprintState : PlayerState
         PlayerScript.Move(_currentSprintSpeed, PlayerScript.neutralLerpTime);
         
         
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+        PlayerScript.OnPlayerEndDash?.Invoke();
     }
 }

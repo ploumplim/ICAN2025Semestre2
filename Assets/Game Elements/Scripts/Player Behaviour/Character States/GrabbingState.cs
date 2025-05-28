@@ -43,8 +43,6 @@ public class GrabbingState : PlayerState
             {
                 PlayerScript.ChangeState(GetComponent<NeutralState>());
             }
-            
-            
         }
         
         // public void ChargingForce()
@@ -75,17 +73,11 @@ public class GrabbingState : PlayerState
             {
                 if (!hitCollider.CompareTag("Ball"))
                 {
-                    // Ignore objects that are not tagged as "Ball"
                     continue;
                 }
                 
                 Vector3 directionToObject = (hitCollider.transform.position - PlayerScript.transform.position).normalized;
                 
-                // if (Vector3.Dot(PlayerScript.transform.forward, directionToObject) < 0)
-                // {
-                //     // Ignore objects behind the player
-                //     break;
-                // }
                 
                 float angle = Vector3.Angle(PlayerScript.transform.forward, directionToObject);
                 
@@ -99,6 +91,7 @@ public class GrabbingState : PlayerState
                     {
                         _caughtBall.GetComponent<BallSM>().ChangeState(_caughtBall.GetComponent<CaughtState>());
                     }
+                    _caughtBall.GetComponent<BallVisuals>().UpdateFlyingColor(GetComponent<PlayerVisuals>().playerCapMaterial.color);
                     break;
                 }
             }
