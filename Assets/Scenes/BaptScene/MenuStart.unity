@@ -139,11 +139,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -454545652
-      Data2: 1296279465
-      Data3: 613968308
-      Data4: 1826648275
-    Path: event:/MUSIC/Retro_MSC
+      Data1: 1758094542
+      Data2: 1278318921
+      Data3: -1288473670
+      Data4: -1443210615
+    Path: event:/MUSIC/EvolutivMusic_MSC
   Event: 
   EventPlayTrigger: 1
   EventStopTrigger: 2
@@ -1528,6 +1528,22 @@ PrefabInstance:
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <LethalBall_FX>k__BackingField.Guid.Data4
       value: 117740608
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <ClassicBounce_FX>k__BackingField.Guid.Data1
+      value: 1095823506
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <ClassicBounce_FX>k__BackingField.Guid.Data2
+      value: 1116586378
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <ClassicBounce_FX>k__BackingField.Guid.Data3
+      value: -1531903597
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <ClassicBounce_FX>k__BackingField.Guid.Data4
+      value: 1012681624
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <EvolutivMusic_MSC>k__BackingField.Guid.Data1

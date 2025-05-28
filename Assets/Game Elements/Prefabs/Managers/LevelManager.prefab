@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
-  players:
+  playersList:
   - {fileID: 0}
   _playerSpawnPoints: []
   potScore: 0
@@ -99,6 +99,7 @@ MonoBehaviour:
   GoalList: []
   goalSpawner: {fileID: 0}
   centerPoint: {fileID: 0}
+  winningPlayer: {fileID: 0}
   setupTime: 1.5
   roundBufferTime: 1.5
   roundVictoryDelay: 2
@@ -151,7 +152,19 @@ MonoBehaviour:
         m_CallState: 2
   OnNewLevelStart:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6704843019017409336}
+        m_TargetAssemblyTypeName: LevelSoundScript, Assembly-CSharp
+        m_MethodName: OnLevelChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7683787567743412218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df18dccec6f15f540a2da10b41073b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  winningPlayer: {fileID: 0}
+  levelManager: {fileID: 0}
 --- !u!114 &4967665493931135493
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,6 +9,11 @@ public class LevelSoundScript : MonoBehaviour
 
     void Start()
     {
+        StartEvolutiveMusic();
+    }
+
+    private void StartEvolutiveMusic()
+    {
         evolutiveMusicInstance = RuntimeManager.CreateInstance(FMODEvents.instance.EvolutivMusic_MSC);
         evolutiveMusicInstance.set3DAttributes(RuntimeUtils.To3DAttributes(this.transform));
         evolutiveMusicInstance.start();
@@ -27,13 +32,16 @@ public class LevelSoundScript : MonoBehaviour
         evolutiveMusicInstance.setParameterByName("ScorePitch", currentPointPercent);
     }
 
-    public void OnLevelChanged(int levelIndex)
+    public void OnLevelChanged()
     {
         // Réinitialise le pitch
-        evolutiveMusicInstance.setParameterByName("ScorePitch", -2.50f);
+        evolutiveMusicInstance.setParameterByName("ScorePitch", -2.5f);
 
-        // Modifie immédiatement la couche musicale en fonction du niveau
-        evolutiveMusicInstance.setParameterByName("MusicLayer", levelIndex);
+        // Redémarre l'event musical pour que le Multi Instrument passe à la piste suivante (mode Sequential)
+        evolutiveMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        evolutiveMusicInstance.release();
+
+        StartEvolutiveMusic();
     }
 
     private void OnDestroy()

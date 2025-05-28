@@ -201,7 +201,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638840349421356189
+  lastModified: 638840542740063162
   FileSizes:
   - Name: 
     Value: 1744
@@ -232,7 +232,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 5300
+  Length: 3800
 --- !u!114 &-1279955497749796651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,7 +248,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638840521382410399
+  lastModified: 638840566976341713
   FileSizes: []
   Exists: 1
 --- !u!114 &-958775104751810421
@@ -343,7 +343,7 @@ MonoBehaviour:
   - {fileID: 9013900838437733036}
   StringsBanks:
   - {fileID: -3230815617287640978}
-  cacheTime: 638840521382410399
+  cacheTime: 638840566976341713
   cacheVersion: 131846
 --- !u!114 &3840750683163560846
 MonoBehaviour:
@@ -441,12 +441,12 @@ MonoBehaviour:
   Name: ScorePitch
   StudioPath: 
   Min: 0
-  Max: 1
+  Max: 9
   Default: 0
   ID:
     data1: 3684307094
     data2: 865695652
-  Type: 0
+  Type: 1
   IsGlobal: 0
   Labels: []
   Exists: 1
@@ -548,7 +548,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638840349421335758
+  lastModified: 638840542740043112
   FileSizes: []
   Exists: 1
 --- !u!114 &9061532659611863500
