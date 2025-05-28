@@ -36,6 +36,8 @@ public class PlayerScript : MonoBehaviour
     public GameObject playerGoalToAttack;
     [FormerlySerializedAs("playerGoalToAttack")] public GameObject playerGoalToDefend;
     public int playerPoint;
+
+    public int playerGlobalPoint;
     
     //---------------------------------------------------------------------------------------
     [Header("Rotation Lerps")]
@@ -118,6 +120,8 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent OnPlayerCatch;
     public UnityEvent OnGrabStateEntered;
     public UnityEvent OnGrabStateExited;
+    public UnityEvent OnKnockbackStateEntered;
+    public UnityEvent OnKnockbackStateExited;
     public Action<PlayerState> OnPlayerStateChanged;
     
     // action events
@@ -169,7 +173,7 @@ public class PlayerScript : MonoBehaviour
         
         int playerId = GameManager.Instance.PlayerScriptList.IndexOf(this);
         
-        GameManager.Instance.levelManager.goalSpawner.LinkGoalToPlayer(playerId);
+        GameManager.Instance.levelManager.LinkGoalToPlayer(playerId);
     }
     
     public void SetPlayerParameters()
@@ -199,7 +203,6 @@ public class PlayerScript : MonoBehaviour
         currentState = GetComponent<NeutralState>();
         
     }
-    
 
     // ------------------------------ UPDATES ------------------------------
     private void FixedUpdate()
@@ -232,9 +235,6 @@ public class PlayerScript : MonoBehaviour
                 GetComponent<SprintState>().currentSprintBoost += Time.deltaTime * sprintBoostRecoveryRate;
             }
         }
-        
-        // Update the player score panel
-        playerPoint = playerGoalToDefend.GetComponent<PointTracker>()._points;
     }
     
 
@@ -283,7 +283,7 @@ public class PlayerScript : MonoBehaviour
         {
             OnPlayerHitByBall?.Invoke();
             // Debug.Log(currentState);
-            if (ballSM.currentState is FlyingState)
+            if (ballSM.currentState is FlyingState && currentState is not KnockbackState)
             { 
                 // If the ball is not lethal, push the player in the opposite direction of the ball
                 Vector3 direction = transform.position - other.transform.position;
@@ -383,8 +383,7 @@ public class PlayerScript : MonoBehaviour
             ChangeState(GetComponent<NeutralState>());
         }
         
-        if ((context.started || context.performed) && currentState is not KnockbackState 
-            && grabCurrentCharge >= grabTotalCharge)
+        if ((context.started || context.performed) && currentState is not KnockbackState)
         {
             ChangeState(GetComponent<GrabbingState>());
         }

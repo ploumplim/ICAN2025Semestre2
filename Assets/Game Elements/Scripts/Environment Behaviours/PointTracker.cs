@@ -28,6 +28,8 @@ public class PointTracker : MonoBehaviour
         if (ballSM.ballOwnerPlayer != null && 
             ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack == linkedGoal)
         {
+            ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerPoint++;
+            Debug.Log("Player " + ballSM.ballOwnerPlayer.name + " scored" +ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerPoint );
             _points++;
             GameManager.Instance.levelManager.OnGoalScored.Invoke(_points);
             
@@ -36,11 +38,24 @@ public class PointTracker : MonoBehaviour
             MoveBallSpawnPositionToLoosingPlayer();
 
             BallResetPositionAfterGoal();
-        }
-        else
-        {
+            if (ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerPoint >= GameManager.Instance.levelManager.pointNeededToWin)
+            {
+                //Debug.Log("Player " + ballSM.ballOwnerPlayer.name + " won the set");
+                ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGlobalPoint++;
+            }
             
         }
+        else if (ballSM.ballOwnerPlayer == null)
+        {
+            Debug.Log(ballSM.ballOwnerPlayer+"is null");
+        }
+
+        if (ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack!=linkedGoal)
+        {
+            Debug.Log("Player " + ballSM.ballOwnerPlayer.name + " is not attacking this goal: " + linkedGoal.name + "he need to attack: " + ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack.name);
+        }
+        
+        
     }
 
     private void MoveBallSpawnPositionToLoosingPlayer()
@@ -78,7 +93,6 @@ public class PointTracker : MonoBehaviour
 
     private void BallResetPositionAfterGoal()
     {
-        
         // Reset the ball
         var ball = GameManager.Instance.levelManager.gameBall.GetComponent<Rigidbody>(); // Assuming ball is a reference to the Rigidbody
         ball.transform.position = GameManager.Instance.levelManager.ballSpawnPosition.position;

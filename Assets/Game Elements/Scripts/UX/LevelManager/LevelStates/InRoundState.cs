@@ -1,19 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using Vector2 = System.Numerics.Vector2;
 
 public class InRoundState : LevelState
 {
     private List<GameObject> _playersAlive;
-    [HideInInspector] public GameObject winningPlayer;
     private bool _roundEnded;
+    public LevelManager levelManager;
     public override void Enter()
     {
-        winningPlayer = null;
+        GameManager.Instance.levelManager.winningPlayer = null;
         _playersAlive = new List<GameObject>();
-        foreach (GameObject player in LevelManagerScript.players)
+        foreach (GameObject player in LevelManagerScript.playersList)
         {
             // Add the player to the list of players that are alive.
             _playersAlive.Add(player);
@@ -29,7 +31,7 @@ public class InRoundState : LevelState
         // Check the state of every player.
         // If all players except for one are dead, then the round is over.
         
-        foreach (GameObject player in LevelManagerScript.players)
+        foreach (GameObject player in LevelManagerScript.playersList)
         {
             PlayerScript playerScript = player.GetComponent<PlayerScript>();
             
@@ -40,44 +42,39 @@ public class InRoundState : LevelState
             }
         }
 
-        var levelManager = GameManager.Instance.levelManager;
+        levelManager = GameManager.Instance.levelManager;
         
         foreach (var pointTrackerList in levelManager.PointTrackers)
         {
             if (pointTrackerList._points == levelManager.pointNeededToWin)
             {
-                _roundEnded = true;
-                
-                PlayerScript topPlayer = null;
-                int highestPoints = int.MinValue;
-
-                foreach (var player in GameManager.Instance.PlayerScriptList)
-                {
-                    if (player.playerPoint > highestPoints)
-                    {
-                        highestPoints = player.playerPoint;
-                        topPlayer = player;
-                    }
-                }
-
-                if (topPlayer != null)
-                {
-                    winningPlayer = topPlayer.gameObject;
-                    LevelManagerScript.EndRound(winningPlayer);
-                }
-
-                if (topPlayer != null) Debug.Log(topPlayer.name + " won");
-
-                foreach (var VARIABLE in levelManager.PointTrackers)
-                {
-                    pointTrackerList._points = 0;
-                }
-                Rigidbody ballrb = LevelManagerScript.gameBall.GetComponent<BallSM>().rb;
-                ballrb.linearVelocity = Vector3.zero;
+                SetWinningPlayer();
+                pointTrackerList._points = 0;
                 StartCoroutine(VictoryDelay());
             }
         }
         
+    }
+
+    public void SetWinningPlayer()
+    {
+        _roundEnded = true;
+    
+                levelManager.winningPlayer = null;
+                
+                // Trouver le joueur avec le plus de playerGlobalPoint
+                levelManager.winningPlayer = GameManager.Instance.PlayerScriptList
+                    .OrderByDescending(player => player.playerGlobalPoint)
+                    .FirstOrDefault();
+    
+                if ( levelManager.winningPlayer != null)
+                {
+                    Debug.Log( levelManager.winningPlayer.name + " a le plus de points globaux : " +  levelManager.winningPlayer.playerGlobalPoint);
+                    LevelManagerScript.EndRound(GameManager.Instance.levelManager.winningPlayer);
+                }
+                
+                Rigidbody ballrb = LevelManagerScript.gameBall.GetComponent<BallSM>().rb;
+                ballrb.linearVelocity = Vector3.zero;
     }
 
     IEnumerator VictoryDelay()
@@ -91,8 +88,8 @@ public class InRoundState : LevelState
     
     public override void Exit()
     {
-        //Debug.Log("Exiting InRoundState.");
-        LevelManagerScript.OnRoundEnded?.Invoke(winningPlayer.name);
+        
+        LevelManagerScript.OnRoundEnded?.Invoke(GameManager.Instance.levelManager.winningPlayer);
         // Reset the list of players that are alive.
         _playersAlive = null;
         _roundEnded = false;
