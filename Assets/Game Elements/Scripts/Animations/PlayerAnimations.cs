@@ -6,6 +6,7 @@ public class PlayerAnimations : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private PlayerScript playerScript;
+    [SerializeField] private float animationSpeedMultiplier = 0.1f;
 
     private void OnEnable()
     {
@@ -28,17 +29,21 @@ public class PlayerAnimations : MonoBehaviour
         switch (state)
         {
             case GrabbingState:
-                animator.SetTrigger("IsCharging");
+                animator.SetBool("IsGrabbing",true);
                 break;
             case ReleaseState:
-                animator.SetTrigger("IsHitting"); 
+                animator.SetTrigger("IsHitting");
+                animator.SetBool("IsGrabbing",false);
                 break;
             case NeutralState:
-                // animator.ResetTrigger("IsCharging");
-                // animator.ResetTrigger("IsHitting");
+                animator.SetTrigger("EnterNeutral"); 
+                animator.SetBool("IsGrabbing",false);
                 break;
             case KnockbackState:
-                animator.SetTrigger("IsKnockedback");
+                animator.SetBool("IsGrabbing",false);
+                break;
+            case SprintState:
+                animator.SetBool("IsGrabbing",false);
                 break;
         }
     }
@@ -49,6 +54,7 @@ public class PlayerAnimations : MonoBehaviour
         if (playerScript.currentState is NeutralState)
         {
             animator.SetFloat("RunningFloat", playerScript.rb.linearVelocity.magnitude);
+            animator.SetFloat("AnimationSpeedFloat", playerScript.rb.linearVelocity.magnitude * animationSpeedMultiplier);
         }
     }
 }
