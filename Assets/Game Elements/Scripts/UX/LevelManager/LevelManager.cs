@@ -257,6 +257,10 @@ public class LevelManager : MonoBehaviour
         SpawnBall();
         // Init the players
         InitPlayers();
+        foreach (GameObject goals in GoalList)
+        {
+            goals.GetComponent<PointTracker>().ballSM= gameBall.GetComponent<BallSM>();
+        }
         // Spawn the point walls
         //GameManager.Instance.LoadNextLevel();
         //TODO : Set goal to the players
