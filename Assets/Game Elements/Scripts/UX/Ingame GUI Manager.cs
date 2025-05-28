@@ -59,7 +59,7 @@ public class IngameGUIManager : MonoBehaviour
 
     void Update()
     {
-        _playerList = levelManager.players;
+        _playerList = levelManager.playersList;
         // Update the global point texts using the levelManager's global points.
         _playerCount = _playerList.Count;
         //UpdateIndividualPlayerScorePanels();
@@ -193,6 +193,7 @@ public class IngameGUIManager : MonoBehaviour
             // Update the UI text element with the remaining time
             _RoundInformationAffichage.text = remainingTime.ToString();
             //Debug.Log(remainingTime);
+            // GameManager.Instance.levelManager.currentRound++;
             yield return new WaitForSeconds(1);
             remainingTime--;
         }
@@ -243,6 +244,21 @@ public class IngameGUIManager : MonoBehaviour
     {
         GetComponent<EndGameScorePanel>().EndGameScorePanelGO.SetActive(false);
         // When the countdown is finished, you can perform any additional actions here
+        GameManager.Instance.levelManager.currentRound++;
+        foreach (GameObject goals in GameManager.Instance.levelManager.GoalList)
+        {
+            goals.GetComponent<PointTracker>()._points = 0;
+            for (int i = 0; i < goals.transform.childCount; i++)
+            {
+                GameObject child = goals.transform.GetChild(i).gameObject;
+                var tmp = child.GetComponent<TextMeshPro>();
+                if (tmp != null)
+                {
+                    tmp.text = goals.GetComponent<PointTracker>()._points.ToString();
+                }
+            }
+        }
+        
         _RoundInformationAffichage.text = "";
         _RoundInformationAffichage.gameObject.SetActive(false);
         GameManager.Instance.levelManager.StartLevel(); // Call StartLevel when the countdown finishes

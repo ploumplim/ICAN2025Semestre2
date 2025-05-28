@@ -31,6 +31,7 @@ public class ReleaseState : PlayerState
         if (ballToHit)
         {
             PlayerScript.OnBallHitByPlayer?.Invoke();
+            ballToHit.GetComponent<BallSM>().ballOwnerPlayer = PlayerScript.gameObject;
             BallDirection();
             ballToHit.GetComponent<BallSM>().ChangeState(ballToHit.GetComponent<HitState>());
             PlayerScript.rb.AddForce(-transform.forward * (PlayerScript.knockbackForceMultiplier * 3f), ForceMode.Impulse);

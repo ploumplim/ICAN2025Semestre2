@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
 
     public List<SceneReference> scenesToLoad;
     public List<SceneReference> NextSceneToPlay;
+
+    public int currentSceneID;
     
 
     public static GameManager Instance
@@ -122,7 +124,8 @@ public class GameManager : MonoBehaviour
             {
                 int sceneBuildIndex = sceneReference.BuildIndex;
                 AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneBuildIndex, LoadSceneMode.Additive);
-
+                
+                
                 while (!asyncLoad.isDone)
                 {
                     yield return null;
@@ -151,9 +154,12 @@ public class GameManager : MonoBehaviour
         //levelManager.LoadGoalsForScene();
         if (NextSceneToPlay != null && NextSceneToPlay.Count > 0)
         {
-            int randomIndex = Random.Range(0, NextSceneToPlay.Count);
-            RandomLevelSelection(randomIndex);
-            NextSceneToPlay.RemoveAt(randomIndex);
+            currentSceneID++;
+            // int randomIndex = Random.Range(0, NextSceneToPlay.Count);
+            // RandomLevelSelection(randomIndex);
+            // NextSceneToPlay.RemoveAt(randomIndex);
+            
+            RandomLevelSelection(currentSceneID);
         }
     }
     

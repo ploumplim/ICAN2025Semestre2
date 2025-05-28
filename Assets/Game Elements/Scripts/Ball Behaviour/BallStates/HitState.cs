@@ -9,6 +9,7 @@ public class HitState : BallState
     
     public override void Enter()
     {
+        
         base.Enter();
         if (BallSm.currentBallSpeedVec3 == Vector3.zero)
         {
@@ -19,13 +20,13 @@ public class HitState : BallState
         BallSm.OnHitStateStart?.Invoke();
         
         SetParameters(BallSm.flyingMass, BallSm.flyingLinearDamping, false);
-        GameObject ballOwnerPlayer = BallSm.ballOwnerPlayer;
-        PlayerScript ballOwnerPlayerScript = BallSm.ballOwnerPlayer.GetComponent<PlayerScript>();
         
-        if (ballOwnerPlayer)
-        {
-            Physics.IgnoreCollision(BallSm.col, ballOwnerPlayer.GetComponent<CapsuleCollider>(), true);
-        }
+        //GameObject HitStateBallOwnerPlayer = BallSm.ballOwnerPlayer;
+        
+        // if (HitStateBallOwnerPlayer)
+        // {
+        //     Physics.IgnoreCollision(BallSm.col, HitStateBallOwnerPlayer.GetComponent<CapsuleCollider>(), true);
+        // }
 
         BallSm.rb.linearVelocity = hitDirection * (BallSm.currentBallSpeedVec3.magnitude + BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().hitForce);
         

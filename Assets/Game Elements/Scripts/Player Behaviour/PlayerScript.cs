@@ -32,10 +32,12 @@ public class PlayerScript : MonoBehaviour
     [Tooltip("The rate at which speed picks up when the input is being performed.")]
     public float acceleration = 0.1f;
     //---------------------------------------------------------------------------------------
-    [Header("Player Goal Settings")]
-    public GameObject playerGoalToDefend;
+    [FormerlySerializedAs("playerGoalToAttack1")] [FormerlySerializedAs("playerGoalToDefend")] [Header("Player Goal Settings")]
     public GameObject playerGoalToAttack;
+    [FormerlySerializedAs("playerGoalToAttack")] public GameObject playerGoalToDefend;
     public int playerPoint;
+
+    public int playerGlobalPoint;
     
     //---------------------------------------------------------------------------------------
     [Header("Rotation Lerps")]
@@ -142,6 +144,8 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public int hazardLayer;
     [HideInInspector] public bool isReady;
     [HideInInspector] public GameObject playerScorePanel;
+
+    [HideInInspector] public GameObject playerSpawnPoint;
     // ------------------------------ HIT ------------------------------
     [HideInInspector] public float hitTimer = 0f;
     // ------------------------------ MOVE ------------------------------
@@ -169,7 +173,7 @@ public class PlayerScript : MonoBehaviour
         
         int playerId = GameManager.Instance.PlayerScriptList.IndexOf(this);
         
-        GameManager.Instance.levelManager.goalSpawner.LinkGoalToPlayer(playerId);
+        GameManager.Instance.levelManager.LinkGoalToPlayer(playerId);
     }
     
     public void SetPlayerParameters()
@@ -199,7 +203,6 @@ public class PlayerScript : MonoBehaviour
         currentState = GetComponent<NeutralState>();
         
     }
-    
 
     // ------------------------------ UPDATES ------------------------------
     private void FixedUpdate()
@@ -232,9 +235,6 @@ public class PlayerScript : MonoBehaviour
                 GetComponent<SprintState>().currentSprintBoost += Time.deltaTime * sprintBoostRecoveryRate;
             }
         }
-        
-        // Update the player score panel
-        playerPoint = playerGoalToAttack.GetComponent<PointTracker>()._points;
     }
     
 

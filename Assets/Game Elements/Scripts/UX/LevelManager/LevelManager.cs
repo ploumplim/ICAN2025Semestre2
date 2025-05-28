@@ -17,17 +17,13 @@ public class LevelManager : MonoBehaviour
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIVATE VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     private LevelSM _levelSM; // Reference to the Level State Machine
     [FormerlySerializedAs("_currentState")] public LevelState currentState; // Reference to the current state of the level
-    public List<GameObject> players; // List of players in the level
+    [FormerlySerializedAs("players")] public List<GameObject> playersList; // List of players in the level
     public List<Transform> _playerSpawnPoints; // List of player spawn points
     [FormerlySerializedAs("globalScore")] [HideInInspector] public int potScore; // Global score of the level
     public GameObject gameBall; // Reference to the game ball
     [HideInInspector] public int currentRound; // Current round of the level
     [HideInInspector] public int totalRounds; // Total rounds of the level
     public bool gameIsRunning; // Boolean to check if the game is running
-
-    public List<PointTracker> PointTrackers;
-    public List<GameObject> GoalList;
-    public GoalSpawner goalSpawner;
     
     
     public int pointNeededToWin;
@@ -38,6 +34,14 @@ public class LevelManager : MonoBehaviour
     public GameObject ballPrefab;
     [Tooltip("Insert the ball spawn position here (empty game object with transform)")]
     public Transform ballSpawnPosition;
+    
+    public List<PointTracker> PointTrackers;
+    public List<GameObject> GoalList;
+    public GoalSpawner goalSpawner;
+
+    public GameObject centerPoint;
+
+    public PlayerScript winningPlayer;
     // [Tooltip("Insert the wall prefab here that will provide points to the player.")]
     // public GameObject pointWallPrefab;
     // [Tooltip("Insert the neutral wall prefab here, which will not provide points to the player.")]
@@ -54,7 +58,7 @@ public class LevelManager : MonoBehaviour
     
     [Tooltip("This value represents the delay after the last player is dead during a round, before the buffer" +
              "is called.")]
-    public float roundVictoryDelay = 2f;
+    public float roundVictoryDelay = 1f;
 
     public List<SceneReference> levels;
 
@@ -78,9 +82,15 @@ public class LevelManager : MonoBehaviour
     public UnityEvent OnGameStart;
     public UnityEvent<string> OnGameEnd;
     public UnityEvent<int> OnRoundStarted;
-    public UnityEvent<string> OnRoundEnded;
-    public UnityEvent OnPlayerSpawn;
+    public UnityEvent<PlayerScript> OnRoundEnded;
+    
+    public UnityEvent onPlayerSpawn;
+    
+    public UnityEvent<int> OnGoalScored;
+    
+    public UnityEvent OnNewLevelStart;
 
+    
     #endregion
     
    
@@ -90,7 +100,7 @@ public class LevelManager : MonoBehaviour
         GameManager.Instance.levelManager = this;
         foreach (var player in GameManager.Instance.PlayerScriptList)
         {
-            players.Add(player.gameObject);
+            playersList.Add(player.gameObject);
         }
         gameBall = GameObject.FindGameObjectWithTag("Ball");
         // _levelSM= GetComponent<LevelSM>();
@@ -98,7 +108,7 @@ public class LevelManager : MonoBehaviour
         // GameManager.Instance.GetComponent<PlayingState>().levelSM = _levelSM;
         
         
-        
+        gameBall.transform.position = ballSpawnPosition.position;
 
 
     }
@@ -157,9 +167,9 @@ public class LevelManager : MonoBehaviour
         // Update the player list
         if (GameManager.Instance.multiplayerManager)
         {
-            if (players.Count != GameManager.Instance.multiplayerManager.connectedPlayers.Count)
+            if (playersList.Count != GameManager.Instance.multiplayerManager.connectedPlayers.Count)
             {
-                players = GameManager.Instance.multiplayerManager.connectedPlayers;
+                playersList = GameManager.Instance.multiplayerManager.connectedPlayers;
             }
         }
     }
@@ -167,7 +177,7 @@ public class LevelManager : MonoBehaviour
     // ReSharper disable Unity.PerformanceAnalysis
     public void StartLevel() // CALL THIS METHOD TO START THE LEVEL
     {
-        if (players.Count >= 2 && !gameIsRunning)
+        if (playersList.Count >= 2 && !gameIsRunning)
         {
             _levelSM.ChangeState(GetComponent<SetupState>());
             // Disable the game start button in the GUI
@@ -175,15 +185,15 @@ public class LevelManager : MonoBehaviour
             // ingameGUIManager.resetPlayersObject.SetActive(false);
             
             // Check how many players have joined the game and determine the number of rounds depending on that.
-            if (players.Count == 2)
+            if (playersList.Count == 2)
             {
                 totalRounds = 3;
             }
-            else if (players.Count == 3)
+            else if (playersList.Count == 3)
             {
                 totalRounds = 5;
             }
-            else if (players.Count >= 4)
+            else if (playersList.Count >= 4)
             {
                 totalRounds = 7;
             }
@@ -200,7 +210,7 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            if (players.Count < 2)
+            if (playersList.Count < 2)
             {
                 Debug.LogWarning("Not enough players to start the level.");
             }
@@ -210,7 +220,7 @@ public class LevelManager : MonoBehaviour
             }
         }
 
-        foreach (var players in players)
+        foreach (var players in playersList)
         {
             players.GetComponent<PlayerScript>().isReady = false;
         }
@@ -219,10 +229,10 @@ public class LevelManager : MonoBehaviour
     
     public bool RoundCheck()
     {
-        if (currentRound < totalRounds)
+        if (currentRound < totalRounds+1)
         {
             // Check all player's points. If there is a player with 3 points, return true.
-            foreach (GameObject player in players)
+            foreach (GameObject player in playersList)
             {
                 if (player.GetComponent<PlayerPointTracker>().points >= GameManager.Instance.PlayerScriptList.Count+2)
                 {
@@ -240,15 +250,70 @@ public class LevelManager : MonoBehaviour
     
     public void StartRound()
     {
+        foreach (GameObject player in playersList)
+        {
+            player.GetComponent<PlayerScript>().playerPoint = 0;
+        }
         SpawnBall();
         // Init the players
         InitPlayers();
+        foreach (GameObject goals in GoalList)
+        {
+            goals.GetComponent<PointTracker>().ballSM= gameBall.GetComponent<BallSM>();
+        }
         // Spawn the point walls
         //GameManager.Instance.LoadNextLevel();
+        //TODO : Set goal to the players
+        
+        
+        foreach (var player in playersList)
+        {
+            LinkGoalToPlayer(playersList.IndexOf(player));
+            player.GetComponent<PlayerScript>().playerPoint = 0;
+
+        }
+        Debug.Log("Current Scene id : "+GameManager.Instance.currentSceneID);
+    }
+    
+    
+    
+    
+    public void LinkGoalToPlayer(int playerId)
+    {
+        
+        int currenGoalscenePlaying = GameManager.Instance.currentSceneID * 2;
+        if (playerId % 2 == 0)
+        {
+            GameManager.Instance.PlayerScriptList[playerId].playerGoalToDefend = GoalList[currenGoalscenePlaying+1].gameObject;
+            
+            //TODO : Assign le mesh du goal to defend du player 2
+        
+            GameManager.Instance.PlayerScriptList[playerId].playerGoalToAttack = GoalList[currenGoalscenePlaying].gameObject;
+        }
+        else
+        {
+            GameManager.Instance.PlayerScriptList[playerId].playerGoalToDefend = GoalList[currenGoalscenePlaying].gameObject;
+            //TODO : Assign le mesh du goal to defend du player 1
+            
+        
+            GameManager.Instance.PlayerScriptList[playerId].playerGoalToAttack = GoalList[currenGoalscenePlaying+1].gameObject;
+        }
+        
+        
+        
+        foreach (Transform childTransform in GameManager.Instance.PlayerScriptList[playerId].playerGoalToDefend.transform)
+        {
+            if (childTransform.name == "Renderer")
+            {
+                childTransform.GetComponent<MeshRenderer>().material.color =
+                    GameManager.Instance.PlayerScriptList[playerId].GetComponent<PlayerVisuals>().playerCapMaterial.color;
+            }
+        }
+
         
     }
     
-    public void EndRound(GameObject winningPlayer)
+    public void EndRound(PlayerScript winningPlayer)
     {
         // Add the global score to the winning player's individual score
         winningPlayer.GetComponent<PlayerPointTracker>().AddPoints(1);
@@ -259,7 +324,6 @@ public class LevelManager : MonoBehaviour
     {
         if (ballPrefab)
         {
-            // Destroy the ball if it exists
             
             GameObject existingBall = GameObject.FindWithTag("Ball");
             
@@ -267,8 +331,7 @@ public class LevelManager : MonoBehaviour
             {
                 // unsuscribe to all the events
                 existingBall.GetComponent<BallSM>().pointWallHit.RemoveAllListeners();
-                // from the game camera script, remove the ball from the list of lockpoints.
-                gameCameraScript.RemoveObjectFromArray(existingBall);
+                gameCameraScript.RemoveObjectFromArray(gameBall);
                 Destroy(GameObject.FindWithTag("Ball"));
             }
             
@@ -291,20 +354,20 @@ public class LevelManager : MonoBehaviour
     
     public void InitPlayers()
     {
-        foreach (GameObject player in players)
+        foreach (GameObject player in playersList)
         {
             player.GetComponent<PlayerScript>().ChangeState(player.GetComponent<NeutralState>());
         }
         // Put players in the correct spawn point.
-        for (int i = 0; i < players.Count; i++)
+        for (int i = 0; i < playersList.Count; i++)
         {
-            players[i].transform.position = _playerSpawnPoints[i].position;
+            playersList[i].transform.position = _playerSpawnPoints[i].position;
         }
     }
     
     public void RemovePlayerControl()
     {
-        foreach (GameObject player in players)
+        foreach (GameObject player in playersList)
         {
             player.GetComponent<PlayerInput>().DeactivateInput();
         }
@@ -312,7 +375,7 @@ public class LevelManager : MonoBehaviour
     
     public void ReturnPlayerControl()
     {
-        foreach (GameObject player in players)
+        foreach (GameObject player in playersList)
         {
             player.GetComponent<PlayerInput>().ActivateInput();
         }
@@ -435,7 +498,7 @@ public class LevelManager : MonoBehaviour
     public void ResetAllPoints()
     {
         potScore = 0;
-        foreach (GameObject player in players)
+        foreach (GameObject player in playersList)
         {
             player.GetComponent<PlayerPointTracker>().ResetPoints();
         }
