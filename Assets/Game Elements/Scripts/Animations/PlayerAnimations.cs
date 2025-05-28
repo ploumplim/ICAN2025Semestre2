@@ -37,6 +37,9 @@ public class PlayerAnimations : MonoBehaviour
                 // animator.ResetTrigger("IsCharging");
                 // animator.ResetTrigger("IsHitting");
                 break;
+            case KnockbackState:
+                animator.SetTrigger("IsKnockedback");
+                break;
         }
     }
     

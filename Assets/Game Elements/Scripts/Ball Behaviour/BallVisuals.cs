@@ -219,6 +219,12 @@ public class BallVisuals : MonoBehaviour
 
     public void OnBallCaught()
     {
+        
+        // Set the catchParticle's shape radius to be the same as the ball's current scale.
+        float ballSize = ballSM.GetComponent<Transform>().localScale.x;
+        ParticleSystem.ShapeModule shapeModule = catchParticle.shape;
+        shapeModule.radius = ballSize;
+        
         // play the catch particle system.
         catchParticle.Play();
         
