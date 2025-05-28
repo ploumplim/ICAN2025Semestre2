@@ -383,8 +383,7 @@ public class PlayerScript : MonoBehaviour
             ChangeState(GetComponent<NeutralState>());
         }
         
-        if ((context.started || context.performed) && currentState is not KnockbackState 
-            && grabCurrentCharge >= grabTotalCharge)
+        if ((context.started || context.performed) && currentState is not KnockbackState)
         {
             ChangeState(GetComponent<GrabbingState>());
         }
