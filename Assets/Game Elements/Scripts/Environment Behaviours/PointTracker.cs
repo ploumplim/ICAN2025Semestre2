@@ -50,10 +50,10 @@ public class PointTracker : MonoBehaviour
             Debug.Log(ballSM.ballOwnerPlayer+"is null");
         }
 
-        if (ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack!=linkedGoal)
-        {
-            Debug.Log("Player " + ballSM.ballOwnerPlayer.name + " is not attacking this goal: " + linkedGoal.name + "he need to attack: " + ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack.name);
-        }
+        // if (ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack!=linkedGoal)
+        // {
+        //     Debug.Log("Player " + ballSM.ballOwnerPlayer.name + " is not attacking this goal: " + linkedGoal.name + "he need to attack: " + ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack.name);
+        // }
         
         
     }
