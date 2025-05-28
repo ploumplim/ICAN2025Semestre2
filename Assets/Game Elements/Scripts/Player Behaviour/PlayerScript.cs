@@ -36,6 +36,8 @@ public class PlayerScript : MonoBehaviour
     public GameObject playerGoalToAttack;
     [FormerlySerializedAs("playerGoalToAttack")] public GameObject playerGoalToDefend;
     public int playerPoint;
+
+    public int playerGlobalPoint;
     
     //---------------------------------------------------------------------------------------
     [Header("Rotation Lerps")]
@@ -169,7 +171,7 @@ public class PlayerScript : MonoBehaviour
         
         int playerId = GameManager.Instance.PlayerScriptList.IndexOf(this);
         
-        GameManager.Instance.levelManager.goalSpawner.LinkGoalToPlayer(playerId);
+        GameManager.Instance.levelManager.LinkGoalToPlayer(playerId);
     }
     
     public void SetPlayerParameters()
@@ -199,7 +201,6 @@ public class PlayerScript : MonoBehaviour
         currentState = GetComponent<NeutralState>();
         
     }
-    
 
     // ------------------------------ UPDATES ------------------------------
     private void FixedUpdate()
@@ -232,9 +233,6 @@ public class PlayerScript : MonoBehaviour
                 GetComponent<SprintState>().currentSprintBoost += Time.deltaTime * sprintBoostRecoveryRate;
             }
         }
-        
-        // Update the player score panel
-        playerPoint = playerGoalToDefend.GetComponent<PointTracker>()._points;
     }
     
 
