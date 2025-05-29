@@ -152,8 +152,8 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 65.99679
-  orthographic: 0
-  orthographic size: 16.62
+  orthographic: 1
+  orthographic size: 25.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -227,7 +227,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   screenShakeGO: {fileID: 3668227575038428733}
   cameraHolderObject: {fileID: 305787131329256369}
-  followSpeed: 0.25
+  maxFollowSpeed: 1
+  maxDistanceBetweenObjectAndCamera: 10
+  followSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   lockPoints:
   - {fileID: 0}
 --- !u!114 &2832441819431811316
