@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6cde692eda7132746b8e051be7bae63c
+guid: d205332f23bf65b4ebd4321c68f07cb3
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ScoreUI_FondBlanc_0
+      name: PlayerScore_Layer1_0
       rect:
         serializedVersion: 2
-        x: 36
-        y: 37
-        width: 325
-        height: 325
+        x: 0
+        y: 0
+        width: 875
+        height: 472
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -112,8 +112,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5769094b353ad15479b8b5d45c8241ae
-      internalID: -2013413364
+      spriteID: 54c98c8822bde2946885632b22b40e64
+      internalID: 733996655
       vertices: []
       indices: 
       edges: []
@@ -122,7 +122,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 4129d637922bb504cb4f1f21035d8c43
+    spriteID: e8695c183064d4c4089ac3ebdb5dcc46
     internalID: 0
     vertices: []
     indices: 
@@ -132,7 +132,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ScoreUI_FondBlanc_0: -2013413364
+      PlayerScore_Layer1_0: 733996655
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
