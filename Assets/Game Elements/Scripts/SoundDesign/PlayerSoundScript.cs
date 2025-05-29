@@ -23,7 +23,11 @@ public class PlayerSoundScript : MonoBehaviour
 
     private void Update()
     {
-        speedPercent = BallScript.rb.linearVelocity.magnitude / BallScript.maxSpeed;
+        if (BallScript)
+        {
+            speedPercent = BallScript.rb.linearVelocity.magnitude / BallScript.maxSpeed;
+        }
+        
 
     }
 
