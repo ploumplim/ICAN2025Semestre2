@@ -231,7 +231,7 @@ public class BallSM : MonoBehaviour
         
         SetBallSpeedMinimum(rb.linearVelocity.magnitude, rb.linearVelocity.normalized);
 
-        if (other.gameObject.CompareTag("PointWall"))
+        if (other.gameObject.CompareTag("NeutralWall"))
         {
             pointWallHit?.Invoke(pointWallPoints);
             GameManager.Instance.levelManager.gameCameraScript.screenShakeGO.GetComponent<ScreenShake>().StartLitleScreenShake(rb.linearVelocity.magnitude);
