@@ -11,18 +11,23 @@ public class PlayerSoundScript : MonoBehaviour
     private float dashStartTime;
 
 
-    private BallSM BallScript;
+    public BallSM BallScript;
     private float speedPercent;
 
     private void OnEnable()
     {
-        BallScript = GetComponent<BallSM>();
+        
+        BallScript = GameManager.Instance.levelManager.gameBall.GetComponent<BallSM>();
 
     }
 
     private void Update()
     {
-        speedPercent = BallScript.rb.linearVelocity.magnitude / BallScript.maxSpeed;
+        if (BallScript)
+        {
+            speedPercent = BallScript.rb.linearVelocity.magnitude / BallScript.maxSpeed;
+        }
+        
 
     }
 
