@@ -291,6 +291,9 @@ public class PlayerScript : MonoBehaviour
                 truePushForce = ballSM.rb.linearVelocity.magnitude * knockbackForceMultiplier;
                 trueStunTime = ballSM.rb.linearVelocity.magnitude * knockbackStunMultiplier;
                 
+                PlayerAnimations playerAnimations = GetComponent<PlayerAnimations>();
+                playerAnimations.KnockbackTime(trueStunTime);
+                
                 ChangeState(GetComponent<KnockbackState>());
                 // Push the player in the opposite direction of the ball
                     

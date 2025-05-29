@@ -20,10 +20,7 @@ public class BallSM : MonoBehaviour
     [Tooltip("The ball will never go faster than this value.")]
     public float maxSpeed = 20f;
     public float minSpeed = 10f;
-    [Tooltip("The ball becomes lethal when it reaches this speed.")]
-    public float lethalSpeed = 10f;
-    public float firstTimeLethalWaitTime = 0.1f;
-    public float hitFreezeTimeMultiplier = 0.01f;
+
     //-------------------------------------------------------------------------------------
     [FormerlySerializedAs("maxHeight")]
     [Header("Ball Height Settings")]
@@ -98,7 +95,6 @@ public class BallSM : MonoBehaviour
     public UnityEvent<float> OnBallFlight;
     public UnityEvent OnBallCaught;
     [FormerlySerializedAs("OnPerfectHit")] public UnityEvent OnHit;
-    public UnityEvent OnBallLethal;
     public UnityEvent OnHitStateStart;
     public UnityEvent CaughtStateEnded;
     
@@ -235,7 +231,6 @@ public class BallSM : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         
-        SetBallSpeedMinimum(rb.linearVelocity.magnitude, rb.linearVelocity.normalized);
 
         if (other.gameObject.CompareTag("PointWall"))
         {
@@ -247,14 +242,13 @@ public class BallSM : MonoBehaviour
         switch (currentState)
         {
             case FlyingState:
+                SetBallSpeedMinimum(rb.linearVelocity.magnitude, rb.linearVelocity.normalized);
                 bounces++;
                 // Check the ball GrowthType. If it's OnBounce, grow the ball.
                 if (growthType == GrowthType.OnBounce && !other.gameObject.CompareTag("Player"))
                 {
                     GrowBall();
                 }
-                
-                
                 
                 if (other.gameObject.CompareTag("NeutralWall"))
                 {
@@ -264,29 +258,29 @@ public class BallSM : MonoBehaviour
                 break;
             case DroppedState:
                 break;
-            case LethalBallState:
-                bounces++;
-                if (growthType == GrowthType.OnBounce && !other.gameObject.CompareTag("Player")
-                    && !other.gameObject.CompareTag("NonGrowerSurface"))
-                {
-                    GrowBall();
-                }
-
-                if (other.gameObject.CompareTag("PointWall"))
-                {
-                    pointWallHit?.Invoke(pointWallPoints);
-                }
-                
-                if (other.gameObject.CompareTag("NeutralWall"))
-                {
-                    OnNeutralBounce?.Invoke(bounces);
-                }
-                
-                if (other.gameObject.CompareTag("Bouncer"))
-                {
-                    OnNeutralBounce?.Invoke(bounces);
-                }
-                break;
+            // case LethalBallState:
+            //     bounces++;
+            //     if (growthType == GrowthType.OnBounce && !other.gameObject.CompareTag("Player")
+            //         && !other.gameObject.CompareTag("NonGrowerSurface"))
+            //     {
+            //         GrowBall();
+            //     }
+            //
+            //     if (other.gameObject.CompareTag("PointWall"))
+            //     {
+            //         pointWallHit?.Invoke(pointWallPoints);
+            //     }
+            //     
+            //     if (other.gameObject.CompareTag("NeutralWall"))
+            //     {
+            //         OnNeutralBounce?.Invoke(bounces);
+            //     }
+            //     
+            //     if (other.gameObject.CompareTag("Bouncer"))
+            //     {
+            //         OnNeutralBounce?.Invoke(bounces);
+            //     }
+            //     break;
             
             default:
                 break;

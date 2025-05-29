@@ -15359,17 +15359,17 @@ MonoBehaviour:
   playerPoint: 0
   playerGlobalPoint: 0
   neutralLerpTime: 1
-  sprintMaxInitialBoost: 25
+  sprintMaxInitialBoost: 50
   sprintSpeed: 15
-  sprintBoostDecayTime: 0.2
+  sprintBoostDecayTime: 0.5
   sprintCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -15377,8 +15377,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 2
-      outSlope: 2
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -15714,7 +15714,8 @@ MonoBehaviour:
   baseRunningParticleRefreshRate: 1
   runningParticleRefreshMultiplier: 10
   sprintBoostParticle: {fileID: 4196511761732820388}
-  sprintBoostColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  GoodSprintBoostColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  badSprintBoostCoolor: {r: 1, g: 1, b: 1, a: 1}
   sprintBoostCurve:
     serializedVersion: 2
     m_Curve:

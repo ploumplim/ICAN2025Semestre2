@@ -167,7 +167,7 @@ public class BallVisuals : MonoBehaviour
     private void TrailEmitter()
     {
         // Enable or disable the trail based on the ball's state. Enabled when it's midair, disabled otherwise.
-        _trailRenderer.emitting = ballSM.currentState.GetType() == typeof(FlyingState) || ballSM.currentState.GetType() == typeof(LethalBallState);
+        _trailRenderer.emitting = ballSM.currentState.GetType() == typeof(FlyingState);
         
         // Get the current speed magnitude from the ball
         float speed = ballSM.GetComponent<Rigidbody>().linearVelocity.magnitude;
@@ -182,10 +182,10 @@ public class BallVisuals : MonoBehaviour
                 _trailRenderer.startColor = startFlyingTrailColor;
                 _trailRenderer.endColor = endFlyingTrailColor;
                 break;
-            case LethalBallState:
-                _trailRenderer.startColor = startLethalTrailColor;
-                _trailRenderer.endColor = endLethalTrailColor;
-                break;
+            // case LethalBallState:
+            //     _trailRenderer.startColor = startLethalTrailColor;
+            //     _trailRenderer.endColor = endLethalTrailColor;
+            //     break;
         }
         
         
