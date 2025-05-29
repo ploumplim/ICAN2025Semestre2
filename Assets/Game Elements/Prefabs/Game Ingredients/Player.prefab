@@ -15526,7 +15526,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3857658138353711811}
         m_TargetAssemblyTypeName: PlayerSoundScript, Assembly-CSharp
-        m_MethodName: DashSound
+        m_MethodName: StartDashSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15563,9 +15563,33 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3857658138353711811}
+        m_TargetAssemblyTypeName: PlayerSoundScript, Assembly-CSharp
+        m_MethodName: StopDashSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnPlayerCatch:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3857658138353711811}
+        m_TargetAssemblyTypeName: PlayerSoundScript, Assembly-CSharp
+        m_MethodName: PlayGrabBall
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnGrabStateEntered:
     m_PersistentCalls:
       m_Calls:
@@ -15581,12 +15605,36 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3857658138353711811}
+        m_TargetAssemblyTypeName: PlayerSoundScript, Assembly-CSharp
+        m_MethodName: StartGrabSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnGrabStateExited:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2291177913900343150}
         m_TargetAssemblyTypeName: PlayerVisuals, Assembly-CSharp
         m_MethodName: OnGrabStateExited
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3857658138353711811}
+        m_TargetAssemblyTypeName: PlayerSoundScript, Assembly-CSharp
+        m_MethodName: StopGrabSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
