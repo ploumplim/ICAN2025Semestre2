@@ -112,7 +112,7 @@ Transform:
   m_GameObject: {fileID: 7981149854982224507}
   serializedVersion: 2
   m_LocalRotation: {x: 0.560928, y: 0, z: 0, w: 0.82786465}
-  m_LocalPosition: {x: 0, y: 45.525105, z: -14.89753}
+  m_LocalPosition: {x: 0, y: 53.23991, z: -26.590765}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -227,8 +227,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   screenShakeGO: {fileID: 3668227575038428733}
   cameraHolderObject: {fileID: 305787131329256369}
-  maxFollowSpeed: 1
-  maximumDistances: {x: 5, y: 0, z: 5}
+  maxFollowSpeed: 0.1
+  maximumDistances: {x: 3, y: 0, z: 1}
   lockPoints:
   - {fileID: 0}
 --- !u!114 &2832441819431811316

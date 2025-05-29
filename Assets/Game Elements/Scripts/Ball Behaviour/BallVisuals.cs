@@ -111,7 +111,7 @@ public class BallVisuals : MonoBehaviour
         {
             // Set the rotation of the ball to look in the direction of its velocity.
             Quaternion targetRotation = Quaternion.LookRotation(ballVelocity);
-            ballSM.transform.rotation = targetRotation;
+            neutralBall.transform.rotation = targetRotation;
         }
     }
 

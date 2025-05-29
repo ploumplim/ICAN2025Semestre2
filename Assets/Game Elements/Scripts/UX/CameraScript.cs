@@ -68,15 +68,15 @@ public class CameraScript : MonoBehaviour
         _targetPoint = CalculateAveragePoint(_lockPoints);
         
 
-        
+        // Clamp the new position to the maximum distances, both in the positives and negatives
+        _targetPoint.x = Mathf.Clamp(_targetPoint.x, -maximumDistances.x, maximumDistances.x);
+        _targetPoint.y = Mathf.Clamp(_targetPoint.y, -maximumDistances.y, maximumDistances.y);
+        _targetPoint.z = Mathf.Clamp(_targetPoint.z, -maximumDistances.z, maximumDistances.z);
 
         // Move the camera holder object to the middle point
         Vector3 newPosition = Vector3.Lerp(cameraHolderObject.transform.position, _targetPoint, maxFollowSpeed);
         
-        // Clamp the new position to the maximum distances, both in the positives and negatives
-        newPosition.x = Mathf.Clamp(newPosition.x, -maximumDistances.x, maximumDistances.x);
-        newPosition.y = Mathf.Clamp(newPosition.y, -maximumDistances.y, maximumDistances.y);
-        newPosition.z = Mathf.Clamp(newPosition.z, -maximumDistances.z, maximumDistances.z);
+        
         
         // Set the camera holder object to the new position
         cameraHolderObject.transform.position = newPosition;
