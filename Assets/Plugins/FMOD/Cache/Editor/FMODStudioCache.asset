@@ -105,7 +105,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1786
---- !u!114 &-7697206707129440236
+--- !u!114 &-5841171575012241801
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -114,21 +114,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/EvolutivMusic_MSC/BallSpeed
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/FX/GrabBall_FX
   m_EditorClassIdentifier: 
-  Name: BallSpeed
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 3575178192
-    data2: 3163938300
-  Type: 0
-  IsGlobal: 0
-  Labels: []
-  Exists: 1
+  Path: event:/FX/GrabBall_FX
+  Guid:
+    Data1: -40880671
+    Data2: 1274705143
+    Data3: 883523759
+    Data4: -1670153630
+  Banks:
+  - {fileID: 9013900838437733036}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 906
 --- !u!114 &-5283038265350044106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,33 +186,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 29596
---- !u!114 &-4045041140242863442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/FX/GrabOut_FX
-  m_EditorClassIdentifier: 
-  Path: event:/FX/GrabOut_FX
-  Guid:
-    Data1: -198925480
-    Data2: 1255179273
-    Data3: -1239727211
-    Data4: -639664235
-  Banks:
-  - {fileID: 9013900838437733036}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 4173
 --- !u!114 &-3230815617287640978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,10 +201,10 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638840622927570274
+  lastModified: 638840542740063162
   FileSizes:
   - Name: 
-    Value: 1690
+    Value: 1744
   Exists: 1
 --- !u!114 &-1303960338205871670
 MonoBehaviour:
@@ -256,7 +232,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 5300
+  Length: 3800
 --- !u!114 &-1279955497749796651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,9 +248,36 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638840622927876286
+  lastModified: 638840566976341713
   FileSizes: []
   Exists: 1
+--- !u!114 &-958775104751810421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/FX/GrabPress_FX
+  m_EditorClassIdentifier: 
+  Path: event:/FX/GrabPress_FX
+  Guid:
+    Data1: 3397310
+    Data2: 1205374675
+    Data3: 65357189
+    Data4: -638130468
+  Banks:
+  - {fileID: 9013900838437733036}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 5250
 --- !u!114 &-213022198960008552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,72 +334,17 @@ MonoBehaviour:
   - {fileID: 9061532659611863500}
   - {fileID: 4160025467108558828}
   - {fileID: 3934459937923346836}
-  - {fileID: -4045041140242863442}
-  - {fileID: 6620448280830938467}
-  - {fileID: 2351252679930601268}
-  - {fileID: 3811908510554307149}
+  - {fileID: -958775104751810421}
+  - {fileID: -5841171575012241801}
+  - {fileID: 5907169601955790136}
+  - {fileID: 6733345854112160466}
   EditorParameters: []
   MasterBanks:
   - {fileID: 9013900838437733036}
   StringsBanks:
   - {fileID: -3230815617287640978}
-  cacheTime: 638840622927876286
+  cacheTime: 638840566976341713
   cacheVersion: 131846
---- !u!114 &2351252679930601268
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/FX/GrabBall_FX
-  m_EditorClassIdentifier: 
-  Path: event:/FX/GrabBall_FX
-  Guid:
-    Data1: -40880671
-    Data2: 1274705143
-    Data3: 883523759
-    Data4: -1670153630
-  Banks:
-  - {fileID: 9013900838437733036}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 906
---- !u!114 &3811908510554307149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/MUSIC/EvolutivMusic_MSC
-  m_EditorClassIdentifier: 
-  Path: event:/MUSIC/EvolutivMusic_MSC
-  Guid:
-    Data1: 276465736
-    Data2: 1092657126
-    Data3: 662553755
-    Data4: -1858903920
-  Banks:
-  - {fileID: -1279955497749796651}
-  IsStream: 1
-  Is3D: 1
-  IsOneShot: 1
-  Parameters:
-  - {fileID: -7697206707129440236}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 73880
 --- !u!114 &3840750683163560846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -478,6 +426,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 680
+--- !u!114 &5109924990780729282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/EvolutivMusic_MSC/ScorePitch
+  m_EditorClassIdentifier: 
+  Name: ScorePitch
+  StudioPath: 
+  Min: 0
+  Max: 9
+  Default: 0
+  ID:
+    data1: 3684307094
+    data2: 865695652
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &5597448249454433560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,7 +478,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 500
---- !u!114 &6620448280830938467
+--- !u!114 &5907169601955790136
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -516,23 +488,51 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/FX/GrabPress_FX
+  m_Name: event:/FX/GrabOut_FX
   m_EditorClassIdentifier: 
-  Path: event:/FX/GrabPress_FX
+  Path: event:/FX/GrabOut_FX
   Guid:
-    Data1: 3397310
-    Data2: 1205374675
-    Data3: 65357189
-    Data4: -638130468
+    Data1: -198925480
+    Data2: 1255179273
+    Data3: -1239727211
+    Data4: -639664235
   Banks:
   - {fileID: 9013900838437733036}
-  IsStream: 1
+  IsStream: 0
   Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 5050
+  Length: 3000
+--- !u!114 &6733345854112160466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/MUSIC/EvolutivMusic_MSC
+  m_EditorClassIdentifier: 
+  Path: event:/MUSIC/EvolutivMusic_MSC
+  Guid:
+    Data1: 1758094542
+    Data2: 1278318921
+    Data3: -1288473670
+    Data4: -1443210615
+  Banks:
+  - {fileID: -1279955497749796651}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 5109924990780729282}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 74000
 --- !u!114 &9013900838437733036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -548,7 +548,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638840622927549694
+  lastModified: 638840542740043112
   FileSizes: []
   Exists: 1
 --- !u!114 &9061532659611863500
