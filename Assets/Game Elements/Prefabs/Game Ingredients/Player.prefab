@@ -15524,9 +15524,9 @@ MonoBehaviour:
   OnPlayerDash:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3857658138353711811}
-        m_TargetAssemblyTypeName: PlayerSoundScript, Assembly-CSharp
-        m_MethodName: StartDashSound
+      - m_Target: {fileID: 2291177913900343150}
+        m_TargetAssemblyTypeName: PlayerVisuals, Assembly-CSharp
+        m_MethodName: StartSprintBoostParticle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15536,9 +15536,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2291177913900343150}
-        m_TargetAssemblyTypeName: PlayerVisuals, Assembly-CSharp
-        m_MethodName: StartSprintBoostParticle
+      - m_Target: {fileID: 3857658138353711811}
+        m_TargetAssemblyTypeName: PlayerSoundScript, Assembly-CSharp
+        m_MethodName: StartDashSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

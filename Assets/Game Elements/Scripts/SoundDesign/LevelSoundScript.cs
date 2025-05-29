@@ -24,6 +24,12 @@ public class LevelSoundScript : MonoBehaviour
         AudioManager.instance.PlayOneShot(FMODEvents.instance.PlayerSpawn_FX, this.transform.position);
     }
 
+    public void PlayScoringBounce()
+    {
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.ScoringBounce_FX, this.transform.position);
+
+    }
+
     public void RecoverCurrentRound(int points)
     {
         float pointNeeded = GetComponent<LevelManager>().pointNeededToWin;

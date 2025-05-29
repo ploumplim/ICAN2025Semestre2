@@ -201,10 +201,34 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638840542740063162
+  lastModified: 638840674087905224
   FileSizes:
   - Name: 
-    Value: 1744
+    Value: 1742
+  Exists: 1
+--- !u!114 &-3184652095230074024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/BallTouched_FX/BallSpeed
+  m_EditorClassIdentifier: 
+  Name: BallSpeed
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3575178192
+    data2: 3163938300
+  Type: 0
+  IsGlobal: 0
+  Labels: []
   Exists: 1
 --- !u!114 &-1303960338205871670
 MonoBehaviour:
@@ -278,33 +302,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 5250
---- !u!114 &-213022198960008552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/FX/KnockOut_FX
-  m_EditorClassIdentifier: 
-  Path: event:/FX/KnockOut_FX
-  Guid:
-    Data1: -729976712
-    Data2: 1323209620
-    Data3: -1511908175
-    Data4: -1516303985
-  Banks:
-  - {fileID: 9013900838437733036}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 2949
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,7 +325,6 @@ MonoBehaviour:
   - {fileID: -5283038265350044106}
   - {fileID: 3840750683163560846}
   - {fileID: -1303960338205871670}
-  - {fileID: -213022198960008552}
   - {fileID: 5597448249454433560}
   - {fileID: -7731113860503252890}
   - {fileID: 9061532659611863500}
@@ -338,12 +334,13 @@ MonoBehaviour:
   - {fileID: -5841171575012241801}
   - {fileID: 5907169601955790136}
   - {fileID: 6733345854112160466}
+  - {fileID: 6973105760015405657}
   EditorParameters: []
   MasterBanks:
   - {fileID: 9013900838437733036}
   StringsBanks:
   - {fileID: -3230815617287640978}
-  cacheTime: 638840566976341713
+  cacheTime: 638840674087905224
   cacheVersion: 131846
 --- !u!114 &3840750683163560846
 MonoBehaviour:
@@ -365,10 +362,11 @@ MonoBehaviour:
     Data4: 1153747475
   Banks:
   - {fileID: 9013900838437733036}
-  IsStream: 0
+  IsStream: 1
   Is3D: 0
   IsOneShot: 1
-  Parameters: []
+  Parameters:
+  - {fileID: -3184652095230074024}
   MinDistance: 1
   MaxDistance: 20
   Length: 700
@@ -533,6 +531,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 74000
+--- !u!114 &6973105760015405657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/FX/ScoringBounce_FX
+  m_EditorClassIdentifier: 
+  Path: event:/FX/ScoringBounce_FX
+  Guid:
+    Data1: -1574291181
+    Data2: 1290095718
+    Data3: 1459691945
+    Data4: -1883957323
+  Banks:
+  - {fileID: 9013900838437733036}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1000
 --- !u!114 &9013900838437733036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -548,7 +573,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638840542740043112
+  lastModified: 638840674087874791
   FileSizes: []
   Exists: 1
 --- !u!114 &9061532659611863500
@@ -577,4 +602,4 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 3049
+  Length: 2200
