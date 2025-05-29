@@ -102,6 +102,10 @@ public class BallVisuals : MonoBehaviour
         BallColorAndLight();
         // UpdateFace();
         // UpdateBallSpeedFeedbacks();
+        if (ballSM.currentState is not FlyingState)
+        {
+            return;
+        }
         UpdateForward();
         StretchAndSquash();
     }
@@ -126,10 +130,11 @@ public class BallVisuals : MonoBehaviour
         endFlyingTrailColor = new Color(ownerColor.r, ownerColor.g, ownerColor.b, 0f);
     }
 
-    private void StretchAndSquash()
+    public void StretchAndSquash()
     {
         // Apply on the ball's neutral sphere a stretch and squash effect based on the ball's current speed. Do this by 
         // changing the local Z scale of the ball's neutral sphere.
+
         
         float speed = ballSM.GetComponent<Rigidbody>().linearVelocity.magnitude;
         float currentBallSize = neutralBall.GetComponent<Transform>().localScale.x;

@@ -54,12 +54,15 @@ public class PlayerVisuals : MonoBehaviour
     private float _runningParticleTimer;
     
     public ParticleSystem sprintBoostParticle;
+    public Color sprintBoostColor = Color.yellow;
+    public AnimationCurve sprintBoostCurve = AnimationCurve.Linear(0, 0, 1, 1);
+    private Color _currentSprintBoostParticleColor;
     private float _currentSprintBoostROT; //Rate Over Time
     private float _currentSprintBoostBurstCount;
     private float _currentSprintBoostParticleSize;
 
     public ParticleSystem sprintSweatParticle;
-    public float sweatPercent = 50f; // Percentage of sprint boost at which the sweat particle will be activated.
+    [Range(0, 100)] public int sweatPercent = 50; // Percentage of sprint boost at which the sweat particle will be activated.
     
     public ParticleSystem knockbackParticle;
     
@@ -76,6 +79,7 @@ public class PlayerVisuals : MonoBehaviour
         _currentSprintBoostROT = sprintBoostParticle.emission.rateOverTime.constant;
         _currentSprintBoostBurstCount = sprintBoostParticle.emission.GetBurst(0).count.constant;
         _currentSprintBoostParticleSize = sprintBoostParticle.main.startSize.constant;
+        _currentSprintBoostParticleColor = sprintSweatParticle.main.startColor.color;
 
 
         if (perso)
@@ -167,23 +171,31 @@ public class PlayerVisuals : MonoBehaviour
     {
         // Activate the sweat particle if the player's boost is less than half, deactivate when its more.
         SprintState sprintState = GetComponent<SprintState>();
-        if (sprintState)
+
+        if (!sprintState)
         {
-            if (sprintState.currentSprintBoost < playerScript.sprintMaxInitialBoost * (sweatPercent / 100f))
+            return;
+        }
+        
+        if ((sprintState.currentSprintBoost >= playerScript.sprintMaxInitialBoost * (sweatPercent / 100f) ||
+             playerScript.currentState is SprintState))
+        {
+            if (sprintSweatParticle.isPlaying)
             {
-                if (!sprintSweatParticle.isPlaying)
-                {
-                    sprintSweatParticle.Play();
-                }
+                sprintSweatParticle.Stop();
             }
-            else
+            return;
+        }
+
+        if (sprintState.currentSprintBoost < playerScript.sprintMaxInitialBoost * (sweatPercent / 100f))
+        {
+            if (!sprintSweatParticle.isPlaying)
             {
-                if (sprintSweatParticle.isPlaying)
-                {
-                    sprintSweatParticle.Stop();
-                }
+                sprintSweatParticle.Play();
             }
         }
+        
+        
     }
 
     private void SprintBoostUpdater()
@@ -197,6 +209,10 @@ public class PlayerVisuals : MonoBehaviour
             float currentSprintBoost = Mathf.Clamp(sprintState.currentSprintBoost, 1, sprintState.currentSprintBoost);
             emission.rateOverTime = _currentSprintBoostROT * currentSprintBoost;
             emission.SetBurst(0, new ParticleSystem.Burst(0f, _currentSprintBoostBurstCount * currentSprintBoost));
+            float r = currentSprintBoost / playerScript.sprintMaxInitialBoost;
+            // Using an animation curve, create a color that goes from the original color to the sprint boost color depending on the current sprint boost.
+            var main = sprintBoostParticle.main;
+            main.startColor = Color.Lerp(_currentSprintBoostParticleColor, sprintBoostColor, sprintBoostCurve.Evaluate(r));
         }
     }
 
