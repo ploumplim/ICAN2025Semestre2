@@ -80,10 +80,7 @@ public class PlayerSoundScript : MonoBehaviour
         }
     }
 
-    public void PlayPressHitFX()
-    {
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.PressHit_FX, this.transform.position);
-    }
+    
 
 
 

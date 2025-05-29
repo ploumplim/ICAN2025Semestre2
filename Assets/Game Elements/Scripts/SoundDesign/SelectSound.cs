@@ -8,6 +8,8 @@ public class SelectSound : MonoBehaviour
 
     public void PlaySound()
     {
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.Select_UI, this.transform.position);
+        //AudioManager.instance.PlayOneShot(FMODEvents.instance.Select_UI, this.transform.position);
+        RuntimeManager.PlayOneShot(fmodEvent);
+
     }
 }
