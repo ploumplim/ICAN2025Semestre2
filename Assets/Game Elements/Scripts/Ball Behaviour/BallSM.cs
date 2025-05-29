@@ -140,6 +140,12 @@ public class BallSM : MonoBehaviour
         currentState.Tick();
         
         // Call the SetMaxSpeed method, which will keep the ball from going faster than the maxSpeed value
+
+        if (currentState is DroppedState)
+        {
+            return;
+        }
+        
         SetMaxSpeed();
     }
 
