@@ -8,6 +8,8 @@ public class FMODEvents : MonoBehaviour
     [field: Header("Events")]
     [field: SerializeField] public EventReference Hit_Sound { get; private set; }
     [field: SerializeField] public EventReference ClassicBounce_FX { get; private set; }
+    [field: SerializeField] public EventReference ScoringBounce_FX { get; private set; }
+
 
     [field: SerializeField] public EventReference GrabPress_FX { get; private set; }
     [field: SerializeField] public EventReference GrabBall_FX { get; private set; }

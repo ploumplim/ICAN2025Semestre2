@@ -10,6 +10,22 @@ public class PlayerSoundScript : MonoBehaviour
     private bool isDashing = false;
     private float dashStartTime;
 
+
+    private BallSM BallScript;
+    private float speedPercent;
+
+    private void OnEnable()
+    {
+        BallScript = GetComponent<BallSM>();
+
+    }
+
+    private void Update()
+    {
+        speedPercent = BallScript.rb.linearVelocity.magnitude / BallScript.maxSpeed;
+
+    }
+
     void Start()
     {
         grabInstance = FMODUnity.RuntimeManager.CreateInstance(FMODEvents.instance.GrabPress_FX);
@@ -23,7 +39,20 @@ public class PlayerSoundScript : MonoBehaviour
 
     public void BallHitByPlayerSound()
     {
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.BallTouched_FX, this.transform.position);
+        //AudioManager.instance.PlayOneShot(FMODEvents.instance.BallTouched_FX, this.transform.position);
+
+
+        FMOD.Studio.EventInstance hitInstance = FMODUnity.RuntimeManager.CreateInstance(FMODEvents.instance.BallTouched_FX);
+
+        hitInstance.setParameterByName("BallSpeed", speedPercent);
+
+        hitInstance.start();
+
+        hitInstance.release();
+
+
+
+
     }
 
     // --------- DASH SOUND ----------
@@ -51,11 +80,10 @@ public class PlayerSoundScript : MonoBehaviour
         AudioManager.instance.PlayOneShot(FMODEvents.instance.PressHit_FX, this.transform.position);
     }
 
-    public void PlayKnockOutSound()
-    {
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.KnockOut_FX, this.transform.position);
-    }
 
+
+
+    
     public void PlayKnockBack()
     {
         AudioManager.instance.PlayOneShot(FMODEvents.instance.KnockBack_FX, this.transform.position);
