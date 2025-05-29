@@ -4,16 +4,37 @@ public class PlayerSoundScript : MonoBehaviour
 {
     private FMOD.Studio.EventInstance grabInstance;
     private bool isGrabbing = false;
+    private float grabStartTime;
 
-    //private FMOD.Studio.EventInstance chargeInstance;
-    //private bool isCharging = false;
+    private FMOD.Studio.EventInstance dashInstance;
+    private bool isDashing = false;
+    private float dashStartTime;
+
+
+    public BallSM BallScript;
+    private float speedPercent;
+
+    private void OnEnable()
+    {
+        
+        BallScript = GameManager.Instance.levelManager.gameBall.GetComponent<BallSM>();
+
+    }
+
+    private void Update()
+    {
+        if (BallScript)
+        {
+            speedPercent = BallScript.rb.linearVelocity.magnitude / BallScript.maxSpeed;
+        }
+        
+
+    }
 
     void Start()
     {
-        // Création de l’instance Grab comme pour Charge
         grabInstance = FMODUnity.RuntimeManager.CreateInstance(FMODEvents.instance.GrabPress_FX);
-
-        // chargeInstance = FMODUnity.RuntimeManager.CreateInstance(FMODEvents.instance.PressHit_FX);
+        dashInstance = FMODUnity.RuntimeManager.CreateInstance(FMODEvents.instance.Dash_FX);
     }
 
     public void PlayHitSound()
@@ -21,15 +42,42 @@ public class PlayerSoundScript : MonoBehaviour
         AudioManager.instance.PlayOneShot(FMODEvents.instance.Hit_Sound, this.transform.position);
     }
 
-    
     public void BallHitByPlayerSound()
     {
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.BallTouched_FX, this.transform.position);
+        //AudioManager.instance.PlayOneShot(FMODEvents.instance.BallTouched_FX, this.transform.position);
+
+
+        FMOD.Studio.EventInstance hitInstance = FMODUnity.RuntimeManager.CreateInstance(FMODEvents.instance.BallTouched_FX);
+
+        hitInstance.setParameterByName("BallSpeed", speedPercent);
+
+        hitInstance.start();
+
+        hitInstance.release();
+
+
+
+
     }
 
-    public void DashSound()
+    // --------- DASH SOUND ----------
+    public void StartDashSound()
     {
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.Dash_FX, this.transform.position);
+        if (!isDashing)
+        {
+            isDashing = true;
+            dashStartTime = Time.time;
+            dashInstance.start();
+        }
+    }
+
+    public void StopDashSound()
+    {
+        if (isDashing)
+        {
+            isDashing = false;
+            dashInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        }
     }
 
     public void PlayPressHitFX()
@@ -37,11 +85,10 @@ public class PlayerSoundScript : MonoBehaviour
         AudioManager.instance.PlayOneShot(FMODEvents.instance.PressHit_FX, this.transform.position);
     }
 
-    public void PlayKnockOutSound()
-    {
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.KnockOut_FX, this.transform.position);
-    }
 
+
+
+    
     public void PlayKnockBack()
     {
         AudioManager.instance.PlayOneShot(FMODEvents.instance.KnockBack_FX, this.transform.position);
@@ -53,6 +100,7 @@ public class PlayerSoundScript : MonoBehaviour
         if (!isGrabbing)
         {
             isGrabbing = true;
+            grabStartTime = Time.time;
             grabInstance.start();
         }
     }
@@ -63,14 +111,18 @@ public class PlayerSoundScript : MonoBehaviour
         {
             isGrabbing = false;
             grabInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+
+            if (Time.time - grabStartTime > 0.1f)
+            {
+                PlayGrabOut();
+            }
         }
     }
 
     void OnDestroy()
     {
         grabInstance.release();
-
-        // chargeInstance.release();
+        dashInstance.release();
     }
 
     public void PlayGrabBall()

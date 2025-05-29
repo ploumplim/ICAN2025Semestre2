@@ -16,7 +16,7 @@ public class PointTracker : MonoBehaviour
 
     public void Start()
     {
-        ballSM = GameManager.Instance.levelManager.gameBall.GetComponent<BallSM>();
+        
         var instanceLevelManager = GameManager.Instance.levelManager;
         instanceLevelManager.PointTrackers.Add(this);
         
@@ -24,11 +24,14 @@ public class PointTracker : MonoBehaviour
 
     public void AddPoints()
     {
+        ballSM = GameManager.Instance.levelManager.gameBall.GetComponent<BallSM>();
         // Verify if the ball's owner player is the one attacking this goal
         if (ballSM.ballOwnerPlayer != null && 
             ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack == linkedGoal)
         {
             ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerPoint++;
+            
+            GameManager.Instance.levelManager.gameCameraScript.screenShakeGO.GetComponent<ScreenShake>().StartGoalScreenShake(ballSM.rb.linearVelocity.magnitude);
             Debug.Log("Player " + ballSM.ballOwnerPlayer.name + " scored" +ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerPoint );
             _points++;
             GameManager.Instance.levelManager.OnGoalScored.Invoke(_points);
@@ -40,49 +43,36 @@ public class PointTracker : MonoBehaviour
             BallResetPositionAfterGoal();
             if (ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerPoint >= GameManager.Instance.levelManager.pointNeededToWin)
             {
-                //Debug.Log("Player " + ballSM.ballOwnerPlayer.name + " won the set");
+                Debug.Log("Player " + ballSM.ballOwnerPlayer.name + " won the set");
                 ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGlobalPoint++;
             }
             
         }
-        else if (ballSM.ballOwnerPlayer == null)
-        {
-            Debug.Log(ballSM.ballOwnerPlayer+"is null");
-        }
 
-        if (ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack!=linkedGoal)
-        {
-            Debug.Log("Player " + ballSM.ballOwnerPlayer.name + " is not attacking this goal: " + linkedGoal.name + "he need to attack: " + ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack.name);
-        }
-        
+        // if (ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack!=linkedGoal)
+        // {
+        //     Debug.Log("Player " + ballSM.ballOwnerPlayer.name + " is not attacking this goal: " + linkedGoal.name + "he need to attack: " + ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack.name);
+        // }
         
     }
 
     private void MoveBallSpawnPositionToLoosingPlayer()
     {
-       
-        LevelManager levelManager = GameManager.Instance.levelManager;
 
         foreach (var player in GameManager.Instance.PlayerScriptList)
         {
              if (player.playerGoalToAttack == gameObject)
              {
                  defendingPlayer = player;
-            
-                 // Calculate the average distance between levelManager.centerPoint and playerPosition
-                 Transform transformPosition = GameManager.Instance.levelManager.ballSpawnPosition.transform;
-                 Vector3 centerPoint = levelManager.centerPoint.transform.position;
-                 Vector3 playerPosition = defendingPlayer.transform.position;
-            
-                 float averageDistance = Vector3.Distance(centerPoint, playerPosition);
-            
-                 // Set a new Vector3 based on the average distance
-                 Vector3 direction = (player.playerSpawnPoint.transform.position - centerPoint).normalized;
-                 Vector3 newBallSpawnPosition = centerPoint + direction * averageDistance;
-            
-                 // Move the ball spawn position to the calculated position
-                 transformPosition.position = newBallSpawnPosition;
                  
+                 Transform transformPosition = GameManager.Instance.levelManager.ballSpawnPosition.transform;
+                 
+                 transformPosition.position = player.playerSpawnPoint.transform.position;
+                 
+             }
+             else
+             {
+                
              }
              
         }
