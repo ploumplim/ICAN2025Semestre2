@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sol_Octogone_Shader
+  m_Name: Sol_Octo_Text
   m_Shader: {fileID: -6465566751694194690, guid: dfff427e81ce08d4cb588edb66391ab9, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -53,8 +53,8 @@ Material:
     - _rotation_dot: 20
     m_Colors:
     - _HIGHLIGHT: {r: 1, g: 1, b: 1, a: 0}
-    - _MIDTONES: {r: 0.4509804, g: 0.4509804, b: 0.4509804, a: 0}
-    - _SHADOWS: {r: 0.47843137, g: 0.47843137, b: 0.47843137, a: 0}
+    - _MIDTONES: {r: 0.69411767, g: 0.96862745, b: 0.6117647, a: 1}
+    - _SHADOWS: {r: 0.27450982, g: 0.74509805, b: 0.26666668, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &3169273275987208625
