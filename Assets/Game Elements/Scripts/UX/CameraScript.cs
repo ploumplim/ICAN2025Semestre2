@@ -22,9 +22,7 @@ public class CameraScript : MonoBehaviour
 
     [FormerlySerializedAs("followSpeed")] [Tooltip("The camera's follow speed.")]
     public float maxFollowSpeed = 5f;
-    public float maxDistanceBetweenObjectAndCamera = 10f; // The maximum distance between the camera and the object it is following.
-    public AnimationCurve followSpeedCurve = AnimationCurve.Linear(0, 0, 1, 1);
-    
+    public Vector3 maximumDistances = new Vector3(1,0,1); // The limits of the camera's movement.
     public GameObject[] lockPoints;
 
     public void Start()
@@ -69,16 +67,16 @@ public class CameraScript : MonoBehaviour
         // Calculate the average point between the lock points
         _targetPoint = CalculateAveragePoint(_lockPoints);
         
-        // Create a vector from the camera holder object to the target point
-        Vector3 directionToTarget = _targetPoint - cameraHolderObject.transform.position;
-        // Calculate the distance to the target point
-        float distanceToTarget = directionToTarget.magnitude;
-        // Using the curve, calculate the follow speed based on the distance to the target point. Any value above the maximum distance will be clamped to 1.
-        float actualSpeed = followSpeedCurve.Evaluate(Mathf.Clamp01(distanceToTarget / maxDistanceBetweenObjectAndCamera));
+
         
 
         // Move the camera holder object to the middle point
-        Vector3 newPosition = Vector3.Lerp(cameraHolderObject.transform.position, _targetPoint, actualSpeed);
+        Vector3 newPosition = Vector3.Lerp(cameraHolderObject.transform.position, _targetPoint, maxFollowSpeed);
+        
+        // Clamp the new position to the maximum distances, both in the positives and negatives
+        newPosition.x = Mathf.Clamp(newPosition.x, -maximumDistances.x, maximumDistances.x);
+        newPosition.y = Mathf.Clamp(newPosition.y, -maximumDistances.y, maximumDistances.y);
+        newPosition.z = Mathf.Clamp(newPosition.z, -maximumDistances.z, maximumDistances.z);
         
         // Set the camera holder object to the new position
         cameraHolderObject.transform.position = newPosition;
