@@ -39,6 +39,7 @@ public class FMODEvents : MonoBehaviour
 
 
 
+    [field: SerializeField] public EventReference Select_UI { get; private set; }
 
 
 
