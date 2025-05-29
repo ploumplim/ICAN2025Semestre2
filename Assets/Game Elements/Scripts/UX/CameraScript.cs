@@ -22,6 +22,8 @@ public class CameraScript : MonoBehaviour
     [Tooltip("The camera's follow speed.")]
     public float followSpeed = 5f;
     
+    public AnimationCurve followSpeedCurve = AnimationCurve.Linear(0, 0, 1, 1);
+    
     public GameObject[] lockPoints;
 
     public void Start()
