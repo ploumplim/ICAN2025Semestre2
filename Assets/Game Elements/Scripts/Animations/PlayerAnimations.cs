@@ -56,5 +56,11 @@ public class PlayerAnimations : MonoBehaviour
             animator.SetFloat("RunningFloat", playerScript.rb.linearVelocity.magnitude);
             animator.SetFloat("AnimationSpeedFloat", Mathf.Clamp(playerScript.rb.linearVelocity.magnitude * animationSpeedMultiplier, 1f,2f));
         }
+
+        if (playerScript.currentState is KnockbackState)
+        {
+            animator.SetFloat("RunningFloat", 0);
+            animator.SetFloat("AnimationSpeedFloat", 0);
+        }
     }
 }
