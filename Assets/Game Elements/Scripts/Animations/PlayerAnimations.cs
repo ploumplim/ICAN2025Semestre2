@@ -40,7 +40,9 @@ public class PlayerAnimations : MonoBehaviour
                 animator.SetBool("IsGrabbing",false);
                 break;
             case KnockbackState:
+                animator.SetTrigger("WasKnockedBack");
                 animator.SetBool("IsGrabbing",false);
+
                 break;
             case SprintState:
                 animator.SetBool("IsGrabbing",false);
@@ -62,5 +64,11 @@ public class PlayerAnimations : MonoBehaviour
             animator.SetFloat("RunningFloat", 0);
             animator.SetFloat("AnimationSpeedFloat", 0);
         }
+    }
+
+    public void KnockbackTime(float time)
+    {
+        float animationSpeed = 1/time;
+        animator.SetFloat("KnockbackDuration", animationSpeed);
     }
 }

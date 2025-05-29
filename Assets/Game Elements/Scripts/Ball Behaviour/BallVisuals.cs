@@ -15,28 +15,22 @@ public class BallVisuals : MonoBehaviour
     [Tooltip("This is the ball's light.")]
     public Light ballLight;
     
-    [FormerlySerializedAs("flyingTrailColor")]
     [Header("Trail settings")]
     [Tooltip("Trail color of the ball when flying.")]
     public Color startFlyingTrailColor = new (1,0,0,0.5f);
-    [FormerlySerializedAs("lethalTrailColor")] [Tooltip("Trail color of the ball when lethal.")]
-    public Color startLethalTrailColor = new (0,0,0,0.5f);
     [Tooltip("End color of the trail when flying.")]
     public Color endFlyingTrailColor = new (1,0,0,0f);
     [Tooltip("End color of the trail when lethal.")]
-    public Color endLethalTrailColor = new (0,0,0,0f);
     
     public float trailTimeModifier = 0.1f;
     
     [Header("Ball color settings")]
     public Color flyingBallColor = Color.blue;
-    public Color lethalBallColor = Color.red;
     public Color caughtBallColor = Color.magenta;
     public Color HitBallColor = Color.yellow;
     public Color groundedBallColor = Color.green;
 
     [Header("Ball Faces settings")]
-    public GameObject facesGameObject;
     public SpriteRenderer neutralFace;
     public SpriteRenderer lethalFace;
     public SpriteRenderer hitFace;
@@ -57,7 +51,6 @@ public class BallVisuals : MonoBehaviour
     
     [Header("Perfect hit settings")]
     public ParticleSystem perfectHitParticle;
-    public float perfectHitThreshold = 0.95f;
     public ParticleSystem hitChargeParticle;
     
     [Header("Lethal ball settings")]
@@ -102,7 +95,7 @@ public class BallVisuals : MonoBehaviour
         BallColorAndLight();
         // UpdateFace();
         // UpdateBallSpeedFeedbacks();
-        if (ballSM.currentState is not FlyingState)
+        if (ballSM.currentState is DroppedState)
         {
             return;
         }
@@ -167,7 +160,7 @@ public class BallVisuals : MonoBehaviour
     private void TrailEmitter()
     {
         // Enable or disable the trail based on the ball's state. Enabled when it's midair, disabled otherwise.
-        _trailRenderer.emitting = ballSM.currentState.GetType() == typeof(FlyingState) || ballSM.currentState.GetType() == typeof(LethalBallState);
+        _trailRenderer.emitting = ballSM.currentState.GetType() == typeof(FlyingState);
         
         // Get the current speed magnitude from the ball
         float speed = ballSM.GetComponent<Rigidbody>().linearVelocity.magnitude;
@@ -182,10 +175,10 @@ public class BallVisuals : MonoBehaviour
                 _trailRenderer.startColor = startFlyingTrailColor;
                 _trailRenderer.endColor = endFlyingTrailColor;
                 break;
-            case LethalBallState:
-                _trailRenderer.startColor = startLethalTrailColor;
-                _trailRenderer.endColor = endLethalTrailColor;
-                break;
+            // case LethalBallState:
+            //     _trailRenderer.startColor = startLethalTrailColor;
+            //     _trailRenderer.endColor = endLethalTrailColor;
+            //     break;
         }
         
         
@@ -204,6 +197,7 @@ public class BallVisuals : MonoBehaviour
                     break;
                 case HitState:
                     _neutralBallOutlineMaterial.color = HitBallColor;
+                    _neutralBallMaterial.color = HitBallColor;
                     _neutralBallMaterial.SetColor("_EmissionColor", HitBallColor);
                     ballLight.color = HitBallColor;
                     break;

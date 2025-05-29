@@ -80,8 +80,8 @@ MonoBehaviour:
   levelManager: {fileID: 0}
   littleEarthQuakeDuration: 0.1
   littleEarthQuakeMagnitude: 0.1
-  KillEarthQuakeDuration: 0.7
-  KillEarthQuakeMagnitude: 0
+  GoalEarthQuakeDuration: 0.7
+  GoalEarthQuakeMagnitude: 0
   SpeedMultiplier: 0.025
 --- !u!1 &7981149854982224507
 GameObject:
@@ -111,13 +111,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7981149854982224507}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.67559016, y: 0, z: 0, w: 0.7372774}
-  m_LocalPosition: {x: 0, y: 56.65642, z: -0.49809605}
+  m_LocalRotation: {x: 0.560928, y: 0, z: 0, w: 0.82786465}
+  m_LocalPosition: {x: 0, y: 45.525105, z: -14.89753}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3564500746427961638}
-  m_LocalEulerAnglesHint: {x: 85, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 68.24, y: 0, z: 0}
 --- !u!20 &1927485223874367319
 Camera:
   m_ObjectHideFlags: 0
@@ -151,9 +151,9 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 64.89563
+  field of view: 61.93174
   orthographic: 0
-  orthographic size: 16.62
+  orthographic size: 25.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -227,7 +227,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   screenShakeGO: {fileID: 3668227575038428733}
   cameraHolderObject: {fileID: 305787131329256369}
-  followSpeed: 0.25
+  maxFollowSpeed: 1
+  maximumDistances: {x: 5, y: 0, z: 5}
   lockPoints:
   - {fileID: 0}
 --- !u!114 &2832441819431811316

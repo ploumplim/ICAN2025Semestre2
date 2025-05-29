@@ -54,7 +54,8 @@ public class PlayerVisuals : MonoBehaviour
     private float _runningParticleTimer;
     
     public ParticleSystem sprintBoostParticle;
-    public Color sprintBoostColor = Color.yellow;
+    [FormerlySerializedAs("sprintBoostColor")] public Color GoodSprintBoostColor = Color.yellow;
+    public Color badSprintBoostCoolor = Color.white;
     public AnimationCurve sprintBoostCurve = AnimationCurve.Linear(0, 0, 1, 1);
     private Color _currentSprintBoostParticleColor;
     private float _currentSprintBoostROT; //Rate Over Time
@@ -204,15 +205,11 @@ public class PlayerVisuals : MonoBehaviour
         SprintState sprintState = GetComponent<SprintState>();
         if (sprintState != null)
         {
-            // Using the sprintStates currentSprintBoost, change the rate over time and burst count of the sprint boost particle. The more boost, the higher the rate over time and burst count.
-            var emission = sprintBoostParticle.emission;
             float currentSprintBoost = Mathf.Clamp(sprintState.currentSprintBoost, 1, sprintState.currentSprintBoost);
-            emission.rateOverTime = _currentSprintBoostROT * currentSprintBoost;
-            emission.SetBurst(0, new ParticleSystem.Burst(0f, _currentSprintBoostBurstCount * currentSprintBoost));
             float r = currentSprintBoost / playerScript.sprintMaxInitialBoost;
             // Using an animation curve, create a color that goes from the original color to the sprint boost color depending on the current sprint boost.
             var main = sprintBoostParticle.main;
-            main.startColor = Color.Lerp(_currentSprintBoostParticleColor, sprintBoostColor, sprintBoostCurve.Evaluate(r));
+            main.startColor = Color.Lerp(badSprintBoostCoolor, GoodSprintBoostColor, sprintBoostCurve.Evaluate(r));
         }
     }
 
@@ -239,7 +236,9 @@ public class PlayerVisuals : MonoBehaviour
         if (!sprintBoostParticle.isPlaying)
         {
             // Set the particle size to multiply the current sprint boost by the original size.
-            var main = sprintBoostParticle.main;   
+            SprintBoostUpdater();
+            var main = sprintBoostParticle.main;
+            
             main.startSize = Mathf.Clamp(_currentSprintBoostParticleSize * GetComponent<SprintState>().currentSprintBoost, 1f, 5f);
             sprintBoostParticle.Play();
         }

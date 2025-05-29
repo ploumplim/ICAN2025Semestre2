@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class CameraScript : MonoBehaviour
@@ -19,9 +20,9 @@ public class CameraScript : MonoBehaviour
              "a child of it.")]
     public GameObject cameraHolderObject;
 
-    [Tooltip("The camera's follow speed.")]
-    public float followSpeed = 5f;
-    
+    [FormerlySerializedAs("followSpeed")] [Tooltip("The camera's follow speed.")]
+    public float maxFollowSpeed = 5f;
+    public Vector3 maximumDistances = new Vector3(1,0,1); // The limits of the camera's movement.
     public GameObject[] lockPoints;
 
     public void Start()
@@ -66,10 +67,16 @@ public class CameraScript : MonoBehaviour
         // Calculate the average point between the lock points
         _targetPoint = CalculateAveragePoint(_lockPoints);
         
+
         
 
         // Move the camera holder object to the middle point
-        Vector3 newPosition = Vector3.Lerp(cameraHolderObject.transform.position, _targetPoint, followSpeed * Time.deltaTime);
+        Vector3 newPosition = Vector3.Lerp(cameraHolderObject.transform.position, _targetPoint, maxFollowSpeed);
+        
+        // Clamp the new position to the maximum distances, both in the positives and negatives
+        newPosition.x = Mathf.Clamp(newPosition.x, -maximumDistances.x, maximumDistances.x);
+        newPosition.y = Mathf.Clamp(newPosition.y, -maximumDistances.y, maximumDistances.y);
+        newPosition.z = Mathf.Clamp(newPosition.z, -maximumDistances.z, maximumDistances.z);
         
         // Set the camera holder object to the new position
         cameraHolderObject.transform.position = newPosition;
