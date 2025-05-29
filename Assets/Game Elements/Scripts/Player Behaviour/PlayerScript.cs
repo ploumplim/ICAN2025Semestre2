@@ -120,6 +120,8 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent OnPlayerCatch;
     public UnityEvent OnGrabStateEntered;
     public UnityEvent OnGrabStateExited;
+    public UnityEvent OnKnockbackStateEntered;
+    public UnityEvent OnKnockbackStateExited;
     public Action<PlayerState> OnPlayerStateChanged;
     
     // action events
@@ -281,7 +283,7 @@ public class PlayerScript : MonoBehaviour
         {
             OnPlayerHitByBall?.Invoke();
             // Debug.Log(currentState);
-            if (ballSM.currentState is FlyingState)
+            if (ballSM.currentState is FlyingState && currentState is not KnockbackState)
             { 
                 // If the ball is not lethal, push the player in the opposite direction of the ball
                 Vector3 direction = transform.position - other.transform.position;
@@ -381,8 +383,7 @@ public class PlayerScript : MonoBehaviour
             ChangeState(GetComponent<NeutralState>());
         }
         
-        if ((context.started || context.performed) && currentState is not KnockbackState 
-            && grabCurrentCharge >= grabTotalCharge)
+        if ((context.started || context.performed) && currentState is not KnockbackState)
         {
             ChangeState(GetComponent<GrabbingState>());
         }

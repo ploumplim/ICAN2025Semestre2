@@ -43,7 +43,9 @@ public class BallVisuals : MonoBehaviour
     
     [Header("Ball shape settings")]
     public GameObject neutralBall;
-    public GameObject lethalBall;
+    public GameObject neutralBallObject;
+    public GameObject neutralBallOutlineObject;
+    // public GameObject lethalBall;
     
     [Header("Ball Impact settings")]
     public ParticleSystem impactParticle;
@@ -67,21 +69,24 @@ public class BallVisuals : MonoBehaviour
     public float speedFeedBackMultiplier = 0.1f;
     public float speedFeedbackMaximumSpeed = 100f;
     public float speedFeedbackMinimumSpeed = 20f;
+
+    [Header("Stretch and squash settings")]
+    public float stretchModifier = 0.5f;
     
     // ---------------PRIVATE---------------
     private BallSM ballSM;
     private Camera _mainCamera;
     private TrailRenderer _trailRenderer;
     private Material _neutralBallMaterial;
-    private Material _lethalBallMaterial;
+    private Material _neutralBallOutlineMaterial;
 
     public void OnEnable()
     {
         ballSM = GetComponent<BallSM>();
         _mainCamera = Camera.main;
         _trailRenderer = trailVisuals.GetComponent<TrailRenderer>();
-        _neutralBallMaterial = neutralBall.GetComponent<MeshRenderer>().material;
-        _lethalBallMaterial = lethalBall.GetComponent<MeshRenderer>().material;
+        _neutralBallMaterial = neutralBallObject.GetComponentInChildren<MeshRenderer>().material;
+        _neutralBallOutlineMaterial = neutralBallOutlineObject.GetComponent<MeshRenderer>().material;
         
         // Set all faces to inactive at the start.
         neutralFace.gameObject.SetActive(false);
@@ -95,8 +100,49 @@ public class BallVisuals : MonoBehaviour
     {
         TrailEmitter();
         BallColorAndLight();
-        UpdateFace();
+        // UpdateFace();
         // UpdateBallSpeedFeedbacks();
+        if (ballSM.currentState is not FlyingState)
+        {
+            return;
+        }
+        UpdateForward();
+        StretchAndSquash();
+    }
+
+    private void UpdateForward()
+    {
+        // Make the ball always align with its linear velocity vector 3 direction.
+        Vector3 ballVelocity = ballSM.GetComponent<Rigidbody>().linearVelocity;
+        if (ballVelocity != Vector3.zero)
+        {
+            // Set the rotation of the ball to look in the direction of its velocity.
+            Quaternion targetRotation = Quaternion.LookRotation(ballVelocity);
+            ballSM.transform.rotation = targetRotation;
+        }
+    }
+
+    public void UpdateFlyingColor(Color ownerColor)
+    {
+        // Update the color of the ball when it's flying based on the owner player's color.
+        flyingBallColor = ownerColor;
+        startFlyingTrailColor = ownerColor;
+        endFlyingTrailColor = new Color(ownerColor.r, ownerColor.g, ownerColor.b, 0f);
+    }
+
+    public void StretchAndSquash()
+    {
+        // Apply on the ball's neutral sphere a stretch and squash effect based on the ball's current speed. Do this by 
+        // changing the local Z scale of the ball's neutral sphere.
+
+        
+        float speed = ballSM.GetComponent<Rigidbody>().linearVelocity.magnitude;
+        float currentBallSize = neutralBall.GetComponent<Transform>().localScale.x;
+        // Calculate the new Z scale based on the speed and ball size.
+        float newZScale = Mathf.Clamp( speed * currentBallSize * stretchModifier, 1f, 1.5f);
+        // Set the new local scale of the ball's neutral sphere.
+        Vector3 newScale = new Vector3(currentBallSize, currentBallSize, newZScale);
+        neutralBall.transform.localScale = newScale;
     }
 
     private void UpdateBallSpeedFeedbacks()
@@ -126,12 +172,6 @@ public class BallVisuals : MonoBehaviour
         // Get the current speed magnitude from the ball
         float speed = ballSM.GetComponent<Rigidbody>().linearVelocity.magnitude;
         
-        // float ballSize = ballSM.GetComponent<Transform>().localScale.x;
-        //Recover the current width of the trail
-        // float currentWidth = _trailRenderer.startWidth;
-        
-        //Change the width of the trail based on the ball's speed. The faster the ball, the wider the trail.
-        // _trailRenderer.startWidth = Mathf.Lerp(currentWidth, currentWidth * ballSize, Time.deltaTime);
 
         _trailRenderer.time = speed * trailTimeModifier; 
         
@@ -150,64 +190,6 @@ public class BallVisuals : MonoBehaviour
         
         
     }
-
-    private void UpdateFace()
-    {
-        switch (ballSM.currentState)
-        {
-            case FlyingState:
-                // Set the ball shape to neutral.
-                neutralBall.SetActive(true);
-                lethalBall.SetActive(false);
-                
-                // Set the neutral face to active and the others to inactive.
-                neutralFace.gameObject.SetActive(true);
-                lethalFace.gameObject.SetActive(false);
-                hitFace.gameObject.SetActive(false);
-                break;
-            case DroppedState:
-                neutralBall.SetActive(true);
-                lethalBall.SetActive(false);
-                
-                neutralFace.gameObject.SetActive(true);
-                lethalFace.gameObject.SetActive(false);
-                hitFace.gameObject.SetActive(false);
-                break;
-            // case CaughtState:
-            //     neutralBall.SetActive(true);
-            //     lethalBall.SetActive(false);
-            //     
-            //     neutralFace.gameObject.SetActive(false);
-            //     lethalFace.gameObject.SetActive(false);
-            //     hitFace.gameObject.SetActive(true);
-            //     break;    
-            case HitState:
-                neutralBall.SetActive(true);
-                lethalBall.SetActive(false);
-                
-                neutralFace.gameObject.SetActive(false);
-                lethalFace.gameObject.SetActive(false);
-                hitFace.gameObject.SetActive(true);
-                break;
-            case LethalBallState:
-                neutralBall.SetActive(false);
-                lethalBall.SetActive(true);
-                
-                neutralFace.gameObject.SetActive(false);
-                lethalFace.gameObject.SetActive(true);
-                hitFace.gameObject.SetActive(false);
-                break;
-        }
-        
-        //Make the face always look towards the main camera using the facesGameObject on the X axis.
-        Vector3 lookDirection = _mainCamera.transform.position - facesGameObject.transform.position;
-        lookDirection.x = 0;
-        lookDirection.Normalize();
-        Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
-        facesGameObject.transform.rotation = Quaternion.Slerp(facesGameObject.transform.rotation, lookRotation, Time.deltaTime * 5f);
-        
-        
-    }
     
     private void BallColorAndLight()
     {
@@ -216,36 +198,25 @@ public class BallVisuals : MonoBehaviour
             switch (ballSM.currentState)
             {
                 case CaughtState:
-                    _neutralBallMaterial.color = caughtBallColor;
+                    _neutralBallOutlineMaterial.color = caughtBallColor;
                     _neutralBallMaterial.SetColor("_EmissionColor", caughtBallColor);
                     ballLight.color = caughtBallColor;
                     break;
                 case HitState:
-                    _neutralBallMaterial.color = HitBallColor;
+                    _neutralBallOutlineMaterial.color = HitBallColor;
                     _neutralBallMaterial.SetColor("_EmissionColor", HitBallColor);
                     ballLight.color = HitBallColor;
                     break;
                 case FlyingState:
                     _neutralBallMaterial.color = flyingBallColor;
+                    _neutralBallOutlineMaterial.color = Color.black;
                     _neutralBallMaterial.SetColor("_EmissionColor", flyingBallColor);
                     ballLight.color = flyingBallColor;
                     break;
                 case DroppedState:
-                    _neutralBallMaterial.color = groundedBallColor;
+                    _neutralBallOutlineMaterial.color = groundedBallColor;
                     _neutralBallMaterial.SetColor("_EmissionColor", groundedBallColor);
                     ballLight.color = groundedBallColor;
-                    break;
-                // case BuntedBallState:
-                //     _ballMaterial.color = buntedBallColor;
-                //     _ballMaterial.SetColor("_EmissionColor", buntedBallColor);
-                //     ballLight.color = buntedBallColor;
-                //     break;
-                case LethalBallState:
-                    _lethalBallMaterial.color = lethalBallColor;
-                    _lethalBallMaterial.SetColor("_EmissionColor", lethalBallColor);
-                    _neutralBallMaterial.color = lethalBallColor;
-                    _neutralBallMaterial.SetColor("_EmissionColor", lethalBallColor);
-                    ballLight.color = lethalBallColor;
                     break;
             }
             
@@ -253,6 +224,12 @@ public class BallVisuals : MonoBehaviour
 
     public void OnBallCaught()
     {
+        
+        // Set the catchParticle's shape radius to be the same as the ball's current scale.
+        float ballSize = ballSM.GetComponent<Transform>().localScale.x;
+        ParticleSystem.ShapeModule shapeModule = catchParticle.shape;
+        shapeModule.radius = ballSize;
+        
         // play the catch particle system.
         catchParticle.Play();
         

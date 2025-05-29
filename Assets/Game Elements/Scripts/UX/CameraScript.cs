@@ -116,12 +116,13 @@ public class CameraScript : MonoBehaviour
     
     public void StartShake(float duration, float magnitude,float multiplier,float ballSpeed)
     {
-        // Debug.Log(ballSpeed);
+        Debug.Log("StartShake");
         StartCoroutine(ShakeCamera(duration, magnitude, multiplier, ballSpeed));
     }
 
     public IEnumerator ShakeCamera(float duration, float magnitude, float multiplier, float ballSpeed)
     {
+        Debug.Log("ShakeCamera");
         Vector3 originalPosition = cameraHolderObject.transform.localPosition;
         float elapsed = 0f;
 

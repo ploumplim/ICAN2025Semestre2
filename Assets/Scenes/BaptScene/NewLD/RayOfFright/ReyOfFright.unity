@@ -132,6 +132,10 @@ PrefabInstance:
       value: NeutralWall
       objectReference: {fileID: 0}
     - target: {fileID: 2083552226203954430, guid: d6afbfc042e38ba42b3da045480298bd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2083552226203954430, guid: d6afbfc042e38ba42b3da045480298bd, type: 3}
       propertyPath: m_TagString
       value: NeutralWall
       objectReference: {fileID: 0}
@@ -158,6 +162,10 @@ PrefabInstance:
     - target: {fileID: 6015275776710676766, guid: d6afbfc042e38ba42b3da045480298bd, type: 3}
       propertyPath: m_TagString
       value: NeutralWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 6987946895621553430, guid: d6afbfc042e38ba42b3da045480298bd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6987946895621553430, guid: d6afbfc042e38ba42b3da045480298bd, type: 3}
       propertyPath: m_TagString
@@ -246,6 +254,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 836518174732767777, guid: d6afbfc042e38ba42b3da045480298bd, type: 3}
+    - {fileID: 9111600387123064821, guid: d6afbfc042e38ba42b3da045480298bd, type: 3}
+    - {fileID: 4194248360604082612, guid: d6afbfc042e38ba42b3da045480298bd, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6afbfc042e38ba42b3da045480298bd, type: 3}

@@ -337,6 +337,10 @@ public class LevelManager : MonoBehaviour
             
             // Instantiate the ball prefab
             gameBall = Instantiate(ballPrefab, ballSpawnPosition.position, Quaternion.identity);
+            foreach (GameObject player in playersList)
+            {
+                player.GetComponent<PlayerSoundScript>().BallScript = gameBall.GetComponent<BallSM>();
+            }
             // Change the gameBall's object name
             gameBall.name = "Ball";
             // Assign the ball to the GUI

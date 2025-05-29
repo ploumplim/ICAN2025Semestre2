@@ -50,6 +50,8 @@ public class InRoundState : LevelState
             {
                 SetWinningPlayer();
                 pointTrackerList._points = 0;
+                GameManager.Instance.levelManager.gameCameraScript.RemoveObjectFromArray(levelManager.gameBall);
+                Destroy(levelManager.gameBall);
                 StartCoroutine(VictoryDelay());
             }
         }

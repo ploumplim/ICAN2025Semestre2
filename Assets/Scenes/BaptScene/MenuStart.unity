@@ -131,7 +131,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 59692885}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
   m_Name: 
@@ -139,11 +139,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: -454545652
-      Data2: 1296279465
-      Data3: 613968308
-      Data4: 1826648275
-    Path: event:/MUSIC/Retro_MSC
+      Data1: 475055735
+      Data2: 1337835547
+      Data3: 1796397483
+      Data4: 248767256
+    Path: event:/MUSIC/HipHop_MSC
   Event: 
   EventPlayTrigger: 1
   EventStopTrigger: 2
@@ -469,7 +469,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 1, g: 0.11372549, b: 0.11372549, a: 1}
+    m_SelectedColor: {r: 1, g: 0.088679194, b: 0.088679194, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -996,7 +996,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 1, g: 0.11372549, b: 0.11372549, a: 1}
+    m_SelectedColor: {r: 1, g: 0.088679194, b: 0.088679194, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -1019,6 +1019,18 @@ MonoBehaviour:
       - m_Target: {fileID: 334139070}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: GoToGameScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4691304553204041841}
+        m_TargetAssemblyTypeName: MenuMusicController, Assembly-CSharp
+        m_MethodName: StopMenuMusic
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1433,16 +1445,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <Dash_FX>k__BackingField.Path
       value: event:/FX/Dash_FX
-      objectReference: {fileID: 0}
-    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
-      propertyPath: <Grab_FX>k__BackingField.Path
-      value: event:/FX/GrabPress_FX
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <Hit_Sound>k__BackingField.Path
@@ -1458,7 +1462,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <KnockOut_FX>k__BackingField.Path
-      value: event:/FX/KnockOut_FX
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <PressHit_FX>k__BackingField.Path
@@ -1471,22 +1475,6 @@ PrefabInstance:
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <KnockBack_FX>k__BackingField.Path
       value: event:/FX/KnockBack_FX
-      objectReference: {fileID: 0}
-    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
-      propertyPath: <Grab_FX>k__BackingField.Guid.Data1
-      value: 3397310
-      objectReference: {fileID: 0}
-    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
-      propertyPath: <Grab_FX>k__BackingField.Guid.Data2
-      value: 1205374675
-      objectReference: {fileID: 0}
-    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
-      propertyPath: <Grab_FX>k__BackingField.Guid.Data3
-      value: 65357189
-      objectReference: {fileID: 0}
-    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
-      propertyPath: <Grab_FX>k__BackingField.Guid.Data4
-      value: -638130468
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <LethalBall_FX>k__BackingField.Path
@@ -1521,6 +1509,14 @@ PrefabInstance:
       value: -639664235
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <ScoringBounce_FX>k__BackingField.Path
+      value: event:/FX/ScoringBounce_FX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <EvolutivMusic_MSC>k__BackingField.Path
+      value: event:/MUSIC/EvolutivMusic_MSC
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <GrabBall_FX>k__BackingField.Guid.Data1
       value: -40880671
       objectReference: {fileID: 0}
@@ -1538,19 +1534,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <KnockOut_FX>k__BackingField.Guid.Data1
-      value: -729976712
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <KnockOut_FX>k__BackingField.Guid.Data2
-      value: 1323209620
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <KnockOut_FX>k__BackingField.Guid.Data3
-      value: -1511908175
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <KnockOut_FX>k__BackingField.Guid.Data4
-      value: -1516303985
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <GrabPress_FX>k__BackingField.Guid.Data1
@@ -1599,6 +1595,38 @@ PrefabInstance:
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <LethalBall_FX>k__BackingField.Guid.Data4
       value: 117740608
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <ScoringBounce_FX>k__BackingField.Guid.Data1
+      value: -1574291181
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <ScoringBounce_FX>k__BackingField.Guid.Data2
+      value: 1290095718
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <ScoringBounce_FX>k__BackingField.Guid.Data3
+      value: 1459691945
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <ScoringBounce_FX>k__BackingField.Guid.Data4
+      value: -1883957323
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <EvolutivMusic_MSC>k__BackingField.Guid.Data1
+      value: 1758094542
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <EvolutivMusic_MSC>k__BackingField.Guid.Data2
+      value: 1278318921
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <EvolutivMusic_MSC>k__BackingField.Guid.Data3
+      value: -1288473670
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <EvolutivMusic_MSC>k__BackingField.Guid.Data4
+      value: -1443210615
       objectReference: {fileID: 0}
     - target: {fileID: 2269157160415832326, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: m_Enabled
@@ -1675,7 +1703,23 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2901422536273526036, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       insertIndex: -1
       addedObject: {fileID: 59692889}
+    - targetCorrespondingSourceObject: {fileID: 2901422536273526036, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4691304553204041841}
   m_SourcePrefab: {fileID: 100100000, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+--- !u!114 &4691304553204041841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59692885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8143f2de4b1159543bf9e21075139dec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuEmitter: {fileID: 59692889}
 --- !u!1001 &7960501028321317128
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1706,7 +1750,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5357367878516543847, guid: 97a1ed56cb8a28748bc88d4979535d65, type: 3}
       propertyPath: scenesToLoad.Array.data[3].guid
-      value: a343c91831a17e44bb8389696aefa2bd
+      value: c46a11a04b87beb4fb095d02c1ab84da
       objectReference: {fileID: 0}
     - target: {fileID: 5357367878516543847, guid: 97a1ed56cb8a28748bc88d4979535d65, type: 3}
       propertyPath: scenesToLoad.Array.data[0].asset
@@ -1723,18 +1767,18 @@ PrefabInstance:
     - target: {fileID: 5357367878516543847, guid: 97a1ed56cb8a28748bc88d4979535d65, type: 3}
       propertyPath: scenesToLoad.Array.data[3].asset
       value: 
-      objectReference: {fileID: 102900000, guid: a343c91831a17e44bb8389696aefa2bd, type: 3}
+      objectReference: {fileID: 102900000, guid: c46a11a04b87beb4fb095d02c1ab84da, type: 3}
     - target: {fileID: 7815853107031036266, guid: 97a1ed56cb8a28748bc88d4979535d65, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1890.6567
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7815853107031036266, guid: 97a1ed56cb8a28748bc88d4979535d65, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1091.5756
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7815853107031036266, guid: 97a1ed56cb8a28748bc88d4979535d65, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 130.09644
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7815853107031036266, guid: 97a1ed56cb8a28748bc88d4979535d65, type: 3}
       propertyPath: m_LocalRotation.w

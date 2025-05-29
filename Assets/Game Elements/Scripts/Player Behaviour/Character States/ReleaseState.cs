@@ -9,12 +9,15 @@ public class ReleaseState : PlayerState
     [FormerlySerializedAs("ballToParry")] [HideInInspector]public GameObject ballToHit;
     [HideInInspector]public Vector3 parrySpherePosition;
     private float _windowTimer;
+    private bool _ballWasHit;
 
     //---------------------------------------------------------------------------------
     public override void Enter()
     {
         base.Enter();
         ballToHit = null;
+        _ballWasHit = false;
+
         PlayerScript.OnHitButtonPressed?.Invoke();
         parrySpherePosition = PlayerScript.transform.position + transform.forward * PlayerScript.hitDetectionOffset;
     }
@@ -23,18 +26,19 @@ public class ReleaseState : PlayerState
     {
         base.Tick();
         
-        if (!ballToHit)
+        if (!ballToHit && !_ballWasHit)
         {
             HitBox();
         }
 
-        if (ballToHit)
+        if (ballToHit && !_ballWasHit)
         {
             PlayerScript.OnBallHitByPlayer?.Invoke();
             ballToHit.GetComponent<BallSM>().ballOwnerPlayer = PlayerScript.gameObject;
             BallDirection();
             ballToHit.GetComponent<BallSM>().ChangeState(ballToHit.GetComponent<HitState>());
             PlayerScript.rb.AddForce(-transform.forward * (PlayerScript.knockbackForceMultiplier * 3f), ForceMode.Impulse);
+            _ballWasHit = true;
             PlayerScript.ChangeState(GetComponent<NeutralState>());
             return;
         }
@@ -64,6 +68,7 @@ public class ReleaseState : PlayerState
             {
                 ballToHit = hitCollider.gameObject;
                 ballToHit.GetComponent<BallSM>().ballOwnerPlayer = gameObject;
+                ballToHit.GetComponent<BallVisuals>().UpdateFlyingColor(GetComponent<PlayerVisuals>().playerCapMaterial.color);
                 break;
             }
         }

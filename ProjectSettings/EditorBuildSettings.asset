@@ -15,11 +15,17 @@ EditorBuildSettings:
     path: Assets/Scenes/BaptScene/NewLD/Octogone/Octogone.unity
     guid: bcc90ab3677ac0945992fdeafc93d557
   - enabled: 1
+    path: Assets/Scenes/BaptScene/NewLD/Radian/Radian.unity
+    guid: 98bb674f1c0719a4e99dc8e342c46943
+  - enabled: 1
     path: Assets/Scenes/BaptScene/NewLD/RayOfFright/ReyOfFright.unity
     guid: c46a11a04b87beb4fb095d02c1ab84da
   - enabled: 1
-    path: Assets/Scenes/BaptScene/NewLD/Radian/Radian.unity
-    guid: 98bb674f1c0719a4e99dc8e342c46943
+    path: Assets/Scenes/IvanScene/Ivan's Deca Room.unity
+    guid: a8308ddda18c6e840a9d7bf6b0d8aa03
+  - enabled: 1
+    path: Assets/Scenes/IvanScene/Ivan's Deca Room.unity
+    guid: a8308ddda18c6e840a9d7bf6b0d8aa03
   - enabled: 1
     path: Assets/Scenes/BaptScene/BaseForLevel.unity
     guid: a343c91831a17e44bb8389696aefa2bd
@@ -29,9 +35,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/BaptScene/Level2Test.unity
     guid: 87e34cebd7526e646aa57848f67b8b3d
-  - enabled: 1
-    path: Assets/Scenes/IvanScene/Ivan's Deca Room.unity
-    guid: a8308ddda18c6e840a9d7bf6b0d8aa03
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: faedd64316153784e871a659db823dd6, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

@@ -10,8 +10,6 @@ public class BallSM : MonoBehaviour
     {
         OnHit,
         OnBounce
-
-                
     }
     
     // ~~VARIABLES~~
@@ -142,6 +140,12 @@ public class BallSM : MonoBehaviour
         currentState.Tick();
         
         // Call the SetMaxSpeed method, which will keep the ball from going faster than the maxSpeed value
+
+        if (currentState is DroppedState)
+        {
+            return;
+        }
+        
         SetMaxSpeed();
     }
 
@@ -233,7 +237,7 @@ public class BallSM : MonoBehaviour
         
         SetBallSpeedMinimum(rb.linearVelocity.magnitude, rb.linearVelocity.normalized);
 
-        if (other.gameObject.CompareTag("PointWall"))
+        if (other.gameObject.CompareTag("NeutralWall"))
         {
             pointWallHit?.Invoke(pointWallPoints);
             GameManager.Instance.levelManager.gameCameraScript.screenShakeGO.GetComponent<ScreenShake>().StartLitleScreenShake(rb.linearVelocity.magnitude);
