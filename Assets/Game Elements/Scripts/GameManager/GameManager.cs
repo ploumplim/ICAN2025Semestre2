@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
     public LevelManager levelManager;
     public HandleGamePads handleGamePads;
     public List<PlayerScript> PlayerScriptList;
-    public bool isPaused;
 
     public List<SceneReference> scenesToLoad;
     public List<SceneReference> NextSceneToPlay;
@@ -29,7 +28,7 @@ public class GameManager : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = FindObjectOfType<GameManager>();
+                _instance = FindFirstObjectByType<GameManager>();
                 if (_instance == null)
                 {
                     GameObject singleton = new GameObject(typeof(GameManager).ToString());
@@ -101,7 +100,7 @@ public class GameManager : MonoBehaviour
 
         if (levelManager != null && levelManager.ingameGUIManager != null)
         {
-            levelManager.ingameGUIManager.UI_PressStartTutorialtext.SetActive(true);
+            // levelManager.ingameGUIManager.UI_PressStartTutorialtext.SetActive(true);
         }
 
         levelManager.ingameGUIManager.ActivateSetReadyText();
@@ -210,19 +209,7 @@ public class GameManager : MonoBehaviour
             levelManager.ingameGUIManager.CountDownTimer();
         }
     }
-
-    public void PausingGame()
-    {
-        isPaused = !isPaused;
-        if (isPaused)
-        {
-            PauseGame();
-        }
-        else
-        {
-            UnPauseGame();
-        }
-    }
+    
 
     public void PauseGame()
     {

@@ -123,9 +123,10 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent OnKnockbackStateEntered;
     public UnityEvent OnKnockbackStateExited;
     public Action<PlayerState> OnPlayerStateChanged;
+    public UnityEvent OnSprintBoostFullCharge;
     
     // action events
-    public event Action<int,GameObject> OnBallHit;
+    // public event Action<int,GameObject> OnBallHit;
     
     // ------------------------------ PRIVATE VARIABLES ------------------------------
     
@@ -144,8 +145,8 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public int hazardLayer;
     [HideInInspector] public bool isReady;
     [HideInInspector] public GameObject playerScorePanel;
-
     [HideInInspector] public GameObject playerSpawnPoint;
+    private bool _hasSprintBoostFullChargeBeenInvoked = false;
     // ------------------------------ HIT ------------------------------
     [HideInInspector] public float hitTimer = 0f;
     // ------------------------------ MOVE ------------------------------
@@ -179,7 +180,7 @@ public class PlayerScript : MonoBehaviour
     public void SetPlayerParameters()
     {
         MultiplayerManager = GameObject.FindWithTag("MultiPlayerManager");
-        playerCamera = MultiplayerManager.GetComponent<MultiplayerManager>().camera;
+        playerCamera = MultiplayerManager.GetComponent<MultiplayerManager>().gameCamera;
         
         rb = GetComponent<Rigidbody>(); 
         playerInput = GetComponent<PlayerInput>();
@@ -233,7 +234,24 @@ public class PlayerScript : MonoBehaviour
             if (GetComponent<SprintState>().currentSprintBoost < sprintMaxInitialBoost)
             {
                 GetComponent<SprintState>().currentSprintBoost += Time.deltaTime * sprintBoostRecoveryRate;
+
             }
+
+            if (GetComponent<SprintState>().currentSprintBoost >= sprintMaxInitialBoost)
+            {
+                if (!_hasSprintBoostFullChargeBeenInvoked)
+                {
+                    _hasSprintBoostFullChargeBeenInvoked = true;
+                    OnSprintBoostFullCharge?.Invoke();
+                }
+            }
+            
+            else
+            {
+                _hasSprintBoostFullChargeBeenInvoked = false;
+            }
+            
+   
         }
     }
     
@@ -415,6 +433,7 @@ public class PlayerScript : MonoBehaviour
                 hitTimer = hitCooldown;
                 ChangeState(GetComponent<ReleaseState>());
             }
+            
             if (currentState is not NeutralState)
             {
                 hitTimer = hitCooldown;

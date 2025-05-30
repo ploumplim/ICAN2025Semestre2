@@ -14,6 +14,7 @@ public class CameraScript : MonoBehaviour
     private GameObject cameraObject; // The camera component of the camera object.
     private Vector3 _targetPoint; // The point that the camera should lock itself to.
     public ScreenShake screenShakeGO; // The screen shake component of the camera object.
+    private bool _isShaking; // A boolean to check if the camera is shaking.
 
     // ---------------PUBLIC---------------
     [Tooltip("The gameobject holding the camera. The code will move THIS object, while the camera is fixed to it as " +
@@ -29,7 +30,7 @@ public class CameraScript : MonoBehaviour
     {
         // Get the camera component of the camera object
         cameraObject = cameraHolderObject.GetComponentInChildren<Camera>().gameObject;
-        GameManager.Instance.multiplayerManager.camera = this;
+        GameManager.Instance.multiplayerManager.gameCamera = this;
         GameManager.Instance.levelManager.gameCameraScript = this;
 
         // Add the Vector3.zero to the _lockPoints array as the first element
@@ -121,38 +122,44 @@ public class CameraScript : MonoBehaviour
     }
     
     
-    public void StartShake(float duration, float magnitude,float multiplier,float ballSpeed)
+    public void StartShake(AnimationCurve curve, float duration, float magnitude,float multiplier,float ballSpeed)
     {
-        Debug.Log("StartShake");
-        StartCoroutine(ShakeCamera(duration, magnitude, multiplier, ballSpeed));
+        StartCoroutine(ShakeCamera(curve,duration, magnitude, multiplier, ballSpeed));
     }
 
-    public IEnumerator ShakeCamera(float duration, float magnitude, float multiplier, float ballSpeed)
+    public IEnumerator ShakeCamera(AnimationCurve curve,float duration, float magnitude, float multiplier, float ballSpeed)
     {
-        Debug.Log("ShakeCamera");
-        Vector3 originalPosition = cameraHolderObject.transform.localPosition;
+        Vector3 originalPosition = transform.localPosition;
         float elapsed = 0f;
 
         // Calculer le facteur de boost basé sur ballSpeed et multiplier
-        float speedBoostFactor = ballSpeed * multiplier;
+        float speedBoostFactor = Mathf.Clamp(ballSpeed * multiplier, 1, ballSpeed);
 
+        float alternatingValue = 1f;
+        
+        
         while (elapsed < duration)
         {
+            alternatingValue *= -1;
+            float r = elapsed / duration;
+            r = Mathf.Clamp01(r);
+            float curveValue = curve.Evaluate(r);
             // Appliquer le facteur de boost à l'intensité du shake
-            float offsetX = Random.Range(-1f, 1f) * magnitude * speedBoostFactor;
-            float offsetY = Random.Range(-1f, 1f) * magnitude * speedBoostFactor;
+            float offsetX = curveValue * magnitude * speedBoostFactor * alternatingValue;
+            float offsetY = curveValue * magnitude * speedBoostFactor * alternatingValue;
+            
+            Vector3 nextPosition = new Vector3(originalPosition.x + offsetX, originalPosition.y + offsetY, originalPosition.z);
 
-            cameraHolderObject.transform.localPosition = new Vector3(
-                originalPosition.x + offsetX,
-                originalPosition.y + offsetY,
-                originalPosition.z
-            );
-
+            transform.localPosition = Vector3.Lerp(
+                originalPosition, nextPosition, 1f);
+            
             elapsed += Time.deltaTime;
             yield return null;
         }
+        
+        transform.localPosition = originalPosition;
+        yield return null;
 
-        cameraHolderObject.transform.localPosition = originalPosition;
     }
     
 

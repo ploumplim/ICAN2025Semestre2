@@ -19,16 +19,19 @@ public class FMODEvents : MonoBehaviour
 
 
 
-    [field: SerializeField] public EventReference KnockOut_FX { get; private set; }
     [field: SerializeField] public EventReference KnockBack_FX { get; private set; }
 
 
 
 
-    [field: SerializeField] public EventReference PressHit_FX { get; private set; }
     [field: SerializeField] public EventReference PlayerSpawn_FX { get; private set; }
     [field: SerializeField] public EventReference BallTouched_FX { get; private set; }
     [field: SerializeField] public EventReference Dash_FX { get; private set; }
+
+
+
+    [field: SerializeField] public EventReference Countdown_FX { get; private set; }
+    [field: SerializeField] public EventReference EndGame_FX { get; private set; }
 
 
 
@@ -39,6 +42,9 @@ public class FMODEvents : MonoBehaviour
 
 
 
+    [field: SerializeField] public EventReference Select_UI { get; private set; }
+    [field: SerializeField] public EventReference PauseButton_UI { get; private set; }
+    [field: SerializeField] public EventReference QuitPauseButton_UI { get; private set; }
 
 
 

@@ -78,11 +78,59 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelManager: {fileID: 0}
-  littleEarthQuakeDuration: 0.1
-  littleEarthQuakeMagnitude: 0.1
-  GoalEarthQuakeDuration: 0.7
-  GoalEarthQuakeMagnitude: 0
-  SpeedMultiplier: 0.025
+  littleEarthQuakeDuration: 0.25
+  littleEarthQuakeMagnitude: 0.05
+  GoalEarthQuakeDuration: 0.6
+  GoalEarthQuakeMagnitude: 0.2
+  goalShakeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.26246184
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -3.1595504
+      outSlope: -3.1595504
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.03967446
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  littleShakeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.26246184
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -3.1595504
+      outSlope: -3.1595504
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.03967446
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  SpeedMultiplier: 0.05
 --- !u!1 &7981149854982224507
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,13 +159,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7981149854982224507}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.560928, y: 0, z: 0, w: 0.82786465}
+  m_LocalRotation: {x: 0.56640625, y: 0, z: 0, w: 0.82412624}
   m_LocalPosition: {x: 0, y: 53.23991, z: -26.590765}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3564500746427961638}
-  m_LocalEulerAnglesHint: {x: 68.24, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 69, y: 0, z: 0}
 --- !u!20 &1927485223874367319
 Camera:
   m_ObjectHideFlags: 0

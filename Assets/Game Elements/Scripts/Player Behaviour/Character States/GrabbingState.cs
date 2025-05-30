@@ -114,27 +114,27 @@ public class GrabbingState : PlayerState
             currentAngle = PlayerScript.maxGrabAngle;
         }
 
-        private void OnDrawGizmos()
-        {
-            if (PlayerScript == null) return;
-
-            // Draw the grab detection radius
-            Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(transform.position, PlayerScript.grabDetectionRadius);
-
-
-            // Draw the grab angle as a sector
-            if (PlayerScript.currentState is GrabbingState grabbingState)
-            {
-                Handles.color = new Color(1, 0, 1, 0.2f); // Semi-transparent magenta
-                Vector3 forward = transform.forward;
-                Handles.DrawSolidArc(
-                    transform.position,
-                    Vector3.up,
-                    Quaternion.Euler(0, -grabbingState.currentAngle * 0.5f, 0) * forward,
-                    grabbingState.currentAngle,
-                    PlayerScript.grabDetectionRadius
-                );
-            }
-        }
+        // private void OnDrawGizmos()
+        // {
+        //     if (PlayerScript == null) return;
+        //
+        //     // Draw the grab detection radius
+        //     Gizmos.color = Color.magenta;
+        //     Gizmos.DrawWireSphere(transform.position, PlayerScript.grabDetectionRadius);
+        //
+        //
+        //     // Draw the grab angle as a sector
+        //     if (PlayerScript.currentState is GrabbingState grabbingState)
+        //     {
+        //         Handles.color = new Color(1, 0, 1, 0.2f); // Semi-transparent magenta
+        //         Vector3 forward = transform.forward;
+        //         Handles.DrawSolidArc(
+        //             transform.position,
+        //             Vector3.up,
+        //             Quaternion.Euler(0, -grabbingState.currentAngle * 0.5f, 0) * forward,
+        //             grabbingState.currentAngle,
+        //             PlayerScript.grabDetectionRadius
+        //         );
+        //     }
+        // }
     }

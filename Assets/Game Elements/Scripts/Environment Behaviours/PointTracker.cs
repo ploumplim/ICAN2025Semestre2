@@ -13,7 +13,8 @@ public class PointTracker : MonoBehaviour
     public BallSM ballSM;
 
     public GameObject linkedGoal;
-    
+    public ParticleSystem goalParticles;
+    public ParticleSystem otherGoalParticles;
 
     public void Start()
     {
@@ -64,9 +65,10 @@ public class PointTracker : MonoBehaviour
     
     private System.Collections.IEnumerator SlowDownTimeOnGoal()
     {
-        Time.timeScale = GameManager.Instance.levelManager.SlowDownOnGoalTimer;
-        yield return new WaitForSecondsRealtime(1f);
-        Time.timeScale = 1f;
+        // Time.timeScale = GameManager.Instance.levelManager.SlowDownOnGoalTimer;
+        // yield return new WaitForSecondsRealtime(1f);
+        // Time.timeScale = 1f;
+        yield return null;
     }
 
     private void MoveBallSpawnPositionToLoosingPlayer()

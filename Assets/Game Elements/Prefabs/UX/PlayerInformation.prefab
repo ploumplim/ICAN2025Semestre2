@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 309, y: -83.1}
-  m_SizeDelta: {x: 100, y: 33.8}
+  m_AnchoredPosition: {x: 300.44458, y: -56.670982}
+  m_SizeDelta: {x: 166.88, y: 35.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5789179565265040974
 CanvasRenderer:
@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: PlayerName
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6d60772071e8b044a8b1ad15efab8e58, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 6d60772071e8b044a8b1ad15efab8e58, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 37664697b8d643144a3dbae08e4dc026, type: 2}
+  m_sharedMaterial: {fileID: -8858512720210044619, guid: 37664697b8d643144a3dbae08e4dc026, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18.1
+  m_fontSize: 27.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -348,8 +348,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 309, y: -116.9}
-  m_SizeDelta: {x: 100, y: 33.8}
+  m_AnchoredPosition: {x: 300.4434, y: -118.18552}
+  m_SizeDelta: {x: 166.88, y: 87.229}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9044004036288142029
 CanvasRenderer:
@@ -379,17 +379,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Score
+  m_text: Press Select!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6d60772071e8b044a8b1ad15efab8e58, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 6d60772071e8b044a8b1ad15efab8e58, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 37664697b8d643144a3dbae08e4dc026, type: 2}
+  m_sharedMaterial: {fileID: -8858512720210044619, guid: 37664697b8d643144a3dbae08e4dc026, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278236415
+  m_fontColor: {r: 1, g: 0.7070736, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -406,7 +406,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30.25
+  m_fontSize: 34
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

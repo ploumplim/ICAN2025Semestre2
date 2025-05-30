@@ -9,9 +9,13 @@ public class ScreenShake : MonoBehaviour
     [Header("Little Screen Shake")]
     public float littleEarthQuakeDuration;
     public float littleEarthQuakeMagnitude;
-    [FormerlySerializedAs("KillEarthQuakeDuration")] [Header("Goal Screen Shake")]
+    [Header("Goal Screen Shake")]
     public float GoalEarthQuakeDuration;
-    [FormerlySerializedAs("KillEarthQuakeMagnitude")] public float GoalEarthQuakeMagnitude;
+    public float GoalEarthQuakeMagnitude;
+     
+    [Header("Shake Curves")]
+    [SerializeField] private AnimationCurve goalShakeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+    [SerializeField] private AnimationCurve littleShakeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     [Space(50)]
     public float SpeedMultiplier;
@@ -25,7 +29,7 @@ public class ScreenShake : MonoBehaviour
     {
         if (levelManager != null)
         {
-            levelManager.gameCameraScript.StartShake(littleEarthQuakeMagnitude, littleEarthQuakeDuration, SpeedMultiplier,ballSpeed);
+            levelManager.gameCameraScript.StartShake(littleShakeCurve,littleEarthQuakeDuration, littleEarthQuakeMagnitude, SpeedMultiplier,ballSpeed);
         }
         else
         {
@@ -36,7 +40,7 @@ public class ScreenShake : MonoBehaviour
     {
         if (levelManager != null)
         {
-            levelManager.gameCameraScript.StartShake(GoalEarthQuakeDuration, GoalEarthQuakeMagnitude,SpeedMultiplier,ballSpeed);
+            levelManager.gameCameraScript.StartShake(goalShakeCurve, GoalEarthQuakeDuration, GoalEarthQuakeMagnitude, SpeedMultiplier, ballSpeed);
         }
         else
         {

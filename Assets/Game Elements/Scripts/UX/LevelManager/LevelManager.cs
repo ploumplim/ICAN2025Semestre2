@@ -93,7 +93,11 @@ public class LevelManager : MonoBehaviour
     public UnityEvent<int> OnGoalScored;
     
     public UnityEvent OnNewLevelStart;
+    
+    public UnityEvent OnPauseStart;
+    public UnityEvent OnPauseEnd;
 
+    public UnityEvent OnMatchEnd;
     
     #endregion
     
@@ -278,9 +282,6 @@ public class LevelManager : MonoBehaviour
         }
         Debug.Log("Current Scene id : "+GameManager.Instance.currentSceneID);
     }
-    
-    
-    
     
     public void LinkGoalToPlayer(int playerId)
     {

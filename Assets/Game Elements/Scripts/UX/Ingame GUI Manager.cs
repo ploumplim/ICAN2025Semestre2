@@ -45,6 +45,8 @@ public class IngameGUIManager : MonoBehaviour
     [FormerlySerializedAs("playerPrefabScore")] [SerializeField] private GameObject UI_PlayerHud;
     [SerializeField] private GameObject playerPanelSpawnPointParent;
     
+    [SerializeField] private TextMeshProUGUI countDownText;
+    
     public List<GameObject> UI_PlayerHUD;
     public List<GameObject> UI_PlayerScore;
     
@@ -183,16 +185,15 @@ public class IngameGUIManager : MonoBehaviour
 
             if (!allPlayersReady)
             {
-                _RoundInformationAffichage.text = "Queue Canceled";
+                countDownText.text = "Cancelled!";
                 yield return new WaitForSeconds(1);
-                _RoundInformationAffichage.text = "";
-                _RoundInformationAffichage.gameObject.SetActive(false);
+                countDownText.text = "";
+                countDownText.gameObject.SetActive(false);
                 yield break;
             }
 
             // Update the UI text element with the remaining time
-            _RoundInformationAffichage.text = remainingTime.ToString();
-            Debug.Log(remainingTime);
+            countDownText.text = remainingTime + "!"; 
             if (GameManager.Instance.countDownTimerEvent != null)
             {
                 GameManager.Instance.countDownTimerEvent.Invoke();
@@ -201,17 +202,25 @@ public class IngameGUIManager : MonoBehaviour
             yield return new WaitForSeconds(1);
             remainingTime--;
         }
-
+        
+        countDownText.text = "Blitz!";
+        StartCoroutine(DissapearCountDown());
         StartGame();
 
 
     }
 
+    IEnumerator DissapearCountDown()
+    {
+        yield return new WaitForSeconds(roundInformationDuration);
+        countDownText.gameObject.SetActive(false);
+    }
    
     
     public void ActivateSetReadyText()
     {
         UI_SetReadyInformationText.SetActive(true);
+        
         StartBlinking(UI_SetReadyInformationText, blinkInterval);
     }
 
@@ -219,6 +228,7 @@ public class IngameGUIManager : MonoBehaviour
 
     public void StartBlinking(GameObject uiElement, float blinkInterval)
     {
+
         if (_blinkingCoroutine == null)
         {
             _blinkingCoroutine = StartCoroutine(BlinkUIElement(uiElement, blinkInterval));
@@ -231,7 +241,7 @@ public class IngameGUIManager : MonoBehaviour
         {
             StopCoroutine(_blinkingCoroutine);
             _blinkingCoroutine = null;
-            UI_SetReadyInformationText.SetActive(false); // Ensure the text remains visible
+            UI_SetReadyInformationText.SetActive(false);
         }
     }
 
@@ -249,7 +259,6 @@ public class IngameGUIManager : MonoBehaviour
         GetComponent<EndGameScorePanel>().EndGameScorePanelGO.SetActive(false);
         // When the countdown is finished, you can perform any additional actions here
         GameManager.Instance.levelManager.currentRound++;
-        
         foreach (GameObject goals in GameManager.Instance.levelManager.GoalList)
         {
             goals.GetComponent<PointTracker>()._points = 0;
@@ -264,34 +273,6 @@ public class IngameGUIManager : MonoBehaviour
             }
         }
         
-        _RoundInformationAffichage.text = "";
-        _RoundInformationAffichage.gameObject.SetActive(false);
-        GameManager.Instance.levelManager.ColorizeGoalMesh();
-        GameManager.Instance.levelManager.StartLevel(); // Call StartLevel when the countdown finishes
-    }
-    public void RestartGame()
-    {
-        GetComponent<EndGameScorePanel>().EndGameScorePanelGO.SetActive(false);
-        // When the countdown is finished, you can perform any additional actions here
-        GameManager.Instance.levelManager.currentRound=1;
-        
-        foreach (GameObject goals in GameManager.Instance.levelManager.GoalList)
-        {
-            goals.GetComponent<PointTracker>()._points = 0;
-            for (int i = 0; i < goals.transform.childCount; i++)
-            {
-                GameObject child = goals.transform.GetChild(i).gameObject;
-                var tmp = child.GetComponent<TextMeshPro>();
-                if (tmp != null)
-                {
-                    tmp.text = goals.GetComponent<PointTracker>()._points.ToString();
-                }
-            }
-        }
-        
-        _RoundInformationAffichage.text = "";
-        _RoundInformationAffichage.gameObject.SetActive(false);
-        GameManager.Instance.levelManager.ColorizeGoalMesh();
         GameManager.Instance.levelManager.StartLevel(); // Call StartLevel when the countdown finishes
     }
 

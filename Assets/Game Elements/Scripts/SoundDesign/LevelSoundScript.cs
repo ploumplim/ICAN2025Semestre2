@@ -1,12 +1,18 @@
 using UnityEngine;
 using FMODUnity;
 using FMOD.Studio;
+using System.Collections;
 
 public class LevelSoundScript : MonoBehaviour
 {
     private float currentPointPercent;
     private EventInstance evolutiveMusicInstance;
+    private float targetVolume = 1f; // Volume normal de la musique
+    
+    [SerializeField] private float fadeInAndOutDuration = 0.6f; // DurÃ©e du fade in et out
 
+    
+    
     void Start()
     {
         StartEvolutiveMusic();
@@ -17,17 +23,60 @@ public class LevelSoundScript : MonoBehaviour
         evolutiveMusicInstance = RuntimeManager.CreateInstance(FMODEvents.instance.EvolutivMusic_MSC);
         evolutiveMusicInstance.set3DAttributes(RuntimeUtils.To3DAttributes(this.transform));
         evolutiveMusicInstance.start();
-    }
-
-    public void PlayerSpawn()
-    {
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.PlayerSpawn_FX, this.transform.position);
+        evolutiveMusicInstance.setVolume(targetVolume); // Assure le volume de dï¿½part
     }
 
     public void PlayScoringBounce()
     {
         AudioManager.instance.PlayOneShot(FMODEvents.instance.ScoringBounce_FX, this.transform.position);
+    }
 
+    public void PlayPauseSound()
+    {
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.PauseButton_UI, this.transform.position);
+        StartCoroutine(FadeOutMusic(fadeInAndOutDuration)); // Fade out en 1 secondes
+    }
+
+    public void PlayQuitPauseSound()
+    {
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.QuitPauseButton_UI, this.transform.position);
+        StartCoroutine(FadeInMusic(fadeInAndOutDuration)); // Fade in en 1.5 secondes
+    }
+
+    private IEnumerator FadeOutMusic(float duration)
+    {
+        float currentVolume;
+        evolutiveMusicInstance.getVolume(out currentVolume);
+
+        float timeElapsed = 0f;
+
+        while (timeElapsed < duration)
+        {
+            float newVolume = Mathf.Lerp(currentVolume, 0f, timeElapsed / duration);
+            evolutiveMusicInstance.setVolume(newVolume);
+            timeElapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        evolutiveMusicInstance.setVolume(0f);
+    }
+
+    private IEnumerator FadeInMusic(float duration)
+    {
+        float currentVolume;
+        evolutiveMusicInstance.getVolume(out currentVolume);
+
+        float timeElapsed = 0f;
+
+        while (timeElapsed < duration)
+        {
+            float newVolume = Mathf.Lerp(currentVolume, targetVolume, timeElapsed / duration);
+            evolutiveMusicInstance.setVolume(newVolume);
+            timeElapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        evolutiveMusicInstance.setVolume(targetVolume);
     }
 
     public void RecoverCurrentRound(int points)
@@ -40,10 +89,10 @@ public class LevelSoundScript : MonoBehaviour
 
     public void OnLevelChanged()
     {
-        // Réinitialise le pitch
+        // Rï¿½initialise le pitch
         evolutiveMusicInstance.setParameterByName("ScorePitch", -2.5f);
 
-        // Redémarre l'event musical pour que le Multi Instrument passe à la piste suivante (mode Sequential)
+        // Redï¿½marre l'event musical pour que le Multi Instrument passe ï¿½ la piste suivante (mode Sequential)
         evolutiveMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         evolutiveMusicInstance.release();
 
