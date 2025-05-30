@@ -5,8 +5,10 @@ using UnityEngine.InputSystem;
 public class UI_PauseMenu : MonoBehaviour
 {
     
-    public GameManager gameManager;
-
+    [HideInInspector] public GameManager gameManager;
+    [SerializeField] public GameObject pauseMenuUI;
+    
+    private bool isPaused = false;
 
     private void Start()
     {
@@ -18,7 +20,19 @@ public class UI_PauseMenu : MonoBehaviour
         // Check if the current state is PlayingState
         if (gameManager.GetComponent<GameManagerSM>().currentState is PlayingState)
         {
-            gameManager.PausingGame();
+            isPaused = !isPaused;
+            if (isPaused)
+            {
+                // Show the pause menu
+                pauseMenuUI.SetActive(true);
+                Time.timeScale = 0f;
+            }
+            else
+            {
+                Time.timeScale = 1f;
+                // Hide the pause menu
+                pauseMenuUI.SetActive(false);
+            }
         }
     }
 }

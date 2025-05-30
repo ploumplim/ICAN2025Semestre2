@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     public LevelManager levelManager;
     public HandleGamePads handleGamePads;
     public List<PlayerScript> PlayerScriptList;
-    public bool isPaused;
 
     public List<SceneReference> scenesToLoad;
     public List<SceneReference> NextSceneToPlay;
@@ -207,19 +206,7 @@ public class GameManager : MonoBehaviour
             levelManager.ingameGUIManager.CountDownTimer();
         }
     }
-
-    public void PausingGame()
-    {
-        isPaused = !isPaused;
-        if (isPaused)
-        {
-            PauseGame();
-        }
-        else
-        {
-            UnPauseGame();
-        }
-    }
+    
 
     public void PauseGame()
     {
