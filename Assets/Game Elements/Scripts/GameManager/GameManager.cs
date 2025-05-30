@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
 
         if (levelManager != null && levelManager.ingameGUIManager != null)
         {
-            levelManager.ingameGUIManager.UI_PressStartTutorialtext.SetActive(true);
+            // levelManager.ingameGUIManager.UI_PressStartTutorialtext.SetActive(true);
         }
 
         levelManager.ingameGUIManager.ActivateSetReadyText();

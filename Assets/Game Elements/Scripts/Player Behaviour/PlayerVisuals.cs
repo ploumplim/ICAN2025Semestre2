@@ -60,6 +60,7 @@ public class PlayerVisuals : MonoBehaviour
 
     public ParticleSystem fullChargeSprintBoostParticle;
     
+    public ParticleSystem playerReadyParticle;
     void Start()
     {
         // Recover the PlayerScript from the player.
@@ -69,8 +70,6 @@ public class PlayerVisuals : MonoBehaviour
         _grabParticleShape = grabParticle.shape;
         _grabParticleSize = grabParticle.main.startSize.constant;
         _currentSprintBoostParticleSize = sprintBoostParticle.main.startSize.constant;
-
-
 
         if (perso)
         {
@@ -88,6 +87,28 @@ public class PlayerVisuals : MonoBehaviour
         RunningParticleUpdater();
         SweatParticleUpdater();
         // SprintBoostUpdater();
+
+        if (playerScript.isReady && GameManager.Instance.levelManager.currentState == GameManager.Instance.levelManager.GetComponent<OutOfLevelState>())
+        {
+            // If the player is ready, play the ready particle.
+            if (!playerReadyParticle.isPlaying)
+            {
+                playerReadyParticle.Play();
+            }
+        }
+        else
+        {
+            // If the player is not ready, stop the ready particle.
+            if (playerReadyParticle.isPlaying)
+            {
+                playerReadyParticle.Stop();
+            }
+        }
+        
+        {
+            
+        }
+        
         
         switch (playerScript.currentState) 
         { 

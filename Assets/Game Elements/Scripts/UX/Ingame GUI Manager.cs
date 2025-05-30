@@ -45,6 +45,8 @@ public class IngameGUIManager : MonoBehaviour
     [FormerlySerializedAs("playerPrefabScore")] [SerializeField] private GameObject UI_PlayerHud;
     [SerializeField] private GameObject playerPanelSpawnPointParent;
     
+    [SerializeField] private TextMeshProUGUI countDownText;
+    
     public List<GameObject> UI_PlayerHUD;
     public List<GameObject> UI_PlayerScore;
     
@@ -166,12 +168,13 @@ public class IngameGUIManager : MonoBehaviour
     
     private IEnumerator StartCountdown(int duration)
     {
-        _RoundInformationAffichage.gameObject.SetActive(true);
+        countDownText.gameObject.SetActive(true);
         int remainingTime = duration;
         while (remainingTime > 0)
         {
             // Check if all players are still ready
             bool allPlayersReady = true;
+            
             foreach (GameObject player in GameManager.Instance.multiplayerManager.connectedPlayers)
             {
                 if (!player.GetComponent<PlayerScript>().isReady)
@@ -183,16 +186,15 @@ public class IngameGUIManager : MonoBehaviour
 
             if (!allPlayersReady)
             {
-                _RoundInformationAffichage.text = "Queue Canceled";
+                countDownText.text = "Cancelled!";
                 yield return new WaitForSeconds(1);
-                _RoundInformationAffichage.text = "";
-                _RoundInformationAffichage.gameObject.SetActive(false);
+                countDownText.text = "";
+                countDownText.gameObject.SetActive(false);
                 yield break;
             }
 
             // Update the UI text element with the remaining time
-            _RoundInformationAffichage.text = remainingTime.ToString();
-            Debug.Log(remainingTime);
+            countDownText.text = remainingTime + "!"; 
             if (GameManager.Instance.countDownTimerEvent != null)
             {
                 GameManager.Instance.countDownTimerEvent.Invoke();
@@ -201,17 +203,25 @@ public class IngameGUIManager : MonoBehaviour
             yield return new WaitForSeconds(1);
             remainingTime--;
         }
-
+        
+        countDownText.text = "Blitz!";
+        StartCoroutine(DissapearCountDown());
         StartGame();
 
 
     }
 
+    IEnumerator DissapearCountDown()
+    {
+        yield return new WaitForSeconds(roundInformationDuration);
+        countDownText.gameObject.SetActive(false);
+    }
    
     
     public void ActivateSetReadyText()
     {
         UI_SetReadyInformationText.SetActive(true);
+        
         StartBlinking(UI_SetReadyInformationText, blinkInterval);
     }
 
@@ -219,6 +229,7 @@ public class IngameGUIManager : MonoBehaviour
 
     public void StartBlinking(GameObject uiElement, float blinkInterval)
     {
+
         if (_blinkingCoroutine == null)
         {
             _blinkingCoroutine = StartCoroutine(BlinkUIElement(uiElement, blinkInterval));
@@ -231,7 +242,7 @@ public class IngameGUIManager : MonoBehaviour
         {
             StopCoroutine(_blinkingCoroutine);
             _blinkingCoroutine = null;
-            UI_SetReadyInformationText.SetActive(false); // Ensure the text remains visible
+            UI_SetReadyInformationText.SetActive(false);
         }
     }
 
@@ -263,8 +274,6 @@ public class IngameGUIManager : MonoBehaviour
             }
         }
         
-        _RoundInformationAffichage.text = "";
-        _RoundInformationAffichage.gameObject.SetActive(false);
         GameManager.Instance.levelManager.StartLevel(); // Call StartLevel when the countdown finishes
     }
 
