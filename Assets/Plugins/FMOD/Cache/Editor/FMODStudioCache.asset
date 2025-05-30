@@ -77,7 +77,34 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 2230
+  Length: 2037
+--- !u!114 &-6428960780258521622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/QuitPauseButton_UI
+  m_EditorClassIdentifier: 
+  Path: event:/UI/QuitPauseButton_UI
+  Guid:
+    Data1: 176675211
+    Data2: 1167199385
+    Data3: 669986736
+    Data4: -142877703
+  Banks:
+  - {fileID: 4930123858046093416}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 792
 --- !u!114 &-5841171575012241801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,10 +201,10 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638842022663387351
+  lastModified: 638842174726447828
   FileSizes:
   - Name: 
-    Value: 1732
+    Value: 1838
   Exists: 1
 --- !u!114 &-3195860823651670899
 MonoBehaviour:
@@ -335,12 +362,14 @@ MonoBehaviour:
   - {fileID: 6733345854112160466}
   - {fileID: 6973105760015405657}
   - {fileID: -3195860823651670899}
+  - {fileID: 6718038638903881656}
+  - {fileID: -6428960780258521622}
   EditorParameters: []
   MasterBanks:
   - {fileID: 9013900838437733036}
   StringsBanks:
   - {fileID: -3230815617287640978}
-  cacheTime: 638842022663387351
+  cacheTime: 638842174726447828
   cacheVersion: 131846
 --- !u!114 &3840750683163560846
 MonoBehaviour:
@@ -412,7 +441,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 638841982265302561
+  lastModified: 638842165448490687
   FileSizes: []
   Exists: 1
 --- !u!114 &5109924990780729282
@@ -494,6 +523,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3000
+--- !u!114 &6718038638903881656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/PauseButton_UI
+  m_EditorClassIdentifier: 
+  Path: event:/UI/PauseButton_UI
+  Guid:
+    Data1: 1401774482
+    Data2: 1160856576
+    Data3: 1895611564
+    Data4: 627096048
+  Banks:
+  - {fileID: 4930123858046093416}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1100
 --- !u!114 &6733345854112160466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,7 +620,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638842022663367247
+  lastModified: 638842174726427715
   FileSizes: []
   Exists: 1
 --- !u!114 &9061532659611863500
