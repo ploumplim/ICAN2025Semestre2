@@ -32,6 +32,7 @@ public class IngameGUIManager : MonoBehaviour
     public float blinkInterval = 1f;
     public GameObject UI_PressStartTutorialtext;
     public GameObject UI_SetReadyInformationText;
+    public GameObject tutorialImage;
     
     
     // --------- PRIVATES ----------
@@ -65,6 +66,14 @@ public class IngameGUIManager : MonoBehaviour
         // Update the global point texts using the levelManager's global points.
         _playerCount = _playerList.Count;
         //UpdateIndividualPlayerScorePanels();
+        if (levelManager.currentState == levelManager.GetComponent<OutOfLevelState>())
+        {
+            tutorialImage.SetActive(true);
+        }
+        else
+        {
+            tutorialImage.SetActive(false);
+        }
 
     }
     
