@@ -42,6 +42,8 @@ public class LevelManager : MonoBehaviour
     public GameObject centerPoint;
 
     public PlayerScript winningPlayer;
+
+    public float SlowDownOnGoalTimer;
     // [Tooltip("Insert the wall prefab here that will provide points to the player.")]
     // public GameObject pointWallPrefab;
     // [Tooltip("Insert the neutral wall prefab here, which will not provide points to the player.")]
