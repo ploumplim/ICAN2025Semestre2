@@ -94,6 +94,8 @@ public class LevelManager : MonoBehaviour
     
     public UnityEvent OnPauseStart;
     public UnityEvent OnPauseEnd;
+
+    public UnityEvent OnMatchEnd;
     
     #endregion
     

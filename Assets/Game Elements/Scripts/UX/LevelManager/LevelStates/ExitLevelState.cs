@@ -13,7 +13,7 @@ public class ExitLevelState : LevelState
         LevelManagerScript.gameIsRunning = false;
         LevelManagerScript.ResetAllPoints();
         LevelManagerScript.currentRound = 0;
-        
+        LevelManagerScript.OnMatchEnd?.Invoke();
         GameManager.Instance.levelManager.ingameGUIManager.GetComponent<EndGameScorePanel>().StartEndGamePanel();
         
         LevelSM.ChangeState(GetComponent<OutOfLevelState>());
