@@ -19,10 +19,7 @@ public class LevelSoundScript : MonoBehaviour
         evolutiveMusicInstance.start();
     }
 
-    public void PlayerSpawn()
-    {
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.PlayerSpawn_FX, this.transform.position);
-    }
+   
 
     public void PlayScoringBounce()
     {
