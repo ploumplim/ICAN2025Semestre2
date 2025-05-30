@@ -8,7 +8,11 @@ public class LevelSoundScript : MonoBehaviour
     private float currentPointPercent;
     private EventInstance evolutiveMusicInstance;
     private float targetVolume = 1f; // Volume normal de la musique
+    
+    [SerializeField] private float fadeInAndOutDuration = 0.6f; // DurÃ©e du fade in et out
 
+    
+    
     void Start()
     {
         StartEvolutiveMusic();
@@ -19,7 +23,7 @@ public class LevelSoundScript : MonoBehaviour
         evolutiveMusicInstance = RuntimeManager.CreateInstance(FMODEvents.instance.EvolutivMusic_MSC);
         evolutiveMusicInstance.set3DAttributes(RuntimeUtils.To3DAttributes(this.transform));
         evolutiveMusicInstance.start();
-        evolutiveMusicInstance.setVolume(targetVolume); // Assure le volume de départ
+        evolutiveMusicInstance.setVolume(targetVolume); // Assure le volume de dï¿½part
     }
 
     public void PlayScoringBounce()
@@ -30,13 +34,13 @@ public class LevelSoundScript : MonoBehaviour
     public void PlayPauseSound()
     {
         AudioManager.instance.PlayOneShot(FMODEvents.instance.PauseButton_UI, this.transform.position);
-        StartCoroutine(FadeOutMusic(0.7f)); // Fade out en 1 secondes
+        StartCoroutine(FadeOutMusic(fadeInAndOutDuration)); // Fade out en 1 secondes
     }
 
     public void PlayQuitPauseSound()
     {
         AudioManager.instance.PlayOneShot(FMODEvents.instance.QuitPauseButton_UI, this.transform.position);
-        StartCoroutine(FadeInMusic(0.7f)); // Fade in en 1.5 secondes
+        StartCoroutine(FadeInMusic(fadeInAndOutDuration)); // Fade in en 1.5 secondes
     }
 
     private IEnumerator FadeOutMusic(float duration)
@@ -85,10 +89,10 @@ public class LevelSoundScript : MonoBehaviour
 
     public void OnLevelChanged()
     {
-        // Réinitialise le pitch
+        // Rï¿½initialise le pitch
         evolutiveMusicInstance.setParameterByName("ScorePitch", -2.5f);
 
-        // Redémarre l'event musical pour que le Multi Instrument passe à la piste suivante (mode Sequential)
+        // Redï¿½marre l'event musical pour que le Multi Instrument passe ï¿½ la piste suivante (mode Sequential)
         evolutiveMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         evolutiveMusicInstance.release();
 
