@@ -31,7 +31,7 @@ public class PointTracker : MonoBehaviour
         {
             ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerPoint++;
             
-            GameManager.Instance.levelManager.gameCameraScript.screenShakeGO.GetComponent<ScreenShake>().StartGoalScreenShake(ballSM.rb.linearVelocity.magnitude);
+            GameManager.Instance.levelManager.gameCameraScript.screenShakeGO.StartGoalScreenShake(ballSM.rb.linearVelocity.magnitude);
             Debug.Log("Player " + ballSM.ballOwnerPlayer.name + " scored" +ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerPoint );
             _points++;
             GameManager.Instance.levelManager.OnGoalScored.Invoke(_points);
@@ -63,9 +63,10 @@ public class PointTracker : MonoBehaviour
     
     private System.Collections.IEnumerator SlowDownTimeOnGoal()
     {
-        Time.timeScale = GameManager.Instance.levelManager.SlowDownOnGoalTimer;
-        yield return new WaitForSecondsRealtime(1f);
-        Time.timeScale = 1f;
+        // Time.timeScale = GameManager.Instance.levelManager.SlowDownOnGoalTimer;
+        // yield return new WaitForSecondsRealtime(1f);
+        // Time.timeScale = 1f;
+        yield return null;
     }
 
     private void MoveBallSpawnPositionToLoosingPlayer()

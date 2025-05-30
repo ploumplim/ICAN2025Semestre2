@@ -235,7 +235,7 @@ public class BallSM : MonoBehaviour
         if (other.gameObject.CompareTag("NeutralWall"))
         {
             pointWallHit?.Invoke(pointWallPoints);
-            GameManager.Instance.levelManager.gameCameraScript.screenShakeGO.GetComponent<ScreenShake>().StartLitleScreenShake(rb.linearVelocity.magnitude);
+            GameManager.Instance.levelManager.gameCameraScript.screenShakeGO.StartLitleScreenShake(rb.linearVelocity.magnitude);
             OnPointBounce?.Invoke(bounces);
         }
         
