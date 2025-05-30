@@ -47,6 +47,11 @@ public class PointTracker : MonoBehaviour
                 ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGlobalPoint++;
             }
             
+            //TODO Faire un slowDown de timeScale 0.5 pendant 1 seconde pour le goal
+            // Slowdown du temps pendant 1 seconde
+            StartCoroutine(SlowDownTimeOnGoal());
+
+            
         }
 
         // if (ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack!=linkedGoal)
@@ -54,6 +59,13 @@ public class PointTracker : MonoBehaviour
         //     Debug.Log("Player " + ballSM.ballOwnerPlayer.name + " is not attacking this goal: " + linkedGoal.name + "he need to attack: " + ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack.name);
         // }
         
+    }
+    
+    private System.Collections.IEnumerator SlowDownTimeOnGoal()
+    {
+        Time.timeScale = GameManager.Instance.levelManager.SlowDownOnGoalTimer;
+        yield return new WaitForSecondsRealtime(1f);
+        Time.timeScale = 1f;
     }
 
     private void MoveBallSpawnPositionToLoosingPlayer()
