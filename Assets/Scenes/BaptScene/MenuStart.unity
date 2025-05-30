@@ -1527,6 +1527,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <Countdown_FX>k__BackingField.Path
+      value: event:/FX/Countdown_FX
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <GrabPress_FX>k__BackingField.Path
       value: event:/FX/GrabPress_FX
       objectReference: {fileID: 0}
@@ -1625,6 +1629,22 @@ PrefabInstance:
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <KnockOut_FX>k__BackingField.Guid.Data4
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <Countdown_FX>k__BackingField.Guid.Data1
+      value: -1074102572
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <Countdown_FX>k__BackingField.Guid.Data2
+      value: 1130058548
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <Countdown_FX>k__BackingField.Guid.Data3
+      value: -1350401611
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
+      propertyPath: <Countdown_FX>k__BackingField.Guid.Data4
+      value: 1856805545
       objectReference: {fileID: 0}
     - target: {fileID: 1770786668566098681, guid: c8d919e13d1355447a452b5276c6d765, type: 3}
       propertyPath: <GrabPress_FX>k__BackingField.Guid.Data1
