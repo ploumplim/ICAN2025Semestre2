@@ -39,7 +39,6 @@ public class ReleaseState : PlayerState
             ballToHit.GetComponent<BallSM>().ChangeState(ballToHit.GetComponent<HitState>());
             PlayerScript.rb.AddForce(-transform.forward * (PlayerScript.knockbackForceMultiplier * 3f), ForceMode.Impulse);
             _ballWasHit = true;
-            PlayerScript.ChangeState(GetComponent<NeutralState>());
             return;
         }
         

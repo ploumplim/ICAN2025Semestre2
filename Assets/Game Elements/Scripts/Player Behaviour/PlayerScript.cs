@@ -433,6 +433,7 @@ public class PlayerScript : MonoBehaviour
                 hitTimer = hitCooldown;
                 ChangeState(GetComponent<ReleaseState>());
             }
+            
             if (currentState is not NeutralState)
             {
                 hitTimer = hitCooldown;
