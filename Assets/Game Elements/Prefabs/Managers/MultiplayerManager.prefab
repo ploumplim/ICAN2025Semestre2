@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6838993880549433725}
   - component: {fileID: 347135594415308757}
+  - component: {fileID: 8800142183984190361}
   m_Layer: 7
   m_Name: MultiplayerManager
   m_TagString: MultiPlayerManager
@@ -44,12 +45,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63dbe794ea0b955448547be069b6586f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoints: []
-  levelManager: {fileID: 0}
-  availablePlayers: []
+  playerToConnect: {fileID: 0}
   connectedPlayers: []
   ChargeVisualObject: {fileID: 0}
   HitTimeVisual: {fileID: 0}
   playerPrefab: {fileID: 3328443934547631640, guid: de9c7d276e4edf04c8b92d4265a0d6e7, type: 3}
-  spawnParent: {fileID: 0}
   camera: {fileID: 0}
+  maxPlayerCount: 0
+  OnPlayerJoin:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8800142183984190361}
+        m_TargetAssemblyTypeName: MultiplayerSound, Assembly-CSharp
+        m_MethodName: PlayerSpawn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8800142183984190361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4046874531373292982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef2c56e997a74524f887ccfa6f243526, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.Serialization;
+using UnityEngine.Events;
 
 public class MultiplayerManager : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class MultiplayerManager : MonoBehaviour
     };
 
 
-    public event Action OnPlayerJoin;
+    public UnityEvent OnPlayerJoin;
 
     private GameManager gm;
 
