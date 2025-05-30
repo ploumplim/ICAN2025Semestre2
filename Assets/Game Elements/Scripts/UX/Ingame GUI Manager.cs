@@ -269,6 +269,31 @@ public class IngameGUIManager : MonoBehaviour
         GameManager.Instance.levelManager.ColorizeGoalMesh();
         GameManager.Instance.levelManager.StartLevel(); // Call StartLevel when the countdown finishes
     }
+    public void RestartGame()
+    {
+        GetComponent<EndGameScorePanel>().EndGameScorePanelGO.SetActive(false);
+        // When the countdown is finished, you can perform any additional actions here
+        GameManager.Instance.levelManager.currentRound=1;
+        
+        foreach (GameObject goals in GameManager.Instance.levelManager.GoalList)
+        {
+            goals.GetComponent<PointTracker>()._points = 0;
+            for (int i = 0; i < goals.transform.childCount; i++)
+            {
+                GameObject child = goals.transform.GetChild(i).gameObject;
+                var tmp = child.GetComponent<TextMeshPro>();
+                if (tmp != null)
+                {
+                    tmp.text = goals.GetComponent<PointTracker>()._points.ToString();
+                }
+            }
+        }
+        
+        _RoundInformationAffichage.text = "";
+        _RoundInformationAffichage.gameObject.SetActive(false);
+        GameManager.Instance.levelManager.ColorizeGoalMesh();
+        GameManager.Instance.levelManager.StartLevel(); // Call StartLevel when the countdown finishes
+    }
 
     public void QuitGame()
     {
