@@ -5370,7 +5370,7 @@ MonoBehaviour:
   growthRate: 0.1
   shrinkRate: 0.1
   minimumScale: 0.2
-  maximumScale: 1.5
+  maximumScale: 1
   growthType: 0
   movementCurve:
     serializedVersion: 2
@@ -5397,7 +5397,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   ballMoveDuration: 1.2
-  hitStateDuration: 0.2
+  hitStateDuration: 0.15
   playerImmunityTime: 0.2
   rb: {fileID: 0}
   bounces: 0
@@ -5544,16 +5544,12 @@ MonoBehaviour:
   trailVisuals: {fileID: 3172110743681774408}
   ballLight: {fileID: 2671433560985040521}
   startFlyingTrailColor: {r: 0.6117647, g: 0, b: 1, a: 0.4862745}
-  startLethalTrailColor: {r: 1, g: 0, b: 0, a: 0.4862745}
   endFlyingTrailColor: {r: 0.6117647, g: 0, b: 1, a: 0}
-  endLethalTrailColor: {r: 1, g: 0, b: 0, a: 0}
   trailTimeModifier: 0.01
   flyingBallColor: {r: 1, g: 1, b: 1, a: 1}
-  lethalBallColor: {r: 1, g: 0, b: 0.19018412, a: 1}
   caughtBallColor: {r: 1, g: 0, b: 0.79249954, a: 1}
   HitBallColor: {r: 1, g: 0.97974306, b: 0.015686274, a: 1}
   groundedBallColor: {r: 0, g: 1, b: 0, a: 1}
-  facesGameObject: {fileID: 5212817360931501258}
   neutralFace: {fileID: 1031548403092965096}
   lethalFace: {fileID: 463013486243147972}
   hitFace: {fileID: 1728776151619127559}
@@ -5565,7 +5561,6 @@ MonoBehaviour:
   particleImpactZoneSizeModifier: 0.04
   catchParticle: {fileID: 5534663800876992171}
   perfectHitParticle: {fileID: 5401242240848816413}
-  perfectHitThreshold: 0.95
   hitChargeParticle: {fileID: 6044985710698538342}
   lethalBallParticle: {fileID: 5876851373028963511}
   speedFeedbackParticle: {fileID: 0}

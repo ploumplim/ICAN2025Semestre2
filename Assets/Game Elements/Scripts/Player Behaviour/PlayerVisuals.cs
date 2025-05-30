@@ -25,18 +25,12 @@ public class PlayerVisuals : MonoBehaviour
 
     public GameObject perso;
     
-    [Tooltip("Color when knocked back.")]
-    public Color knockbackColor;
     [Tooltip("This particle is played when the player parries.")]
     public ParticleSystem parryParticle;
     [Tooltip("Trail that is left behind when player dashes")]
     public TrailRenderer dashTrail;
     [Tooltip("Particle that is played when the player dies.")]
     public ParticleSystem deadParticle;
-    [Tooltip("Particle that plays when the player's charge is about to end")]
-    public ParticleSystem chargeEndingParticle;
-    [Tooltip("The porcentage of the charge time that the particle will start playing.")]
-    public float chargeEndingParticleTime;
     [FormerlySerializedAs("aimPointer")] [Tooltip("The sphere that determines the character's range.")]
     public GameObject rangeSphereObject;
 
@@ -57,16 +51,14 @@ public class PlayerVisuals : MonoBehaviour
     [FormerlySerializedAs("sprintBoostColor")] public Color GoodSprintBoostColor = Color.yellow;
     public Color badSprintBoostCoolor = Color.white;
     public AnimationCurve sprintBoostCurve = AnimationCurve.Linear(0, 0, 1, 1);
-    private Color _currentSprintBoostParticleColor;
-    private float _currentSprintBoostROT; //Rate Over Time
-    private float _currentSprintBoostBurstCount;
     private float _currentSprintBoostParticleSize;
 
     public ParticleSystem sprintSweatParticle;
     [Range(0, 100)] public int sweatPercent = 50; // Percentage of sprint boost at which the sweat particle will be activated.
     
     public ParticleSystem knockbackParticle;
-    
+
+    public ParticleSystem fullChargeSprintBoostParticle;
     
     void Start()
     {
@@ -76,11 +68,8 @@ public class PlayerVisuals : MonoBehaviour
         _parryDiameter = playerScript.hitDetectionRadius * 2f - parryParticle.main.startSizeMultiplier / 2f;
         _grabParticleShape = grabParticle.shape;
         _grabParticleSize = grabParticle.main.startSize.constant;
-        
-        _currentSprintBoostROT = sprintBoostParticle.emission.rateOverTime.constant;
-        _currentSprintBoostBurstCount = sprintBoostParticle.emission.GetBurst(0).count.constant;
         _currentSprintBoostParticleSize = sprintBoostParticle.main.startSize.constant;
-        _currentSprintBoostParticleColor = sprintSweatParticle.main.startColor.color;
+
 
 
         if (perso)
@@ -252,8 +241,16 @@ public class PlayerVisuals : MonoBehaviour
             sprintBoostParticle.Stop();
         }
     }
-
-
+    
+    public void FullyChargedSprintBoostParticle()
+    {
+        // Start the full charge sprint boost particle.
+        if (!fullChargeSprintBoostParticle.isPlaying)
+        {
+            fullChargeSprintBoostParticle.Play();
+        }
+    }
+    
     private void RunningParticleUpdater()
     {
         float playerSpeed = playerScript.rb.linearVelocity.magnitude;

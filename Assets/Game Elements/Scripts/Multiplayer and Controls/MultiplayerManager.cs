@@ -22,6 +22,14 @@ public class MultiplayerManager : MonoBehaviour
     public new CameraScript camera;
     [FormerlySerializedAs("playerCount")] public int maxPlayerCount;
 
+    [SerializeField] private List<Color> playerColors = new List<Color>
+    {
+        Color.red,
+        Color.red,
+        Color.blue,
+        Color.blue,
+    };
+
 
     public event Action OnPlayerJoin;
 
@@ -133,7 +141,11 @@ public class MultiplayerManager : MonoBehaviour
         // ---- Visual values ----
 
         // Generate a random color.
-        Color randomColor = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
+        // Color randomColor = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
+        // Get the first available color from the playerColors list, using the connected players count to ensure that
+        // each player gets a unique color.
+        Color randomColor = playerColors[connectedPlayers.Count % playerColors.Count];
+        
 
         // Assign the random color to the player's mesh.
         playerVisuals.ChangePlayerColor(randomColor);

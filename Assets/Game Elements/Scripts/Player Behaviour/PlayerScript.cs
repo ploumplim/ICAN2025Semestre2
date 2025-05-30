@@ -123,6 +123,7 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent OnKnockbackStateEntered;
     public UnityEvent OnKnockbackStateExited;
     public Action<PlayerState> OnPlayerStateChanged;
+    public UnityEvent OnSprintBoostFullCharge;
     
     // action events
     public event Action<int,GameObject> OnBallHit;
@@ -144,8 +145,8 @@ public class PlayerScript : MonoBehaviour
     [HideInInspector] public int hazardLayer;
     [HideInInspector] public bool isReady;
     [HideInInspector] public GameObject playerScorePanel;
-
     [HideInInspector] public GameObject playerSpawnPoint;
+    private bool _hasSprintBoostFullChargeBeenInvoked = false;
     // ------------------------------ HIT ------------------------------
     [HideInInspector] public float hitTimer = 0f;
     // ------------------------------ MOVE ------------------------------
@@ -233,7 +234,24 @@ public class PlayerScript : MonoBehaviour
             if (GetComponent<SprintState>().currentSprintBoost < sprintMaxInitialBoost)
             {
                 GetComponent<SprintState>().currentSprintBoost += Time.deltaTime * sprintBoostRecoveryRate;
+
             }
+
+            if (GetComponent<SprintState>().currentSprintBoost >= sprintMaxInitialBoost)
+            {
+                if (!_hasSprintBoostFullChargeBeenInvoked)
+                {
+                    _hasSprintBoostFullChargeBeenInvoked = true;
+                    OnSprintBoostFullCharge?.Invoke();
+                }
+            }
+            
+            else
+            {
+                _hasSprintBoostFullChargeBeenInvoked = false;
+            }
+            
+   
         }
     }
     

@@ -1308,6 +1308,38 @@ PrefabInstance:
       propertyPath: maxPlayerCount
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 347135594415308757, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
+      propertyPath: playerColors.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 347135594415308757, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
+      propertyPath: playerColors.Array.data[0].g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 347135594415308757, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
+      propertyPath: playerColors.Array.data[0].r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 347135594415308757, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
+      propertyPath: playerColors.Array.data[1].b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 347135594415308757, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
+      propertyPath: playerColors.Array.data[1].g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 347135594415308757, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
+      propertyPath: playerColors.Array.data[1].r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 347135594415308757, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
+      propertyPath: playerColors.Array.data[2].b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 347135594415308757, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
+      propertyPath: playerColors.Array.data[2].g
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4046874531373292982, guid: cf0cbcf00c437c34cad9d72da7db3b4a, type: 3}
       propertyPath: m_Name
       value: MultiplayerManager
