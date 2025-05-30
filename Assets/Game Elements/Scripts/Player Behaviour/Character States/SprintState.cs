@@ -32,8 +32,12 @@ public class SprintState : PlayerState
         
         _currentSprintSpeed = Mathf.Lerp(_currentSprintSpeed, PlayerScript.sprintSpeed, curveVal);
         
-        
         PlayerScript.Move(_currentSprintSpeed, PlayerScript.neutralLerpTime);
+
+        if (PlayerScript.moveInputVector2 == Vector2.zero)
+        {
+            PlayerScript.ChangeState(GetComponent<NeutralState>());
+        }
         
         
     }

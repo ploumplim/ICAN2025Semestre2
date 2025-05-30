@@ -21,6 +21,7 @@ public class EndGameScorePanel : MonoBehaviour
     
     //Prefab relate for the players
     public GameObject playerIconPrefab;
+    public GameObject winnerplayerIconPrefab;
     
     //WinningPlayerIcon
     private GameObject winningPlayerIcon;
@@ -34,6 +35,30 @@ public class EndGameScorePanel : MonoBehaviour
         ShowEndGameScorePanel();
         setPlayerSpotPositions();
         SpawnWinningPlayerIcon();
+        
+        //TODO For each player wich are not the winning player, spawn the player icon
+        foreach (var kvp in playerData)
+        {
+            if (kvp.Key != GameManager.Instance.levelManager.winningPlayer)
+            {
+                GameObject playerIcon = Instantiate(playerIconPrefab, playerSpotPositions[playerData.Keys.ToList().IndexOf(kvp.Key)].transform);
+
+                TimerWaitForSeconds(2f, () => StartCoroutine(ScalingLerp(400f, 800f, 2f, 600, playerIcon)));
+
+                foreach (TextMeshProUGUI textPlayericon in playerIcon.transform.GetComponentsInChildren<TextMeshProUGUI>())
+                {
+                    if (textPlayericon.gameObject.name == "PlayerName")
+                    {
+                        textPlayericon.text = kvp.Key.name;
+                    }
+
+                    if (textPlayericon.gameObject.name == "Score")
+                    {
+                        textPlayericon.text = kvp.Value.Item1.ToString();
+                    }
+                }
+            }
+        }
         
     }
 
@@ -53,7 +78,7 @@ public class EndGameScorePanel : MonoBehaviour
     }
     public void SpawnWinningPlayerIcon()
     {
-        winningPlayerIcon = Instantiate(playerIconPrefab, winningPlayerSpot.transform);
+        winningPlayerIcon = Instantiate(winnerplayerIconPrefab, winningPlayerSpot.transform);
         
         
         
@@ -89,7 +114,7 @@ public class EndGameScorePanel : MonoBehaviour
     public void winningPlayerIconLerping()
     {
         // Lerp vers la grande taille au centre du spot gagnant
-        TimerWaitForSeconds(2f, () => StartCoroutine(ScalingLerp(40f, 300f, 4f, winningPlayerSpot.GetComponent<RectTransform>().anchoredPosition)));
+        TimerWaitForSeconds(2f, () => StartCoroutine(ScalingLerp(100f, 1200f, 2f,1000,winningPlayerIcon)));
 
         var winningPlayer = GameManager.Instance.levelManager.winningPlayer;
         if (playerData.ContainsKey(winningPlayer))
@@ -97,67 +122,39 @@ public class EndGameScorePanel : MonoBehaviour
             var currentData = playerData[winningPlayer];
             playerData[winningPlayer] = (currentData.Item1, winningPlayerIcon);
         }
-        int index = playerData.Keys.ToList().FindIndex(p => p == winningPlayer);
-        
-        //TODO : Lerp la position du winningPlayerIcon vers le spot du joueur gagnant
-        
-        // //Conversion de la position monde du spot cible en coordonnées locales du canvas
-        // Vector2 localPoint;
-        //
-        //  RectTransform parentRect = winningPlayerIcon.transform.parent.GetComponent<RectTransform>();
-        //  Vector3 worldPos = playerSpotPositions[index].transform.position;
-        //  RectTransformUtility.ScreenPointToLocalPointInRectangle(
-        //      parentRect,
-        //      Camera.main.WorldToScreenPoint(worldPos),
-        //      null,
-        //      out localPoint
-        //  );
-        //
-        //  // Lerp vers la position du spot du joueur gagnant
-        //  TimerWaitForSeconds(2f, () => StartCoroutine(ScalingLerp(300f, 100f, 4f, localPoint)));
         
         
     }
     
-    public void SpawnPlayerIcons()
-    {
-        foreach (var kvp in playerData)
-        {
-            if (kvp.Value.Item2 == null)
-            {
-                GameObject playerIcon = Instantiate(playerIconPrefab, playerSpotPositions[playerData.Keys.ToList().IndexOf(kvp.Key)].transform);
-
-                foreach (TextMeshProUGUI textPlayericon in playerIcon.transform.GetComponentsInChildren<TextMeshProUGUI>())
-                {
-                    if (textPlayericon.gameObject.name == "PlayerName")
-                    {
-                        textPlayericon.text = kvp.Key.name;
-                    }
-
-                    if (textPlayericon.gameObject.name == "Score")
-                    {
-                        textPlayericon.text = kvp.Value.Item1.ToString();
-                    }
-                    
-                    
-                }
-            }
-        }
-                
-                // foreach (GameObject playerIconChild in playerIcon.transform)
-                // {
-                //     if (playerIconChild.name == "Score")
-                //     {
-                //         var textComponent = playerIcon.GetComponentInChildren<TextMeshProUGUI>();
-                //         if (textComponent != null)
-                //         {
-                //             textComponent.text = kvp.Key.name;
-                //         }
-                //     }
-                // }
-            
-        
-    }
+    // public void SpawnPlayerIcons()
+    // {
+    //     foreach (var kvp in playerData)
+    //     {
+    //         if (kvp.Value.Item2 == null)
+    //         {
+    //             GameObject playerIcon = Instantiate(playerIconPrefab, playerSpotPositions[playerData.Keys.ToList().IndexOf(kvp.Key)].transform);
+    //
+    //             TimerWaitForSeconds(2f, () => StartCoroutine(ScalingLerp(400f, 1000f, 2f,800,playerIcon)));
+    //             
+    //             foreach (TextMeshProUGUI textPlayericon in playerIcon.transform.GetComponentsInChildren<TextMeshProUGUI>())
+    //             {
+    //                 if (textPlayericon.gameObject.name == "PlayerName")
+    //                 {
+    //                     textPlayericon.text = kvp.Key.name;
+    //                 }
+    //
+    //                 if (textPlayericon.gameObject.name == "Score")
+    //                 {
+    //                     textPlayericon.text = kvp.Value.Item1.ToString();
+    //                 }
+    //                 
+    //                 
+    //             }
+    //         }
+    //     }
+    //         
+    //     
+    // }
     
     public void TimerWaitForSeconds(float seconds, Action callback)
     {
@@ -170,34 +167,33 @@ public class EndGameScorePanel : MonoBehaviour
         callback?.Invoke();
     }
     
-    private IEnumerator ScalingLerp(float startSize, float endSize, float duration, Vector3 targetPosition)
+    private IEnumerator ScalingLerp(float startSize, float endSize, float duration, int finalsize, GameObject iconToScale)
     {
-        yield return LerpWinningPlayerIconSizeAndPosition(startSize, endSize, duration, targetPosition);
+        yield return LerpWinningPlayerIconSizeAndPosition(startSize, endSize, duration,iconToScale);
         yield return new WaitForSeconds(2f);
         
-        yield return LerpWinningPlayerIconSizeAndPosition(endSize, 100, duration, targetPosition);
+        yield return LerpWinningPlayerIconSizeAndPosition(endSize, finalsize, duration,iconToScale);
         yield return new WaitForSeconds(2f);
-        SpawnPlayerIcons();
+        
         // Debug.Log("Début de la prochaine étape après le lerp et 2 secondes d'attente.");
     }
 
-    private IEnumerator LerpWinningPlayerIconSizeAndPosition(float startSize, float endSize, float duration, Vector3 targetPosition)
+    private IEnumerator LerpWinningPlayerIconSizeAndPosition(float startSize, float endSize, float duration, GameObject iconToScale)
     {
-        RectTransform rectTransform = winningPlayerIcon.GetComponent<RectTransform>();
+        RectTransform rectTransform = iconToScale.GetComponent<RectTransform>();
         float elapsed = 0f;
-        Vector3 startPosition = rectTransform.anchoredPosition;
 
         while (elapsed < duration)
         {
             float t = elapsed / duration;
             float size = Mathf.Lerp(startSize, endSize, t);
             rectTransform.sizeDelta = new Vector2(size, size);
-            rectTransform.anchoredPosition = Vector3.Lerp(startPosition, targetPosition, t);
+            //rectTransform.anchoredPosition = Vector3.Lerp(startPosition, targetPosition, t);
             elapsed += Time.deltaTime;
             yield return null;
         }
         rectTransform.sizeDelta = new Vector2(endSize, endSize);
-        rectTransform.anchoredPosition = targetPosition;
+        //rectTransform.anchoredPosition = targetPosition;
         
     }
    

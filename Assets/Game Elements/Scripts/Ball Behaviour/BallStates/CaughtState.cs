@@ -60,7 +60,7 @@ public class CaughtState : BallState
             if (BallSm.ballOwnerPlayer.GetComponent<PlayerScript>().currentState != BallSm.ballOwnerPlayer.GetComponent<GrabbingState>())
             {
                 // BallSm.rb.AddForce(currentBallDirection * BallSm.currentBallSpeedVec3.magnitude, ForceMode.VelocityChange);
-                BallSm.ChangeState(GetComponent<FlyingState>());
+                BallSm.ChangeState(GetComponent<DroppedState>());
                 _moveTimer = 0;
             }
         }

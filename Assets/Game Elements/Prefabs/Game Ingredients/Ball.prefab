@@ -5271,7 +5271,6 @@ GameObject:
   - component: {fileID: 6323144974866670032}
   - component: {fileID: 5365377086522546456}
   - component: {fileID: 5137235708810773793}
-  - component: {fileID: 8536723490127660266}
   - component: {fileID: 596491821321572552}
   - component: {fileID: -1416079060375132507}
   m_Layer: 7
@@ -5360,21 +5359,18 @@ MonoBehaviour:
   currentState: {fileID: 0}
   maxSpeed: 100
   minSpeed: 30
-  lethalSpeed: 40000
-  firstTimeLethalWaitTime: 1.2
-  hitFreezeTimeMultiplier: 0.01
-  groundedMaxHeight: 5
+  groundedMaxHeight: 3
   flyingMaxHeight: 2.5
   minHeight: 0
   groundedLinearDamping: 5
   flyingLinearDamping: 0
-  groundedMass: 1
+  groundedMass: 5
   flyingMass: 0.5
   neutralScale: 0.5
   growthRate: 0.1
   shrinkRate: 0.1
   minimumScale: 0.2
-  maximumScale: 1.5
+  maximumScale: 1
   growthType: 0
   movementCurve:
     serializedVersion: 2
@@ -5401,7 +5397,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   ballMoveDuration: 1.2
-  hitStateDuration: 0.5
+  hitStateDuration: 0.15
   playerImmunityTime: 0.2
   rb: {fileID: 0}
   bounces: 0
@@ -5503,21 +5499,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  OnBallLethal:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3984054927209078919}
-        m_TargetAssemblyTypeName: BallVisuals, Assembly-CSharp
-        m_MethodName: OnLethalBall
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   OnHitStateStart:
     m_PersistentCalls:
       m_Calls:
@@ -5563,16 +5544,12 @@ MonoBehaviour:
   trailVisuals: {fileID: 3172110743681774408}
   ballLight: {fileID: 2671433560985040521}
   startFlyingTrailColor: {r: 0.6117647, g: 0, b: 1, a: 0.4862745}
-  startLethalTrailColor: {r: 1, g: 0, b: 0, a: 0.4862745}
   endFlyingTrailColor: {r: 0.6117647, g: 0, b: 1, a: 0}
-  endLethalTrailColor: {r: 1, g: 0, b: 0, a: 0}
   trailTimeModifier: 0.01
   flyingBallColor: {r: 1, g: 1, b: 1, a: 1}
-  lethalBallColor: {r: 1, g: 0, b: 0.19018412, a: 1}
   caughtBallColor: {r: 1, g: 0, b: 0.79249954, a: 1}
   HitBallColor: {r: 1, g: 0.97974306, b: 0.015686274, a: 1}
   groundedBallColor: {r: 0, g: 1, b: 0, a: 1}
-  facesGameObject: {fileID: 5212817360931501258}
   neutralFace: {fileID: 1031548403092965096}
   lethalFace: {fileID: 463013486243147972}
   hitFace: {fileID: 1728776151619127559}
@@ -5584,14 +5561,13 @@ MonoBehaviour:
   particleImpactZoneSizeModifier: 0.04
   catchParticle: {fileID: 5534663800876992171}
   perfectHitParticle: {fileID: 5401242240848816413}
-  perfectHitThreshold: 0.95
   hitChargeParticle: {fileID: 6044985710698538342}
   lethalBallParticle: {fileID: 5876851373028963511}
   speedFeedbackParticle: {fileID: 0}
   speedFeedBackMultiplier: 1
   speedFeedbackMaximumSpeed: 100
   speedFeedbackMinimumSpeed: 20
-  stretchModifier: 0.03
+  stretchModifier: 0.02
 --- !u!114 &6323144974866670032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5630,19 +5606,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitDirection: {x: 0, y: 0, z: 0}
   hitForce: 0
---- !u!114 &8536723490127660266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3874236971623783123}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8a0d6b6c9af4b1db872a72d45c9324b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timer: 0
 --- !u!114 &596491821321572552
 MonoBehaviour:
   m_ObjectHideFlags: 0

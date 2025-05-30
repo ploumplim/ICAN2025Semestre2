@@ -56,6 +56,7 @@ public class HitState : BallState
     public override void Exit()
     { 
         base.Exit();
+        _timer = 0f;
         if (BallSm.ballOwnerPlayer)
         {
             Physics.IgnoreCollision(BallSm.col, BallSm.ballOwnerPlayer.GetComponent<CapsuleCollider>(), false);

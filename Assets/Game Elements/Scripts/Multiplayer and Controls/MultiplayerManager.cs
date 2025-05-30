@@ -20,8 +20,16 @@ public class MultiplayerManager : MonoBehaviour
     public GameObject HitTimeVisual;
 
     public GameObject playerPrefab;
-    public new CameraScript camera;
+    [FormerlySerializedAs("camera")] public CameraScript gameCamera;
     [FormerlySerializedAs("playerCount")] public int maxPlayerCount;
+
+    [SerializeField] private List<Color> playerColors = new List<Color>
+    {
+        Color.red,
+        Color.red,
+        Color.blue,
+        Color.blue,
+    };
 
 
     public UnityEvent OnPlayerJoin;
@@ -37,7 +45,7 @@ public class MultiplayerManager : MonoBehaviour
 
     public void SetGameParameters()
     {
-        camera = gm.levelManager.gameCameraScript;
+        gameCamera = gm.levelManager.gameCameraScript;
     }
 
     public void PlayerJoin()
@@ -96,7 +104,7 @@ public class MultiplayerManager : MonoBehaviour
         SpawnNewPlayerAtPos(gm.levelManager._playerSpawnPoints[currentPlayerCount]);
         connectedPlayers.Add(playerToConnect);
         HandleGamePads.AssignControllerToPlayer(gamepad, playerToConnect); // Assign the gamepad to a player.
-        camera.GetComponent<CameraScript>().AddObjectToArray(playerToConnect.gameObject);
+        gameCamera.GetComponent<CameraScript>().AddObjectToArray(playerToConnect.gameObject);
         AssignValuesToPlayer(playerToConnect);
         
         GameManager.Instance.levelManager.ingameGUIManager.ChangeColorOfPlayerScorePanel(
@@ -134,7 +142,11 @@ public class MultiplayerManager : MonoBehaviour
         // ---- Visual values ----
 
         // Generate a random color.
-        Color randomColor = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
+        // Color randomColor = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
+        // Get the first available color from the playerColors list, using the connected players count to ensure that
+        // each player gets a unique color.
+        Color randomColor = playerColors[connectedPlayers.Count % playerColors.Count];
+        
 
         // Assign the random color to the player's mesh.
         playerVisuals.ChangePlayerColor(randomColor);
