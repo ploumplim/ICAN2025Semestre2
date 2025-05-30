@@ -29,6 +29,8 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference Dash_FX { get; private set; }
 
 
+
+    [field: SerializeField] public EventReference Countdown_FX { get; private set; }
     [field: SerializeField] public EventReference EndGame_FX { get; private set; }
 
 

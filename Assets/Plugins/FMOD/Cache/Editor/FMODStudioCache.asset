@@ -201,10 +201,10 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638842174726447828
+  lastModified: 638842191528674018
   FileSizes:
   - Name: 
-    Value: 1838
+    Value: 1892
   Exists: 1
 --- !u!114 &-3195860823651670899
 MonoBehaviour:
@@ -329,6 +329,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1500
+--- !u!114 &-108191413099941401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/FX/Countdown_FX
+  m_EditorClassIdentifier: 
+  Path: event:/FX/Countdown_FX
+  Guid:
+    Data1: -1074102572
+    Data2: 1130058548
+    Data3: -1350401611
+    Data4: 1856805545
+  Banks:
+  - {fileID: 9013900838437733036}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 13304
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,12 +391,13 @@ MonoBehaviour:
   - {fileID: -3195860823651670899}
   - {fileID: 6718038638903881656}
   - {fileID: -6428960780258521622}
+  - {fileID: -108191413099941401}
   EditorParameters: []
   MasterBanks:
   - {fileID: 9013900838437733036}
   StringsBanks:
   - {fileID: -3230815617287640978}
-  cacheTime: 638842174726447828
+  cacheTime: 638842191528674018
   cacheVersion: 131846
 --- !u!114 &3840750683163560846
 MonoBehaviour:
@@ -620,7 +648,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638842174726427715
+  lastModified: 638842191528648926
   FileSizes: []
   Exists: 1
 --- !u!114 &9061532659611863500
