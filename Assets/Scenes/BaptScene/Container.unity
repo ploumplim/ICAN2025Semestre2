@@ -876,22 +876,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3668227575038428733, guid: 1a5c52390269b0448973dc1cf450d8c8, type: 3}
-      propertyPath: GoalEarthQuakeDuration
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3668227575038428733, guid: 1a5c52390269b0448973dc1cf450d8c8, type: 3}
-      propertyPath: GoalEarthQuakeMagnitude
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3668227575038428733, guid: 1a5c52390269b0448973dc1cf450d8c8, type: 3}
-      propertyPath: littleEarthQuakeDuration
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3668227575038428733, guid: 1a5c52390269b0448973dc1cf450d8c8, type: 3}
-      propertyPath: littleEarthQuakeMagnitude
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 4325141211689877476, guid: 1a5c52390269b0448973dc1cf450d8c8, type: 3}
       propertyPath: 'lockPoints.Array.data[0]'
       value: 
