@@ -126,7 +126,7 @@ public class PlayerScript : MonoBehaviour
     public UnityEvent OnSprintBoostFullCharge;
     
     // action events
-    public event Action<int,GameObject> OnBallHit;
+    // public event Action<int,GameObject> OnBallHit;
     
     // ------------------------------ PRIVATE VARIABLES ------------------------------
     
@@ -180,7 +180,7 @@ public class PlayerScript : MonoBehaviour
     public void SetPlayerParameters()
     {
         MultiplayerManager = GameObject.FindWithTag("MultiPlayerManager");
-        playerCamera = MultiplayerManager.GetComponent<MultiplayerManager>().camera;
+        playerCamera = MultiplayerManager.GetComponent<MultiplayerManager>().gameCamera;
         
         rb = GetComponent<Rigidbody>(); 
         playerInput = GetComponent<PlayerInput>();

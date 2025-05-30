@@ -20,7 +20,7 @@ public class MultiplayerManager : MonoBehaviour
     public GameObject HitTimeVisual;
 
     public GameObject playerPrefab;
-    public new CameraScript camera;
+    [FormerlySerializedAs("camera")] public CameraScript gameCamera;
     [FormerlySerializedAs("playerCount")] public int maxPlayerCount;
 
     [SerializeField] private List<Color> playerColors = new List<Color>
@@ -45,7 +45,7 @@ public class MultiplayerManager : MonoBehaviour
 
     public void SetGameParameters()
     {
-        camera = gm.levelManager.gameCameraScript;
+        gameCamera = gm.levelManager.gameCameraScript;
     }
 
     public void PlayerJoin()
@@ -104,7 +104,7 @@ public class MultiplayerManager : MonoBehaviour
         SpawnNewPlayerAtPos(gm.levelManager._playerSpawnPoints[currentPlayerCount]);
         connectedPlayers.Add(playerToConnect);
         HandleGamePads.AssignControllerToPlayer(gamepad, playerToConnect); // Assign the gamepad to a player.
-        camera.GetComponent<CameraScript>().AddObjectToArray(playerToConnect.gameObject);
+        gameCamera.GetComponent<CameraScript>().AddObjectToArray(playerToConnect.gameObject);
         AssignValuesToPlayer(playerToConnect);
         
         GameManager.Instance.levelManager.ingameGUIManager.ChangeColorOfPlayerScorePanel(

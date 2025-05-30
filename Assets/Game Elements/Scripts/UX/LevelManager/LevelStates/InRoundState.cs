@@ -9,7 +9,6 @@ using Vector2 = System.Numerics.Vector2;
 public class InRoundState : LevelState
 {
     private List<GameObject> _playersAlive;
-    private bool _roundEnded;
     public LevelManager levelManager;
     public override void Enter()
     {
@@ -60,7 +59,6 @@ public class InRoundState : LevelState
 
     public void SetWinningPlayer()
     {
-        _roundEnded = true;
     
                 levelManager.winningPlayer = null;
                 
@@ -94,7 +92,6 @@ public class InRoundState : LevelState
         LevelManagerScript.OnRoundEnded?.Invoke(GameManager.Instance.levelManager.winningPlayer);
         // Reset the list of players that are alive.
         _playersAlive = null;
-        _roundEnded = false;
     }
     
 }
