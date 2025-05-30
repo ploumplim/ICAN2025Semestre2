@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Sol_Radiant_Shader
-  m_Shader: {fileID: -6465566751694194690, guid: dfff427e81ce08d4cb588edb66391ab9, type: 3}
+  m_Name: MetalBat_ToonCel 2
+  m_Shader: {fileID: -6465566751694194690, guid: ed5955a88379d9041a244e0af638e360, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 1993
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
@@ -24,8 +24,8 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _main_text:
-        m_Texture: {fileID: 2800000, guid: 766777674d843c94e84a12a1ebde993f, type: 3}
+    - _Texture2D:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -42,22 +42,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BACK_DOT_PROPAGATION: 0.97
+    - _Max: 1.94
+    - _Min: -1.56
     - _QueueControl: 0
-    - _QueueOffset: -7
-    - _SPREAD_DOWN: -0.04
-    - _SPREAD_TOP_1: 1.5
-    - _TOP_DOT_PROPAGATION: 0.01
-    - _USE_SCREEN_SPACE: 0
-    - _dot_scale: 22
-    - _rotation_dot: 20
+    - _QueueOffset: 0
+    - _Shades: -19.3
     m_Colors:
-    - _HIGHLIGHT: {r: 1, g: 1, b: 1, a: 0}
-    - _MIDTONES: {r: 0.30045184, g: 0.4641509, b: 0.2513421, a: 1}
-    - _SHADOWS: {r: 0.12597096, g: 0.2830189, b: 0.1233535, a: 0}
+    - _Color: {r: 0.8415094, g: 0.7168271, b: 0.5445995, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &3169273275987208625
+--- !u!114 &1706734909749778733
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
