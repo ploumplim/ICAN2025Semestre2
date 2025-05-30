@@ -31,6 +31,8 @@ public class PointTracker : MonoBehaviour
         if (ballSM.ballOwnerPlayer != null && 
             ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack == linkedGoal)
         {
+            goalParticles.Play();
+            otherGoalParticles.Play();
             ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerPoint++;
             
             GameManager.Instance.levelManager.gameCameraScript.screenShakeGO.GetComponent<ScreenShake>().StartGoalScreenShake(ballSM.rb.linearVelocity.magnitude);
