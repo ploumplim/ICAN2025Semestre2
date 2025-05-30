@@ -13,6 +13,8 @@ public class PointTracker : MonoBehaviour
     public BallSM ballSM;
 
     public GameObject linkedGoal;
+    public ParticleSystem goalParticles;
+    public ParticleSystem otherGoalParticles;
 
     public void Start()
     {
@@ -26,15 +28,18 @@ public class PointTracker : MonoBehaviour
     {
         ballSM = GameManager.Instance.levelManager.gameBall.GetComponent<BallSM>();
         // Verify if the ball's owner player is the one attacking this goal
-        if (ballSM.ballOwnerPlayer != null && 
+        if (ballSM.ballOwnerPlayer && 
             ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGoalToAttack == linkedGoal)
         {
+            goalParticles.Play();
+            otherGoalParticles.Play();
             ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerPoint++;
             
             GameManager.Instance.levelManager.gameCameraScript.screenShakeGO.StartGoalScreenShake(ballSM.rb.linearVelocity.magnitude);
             Debug.Log("Player " + ballSM.ballOwnerPlayer.name + " scored" +ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerPoint );
             _points++;
             GameManager.Instance.levelManager.OnGoalScored.Invoke(_points);
+            
             
             pointsText.text = _points.ToString();
 

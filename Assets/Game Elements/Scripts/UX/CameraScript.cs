@@ -154,7 +154,6 @@ public class CameraScript : MonoBehaviour
                 originalPosition, nextPosition, 1f);
             
             elapsed += Time.deltaTime;
-            Debug.Log("elapsed: " + elapsed + " duration: " + duration);
             yield return null;
         }
         
