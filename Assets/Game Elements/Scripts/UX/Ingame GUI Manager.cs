@@ -192,7 +192,11 @@ public class IngameGUIManager : MonoBehaviour
 
             // Update the UI text element with the remaining time
             _RoundInformationAffichage.text = remainingTime.ToString();
-            //Debug.Log(remainingTime);
+            Debug.Log(remainingTime);
+            if (GameManager.Instance.countDownTimerEvent != null)
+            {
+                GameManager.Instance.countDownTimerEvent.Invoke();
+            }
             // GameManager.Instance.levelManager.currentRound++;
             yield return new WaitForSeconds(1);
             remainingTime--;
