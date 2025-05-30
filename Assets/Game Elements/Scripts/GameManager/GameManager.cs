@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Eflatun.SceneReference;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -18,6 +19,8 @@ public class GameManager : MonoBehaviour
     public List<SceneReference> NextSceneToPlay;
 
     public int currentSceneID;
+    
+    public UnityEvent countDownTimerEvent;
     
 
     public static GameManager Instance
