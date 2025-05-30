@@ -37,13 +37,15 @@ public class LevelManager : MonoBehaviour
     
     public List<PointTracker> PointTrackers;
     public List<GameObject> GoalList;
-    public GoalSpawner goalSpawner;
 
     public GameObject centerPoint;
 
     public PlayerScript winningPlayer;
 
     public float SlowDownOnGoalTimer;
+
+    [FormerlySerializedAs("GoalSpawner")] public List<GameObject> GoalSpawnerList;
+
     // [Tooltip("Insert the wall prefab here that will provide points to the player.")]
     // public GameObject pointWallPrefab;
     // [Tooltip("Insert the neutral wall prefab here, which will not provide points to the player.")]
@@ -384,6 +386,34 @@ public class LevelManager : MonoBehaviour
         foreach (GameObject player in playersList)
         {
             player.GetComponent<PlayerInput>().ActivateInput();
+        }
+    }
+
+    public void ColorizeGoalMesh()
+    {
+        Color player1ColorCap = Color.clear;
+        Color player2ColorCap = Color.clear;
+
+        for (int i = 0; i < GameManager.Instance.PlayerScriptList.Count; i++)
+        {
+            var player = GameManager.Instance.PlayerScriptList[i];
+            if (i % 2 == 0) // pair
+            {
+                Color color = player.GetComponent<PlayerVisuals>().playerCapMaterial.color;
+                player1ColorCap = color;
+                Debug.Log($"Joueur pair (index {i}) couleur : {color}");
+            }
+            else
+            {
+                Color color = player.GetComponent<PlayerVisuals>().playerCapMaterial.color;
+                player2ColorCap = color;
+            }
+        }
+
+        foreach (GameObject goalSpawnerinList in GoalSpawnerList)
+        {
+            goalSpawnerinList.GetComponent<MeshRenderer>().material.SetColor("_left_player", player1ColorCap);
+            goalSpawnerinList.GetComponent<MeshRenderer>().material.SetColor("_right_player", player2ColorCap);
         }
     }
     

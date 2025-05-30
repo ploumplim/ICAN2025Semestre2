@@ -639,8 +639,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GoalSpawnPoints: []
-  GoalPrefab: {fileID: 986440651272349731, guid: e6849bc41b1c81042b5eb2f3fb3a0106, type: 3}
-  levelManager: {fileID: 0}
+  GoalPrefabCollider: {fileID: 986440651272349731, guid: e6849bc41b1c81042b5eb2f3fb3a0106, type: 3}
+  goalPrefab: {fileID: 1578551756269980470, guid: c9e7a1cfbf925884fbe3d348c156b9a8, type: 3}
+  goalMesh: {fileID: 0}
 --- !u!1001 &1825441818
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -249,6 +249,7 @@ public class IngameGUIManager : MonoBehaviour
         GetComponent<EndGameScorePanel>().EndGameScorePanelGO.SetActive(false);
         // When the countdown is finished, you can perform any additional actions here
         GameManager.Instance.levelManager.currentRound++;
+        
         foreach (GameObject goals in GameManager.Instance.levelManager.GoalList)
         {
             goals.GetComponent<PointTracker>()._points = 0;
@@ -265,6 +266,7 @@ public class IngameGUIManager : MonoBehaviour
         
         _RoundInformationAffichage.text = "";
         _RoundInformationAffichage.gameObject.SetActive(false);
+        GameManager.Instance.levelManager.ColorizeGoalMesh();
         GameManager.Instance.levelManager.StartLevel(); // Call StartLevel when the countdown finishes
     }
 

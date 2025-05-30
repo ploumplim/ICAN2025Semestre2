@@ -13,6 +13,7 @@ public class PointTracker : MonoBehaviour
     public BallSM ballSM;
 
     public GameObject linkedGoal;
+    
 
     public void Start()
     {
