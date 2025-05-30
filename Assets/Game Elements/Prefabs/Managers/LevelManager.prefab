@@ -112,13 +112,13 @@ MonoBehaviour:
   OnGameStart:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
+      - m_Target: {fileID: 6704843019017409336}
+        m_TargetAssemblyTypeName: LevelSoundScript, Assembly-CSharp
+        m_MethodName: PlayEndGame
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -126,7 +126,19 @@ MonoBehaviour:
         m_CallState: 2
   OnGameEnd:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6704843019017409336}
+        m_TargetAssemblyTypeName: LevelSoundScript, Assembly-CSharp
+        m_MethodName: PlayEndGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnRoundStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -195,19 +207,7 @@ MonoBehaviour:
         m_CallState: 2
   OnPauseEnd:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6704843019017409336}
-        m_TargetAssemblyTypeName: LevelSoundScript, Assembly-CSharp
-        m_MethodName: PlayQuitPauseSound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnMatchEnd:
     m_PersistentCalls:
       m_Calls: []
@@ -301,3 +301,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1c7585c36ca13429dd9cbf7d05bc6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeInAndOutDuration: 1.02

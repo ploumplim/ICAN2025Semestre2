@@ -78,6 +78,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2037
+--- !u!114 &-7412333971074194202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/FX/EndGame_FX
+  m_EditorClassIdentifier: 
+  Path: event:/FX/EndGame_FX
+  Guid:
+    Data1: -1111503107
+    Data2: 1275605670
+    Data3: 817752246
+    Data4: -673017140
+  Banks:
+  - {fileID: 9013900838437733036}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4205
 --- !u!114 &-6428960780258521622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,10 +228,10 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638842210087518886
+  lastModified: 638842468162467067
   FileSizes:
   - Name: 
-    Value: 1892
+    Value: 1970
   Exists: 1
 --- !u!114 &-3195860823651670899
 MonoBehaviour:
@@ -302,6 +329,30 @@ MonoBehaviour:
   lastModified: 638841990170297999
   FileSizes: []
   Exists: 1
+--- !u!114 &-1160065924839169916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ScoringBounce_FX/ScorePitch
+  m_EditorClassIdentifier: 
+  Name: ScorePitch
+  StudioPath: 
+  Min: 0
+  Max: 9
+  Default: 0
+  ID:
+    data1: 3684307094
+    data2: 865695652
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &-958775104751810421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,12 +443,13 @@ MonoBehaviour:
   - {fileID: 6718038638903881656}
   - {fileID: -6428960780258521622}
   - {fileID: -108191413099941401}
+  - {fileID: -7412333971074194202}
   EditorParameters: []
   MasterBanks:
   - {fileID: 9013900838437733036}
   StringsBanks:
   - {fileID: -3230815617287640978}
-  cacheTime: 638842210087518886
+  cacheTime: 638842468162467067
   cacheVersion: 131846
 --- !u!114 &3840750683163560846
 MonoBehaviour:
@@ -469,7 +521,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 638842165448490687
+  lastModified: 638842313864232299
   FileSizes: []
   Exists: 1
 --- !u!114 &5109924990780729282
@@ -493,6 +545,30 @@ MonoBehaviour:
     data1: 3684307094
     data2: 865695652
   Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &5527365925927901339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ScoringBounce_FX/Pitch
+  m_EditorClassIdentifier: 
+  Name: Pitch
+  StudioPath: 
+  Min: 0
+  Max: 6
+  Default: 0
+  ID:
+    data1: 739799599
+    data2: 3602512507
+  Type: 0
   IsGlobal: 0
   Labels: []
   Exists: 1
@@ -629,7 +705,9 @@ MonoBehaviour:
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
-  Parameters: []
+  Parameters:
+  - {fileID: 5527365925927901339}
+  - {fileID: -1160065924839169916}
   MinDistance: 1
   MaxDistance: 20
   Length: 5500
@@ -648,7 +726,7 @@ MonoBehaviour:
   Path: Assets/FMOD Banks/Desktop_PC/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638842210087493826
+  lastModified: 638842468162429966
   FileSizes: []
   Exists: 1
 --- !u!114 &9061532659611863500
