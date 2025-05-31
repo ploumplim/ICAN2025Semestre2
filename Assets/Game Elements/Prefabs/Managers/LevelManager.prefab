@@ -97,10 +97,11 @@ MonoBehaviour:
   ballSpawnPosition: {fileID: 4872211941869060550}
   PointTrackers: []
   GoalList: []
-  goalSpawner: {fileID: 0}
   centerPoint: {fileID: 0}
   winningPlayer: {fileID: 0}
   SlowDownOnGoalTimer: 0
+  GoalSpawnerList: []
+  ballSpawnbase: {fileID: 0}
   setupTime: 1.5
   roundBufferTime: 1.5
   roundVictoryDelay: 2

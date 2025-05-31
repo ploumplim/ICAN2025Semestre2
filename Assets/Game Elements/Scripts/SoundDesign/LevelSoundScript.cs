@@ -39,7 +39,7 @@ public class LevelSoundScript : MonoBehaviour
         scoringBounceInstance.set3DAttributes(RuntimeUtils.To3DAttributes(this.transform));
 
         // Appliquer le paramètre de pitch
-        scoringBounceInstance.setParameterByName("ScorePitch", currentPointPercent);
+        scoringBounceInstance.setParameterByName("Pitch", currentPointPercent);
 
         scoringBounceInstance.start();
         scoringBounceInstance.release(); // Important : libérer l'instance pour éviter les fuites de mémoire
