@@ -8,11 +8,16 @@ public class LevelSoundScript : MonoBehaviour
     private float currentPointPercent;
     private EventInstance evolutiveMusicInstance;
     private float targetVolume = 1f; // Volume normal de la musique
-    
+
     [SerializeField] private float fadeInAndOutDuration = 0.6f; // Durée du fade in et out
 
-    
-    
+    private float scoringBouncePitch = 0f; // Valeur initiale du pitch
+
+
+
+
+
+
     void Start()
     {
         StartEvolutiveMusic();
@@ -26,10 +31,24 @@ public class LevelSoundScript : MonoBehaviour
         evolutiveMusicInstance.setVolume(targetVolume); // Assure le volume de d�part
     }
 
+
+
     public void PlayScoringBounce()
     {
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.ScoringBounce_FX, this.transform.position);
+        EventInstance scoringBounceInstance = RuntimeManager.CreateInstance(FMODEvents.instance.ScoringBounce_FX);
+        scoringBounceInstance.set3DAttributes(RuntimeUtils.To3DAttributes(this.transform));
+
+        // Appliquer le paramètre de pitch
+        scoringBounceInstance.setParameterByName("ScorePitch", currentPointPercent);
+
+        scoringBounceInstance.start();
+        scoringBounceInstance.release(); // Important : libérer l'instance pour éviter les fuites de mémoire
     }
+
+
+
+
+
 
     public void PlayPauseSound()
     {
@@ -99,9 +118,17 @@ public class LevelSoundScript : MonoBehaviour
         StartEvolutiveMusic();
     }
 
+    public void PlayEndGame()
+    {
+        EventInstance scoringBounceInstance = RuntimeManager.CreateInstance(FMODEvents.instance.EndGame_FX);
+
+    }
+
     private void OnDestroy()
     {
         evolutiveMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         evolutiveMusicInstance.release();
     }
 }
+
+

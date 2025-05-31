@@ -43,7 +43,7 @@ public class EndGameScorePanel : MonoBehaviour
             {
                 GameObject playerIcon = Instantiate(playerIconPrefab, playerSpotPositions[playerData.Keys.ToList().IndexOf(kvp.Key)].transform);
 
-                TimerWaitForSeconds(2f, () => StartCoroutine(ScalingLerp(400f, 800f, 2f, 600, playerIcon)));
+                //TimerWaitForSeconds(2f, () => StartCoroutine(ScalingLerp(400f, 800f, 2f, 600, playerIcon)));
 
                 foreach (TextMeshProUGUI textPlayericon in playerIcon.transform.GetComponentsInChildren<TextMeshProUGUI>())
                 {
@@ -105,9 +105,9 @@ public class EndGameScorePanel : MonoBehaviour
         // }
         
         
-        RectTransform rectTransform = winningPlayerIcon.GetComponent<RectTransform>();
-        rectTransform.sizeDelta = new Vector2(40f, 40f); // Par exemple, largeur 40 et hauteur 40
-        winningPlayerIconLerping();
+        //RectTransform rectTransform = winningPlayerIcon.GetComponent<RectTransform>();
+        //rectTransform.sizeDelta = new Vector2(40f, 40f); // Par exemple, largeur 40 et hauteur 40
+        //winningPlayerIconLerping();
         
     }
 

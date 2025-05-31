@@ -22,6 +22,7 @@ public class InRoundState : LevelState
         }
         
         LevelManagerScript.OnRoundStarted?.Invoke(LevelManagerScript.currentRound);
+//        Debug.Log("In Round State");
     }
 
 
@@ -69,7 +70,7 @@ public class InRoundState : LevelState
     
                 if ( levelManager.winningPlayer != null)
                 {
-                    Debug.Log( levelManager.winningPlayer.name + " a le plus de points globaux : " +  levelManager.winningPlayer.playerGlobalPoint);
+                    //Debug.Log( levelManager.winningPlayer.name + " a le plus de points globaux : " +  levelManager.winningPlayer.playerGlobalPoint);
                     LevelManagerScript.EndRound(GameManager.Instance.levelManager.winningPlayer);
                 }
                 

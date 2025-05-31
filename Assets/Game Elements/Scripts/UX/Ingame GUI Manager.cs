@@ -281,13 +281,14 @@ public class IngameGUIManager : MonoBehaviour
                 }
             }
         }
-        
+        GameManager.Instance.levelManager.ColorizeGoalMesh();
         GameManager.Instance.levelManager.StartLevel(); // Call StartLevel when the countdown finishes
     }
 
     public void QuitGame()
     {
         Application.Quit();
+        Debug.Log("Game is quitting...");
     }
 
     public void BackToMainMenu()
