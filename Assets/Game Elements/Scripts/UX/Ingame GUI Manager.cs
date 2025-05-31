@@ -288,6 +288,7 @@ public class IngameGUIManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+        Debug.Log("Game is quitting...");
     }
 
     public void BackToMainMenu()
