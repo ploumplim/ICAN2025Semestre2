@@ -45,6 +45,8 @@ public class LevelManager : MonoBehaviour
     public float SlowDownOnGoalTimer;
 
     [FormerlySerializedAs("GoalSpawner")] public List<GameObject> GoalSpawnerList;
+    
+    public GameObject ballSpawnbase;
 
     // [Tooltip("Insert the wall prefab here that will provide points to the player.")]
     // public GameObject pointWallPrefab;
@@ -258,6 +260,9 @@ public class LevelManager : MonoBehaviour
     
     public void StartRound()
     {
+        
+       
+        
         foreach (GameObject player in playersList)
         {
             player.GetComponent<PlayerScript>().playerPoint = 0;
@@ -271,9 +276,8 @@ public class LevelManager : MonoBehaviour
         }
         // Spawn the point walls
         //GameManager.Instance.LoadNextLevel();
-        //TODO : Set goal to the players
         
-        
+        gameBall.transform.position = ballSpawnPosition.position;
         foreach (var player in playersList)
         {
             LinkGoalToPlayer(playersList.IndexOf(player));
@@ -281,6 +285,7 @@ public class LevelManager : MonoBehaviour
 
         }
         Debug.Log("Current Scene id : "+GameManager.Instance.currentSceneID);
+        gameBall.transform.position = ballSpawnPosition.position;
     }
     
     public void LinkGoalToPlayer(int playerId)
@@ -416,6 +421,7 @@ public class LevelManager : MonoBehaviour
             goalSpawnerinList.GetComponent<MeshRenderer>().material.SetColor("_left_player", player1ColorCap);
             goalSpawnerinList.GetComponent<MeshRenderer>().material.SetColor("_right_player", player2ColorCap);
         }
+        
     }
     
     

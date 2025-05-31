@@ -22,6 +22,7 @@ public class InRoundState : LevelState
         }
         
         LevelManagerScript.OnRoundStarted?.Invoke(LevelManagerScript.currentRound);
+        Debug.Log("In Round State");
     }
 
 

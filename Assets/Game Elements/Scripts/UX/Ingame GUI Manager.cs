@@ -272,7 +272,7 @@ public class IngameGUIManager : MonoBehaviour
                 }
             }
         }
-        
+        GameManager.Instance.levelManager.ColorizeGoalMesh();
         GameManager.Instance.levelManager.StartLevel(); // Call StartLevel when the countdown finishes
     }
 

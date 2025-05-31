@@ -16,6 +16,8 @@ public class PointTracker : MonoBehaviour
     public ParticleSystem goalParticles;
     public ParticleSystem otherGoalParticles;
 
+    
+
     public void Start()
     {
         
@@ -36,7 +38,6 @@ public class PointTracker : MonoBehaviour
             ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerPoint++;
             
             GameManager.Instance.levelManager.gameCameraScript.screenShakeGO.GetComponent<ScreenShake>().StartGoalScreenShake(ballSM.rb.linearVelocity.magnitude);
-            Debug.Log("Player " + ballSM.ballOwnerPlayer.name + " scored" +ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerPoint );
             _points++;
             GameManager.Instance.levelManager.OnGoalScored.Invoke(_points);
             
@@ -49,6 +50,8 @@ public class PointTracker : MonoBehaviour
             {
                 Debug.Log("Player " + ballSM.ballOwnerPlayer.name + " won the set");
                 ballSM.ballOwnerPlayer.GetComponent<PlayerScript>().playerGlobalPoint++;
+                Debug.Log("Respawn de la balle");
+
             }
             
             //TODO Faire un slowDown de timeScale 0.5 pendant 1 seconde pour le goal

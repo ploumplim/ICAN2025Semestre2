@@ -135,7 +135,6 @@ public class MultiplayerManager : MonoBehaviour
     private void AssignValuesToPlayer(GameObject player)
     {
         // PlayerScript playerScript = player.GetComponent<PlayerScript>();
-        PlayerVisuals playerVisuals = player.GetComponent<PlayerVisuals>();
 
         // ---- Assign values to the player ----
 
@@ -145,10 +144,17 @@ public class MultiplayerManager : MonoBehaviour
         // Color randomColor = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
         // Get the first available color from the playerColors list, using the connected players count to ensure that
         // each player gets a unique color.
-        Color randomColor = playerColors[connectedPlayers.Count % playerColors.Count];
+        //Color randomColor = playerColors[connectedPlayers.Count % playerColors.Count];
         
+        PlayerVisuals playerVisuals = player.GetComponent<PlayerVisuals>();
 
-        // Assign the random color to the player's mesh.
+        // Génère une seule couleur aléatoire depuis la liste prédéfinie
+        Color randomColor = playerColors[UnityEngine.Random.Range(0, playerColors.Count)];
+
+        // Assigne la couleur au joueur
         playerVisuals.ChangePlayerColor(randomColor);
+
+        playerColors.Remove(randomColor);
+
     }
 }
