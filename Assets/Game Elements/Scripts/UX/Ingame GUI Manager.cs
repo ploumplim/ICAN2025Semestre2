@@ -266,6 +266,13 @@ public class IngameGUIManager : MonoBehaviour
     public void StartGame()
     {
         GetComponent<EndGameScorePanel>().EndGameScorePanelGO.SetActive(false);
+
+        foreach (var VARIABLE in GameManager.Instance.PlayerScriptList)
+        {
+            VARIABLE.GetComponent<PlayerScript>().playerPoint = 0;
+            VARIABLE.GetComponent<PlayerScript>().playerGlobalPoint = 0;
+        }
+        
         // When the countdown is finished, you can perform any additional actions here
         GameManager.Instance.levelManager.currentRound++;
         foreach (GameObject goals in GameManager.Instance.levelManager.GoalList)
